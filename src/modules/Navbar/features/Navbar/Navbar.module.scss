@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  justify-content: space-between;
+}
+
+.logo {
+  height: 5vh;
+}

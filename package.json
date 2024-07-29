@@ -1,0 +1,50 @@
+{
+  "author": "workpace-technology",
+  "name": "knowtion",
+  "version": "1.0.0",
+  "description": "knowledge graphs meet notion.",
+  "license": "ISC",
+  "scripts": {
+    "start": "check-engines && npm-run-all --parallel start:**",
+    "start:src": "npm run start --workspace src",
+    "build": "npm-run-all --parallel build:** --print-label",
+    "build:src": "npm run build --workspace src",
+    "test": "npm-run-all --parallel test:** --print-label",
+    "test:src": "npm run test --workspace src",
+    "check": "npm-run-all --parallel check:** --print-label",
+    "check:src": "npm run check --workspace src",
+    "lint": "npm-run-all --parallel lint:** --print-label",
+    "lint:src": "npm run lint --workspace src",
+    "format": "npm-run-all --parallel format:* --print-label",
+    "format:root": "by-node-env",
+    "format:src": "npm run format --workspace src",
+    "format:root:development": "onchange --add '*.json' --add '*.md' --exclude node_modules --exclude-path .gitignore --kill -- prettier {{file}} --write",
+    "format:root:production": "prettier --check *.*",
+    "commit": "node scripts/commit.js",
+    "precommit": "npm-run-all precommit:** --print-label",
+    "precommit:": "lint-staged",
+    "precommit:src": "npm run lint --workspace src"
+  },
+  "dependencies": {
+    "engines": "^0.4.0",
+    "ignore": "^5.2.4"
+  },
+  "devDependencies": {
+    "by-node-env": "^2.0.1",
+    "check-engines": "^1.6.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.2",
+    "npm-run-all": "^4.1.5",
+    "onchange": "^7.1.0",
+    "prettier": "^2.8.7",
+    "prompts": "^2.4.2"
+  },
+  "type": "module",
+  "workspaces": [
+    "src"
+  ],
+  "engines": {
+    "node": "^18.0.0",
+    "npm": "^9 || ^10"
+  }
+}

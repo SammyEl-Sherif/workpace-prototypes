@@ -1,0 +1,15 @@
+node_modules
+
+# IDE Files
+.idea
+.vscode
+.history
+!.vscode/extensions.json
+
+# OS generated files
+.DS_Store
+
+# Cache Files
+.eslintcache
+.stylelintcache
+.dccache
