@@ -3,14 +3,14 @@ import prompts from "prompts";
 
 const TASK_TYPES = {
   feat: "✨",
-  bugfix: "🐛",
+  fix: "🐛",
   build: "📦",
   chore: "🧹",
   docs: "📝",
   refactor: "🛠️",
   test: "🧪",
   perf: "🚀",
-  revert: "↩️",
+  revert: "⏪",
 };
 
 const COMMIT_MSG = "A short, impertative description";
@@ -57,11 +57,11 @@ async function prompt() {
         choices: [
           {
             title: `${TASK_TYPES.feat} feat`,
-            value: "feature",
+            value: "feat",
             description: "a newly added feature",
           },
           {
-            title: `${TASK_TYPES.bugfix} fix`,
+            title: `${TASK_TYPES.fix} fix`,
             value: "fix",
             description: "fixes a bug",
           },
