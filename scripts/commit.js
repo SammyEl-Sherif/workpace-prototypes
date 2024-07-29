@@ -8,6 +8,7 @@ const TASK_TYPES = {
   chore: "🧹",
   docs: "📝",
   refactor: "🛠️",
+  test: "🧪",
   perf: "🚀",
   revert: "↩️",
 };
@@ -108,14 +109,6 @@ async function prompt() {
         onRender() {
           const left = MAX_COMMIT_MSG_LEN - this.rendered.length;
           this.msg = `${COMMIT_MSG} ${colorize(`(Max chars left: ${left})`).gray}`;
-        },
-      },
-      {
-        type: "text",
-        name: "body",
-        message: `Additional body contents ${colorize(`(Use '|' as a line break)`).gray}`,
-        format(v) {
-          return v.split("|").map((v) => v.trim());
         },
       },
       {
