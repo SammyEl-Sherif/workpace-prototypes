@@ -1,0 +1,11 @@
+.container {
+  display: flex;
+  flex-flow: column nowrap;
+  flex: 1;
+
+  &Size {
+    max-width: 1440px;
+    width: 100%;
+    margin: 0 auto;
+  }
+}

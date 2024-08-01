@@ -1,0 +1,1 @@
+export { getStripeProductsController } from './products'

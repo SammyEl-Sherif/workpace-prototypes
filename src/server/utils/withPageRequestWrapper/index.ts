@@ -1,0 +1,1 @@
+export { withPageRequestWrapper } from './withPageRequestWrapper'
