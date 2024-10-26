@@ -5,7 +5,7 @@ import styles from './Navbar.module.scss'
 const Navbar = () => {
   return (
     <div className={styles.container}>
-      <Image
+      {/* <Image
         src="/favicon.ico"
         alt="Workpace Logo"
         className={styles.logo}
@@ -20,7 +20,7 @@ const Navbar = () => {
         width={100}
         height={24}
         priority
-      />
+      /> */}
     </div>
   )
 }
