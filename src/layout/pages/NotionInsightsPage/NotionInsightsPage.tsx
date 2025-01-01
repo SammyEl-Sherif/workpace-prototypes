@@ -4,7 +4,7 @@ import { HomePageProps } from '@/pages'
 
 import styles from './NotionInsights.module.scss'
 
-const NotionInsights = ({ props: { title, accomplishments, response } }: HomePageProps) => {
+const NotionInsights = ({ props: { title, accomplishments, response, mocked } }: HomePageProps) => {
   return (
     <div className={styles.page}>
       <div className={styles.sectionHero} id="hero-section">
@@ -32,6 +32,7 @@ const NotionInsights = ({ props: { title, accomplishments, response } }: HomePag
       </div>
       <div className={styles.section} id="automated-year-end-review">
         <ReactMarkdown>{response}</ReactMarkdown>
+        <div>Mocked Response: {mocked.toString()}</div>
       </div>
     </div>
   )

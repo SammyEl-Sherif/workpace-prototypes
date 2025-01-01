@@ -18,7 +18,6 @@ export const getNotionAccomplishmentsController = async (
         },
       },
     })
-    /* const database = await client.databases.retrieve({ database_id: databaseId }) */
 
     return {
       data: formatNotionAccomplishments(pages),

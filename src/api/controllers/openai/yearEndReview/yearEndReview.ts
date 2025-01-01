@@ -2,10 +2,24 @@ import OpenAI from 'openai'
 
 import { HttpResponse } from '@/server/types'
 
+import markdownMock from '!raw-loader!./stub.md'
+
+type YearEndReviewResponse = {
+  response: string | null
+  mocked: boolean
+}
+
 export const getYearEndReviewController = async (
   client: OpenAI,
-  pages: any
-): Promise<HttpResponse<string | null>> => {
+  pages: any,
+  mock: boolean
+): Promise<HttpResponse<YearEndReviewResponse>> => {
+  if (mock) {
+    return {
+      data: { response: markdownMock, mocked: mock },
+      status: 200,
+    }
+  }
   try {
     const userPrompt = `Take the following array of objects, which are a list of accomplishments of mine over the last 6 months, and write me a mid year self reflection review I can submit to my boss for my mid year review: ${JSON.stringify(
       pages
@@ -27,12 +41,12 @@ export const getYearEndReviewController = async (
     })
 
     return {
-      data: response.choices[0].message.content,
+      data: { response: response.choices[0].message.content, mocked: mock },
       status: 200,
     }
   } catch (error) {
     return {
-      data: null,
+      data: { response: null, mocked: mock },
       status: 500,
     }
   }
