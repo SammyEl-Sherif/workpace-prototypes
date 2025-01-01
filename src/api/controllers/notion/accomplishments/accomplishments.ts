@@ -1,0 +1,78 @@
+import { Client } from '@notionhq/client'
+import { PageObjectResponse, QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints'
+
+import { HttpResponse } from '@/server/types'
+
+export const getNotionAccomplishmentsController = async (
+  client: Client
+): Promise<HttpResponse<PageSummary[]>> => {
+  try {
+    const databaseId = process.env.NOTION_DB_ID || ''
+
+    const pages: QueryDatabaseResponse = await client.databases.query({
+      database_id: databaseId,
+      filter: {
+        property: 'Status',
+        status: {
+          equals: '🏆 Accomplishment',
+        },
+      },
+    })
+    /* const database = await client.databases.retrieve({ database_id: databaseId }) */
+
+    return {
+      data: formatNotionAccomplishments(pages),
+      status: 200,
+    }
+  } catch (error) {
+    return {
+      data: [],
+      status: 500,
+    }
+  }
+}
+
+type PageSummary = {
+  title?: string | null
+  summary?: string | null
+  completionDate?: string | null
+  accomplishmentType?: string | null
+}
+
+const formatNotionAccomplishments = (pages: QueryDatabaseResponse): PageSummary[] => {
+  const pageSummaries: PageSummary[] = []
+  for (const page of pages.results as (PageObjectResponse & {
+    properties: {
+      'AI summary': {
+        rich_text: {
+          plain_text: string | null
+        }[]
+      }
+      Name: {
+        title: {
+          plain_text: string | null
+        }[]
+      }
+      'Completion Date': {
+        date: {
+          start: string | null
+          end: string | null
+          time_zone: string | null
+        }
+      }
+      'Accomplishment Type': {
+        select: {
+          name: string | null
+        }
+      }
+    }
+  })[]) {
+    pageSummaries.push({
+      title: page?.properties.Name.title[0].plain_text,
+      summary: page?.properties['AI summary']?.rich_text[0].plain_text,
+      completionDate: page?.properties['Completion Date']?.date.start,
+      accomplishmentType: page?.properties['Accomplishment Type']?.select?.name,
+    })
+  }
+  return pageSummaries
+}

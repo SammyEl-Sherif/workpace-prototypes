@@ -1,17 +1,20 @@
 import { GetServerSideProps, GetServerSidePropsContext, GetServerSidePropsResult } from 'next/types'
 
+type GetServerSidePropsContextWithQuery = Omit<GetServerSidePropsContext, 'query'> & {
+  query: Record<string, string | undefined>
+}
+
 export const withPageRequestWrapper = <T extends { [key: string]: any } = { [key: string]: any }>(
-  handler: () => Promise<T>
+  handler: (context: GetServerSidePropsContextWithQuery) => Promise<T>
 ): GetServerSideProps<T> => {
   return async (context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<T>> => {
     try {
       const { req, res } = context
-      console.log('withPageRequestWrapper', req, res)
       const props = {
         user: {
           name: 'Sammy',
         },
-        ...(await handler()),
+        ...(await handler(context as GetServerSidePropsContextWithQuery)),
       }
       return {
         props,

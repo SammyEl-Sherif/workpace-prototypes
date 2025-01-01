@@ -1,18 +1,17 @@
 import { GetServerSidePropsContext } from 'next/types'
+import OpenAI from 'openai'
 
-import { HttpClient } from '@/server/types/httpClient'
+import { createOpenaiClient } from '../openai'
 
-import { createHttpClient } from '../createHttpClient'
-
-export const withApiClient = <
+export const withOpenaiClient = <
   TRequest extends GetServerSidePropsContext['req'],
   TResponse extends GetServerSidePropsContext['res'],
   TReturn = void
 >(
-  handler: (req: TRequest, res: TResponse, httpClient: HttpClient) => Promise<TReturn> | TReturn
+  handler: (req: TRequest, res: TResponse, openaiClient: OpenAI) => Promise<TReturn>
 ) => {
   return async (request: TRequest, response: TResponse) => {
-    const client = createHttpClient()
+    const client = createOpenaiClient()
     return handler(request, response, client)
   }
 }

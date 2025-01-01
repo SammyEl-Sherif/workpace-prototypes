@@ -1,0 +1,1 @@
+export { getNotionAccomplishmentsController } from './accomplishments'

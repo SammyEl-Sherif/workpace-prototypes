@@ -1,18 +1,21 @@
+import { Client } from '@notionhq/client'
 import { GetServerSidePropsContext } from 'next/types'
 
-import { HttpClient } from '@/server/types/httpClient'
+import { createNotionClient } from '../notion/createNotionClient'
 
-import { createHttpClient } from '../createHttpClient'
-
-export const withApiClient = <
+export const withNotionClient = <
   TRequest extends GetServerSidePropsContext['req'],
   TResponse extends GetServerSidePropsContext['res'],
   TReturn = void
 >(
-  handler: (req: TRequest, res: TResponse, httpClient: HttpClient) => Promise<TReturn> | TReturn
+  handler: (
+    req: TRequest,
+    res: TResponse,
+    notionClient: Client
+  ) => Promise<TReturn> /*  | TReturn */
 ) => {
   return async (request: TRequest, response: TResponse) => {
-    const client = createHttpClient()
+    const client = createNotionClient()
     return handler(request, response, client)
   }
 }

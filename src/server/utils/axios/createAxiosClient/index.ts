@@ -1,1 +1,1 @@
-export * from './createAxiosClient'
+export { createAxiosClient } from './createAxiosClient'

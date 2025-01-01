@@ -11,7 +11,6 @@ export const getStripeProductsRoute = withApiClient<NextApiRequest, NextApiRespo
       if (request.method === 'GET') {
         try {
           const data = await getStripeProductsController(httpClient, { limit: 2 }) // the controller
-          console.log('DATA BACK AT ROUTE!', data)
           response.status(200).json(data)
         } catch (err: any) {
           response.status(err.statusCode || 500).json(err.message)
