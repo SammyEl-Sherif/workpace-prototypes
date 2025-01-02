@@ -1,0 +1,1 @@
+export { getNotionDatabasesController } from './databases'

@@ -2,7 +2,7 @@ import OpenAI from 'openai'
 
 import { HttpResponse } from '@/server/types'
 
-import markdownMock from '!raw-loader!./stub.md'
+import markdownMock from '!raw-loader!./mockedResponse.md'
 
 type YearEndReviewResponse = {
   response: string | null

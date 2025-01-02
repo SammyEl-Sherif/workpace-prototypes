@@ -1,11 +1,15 @@
 .container {
   display: flex;
   flex-direction: row;
-  height: 100%;
-  width: 100%;
   background-color: black;
-  justify-content: space-between;
-  min-height: 70px;
+  align-items: center;
+  gap: 5px;
+  padding: 1rem 2rem;
+}
+
+.brandName {
+  color: white;
+  font-size: 26px;
 }
 
 .logo {

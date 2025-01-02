@@ -1,5 +1,3 @@
-# Mid-Year Self-Reflection Review
-
 ## Introduction
 
 As we reach the midpoint of the year, I wanted to take this opportunity to reflect on my accomplishments over the last 6 months and provide insights into the progress I have made in various aspects of my role.
@@ -23,7 +21,5 @@ Reflecting on these accomplishments, I am proud of the progress I have made in e
 I appreciate the opportunities provided by the team and organization to grow professionally and look forward to continued collaboration and development in the second half of the year.
 
 Thank you for your guidance and support throughout this period.
-
----
 
 This review encapsulates the key milestones, growth, and aspirations that define the first half of the year, underscoring dedication, progress, and a proactive approach to professional development."

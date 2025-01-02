@@ -1,0 +1,1 @@
+export { getAppName } from './getAppName'

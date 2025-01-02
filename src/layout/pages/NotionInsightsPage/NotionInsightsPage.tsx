@@ -1,34 +1,74 @@
+import { useState } from 'react'
+
+import { QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints'
 import ReactMarkdown from 'react-markdown'
 
+import { Button, Select } from '@/components'
+import { NotionDatabase } from '@/interfaces/notion'
 import { HomePageProps } from '@/pages'
 
 import styles from './NotionInsights.module.scss'
 
-const NotionInsights = ({ props: { title, accomplishments, response, mocked } }: HomePageProps) => {
+
+type AllAccomplishmentsModalProps = {
+  accomplishments: QueryDatabaseResponse[]
+}
+
+const AllAccomplishmentsModal = ({ accomplishments }: AllAccomplishmentsModalProps) => {
+  const [showModal, setShowModal] = useState(false)
+  return (
+    <>
+      <Button
+        title="View All"
+        onClick={() => {
+          setShowModal(!showModal)
+        }}
+      />
+      {showModal && (
+        <dialog open={showModal} className={styles.overlay}>
+          <div className={styles.modal} id="all-accomplishments-insights">
+            <h3 style={{ marginBottom: '10px' }}>Accomplishments ({accomplishments.length})</h3>
+            {Array.isArray(accomplishments) &&
+              accomplishments.map((item, i) => (
+                <p style={{ padding: '10px' }} key={i}>
+                  <span>
+                    {i + 1}. {(item as any).title} |{' '}
+                  </span>
+                  <span>{(item as any).accomplishmentType}</span>
+                </p>
+              ))}
+            <Button
+              title="Close"
+              onClick={() => {
+                setShowModal(false)
+              }}
+            />
+          </div>
+        </dialog>
+      )}
+    </>
+  )
+}
+
+const NotionInsights = ({
+  props: { accomplishments, response, mocked, databases },
+}: HomePageProps) => {
   return (
     <div className={styles.page}>
-      <div className={styles.sectionHero} id="hero-section">
-        <div className={styles.headingWrapper}>
-          <h1 className={styles.heading}>The Good Stuff List 🏆</h1>
-          <h2 className={styles.headingSecondary}>Notion Database: {title}</h2>
-        </div>
-      </div>
-      <div className={styles.section} id="all-accomplishments-insights">
-        <h3 style={{ marginBottom: '10px' }}>Accomplishments ({accomplishments.length})</h3>
-        <div>
-          <p>Front End Development (#): </p>
-          <p>Back End Development (#): </p>
-          <p>Data Engineering (#): </p>
-        </div>
-        {Array.isArray(accomplishments) &&
-          accomplishments.map((item, i) => (
-            <p style={{ padding: '10px' }} key={i}>
-              <span>
-                {i + 1}. {(item as any).title} |{' '}
-              </span>
-              <span>{(item as any).accomplishmentType}</span>
-            </p>
-          ))}
+      <div
+        style={{
+          marginTop: '1rem',
+          marginBottom: '1rem',
+          display: 'flex',
+          flexFlow: 'row nowrap',
+          gap: '1rem',
+        }}
+      >
+        <Select>
+          {Array.isArray(databases) &&
+            databases.map((db: NotionDatabase) => <option key={db.id}>{db.title}</option>)}
+        </Select>
+        <AllAccomplishmentsModal accomplishments={accomplishments} />
       </div>
       <div className={styles.section} id="automated-year-end-review">
         <ReactMarkdown>{response}</ReactMarkdown>

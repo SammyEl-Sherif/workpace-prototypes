@@ -5,6 +5,7 @@
   flex: 1;
   width: 100%;
   height: 100%;
+  background-color: rgb(252, 252, 252);
 
   &Content {
     flex: 1;
@@ -14,11 +15,11 @@
 .section {
   display: flex;
   flex-flow: column nowrap;
-  outline: solid black 2px;
-  border-radius: 10px;
-  margin: 3% 15%;
+  outline: solid #d5d3d3 1px;
+  border-radius: 3px;
+  margin-top: 1%;
   padding: 3%;
-  background-color: #f6f5f4;
+  background-color: white;
 
   &Hero {
     display: flex;
@@ -39,4 +40,21 @@
   &Secondary {
     font-weight: 400;
   }
+}
+
+.modal {
+  background-color: white;
+  padding: 2rem;
+  margin: 5rem;
+  color: black;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.overlay {
+  background-color: rgba(0, 0, 0, 50%);
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
 }

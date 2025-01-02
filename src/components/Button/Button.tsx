@@ -1,5 +1,14 @@
 import styles from './Button.module.scss'
 
-export default function Button({ title }: any) {
-  return <button className={styles.container}>{title}</button>
+interface ButtonProps {
+  title: string
+  onClick?: () => void
+}
+
+export default function Button({ title, onClick }: ButtonProps) {
+  return (
+    <button className={styles.container} onClick={onClick}>
+      {title}
+    </button>
+  )
 }
