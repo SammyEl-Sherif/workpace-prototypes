@@ -1,7 +1,7 @@
-import { Button, ProductCard } from '@/components'
+import { ProductCard } from '@/components'
 import { DocumentTitle } from '@/layout/DocumentTitle'
 import ProductsGridLayout from '@/layout/ProductsGridLayout'
-
+import { Button } from '@workpace/design-system'
 import styles from './LandingPage.module.scss'
 
 const LandingPage = () => {
@@ -17,8 +17,8 @@ const LandingPage = () => {
             </p>
           </div>
           <div className={styles.flexRow}>
-            <Button title="Learn More" />
-            <Button title="Contact Us" />
+            <Button label="Learn More" onClick={() => {}} />
+            <Button label="Contact Us" onClick={() => {}} />
           </div>
         </div>
         <div className={styles.section}>

@@ -3,12 +3,12 @@ import { useState } from 'react'
 import { QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints'
 import ReactMarkdown from 'react-markdown'
 
-import { Button, Select } from '@/components'
+import { Select } from '@/components'
 import { NotionDatabase } from '@/interfaces/notion'
 import { HomePageProps } from '@/pages'
+import { Button } from '@workpace/design-system'
 
 import styles from './NotionInsights.module.scss'
-
 
 type AllAccomplishmentsModalProps = {
   accomplishments: QueryDatabaseResponse[]
@@ -19,7 +19,9 @@ const AllAccomplishmentsModal = ({ accomplishments }: AllAccomplishmentsModalPro
   return (
     <>
       <Button
-        title="View All"
+        label="View All"
+        primary={true}
+        size="small"
         onClick={() => {
           setShowModal(!showModal)
         }}
@@ -38,7 +40,7 @@ const AllAccomplishmentsModal = ({ accomplishments }: AllAccomplishmentsModalPro
                 </p>
               ))}
             <Button
-              title="Close"
+              label="Close"
               onClick={() => {
                 setShowModal(false)
               }}
