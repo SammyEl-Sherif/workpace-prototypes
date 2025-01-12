@@ -4,7 +4,6 @@ import { DatabaseObjectResponse } from '@notionhq/client/build/src/api-endpoints
 import { NotionDatabase } from '@/interfaces/notion'
 import { HttpResponse } from '@/server/types'
 
-
 export const getNotionDatabasesController = async (
   notion: Client
 ): Promise<HttpResponse<NotionDatabase[]>> => {

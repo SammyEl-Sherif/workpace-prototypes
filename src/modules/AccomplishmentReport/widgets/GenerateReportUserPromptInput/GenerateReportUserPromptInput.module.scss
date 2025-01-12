@@ -1,0 +1,13 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.promptWrapper {
+  display: flex;
+  flex-flow: row wrap;
+  gap: $size-150;
+  align-items: center;
+}
+
+.buttonRight {
+  display: flex;
+  align-self: flex-start;
+}

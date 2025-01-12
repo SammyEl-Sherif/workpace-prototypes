@@ -1,0 +1,10 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.actions {
+  margin-top: $size-400;
+  margin-bottom: $size-150;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  gap: 1rem;
+}

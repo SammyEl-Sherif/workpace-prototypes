@@ -12,7 +12,8 @@ type YearEndReviewResponse = {
 export const getYearEndReviewController = async (
   client: OpenAI,
   pages: any,
-  mock: boolean
+  mock: boolean,
+  userPrompt: string | null
 ): Promise<HttpResponse<YearEndReviewResponse>> => {
   if (mock) {
     return {
@@ -21,7 +22,7 @@ export const getYearEndReviewController = async (
     }
   }
   try {
-    const userPrompt = `Take the following array of objects, which are a list of accomplishments of mine over the last 6 months, and write me a mid year self reflection review I can submit to my boss for my mid year review: ${JSON.stringify(
+    const yearEndReviewPrompt = `Take the following array of objects, which are a list of accomplishments of mine over the last 6 months, and write me a mid year self reflection review I can submit to my boss for my mid year review: ${JSON.stringify(
       pages
     )}`
 
@@ -35,7 +36,7 @@ export const getYearEndReviewController = async (
         },
         {
           role: 'user',
-          content: userPrompt,
+          content: userPrompt ?? yearEndReviewPrompt,
         },
       ],
     })

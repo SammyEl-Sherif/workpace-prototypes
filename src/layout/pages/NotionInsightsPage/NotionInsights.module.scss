@@ -14,27 +14,6 @@
   }
 }
 
-.actions {
-  margin-top: $size-400;
-  margin-bottom: $size-150;
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-.promptWrapper {
-  display: flex;
-  flex-flow: row wrap;
-  gap: $size-150;
-  align-items: center;
-}
-
-.buttonRight {
-  display: flex;
-  align-self: flex-start;
-}
-
 .section {
   display: flex;
   flex-flow: column nowrap;
@@ -64,21 +43,4 @@
   &Secondary {
     font-weight: 400;
   }
-}
-
-.modal {
-  background-color: white;
-  padding: 2rem;
-  margin: 5rem;
-  color: black;
-  max-height: 70vh;
-  overflow-y: auto;
-}
-
-.overlay {
-  background-color: rgba(0, 0, 0, 50%);
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
 }

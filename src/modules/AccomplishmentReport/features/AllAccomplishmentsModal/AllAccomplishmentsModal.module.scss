@@ -1,0 +1,16 @@
+.overlay {
+  background-color: rgba(0, 0, 0, 50%);
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+}
+
+.modal {
+  background-color: white;
+  padding: 2rem;
+  margin: 5rem;
+  color: black;
+  max-height: 70vh;
+  overflow-y: auto;
+}

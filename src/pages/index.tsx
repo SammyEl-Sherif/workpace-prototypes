@@ -50,7 +50,7 @@ export const getServerSideProps: GetServerSideProps = withPageRequestWrapper(asy
   })(context.req, context.res)
 
   const { response, mocked } = await withOpenaiClient(async (_, __, client) => {
-    const response = await getYearEndReviewController(client, accomplishments, true)
+    const response = await getYearEndReviewController(client, accomplishments, true, null)
     return { response: response.data.response, mocked: response.data.mocked }
   })(context.req, context.res)
 
