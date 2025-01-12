@@ -1,8 +1,15 @@
-/* @use '@workpace/design-system/dist/design-tokens' as *; */
+@use '@workpace/design-system/dist/design-tokens' as *;
 
 .select {
   padding: 10px 5px;
   display: block;
   width: 150px;
   background-color: black;
+}
+
+.container {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: $size-100;
+  align-items: center;
 }

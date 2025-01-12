@@ -1,10 +1,12 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
 .container {
   display: flex;
   flex-direction: row;
   background-color: black;
   align-items: center;
   gap: 5px;
-  padding: 1rem 2rem;
+  padding: $size-125 10%;
 }
 
 .brandName {
