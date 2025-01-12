@@ -1,0 +1,1 @@
+export { getNotionAccomplishmentsRoute } from './accomplishments'

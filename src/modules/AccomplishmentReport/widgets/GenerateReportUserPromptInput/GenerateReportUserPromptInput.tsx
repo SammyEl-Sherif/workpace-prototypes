@@ -1,9 +1,28 @@
+import { useCallback, useState } from 'react'
+
 import { Button } from '@workpace/design-system'
 
-import styles from './GenerateReportUserPromptInput.module.scss'
+import { PageSummary } from '@/interfaces/notion'
 
-const GenerateReportUserPromptInput = () => {
-  const handleGenerateReport = () => {}
+import styles from './GenerateReportUserPromptInput.module.scss'
+import { GeneratedReport } from '../../entries'
+import { useGenerateReport } from '../../hooks'
+type GenerateReportUserPromptInputProps = {
+  accomplishments: PageSummary[]
+}
+const GenerateReportUserPromptInput = ({ accomplishments }: GenerateReportUserPromptInputProps) => {
+  const generateReport = useGenerateReport({ accomplishments })
+  const [reportResult, setReportResult] = useState<string | null>(null)
+
+  const handleGenerateReport = useCallback(async () => {
+    const [result, error] = await generateReport({ data: accomplishments })
+    if (error) {
+      console.log('[ERROR] Generate Report failed ...', error)
+    } else {
+      setReportResult(result?.data.response ?? null)
+    }
+  }, [accomplishments])
+
   return (
     <div>
       <p style={{ marginBottom: '8px' }}>
@@ -33,6 +52,7 @@ const GenerateReportUserPromptInput = () => {
           />
         </div>
       </div>
+      <GeneratedReport response={reportResult} mocked={false} />
     </div>
   )
 }

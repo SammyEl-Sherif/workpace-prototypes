@@ -36,7 +36,9 @@ export const getYearEndReviewController = async (
         },
         {
           role: 'user',
-          content: userPrompt ?? yearEndReviewPrompt,
+          content:
+            `${userPrompt}. And, use the following array of task tracking objects as context ${pages}` ??
+            yearEndReviewPrompt,
         },
       ],
     })

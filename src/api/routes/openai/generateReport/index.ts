@@ -1,0 +1,1 @@
+export { generateReportRoute } from './generateReport'

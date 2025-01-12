@@ -1,6 +1,7 @@
 import { Client } from '@notionhq/client'
 import { PageObjectResponse, QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints'
 
+import { PageSummary } from '@/interfaces/notion'
 import { HttpResponse } from '@/server/types'
 
 export const getNotionAccomplishmentsController = async (
@@ -29,13 +30,6 @@ export const getNotionAccomplishmentsController = async (
       status: 500,
     }
   }
-}
-
-type PageSummary = {
-  title?: string | null
-  summary?: string | null
-  completionDate?: string | null
-  accomplishmentType?: string | null
 }
 
 const formatNotionAccomplishments = (pages: QueryDatabaseResponse): PageSummary[] => {

@@ -1,14 +1,13 @@
 import { QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints'
 
 import { Select } from '@/components/Select'
-import { NotionDatabase } from '@/interfaces/notion'
+import { NotionDatabase, PageSummary } from '@/interfaces/notion'
 
 import styles from './GenerateReportActions.module.scss'
 import { AllAccomplishmentsModal } from '../../features'
 
-
 type GenerateReportActionsProps = {
-  accomplishments: QueryDatabaseResponse[]
+  accomplishments: PageSummary[]
   databases: NotionDatabase[]
 }
 

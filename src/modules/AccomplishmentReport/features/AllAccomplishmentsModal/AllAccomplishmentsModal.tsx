@@ -3,10 +3,12 @@ import { useState } from 'react'
 import { QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints'
 import { Button } from '@workpace/design-system'
 
+import { PageSummary } from '@/interfaces/notion'
+
 import styles from './AllAccomplishmentsModal.module.scss'
 
 type AllAccomplishmentsModalProps = {
-  accomplishments: QueryDatabaseResponse[]
+  accomplishments: PageSummary[]
 }
 
 const AllAccomplishmentsModal = ({ accomplishments }: AllAccomplishmentsModalProps) => {

@@ -10,7 +10,7 @@ import {
   getNotionDatabasesController,
 } from '@/api/controllers'
 import { getYearEndReviewController } from '@/api/controllers/openai/yearEndReview/yearEndReview'
-import { NotionDatabase } from '@/interfaces/notion'
+import { NotionDatabase, PageSummary } from '@/interfaces/notion'
 import { DocumentTitle } from '@/layout/DocumentTitle'
 import MainLayout from '@/layout/MainLayout'
 import NotionInsights from '@/layout/pages/NotionInsightsPage/NotionInsightsPage'
@@ -20,7 +20,7 @@ import { withPageRequestWrapper } from '@/server/utils/withPageRequestWrapper'
 
 export interface HomePageProps {
   props: {
-    accomplishments: QueryDatabaseResponse[]
+    accomplishments: PageSummary[]
     title: string
     response: OpenAI.Chat.Completions.ChatCompletionMessage['content']
     mocked: boolean
@@ -49,17 +49,10 @@ export const getServerSideProps: GetServerSideProps = withPageRequestWrapper(asy
     }
   })(context.req, context.res)
 
-  const { response, mocked } = await withOpenaiClient(async (_, __, client) => {
-    const response = await getYearEndReviewController(client, accomplishments, true, null)
-    return { response: response.data.response, mocked: response.data.mocked }
-  })(context.req, context.res)
-
   return {
     props: {
-      accomplishments: accomplishments.data,
+      accomplishments: accomplishments.data as PageSummary[],
       title,
-      response: response ? response : 'Cannot generate a response from ChatGPT at the moment ...',
-      mocked,
       databases,
     },
   }

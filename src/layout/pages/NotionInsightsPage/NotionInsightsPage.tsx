@@ -7,18 +7,14 @@ import { HomePageProps } from '@/pages'
 
 import styles from './NotionInsights.module.scss'
 
-const NotionInsights = ({
-  props: { accomplishments, response, mocked, databases },
-}: HomePageProps) => {
+const NotionInsights = ({ props: { accomplishments, databases } }: HomePageProps) => {
   return (
     <div className={styles.page}>
       <GenerateReportActions accomplishments={accomplishments} databases={databases} />
       <div className={styles.section} id="generate-report-user-prompt">
-        <GenerateReportUserPromptInput />
+        <GenerateReportUserPromptInput accomplishments={accomplishments} />
       </div>
-      <div className={styles.section} id="generated-report">
-        <GeneratedReport response={response} mocked={mocked} />
-      </div>
+      <div className={styles.section} id="generated-report"></div>
     </div>
   )
 }
