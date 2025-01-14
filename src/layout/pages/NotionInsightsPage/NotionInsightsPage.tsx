@@ -1,4 +1,3 @@
-import { GeneratedReport } from '@/modules/AccomplishmentReport/entries'
 import {
   GenerateReportActions,
   GenerateReportUserPromptInput,
@@ -14,7 +13,6 @@ const NotionInsights = ({ props: { accomplishments, databases } }: HomePageProps
       <div className={styles.section} id="generate-report-user-prompt">
         <GenerateReportUserPromptInput accomplishments={accomplishments} />
       </div>
-      <div className={styles.section} id="generated-report"></div>
     </div>
   )
 }

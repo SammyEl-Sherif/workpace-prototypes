@@ -1,5 +1,5 @@
-# WorkPace Technology StarterKit - Web App
+# The Good Stuff List
 
-# Stripe Checkout
+Check out the [WorkPace Design System](https://workpace.dev) to view our full documentation.
 
-[Stripe Checkout Next.js Docs](https://docs.stripe.com/checkout/quickstart?lang=node&client=next)
+[![Storybook Status](https://github.com/work-pace/design-system/actions/workflows/deploy-github-pages.yml/badge.svg)](https://github.com/work-pace/design-system/actions/workflows/deploy-github-pages.yml)

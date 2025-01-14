@@ -1,55 +1,43 @@
 import OpenAI from 'openai'
 
+import { PageSummary } from '@/interfaces/notion'
 import { HttpResponse } from '@/server/types'
-
-import markdownMock from '!raw-loader!./mockedResponse.md'
 
 type YearEndReviewResponse = {
   response: string | null
-  mocked: boolean
 }
 
 export const getYearEndReviewController = async (
   client: OpenAI,
-  pages: any,
-  mock: boolean,
+  accomplishments: PageSummary[],
   userPrompt: string | null
 ): Promise<HttpResponse<YearEndReviewResponse>> => {
-  if (mock) {
-    return {
-      data: { response: markdownMock, mocked: mock },
-      status: 200,
-    }
-  }
   try {
-    const yearEndReviewPrompt = `Take the following array of objects, which are a list of accomplishments of mine over the last 6 months, and write me a mid year self reflection review I can submit to my boss for my mid year review: ${JSON.stringify(
-      pages
-    )}`
-
     const response: OpenAI.Chat.Completions.ChatCompletion = await client.chat.completions.create({
       model: 'gpt-3.5-turbo',
       messages: [
         {
           role: 'system',
-          content:
-            "Act as if you're me, a junior developer, and use relevant data in each index for things such as headings and return the response in markdown. Make it in a more essay format, no bullet points.",
+          content: `Utilize the following relevant data (${JSON.stringify(
+            accomplishments
+          )}) for headings and return the response as a string which utilizes markdown syntax. 
+          Write a report in essay style without bullet points. Do not use triple backticks for formatting; 
+          I will format it using the npm package react-markdown.`,
         },
         {
           role: 'user',
-          content:
-            `${userPrompt}. And, use the following array of task tracking objects as context ${pages}` ??
-            yearEndReviewPrompt,
+          content: userPrompt ?? '',
         },
       ],
     })
 
     return {
-      data: { response: response.choices[0].message.content, mocked: mock },
+      data: { response: response.choices[0].message.content },
       status: 200,
     }
   } catch (error) {
     return {
-      data: { response: null, mocked: mock },
+      data: { response: 'ChatGPT could not generate your repsonse, please try again soon ...' },
       status: 500,
     }
   }

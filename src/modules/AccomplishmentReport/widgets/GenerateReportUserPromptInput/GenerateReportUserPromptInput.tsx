@@ -1,27 +1,20 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
 import { Button } from '@workpace/design-system'
+import ReactLoading from 'react-loading'
 
 import { PageSummary } from '@/interfaces/notion'
 
 import styles from './GenerateReportUserPromptInput.module.scss'
 import { GeneratedReport } from '../../entries'
 import { useGenerateReport } from '../../hooks'
-type GenerateReportUserPromptInputProps = {
-  accomplishments: PageSummary[]
-}
-const GenerateReportUserPromptInput = ({ accomplishments }: GenerateReportUserPromptInputProps) => {
-  const generateReport = useGenerateReport({ accomplishments })
-  const [reportResult, setReportResult] = useState<string | null>(null)
 
-  const handleGenerateReport = useCallback(async () => {
-    const [result, error] = await generateReport({ data: accomplishments })
-    if (error) {
-      console.log('[ERROR] Generate Report failed ...', error)
-    } else {
-      setReportResult(result?.data.response ?? null)
-    }
-  }, [accomplishments])
+const GenerateReportUserPromptInput = (accomplishments: PageSummary[]) => {
+  const [userPrompt, setUserPrompt] = useState<string>()
+  const { response, isLoading, makeRequest } = useGenerateReport({
+    accomplishments,
+    userPrompt,
+  })
 
   return (
     <div>
@@ -41,18 +34,28 @@ const GenerateReportUserPromptInput = ({ accomplishments }: GenerateReportUserPr
             boxShadow: '1px 1px 5px rgba(0, 0, 0, 0.3)',
             height: '72px',
           }}
+          onChange={(e) => setUserPrompt(e.target.value)}
           placeholder="Write me a year end self reflection report I can submit to my manager."
         />
         <div className={styles.buttonRight}>
           <Button
-            label="Generate Report"
+            label={`Generate Report`}
             primary={true}
             size="small"
-            onClick={handleGenerateReport}
+            onClick={() => {
+              makeRequest()
+            }}
           />
         </div>
       </div>
-      <GeneratedReport response={reportResult} mocked={false} />
+      {response && <hr style={{ marginTop: '10px', marginBottom: '10px' }} />}
+      {isLoading ? (
+        <div className={styles.loading}>
+          <ReactLoading type="spin" color="#1983EE" height={'40%'} width={'40%'} />
+        </div>
+      ) : (
+        <GeneratedReport response={response} mocked={false} />
+      )}
     </div>
   )
 }

@@ -7,10 +7,16 @@ type GeneratedReportProps = {
 }
 
 const GeneratedReport = ({ response }: GeneratedReportProps) => {
-  console.log('response', response)
   return (
     <div className={styles.container}>
-      <ReactMarkdown>{response}</ReactMarkdown>
+      <ReactMarkdown
+        className={styles.container}
+        components={{
+          p: ({ node, ...props }) => <p style={{ padding: '10px 0' }} {...props} />,
+        }}
+      >
+        {response}
+      </ReactMarkdown>
     </div>
   )
 }

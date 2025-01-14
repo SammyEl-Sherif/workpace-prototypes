@@ -1,3 +1,7 @@
 .container {
-  display: flex;
+  code {
+    display: flex;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+  }
 }
