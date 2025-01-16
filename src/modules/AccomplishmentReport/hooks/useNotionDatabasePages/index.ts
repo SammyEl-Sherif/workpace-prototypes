@@ -1,0 +1,1 @@
+export { useNotionDatabasePages } from './useNotionDatabasePages'

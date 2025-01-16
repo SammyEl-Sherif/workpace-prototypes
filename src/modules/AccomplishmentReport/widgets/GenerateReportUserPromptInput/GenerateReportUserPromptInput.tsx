@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useState } from 'react'
 
 import { Button } from '@workpace/design-system'
 import ReactLoading from 'react-loading'
@@ -9,16 +9,20 @@ import styles from './GenerateReportUserPromptInput.module.scss'
 import { GeneratedReport } from '../../entries'
 import { useGenerateReport } from '../../hooks'
 
-const GenerateReportUserPromptInput = (accomplishments: PageSummary[]) => {
+type GenerateReportUserPromptInputProps = {
+  pages: PageSummary[] | null
+}
+
+const GenerateReportUserPromptInput = ({ pages }: GenerateReportUserPromptInputProps) => {
   const [userPrompt, setUserPrompt] = useState<string>()
   const { response, isLoading, makeRequest } = useGenerateReport({
-    accomplishments,
+    pages: pages ?? [],
     userPrompt,
   })
 
   return (
     <div>
-      <p style={{ marginBottom: '8px' }}>
+      <p style={{ marginBottom: '12px' }}>
         Tell me how you&apos;d like to showcase your accomplishments, and I&apos;ll craft a
         professional report.
       </p>
@@ -48,14 +52,21 @@ const GenerateReportUserPromptInput = (accomplishments: PageSummary[]) => {
           />
         </div>
       </div>
-      {response && <hr style={{ marginTop: '10px', marginBottom: '10px' }} />}
+      {response && <hr style={{ marginTop: '20px', marginBottom: '5px' }} />}
       {isLoading ? (
         <div className={styles.loading}>
-          <ReactLoading type="spin" color="#1983EE" height={'40%'} width={'40%'} />
+          <ReactLoading
+            type="spin"
+            color="#1983EE"
+            height={'40%'}
+            width={'40%'}
+            className={styles.loader}
+          />
         </div>
       ) : (
         <GeneratedReport response={response} mocked={false} />
       )}
+      {response && <hr style={{ marginTop: '5px' }} />}
     </div>
   )
 }

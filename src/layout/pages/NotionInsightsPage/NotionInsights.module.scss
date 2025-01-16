@@ -14,6 +14,14 @@
   }
 }
 
+.cardFooter {
+  margin-top: 5px;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
 .section {
   display: flex;
   flex-flow: column nowrap;
@@ -22,7 +30,8 @@
   margin-bottom: 2%;
   padding: 3%;
   background-color: white;
-  gap: $size-125;
+  gap: $size-200;
+  margin: $size-300 0;
 
   &Hero {
     display: flex;

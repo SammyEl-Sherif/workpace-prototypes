@@ -1,23 +1,26 @@
 import { Client } from '@notionhq/client'
-import { PageObjectResponse, QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints'
+import {
+  PageObjectResponse,
+  QueryDatabaseParameters,
+  QueryDatabaseResponse,
+} from '@notionhq/client/build/src/api-endpoints'
 
 import { PageSummary } from '@/interfaces/notion'
 import { HttpResponse } from '@/server/types'
 
-export const getNotionAccomplishmentsController = async (
-  client: Client
+export const getNotionPagesController = async (
+  client: Client,
+  database_id: string = process.env.NOTION_DEFAULT_DB_ID || '',
+  filters: QueryDatabaseParameters['filter']
 ): Promise<HttpResponse<PageSummary[]>> => {
   try {
-    const databaseId = process.env.NOTION_DB_ID || ''
+    if (!database_id) {
+      throw new Error('Database ID is required')
+    }
 
     const pages: QueryDatabaseResponse = await client.databases.query({
-      database_id: databaseId,
-      filter: {
-        property: 'Status',
-        status: {
-          equals: '🏆 Accomplishment',
-        },
-      },
+      database_id,
+      filter: filters,
     })
 
     return {

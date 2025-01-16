@@ -7,7 +7,7 @@ import { DefaultPrompts } from '@/interfaces/prompts'
 import { HttpError } from '@/models'
 
 type UseGenerateReportParamProps = {
-  accomplishments: PageSummary[]
+  pages: PageSummary[]
   userPrompt?: string | null
 }
 type UseGenerateReportReturnProps = {
@@ -18,12 +18,12 @@ type UseGenerateReportReturnProps = {
 }
 
 export const useGenerateReport = ({
-  accomplishments,
+  pages,
   userPrompt,
 }: UseGenerateReportParamProps): UseGenerateReportReturnProps => {
   const data = useMemo(() => {
-    return { accomplishments, userPrompt: userPrompt ?? DefaultPrompts.yearEndReview }
-  }, [accomplishments, userPrompt])
+    return { pages, userPrompt: userPrompt ?? DefaultPrompts.yearEndReview }
+  }, [pages, userPrompt])
 
   const [response, isLoading, error, _, makeRequest] = useFetch<GenerateReportDTO, null>(
     'openai/generateReport',

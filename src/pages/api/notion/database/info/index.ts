@@ -1,7 +1,7 @@
-import { getNotionAccomplishmentsRoute } from '@/api/routes/notion'
+import { getNotionDatabaseInfoRoute } from '@/api/routes/notion'
 import { HttpMethod } from '@/interfaces/httpMethod'
 import { apiRequestWrapper } from '@/server/apiRequestWrapper'
 
 export default apiRequestWrapper({
-  [HttpMethod.GET]: getNotionAccomplishmentsRoute,
+  [HttpMethod.POST]: getNotionDatabaseInfoRoute,
 })

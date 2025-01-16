@@ -5,11 +5,16 @@
   display: block;
   width: 150px;
   background-color: black;
+  position: relative;
 }
 
 .container {
   display: flex;
-  flex-flow: row nowrap;
-  gap: $size-100;
+  flex-flow: row wrap;
   align-items: center;
+}
+
+.filters {
+  display: flex;
+  flex-flow: row wrap;
 }

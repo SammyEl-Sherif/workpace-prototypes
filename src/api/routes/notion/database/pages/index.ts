@@ -1,0 +1,1 @@
+export { getNotionDatabasePagesRoute } from './pages'

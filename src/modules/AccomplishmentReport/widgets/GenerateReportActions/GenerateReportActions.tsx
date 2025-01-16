@@ -1,24 +1,32 @@
-import { QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints'
-
-import { Select } from '@/components/Select'
 import { NotionDatabase, PageSummary } from '@/interfaces/notion'
+import {
+  SelectNotionDatabase,
+  SelectNotionDatabaseFilter,
+} from '@/modules/AccomplishmentReport/widgets'
 
 import styles from './GenerateReportActions.module.scss'
 import { AllAccomplishmentsModal } from '../../features'
 
 type GenerateReportActionsProps = {
-  accomplishments: PageSummary[]
   databases: NotionDatabase[]
+  pages: PageSummary[]
 }
 
-const GenerateReportActions = ({ accomplishments, databases }: GenerateReportActionsProps) => {
+const GenerateReportActions = ({ databases, pages }: GenerateReportActionsProps) => {
   return (
-    <div className={styles.actions}>
-      <Select label="Notion Database:">
-        {Array.isArray(databases) &&
-          databases.map((db: NotionDatabase) => <option key={db.id}>{db.title}</option>)}
-      </Select>
-      <AllAccomplishmentsModal accomplishments={accomplishments} />
+    <div className={styles.container}>
+      <div className={styles.actions}>
+        <SelectNotionDatabase label="Notion Database" defaultValue={`${databases[0].id}`}>
+          {Array.isArray(databases) &&
+            databases.map((db: NotionDatabase) => (
+              <option key={db.id} value={db.id}>
+                {db.title}
+              </option>
+            ))}
+        </SelectNotionDatabase>
+        <SelectNotionDatabaseFilter label="Properties Filter" />
+      </div>
+      <AllAccomplishmentsModal pages={pages} />
     </div>
   )
 }

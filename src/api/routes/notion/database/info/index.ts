@@ -1,0 +1,1 @@
+export { getNotionDatabaseInfoRoute } from './info'

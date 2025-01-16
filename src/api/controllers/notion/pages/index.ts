@@ -1,0 +1,1 @@
+export { getNotionPagesController } from './pages'

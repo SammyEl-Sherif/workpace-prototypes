@@ -1,17 +1,79 @@
+import { useState } from 'react'
+
+import { useNotionDatabaseContext } from '@/modules/AccomplishmentReport/contexts'
+import { useNotionDatabasePages } from '@/modules/AccomplishmentReport/hooks'
 import {
   GenerateReportActions,
   GenerateReportUserPromptInput,
 } from '@/modules/AccomplishmentReport/widgets'
-import { HomePageProps } from '@/pages'
+import { GoodStuffListPageProps } from '@/pages/good-stuff-list'
 
 import styles from './NotionInsights.module.scss'
 
-const NotionInsights = ({ props: { accomplishments, databases } }: HomePageProps) => {
+
+const LearnMore = () => {
+  const [isExpanded, setIsExpanded] = useState(false)
+  const handleExpand = () => {
+    setIsExpanded(!isExpanded)
+    console.log('whynot', isExpanded)
+  }
+  return (
+    <>
+      {isExpanded && (
+        <div>
+          <p>
+            The initial idea for <strong>The Good Stuff List</strong> was from a recurring piece of
+            advice my manager at work woukd give me. This adivce was along the lines of &quot;make
+            sure to keep a &apos;good stuff list&apos;, write down all of your accomplishments as
+            they happen, and when the time comes for you to represent yourself you will be forever
+            greatful as you progress in your career&quot;. I use Notion, so I used their API for
+            this demo.
+          </p>
+        </div>
+      )}
+      <div className={styles.cardFooter}>
+        <h1 style={{ fontSize: '14px', color: 'gray' }}>Last Update: 1/15/2024</h1>
+        <button
+          onClick={handleExpand}
+          style={{
+            fontWeight: 'bold',
+            alignSelf: 'flex-end',
+            width: '80px',
+            backgroundColor: 'transparent',
+            color: 'black',
+            border: 'unset',
+          }}
+        >
+          {isExpanded ? 'Show Less' : 'Learn More'}
+        </button>
+      </div>
+    </>
+  )
+}
+
+const NotionInsights = ({ databases }: GoodStuffListPageProps) => {
+  const {
+    state: { database_id, filters },
+  } = useNotionDatabaseContext()
+
+  const { pages } = useNotionDatabasePages({
+    database_id: database_id ?? '',
+    filters: filters ?? {
+      property: 'Status',
+      status: {
+        equals: '🏆 Accomplishment',
+      },
+    },
+  })
   return (
     <div className={styles.page}>
-      <GenerateReportActions accomplishments={accomplishments} databases={databases} />
       <div className={styles.section} id="generate-report-user-prompt">
-        <GenerateReportUserPromptInput accomplishments={accomplishments} />
+        <div className={styles.header}>
+          <h1 style={{ fontSize: '32px' }}>🥇 The Good Stuff List</h1>
+        </div>
+        <GenerateReportActions databases={databases} pages={pages ?? []} />
+        <GenerateReportUserPromptInput pages={pages} />
+        <LearnMore />
       </div>
     </div>
   )

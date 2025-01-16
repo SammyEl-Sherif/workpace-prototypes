@@ -4,11 +4,11 @@ import { DatabaseObjectResponse } from '@notionhq/client/build/src/api-endpoints
 import { HttpResponse } from '@/server/types'
 
 export const getNotionDatabaseInfoController = async (
-  client: Client
+  client: Client,
+  database_id: string = process.env.NOTION_DEFAULT_DB_ID || ''
 ): Promise<HttpResponse<DatabaseObjectResponse>> => {
   try {
-    const databaseId = process.env.NOTION_DB_ID || ''
-    const database = await client.databases.retrieve({ database_id: databaseId })
+    const database = await client.databases.retrieve({ database_id })
 
     return {
       data: database as DatabaseObjectResponse,
