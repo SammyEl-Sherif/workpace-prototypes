@@ -1,2 +1,2 @@
-export * from './NextDefaultHomePage'
 export * from './AccomplishmentReport'
+export * from './WorkPaceProjects'

@@ -24,7 +24,8 @@
     "precommit": "npm-run-all precommit:** --print-label",
     "precommit:": "lint-staged",
     "precommit:src": "npm run lint --workspace src",
-    "clean": "rm -rf node_modules src/node_modules src/.next"
+    "clean": "rm -rf node_modules src/node_modules src/.next",
+    "pocketbase": "./pocketbase/pocketbase serve"
   },
   "dependencies": {
     "@notionhq/client": "^2.2.15",
@@ -32,10 +33,13 @@
     "engines": "^0.4.0",
     "ignore": "^5.2.4",
     "openai": "^4.57.0",
+    "pocketbase": "^0.25.0",
+    "react-hook-form": "^7.54.2",
     "react-loading": "^2.0.3",
     "react-markdown": "^9.0.1"
   },
   "devDependencies": {
+    "@types/cookie": "^1.0.0",
     "by-node-env": "^2.0.1",
     "check-engines": "^1.6.0",
     "husky": "^8.0.3",

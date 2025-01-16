@@ -10,12 +10,10 @@ import { GoodStuffListPageProps } from '@/pages/good-stuff-list'
 
 import styles from './NotionInsights.module.scss'
 
-
 const LearnMore = () => {
   const [isExpanded, setIsExpanded] = useState(false)
   const handleExpand = () => {
     setIsExpanded(!isExpanded)
-    console.log('whynot', isExpanded)
   }
   return (
     <>

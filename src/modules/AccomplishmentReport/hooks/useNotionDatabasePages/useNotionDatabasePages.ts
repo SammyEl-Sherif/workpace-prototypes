@@ -32,8 +32,6 @@ export const useNotionDatabasePages = ({
     { data },
     null
   )
-  console.log('response?.data', response?.data)
-  console.log('filters', filters)
   return {
     pages: response?.data ?? [],
     isLoading,

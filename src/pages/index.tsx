@@ -23,7 +23,7 @@ const HomePage = ({ projects }: HomePageProps) => {
   return (
     <MainLayout>
       <DocumentTitle title="Home" />
-      <WorkpaceProjects projects={projects} />
+      <WorkpaceProjects />
     </MainLayout>
   )
 }
