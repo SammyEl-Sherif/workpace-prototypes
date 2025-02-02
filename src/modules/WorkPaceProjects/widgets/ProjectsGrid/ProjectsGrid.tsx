@@ -15,7 +15,15 @@ export const ProjectsGrid = () => {
   }, [clientSideProjects])
 
   return (
-    <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'left' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexFlow: 'row wrap',
+        justifyContent: 'left',
+        marginTop: '35px',
+        marginBottom: '35px',
+      }}
+    >
       {Array.isArray(projectList) &&
         projectList.map((project: ProjectsRecord, index) => {
           return <ProjectCard key={index} {...project} />

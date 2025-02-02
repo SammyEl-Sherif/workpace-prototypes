@@ -1,11 +1,12 @@
 @use '@workpace/design-system/dist/design-tokens' as *;
+@import '@fontsource/roboto/400.css';
+@import '@fontsource/roboto/500.css';
+@import '@fontsource/roboto/700.css';
 
 :root {
   --max-width: 1100px;
   --border-radius: 12px;
-  --font-mono: ui-monospace, menlo, monaco, 'Cascadia Mono', 'Segoe UI Mono', 'Roboto Mono',
-    'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro', 'Fira Mono', 'Droid Sans Mono',
-    'Courier New', monospace;
+  --font-mono: 'Roboto', serif;
   --foreground-rgb: 255, 255, 255;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
@@ -80,6 +81,7 @@ body {
 body {
   color: rgb(0, 0, 0);
   background: rgb(255, 255, 255);
+  font-family: var(--font-mono);
 }
 
 a {

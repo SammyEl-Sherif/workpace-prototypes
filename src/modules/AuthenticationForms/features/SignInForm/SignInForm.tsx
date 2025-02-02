@@ -8,7 +8,6 @@ import { UsersRecord } from '@/pocketbase-types'
 import inputStyles from './InputField.module.scss'
 import styles from './SignInForm.module.scss'
 
-
 interface InputFieldProps extends React.ComponentPropsWithoutRef<'input'> {
   label?: React.ReactNode
   icon?: React.ReactNode

@@ -14,7 +14,6 @@ export const ProjectCard: React.FC<ProjectsRecord> = ({ url, title, thumbnail })
           textAlign: 'center',
           verticalAlign: 'center',
           alignContent: 'center',
-          margin: '3vw',
         }}
       >
         {title}
