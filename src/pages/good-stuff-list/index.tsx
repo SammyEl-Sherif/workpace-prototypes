@@ -17,9 +17,9 @@ export interface GoodStuffListPageProps {
 
 export const getServerSideProps: GetServerSideProps = withPageRequestWrapper(async (context) => {
   const { databases } = await withNotionClient(async (_, __, client) => {
-    const databases = await getNotionDatabasesController(client) // keep, a users list of databases, need auth
+    const { data } = await getNotionDatabasesController(client)
     return {
-      databases: databases.data,
+      databases: data,
     }
   })(context.req, context.res)
 

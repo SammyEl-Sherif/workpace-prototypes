@@ -1,0 +1,30 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.container {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: $size-150;
+  padding: $size-500;
+  margin: $size-500;
+  outline: solid black 1px;
+  border-radius: 4px;
+}
+
+.button {
+  padding: 10px;
+  background-color: black;
+  color: white !important;
+  font-size: $font-button-md-font-size;
+  line-height: $font-button-md-line-height;
+  font-weight: $font-button-font-weight-default;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-around;
+  max-width: 200px;
+
+  &:hover {
+    background-color: black;
+    color: white !important;
+    cursor: pointer;
+  }
+}

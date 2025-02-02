@@ -1,17 +1,24 @@
+import { useEffect, useState } from 'react'
+
+import { useNotionDatabaseContext } from '@/modules/AccomplishmentReport/contexts'
+import { ProjectsRecord } from '@/pocketbase-types'
+
 import { ProjectCard } from '../../entries'
 import { useProjects } from '../../hooks'
 
 export const ProjectsGrid = () => {
-  const { response } = useProjects()
-  const projects = response.response
-  console.log(projects)
+  const [clientSideProjects] = useProjects()
+  const [projectList, setProjectList] = useState<ProjectsRecord[] | []>([])
+
+  useEffect(() => {
+    setProjectList(clientSideProjects ?? [])
+  }, [clientSideProjects])
+
   return (
     <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'left' }}>
-      {Array.isArray(projects) &&
-        projects.map((project) => {
-          return (
-            <ProjectCard urlPath={project.url} key={project.collectionId} name={project.title} />
-          )
+      {Array.isArray(projectList) &&
+        projectList.map((project: ProjectsRecord, index) => {
+          return <ProjectCard key={index} {...project} />
         })}
     </div>
   )

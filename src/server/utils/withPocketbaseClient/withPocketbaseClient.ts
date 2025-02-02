@@ -1,6 +1,7 @@
 import { GetServerSidePropsContext } from 'next/types'
 import PocketBase from 'pocketbase'
-import { PocketbaseServerSide as pbClient } from '@/utils'
+
+import { initPocketBase } from '@/utils'
 
 export const withPocketbaseClient = <
   TRequest extends GetServerSidePropsContext['req'],
@@ -10,6 +11,7 @@ export const withPocketbaseClient = <
   handler: (req: TRequest, res: TResponse, pbClient: PocketBase) => Promise<TReturn>
 ) => {
   return async (request: TRequest, response: TResponse) => {
-    return handler(request, response, pbClient)
+    const pb = await initPocketBase({ request, response })
+    return handler(request, response, pb)
   }
 }

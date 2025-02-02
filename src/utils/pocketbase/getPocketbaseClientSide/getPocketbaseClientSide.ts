@@ -1,8 +1,5 @@
 import PocketBase from 'pocketbase'
 
-const POCKET_BASE_URL = 'http://127.0.0.1:8090'
-
-// Create a singleton instance
-const PocketbaseClientSide = new PocketBase(POCKET_BASE_URL)
+const PocketbaseClientSide = new PocketBase(process.env.POCKET_BASE_URL)
 
 export default PocketbaseClientSide

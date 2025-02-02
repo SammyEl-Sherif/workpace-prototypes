@@ -1,22 +1,22 @@
-import { HttpResponse } from '@/server/types'
 import PocketBase from 'pocketbase'
 
-type ProjectListResponse = {}
+import { ProjectsRecord } from '@/pocketbase-types'
+import { HttpResponse } from '@/server/types'
 
 export const getProjectsController = async (
   pbClient: PocketBase
-): Promise<HttpResponse<ProjectListResponse>> => {
+): Promise<HttpResponse<ProjectsRecord[] | null>> => {
   try {
-    const records = await pbClient.collection('projects').getFullList({
+    const records: ProjectsRecord[] = await pbClient.collection('projects').getFullList({
       sort: '-title',
     })
     return {
-      data: { response: records ?? [] },
+      data: records ?? null,
       status: 200,
     }
   } catch (error) {
     return {
-      data: { response: [] },
+      data: null,
       status: 500,
     }
   }

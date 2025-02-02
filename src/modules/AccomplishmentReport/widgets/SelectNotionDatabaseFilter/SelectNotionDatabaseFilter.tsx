@@ -42,9 +42,6 @@ export const SelectNotionDatabaseFilter = ({ label }: SelectProps) => {
     })
   }
 
-  /* const isStatus = Object.keys(filters).includes('status')
-  console.log(isStatus, filters) */
-
   return (
     <div className={styles.container}>
       <div style={{ position: 'relative' }}>

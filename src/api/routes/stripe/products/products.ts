@@ -10,8 +10,8 @@ export const getStripeProductsRoute = withApiClient<NextApiRequest, NextApiRespo
     try {
       if (request.method === 'GET') {
         try {
-          const data = await getStripeProductsController(httpClient, { limit: 2 }) // the controller
-          response.status(200).json(data)
+          const { data, status } = await getStripeProductsController(httpClient, { limit: 2 }) // the controller
+          response.status(status).json(data)
         } catch (err: any) {
           response.status(err.statusCode || 500).json(err.message)
         }

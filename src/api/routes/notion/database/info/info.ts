@@ -9,10 +9,10 @@ export const getNotionDatabaseInfoRoute = withNotionClient<NextApiRequest, NextA
 
     try {
       try {
-        const data = await getNotionDatabaseInfoController(notionClient, database_id)
-        response.status(200).json(data)
-      } catch (err: any) {
-        response.status(err.statusCode || 500).json(err.message)
+        const { data, status } = await getNotionDatabaseInfoController(notionClient, database_id)
+        response.status(status).json(data)
+      } catch (error: any) {
+        response.status(error.statusCode || 500).json(error.message)
       }
       response.status(200)
     } catch (error) {

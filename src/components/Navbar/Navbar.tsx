@@ -1,23 +1,33 @@
+import { useState } from 'react'
+
+import { signOut, useSession } from 'next-auth/react'
+
 import { getAppName } from '@/utils'
 
 import styles from './Navbar.module.scss'
-import { Button } from '@workpace/design-system'
-import { usePocketbaseLogin } from '@/hooks/usePocketbaseLogin'
-import { useEffect } from 'react'
 
 const Navbar = () => {
-  const { user, isLoading, makeRequest } = usePocketbaseLogin()
-  useEffect(() => {
-    makeRequest()
-  }, [])
+  const handleSignOut = async () => {
+    await signOut({ redirect: true, callbackUrl: '/signin' })
+  }
+  const { data, status } = useSession()
+
   return (
-    <a href="http://localhost:3000/">
-      <div className={styles.container}>
+    <div className={styles.container}>
+      <a href="http://localhost:3000/">
         <h1 className={styles.brandName}>{getAppName()}</h1>
-        <h3 style={{ color: 'white' }}>{user?.email}</h3>
-        <button onClick={makeRequest}>sign in</button>
+      </a>
+      <div className={styles.authStatus}>
+        {status === 'authenticated' ? <>{data?.user?.name}</> : <>🚫</>}
+        {status === 'authenticated' ? (
+          <button onClick={handleSignOut} className={styles.button}>
+            Sign out
+          </button>
+        ) : (
+          <button onClick={() => (window.location.href = '/login')}>Sign In</button>
+        )}
       </div>
-    </a>
+    </div>
   )
 }
 

@@ -2,30 +2,41 @@ import React from 'react'
 
 import { GetServerSideProps } from 'next'
 
+import { getProjectsController } from '@/api/controllers/pocketbase'
 import { DocumentTitle } from '@/layout/DocumentTitle'
 import MainLayout from '@/layout/MainLayout'
 import { WorkpaceProjects } from '@/layout/pages'
+import { PocketbaseProjectsContextProvider } from '@/modules'
+import { ProjectsRecord } from '@/pocketbase-types'
 import { withPageRequestWrapper } from '@/server/utils/withPageRequestWrapper'
+import { withPocketbaseClient } from '@/server/utils/withPocketbaseClient'
 
-export interface HomePageProps {
-  projects: string[]
+type WorkPaceProjectsPageProps = {
+  projects: ProjectsRecord[] | null
 }
 
 export const getServerSideProps: GetServerSideProps = withPageRequestWrapper(async (context) => {
-  const projects = ['http://localhost:3000/good-stuff-list', 'idea2', 'idea3', 'idea4']
+  const { projects } = await withPocketbaseClient(async (_, __, client) => {
+    const { data } = await getProjectsController(client) // keep, a users list of databases, need auth
+    return {
+      projects: data,
+    }
+  })(context.req, context.res)
 
   return {
     projects,
   }
 })
 
-const HomePage = ({ projects }: HomePageProps) => {
+const WorkPaceProjectsPage = ({ projects }: WorkPaceProjectsPageProps) => {
   return (
-    <MainLayout>
-      <DocumentTitle title="Home" />
-      <WorkpaceProjects />
-    </MainLayout>
+    <PocketbaseProjectsContextProvider projects={projects}>
+      <MainLayout>
+        <DocumentTitle title="Home" />
+        <WorkpaceProjects />
+      </MainLayout>
+    </PocketbaseProjectsContextProvider>
   )
 }
 
-export default HomePage
+export default WorkPaceProjectsPage

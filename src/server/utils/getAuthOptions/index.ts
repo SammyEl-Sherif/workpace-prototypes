@@ -1,0 +1,1 @@
+export { getAuthOptions } from './getAuthOptions'

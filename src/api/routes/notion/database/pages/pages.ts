@@ -9,8 +9,8 @@ export const getNotionDatabasePagesRoute = withNotionClient<NextApiRequest, Next
 
     try {
       try {
-        const data = await getNotionPagesController(notionClient, database_id, filters)
-        response.status(200).json(data)
+        const { data, status } = await getNotionPagesController(notionClient, database_id, filters)
+        response.status(status).json(data)
       } catch (err: any) {
         response.status(err.statusCode || 500).json(err.message)
       }

@@ -22,7 +22,6 @@ export const withPageRequestWrapper = <T extends { [key: string]: any } = { [key
     } catch (error) {
       // log errors here once util is implemented
       // then return a redirect to somewhere
-      console.log('[ERROR] withPageRequestWrapper')
       throw error
     }
   }

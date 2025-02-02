@@ -1,15 +1,11 @@
 import { useFetch } from '@/hooks'
-import { RecordModel } from 'pocketbase'
+import { ProjectsRecord } from '@/pocketbase-types'
 
 export const useProjects = () => {
-  const [response, isLoading, error] = useFetch<{ data: RecordModel[] }, null>(
+  const [projects, isLoading, error] = useFetch<ProjectsRecord[], null>(
     'pocketbase/collections/projects',
     {},
     null
   )
-  return {
-    response: response?.data ?? ([] as RecordModel[]),
-    isLoading,
-    error,
-  }
+  return [projects ?? null, isLoading, error] as const
 }

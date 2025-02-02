@@ -1,22 +1,9 @@
-import { useFetch } from '@/hooks'
-import { RecordAuthResponse, RecordModel } from 'pocketbase'
+import { useEvent, useManualFetch } from '@/hooks'
 
 export const usePocketbaseLogin = () => {
-  const [response, isLoading, error, _, makeRequest] = useFetch<{ user: RecordAuthResponse }, null>(
-    'auth/login',
-    {
-      data: {
-        username: process.env.PB_ADMIN_USERNAME,
-        password: process.env.PB_ADMIN_PASSWORD,
-      },
-      manual: true,
-    },
-    null
-  )
-  return {
-    user: response?.user ?? null,
-    isLoading,
-    error,
-    makeRequest,
-  }
+  const signIn = useManualFetch<any>('auth/login', { method: 'post' })
+
+  return useEvent(async ({ email, password }: { email?: string; password?: string }) => {
+    return signIn({ data: { email, password } })
+  })
 }

@@ -13,8 +13,12 @@ export const generateReportRoute = withOpenaiClient<
     request.body
   try {
     try {
-      const data = await getYearEndReviewController(notionClient, accomplishments, userPrompt)
-      response.status(200).json(data)
+      const { data, status } = await getYearEndReviewController(
+        notionClient,
+        accomplishments,
+        userPrompt
+      )
+      response.status(status).json(data)
     } catch (err: any) {
       response.status(err.statusCode || 500).json(err.message)
     }

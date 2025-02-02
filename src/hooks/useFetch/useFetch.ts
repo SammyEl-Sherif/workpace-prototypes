@@ -14,12 +14,12 @@ export const useFetch = <T, K>(
     delay,
     signOutOnUnauthorizedRequest,
     interceptors,
-    manual = false, // Add this line
+    manual = false,
     ...config
   }: RequestConfig & {
     delay?: number
     signOutOnUnauthorizedRequest?: boolean
-    manual?: boolean // Add this line
+    manual?: boolean
     interceptors?: {
       request: {
         onFulfilled: (config: RequestConfig) => RequestConfig | Promise<RequestConfig>
@@ -28,7 +28,6 @@ export const useFetch = <T, K>(
   },
   defaultValue: K
 ): [T | K, boolean, HttpError | Error | null, number | null, () => void] => {
-  // Add () => void to return type
   const [{ response, error, isLoading, statusCode }, setState] = useState<{
     response: T | K
     error: HttpError | Error | null

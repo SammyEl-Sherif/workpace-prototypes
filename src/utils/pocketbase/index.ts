@@ -1,2 +1,2 @@
 export * from './getPocketbaseClientSide'
-export * from './getPocketbaseServerSide'
+export * from './initPocketBase'
