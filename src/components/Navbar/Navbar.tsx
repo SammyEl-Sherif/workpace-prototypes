@@ -1,5 +1,3 @@
-import { useState } from 'react'
-
 import { signOut, useSession } from 'next-auth/react'
 
 import { getAppName } from '@/utils'
@@ -12,9 +10,11 @@ const Navbar = () => {
   }
   const { data, status } = useSession()
 
+  const isProd = process.env.NODE_ENV === 'production'
+
   return (
     <div className={styles.container}>
-      <a href="http://localhost:3000/">
+      <a href={isProd ? 'http://workpace.io/' : 'http://localhost:3000/'}>
         <h1 className={styles.brandName}>{getAppName()}</h1>
       </a>
       <div className={styles.authStatus}>

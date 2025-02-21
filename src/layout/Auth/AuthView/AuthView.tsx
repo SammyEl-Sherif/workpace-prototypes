@@ -4,8 +4,6 @@ import { useRouter } from 'next/router'
 import { signIn, useSession } from 'next-auth/react'
 import Loading from 'react-loading'
 
-import { PocketbaseClientSide as pbc } from '@/utils'
-
 type AuthView = {
   children: ReactNode
 }
@@ -18,8 +16,12 @@ const AuthView: FC<AuthView> = ({ children }) => {
     if (pathname !== '/signin') {
       return
     }
-
-    signIn('auth0', { callbackUrl: 'http://localhost:3000/' }, { prompt: 'login' })
+    const isProd = process.env.NODE_ENV === 'production'
+    signIn(
+      'auth0',
+      { callbackUrl: isProd ? 'http://workpace.io/' : 'http://localhost:3000/' },
+      { prompt: 'login' }
+    )
   }, [pathname])
 
   if (session.status === 'loading' || pathname === '/signin') {
