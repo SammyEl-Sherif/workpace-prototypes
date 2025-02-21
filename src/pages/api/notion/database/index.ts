@@ -1,2 +1,2 @@
-export * from './info'
-export * from './pages'
+export { default as info } from './info'
+export { default as pages } from './pages'

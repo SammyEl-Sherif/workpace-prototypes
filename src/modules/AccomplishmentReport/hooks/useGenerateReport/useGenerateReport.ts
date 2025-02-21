@@ -15,11 +15,11 @@ export const useGenerateReport = ({ pages, userPrompt }: UseGenerateReportParamP
     return { pages, userPrompt: userPrompt ?? DefaultPrompts.yearEndReview }
   }, [pages, userPrompt])
 
-  const [response, isLoading, error, _, makeRequest] = useFetch<GenerateReportDTO, null>(
+  const [response, isLoading, error, , makeRequest] = useFetch<GenerateReportDTO, null>(
     'openai/generateReport',
     { data, manual: true },
     null
   )
 
-  return [response ?? '', isLoading, error, makeRequest] as const
+  return [response?.response ?? '', isLoading, error, makeRequest] as const
 }

@@ -1,1 +1,1 @@
-export { withPocketbaseClient } from './withPocketbaseClient.ts'
+export { withPocketbaseClient } from './withPocketbaseClient'

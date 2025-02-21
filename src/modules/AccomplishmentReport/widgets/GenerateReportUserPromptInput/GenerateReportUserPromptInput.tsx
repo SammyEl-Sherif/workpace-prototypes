@@ -15,7 +15,7 @@ type GenerateReportUserPromptInputProps = {
 
 const GenerateReportUserPromptInput = ({ pages }: GenerateReportUserPromptInputProps) => {
   const [userPrompt, setUserPrompt] = useState<string>()
-  const { response, isLoading, makeRequest } = useGenerateReport({
+  const [response, isLoading, , makeRequest] = useGenerateReport({
     pages: pages ?? [],
     userPrompt,
   })

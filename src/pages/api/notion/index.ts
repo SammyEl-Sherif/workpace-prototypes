@@ -1,1 +1,1 @@
-export * from './database'
+export { info, pages } from './database'
