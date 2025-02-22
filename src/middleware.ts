@@ -2,7 +2,8 @@ import { NextResponse } from 'next/server'
 import { NextRequestWithAuth, withAuth } from 'next-auth/middleware'
 
 export async function middleware(request: NextRequestWithAuth) {
-  return (
+  return NextResponse.next()
+  /* return (
     withAuth(
       async () => {
         return NextResponse.next()
@@ -21,7 +22,7 @@ export async function middleware(request: NextRequestWithAuth) {
         },
       }
     ) as (request: NextRequestWithAuth) => void
-  )(request)
+  )(request) */
 }
 
 export const config = {
