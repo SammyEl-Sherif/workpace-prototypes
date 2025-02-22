@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server'
 import { NextRequestWithAuth, withAuth } from 'next-auth/middleware'
 
+import { getAuthOptions } from './server/utils'
+
 export async function middleware(request: NextRequestWithAuth) {
-  console.log('COOKIE', request.cookies)
   return (
     withAuth(
       async () => {
@@ -20,6 +21,9 @@ export async function middleware(request: NextRequestWithAuth) {
         },
         pages: {
           signIn: '/signin',
+        },
+        cookies: {
+          ...getAuthOptions().cookies,
         },
       }
     ) as (request: NextRequestWithAuth) => void

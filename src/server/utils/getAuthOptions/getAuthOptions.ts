@@ -1,8 +1,7 @@
-import { GetServerSidePropsContext } from 'next'
 import { NextAuthOptions } from 'next-auth'
 import Auth0 from 'next-auth/providers/auth0'
 
-export const getAuthOptions = (req: GetServerSidePropsContext['req']): NextAuthOptions => {
+export const getAuthOptions = (): NextAuthOptions => {
   const maxAge = 60 * 60 // 1h
   const providers = [
     Auth0({
