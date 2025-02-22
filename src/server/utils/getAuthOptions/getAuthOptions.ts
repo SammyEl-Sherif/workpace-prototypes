@@ -26,17 +26,10 @@ export const getAuthOptions = (req: GetServerSidePropsContext['req']): NextAuthO
     jwt: {
       maxAge,
     },
-    callbacks: {
-      async session({ session }) {
-        return session
-      },
-      async jwt({ token }) {
-        return token
-      },
-    },
     pages: {
       signIn: '/signin',
     },
+    secret: process.env.NEXTAUTH_SECRET,
     cookies: {
       sessionToken: {
         name: 'next-auth.session-token',
@@ -62,6 +55,15 @@ export const getAuthOptions = (req: GetServerSidePropsContext['req']): NextAuthO
           sameSite: 'lax',
           path: '/',
           secure: true,
+        },
+      },
+      pkceCodeVerifier: {
+        name: 'next-auth.pkce.code_verifier',
+        options: {
+          httpOnly: true,
+          sameSite: 'lax',
+          path: '/',
+          secure: process.env.NODE_ENV === 'production',
         },
       },
     },
