@@ -44,9 +44,7 @@ export const getAuthOptions = (req: GetServerSidePropsContext['req']): NextAuthO
           httpOnly: true,
           sameSite: 'lax',
           path: '/',
-          secure:
-            process.env.NODE_ENV === 'production' ||
-            (process.env.NEXTAUTH_URL || '').startsWith('https'),
+          secure: process.env.NODE_ENV === 'production',
         },
       },
       csrfToken: {
@@ -55,9 +53,7 @@ export const getAuthOptions = (req: GetServerSidePropsContext['req']): NextAuthO
           httpOnly: true,
           sameSite: 'lax',
           path: '/',
-          secure:
-            process.env.NODE_ENV === 'production' ||
-            (process.env.NEXTAUTH_URL || '').startsWith('https'),
+          secure: process.env.NODE_ENV === 'production',
         },
       },
       callbackUrl: {
@@ -65,9 +61,7 @@ export const getAuthOptions = (req: GetServerSidePropsContext['req']): NextAuthO
         options: {
           sameSite: 'lax',
           path: '/',
-          secure:
-            process.env.NODE_ENV === 'production' ||
-            (process.env.NEXTAUTH_URL || '').startsWith('https'),
+          secure: true,
         },
       },
     },
