@@ -29,10 +29,14 @@ export const getAuthOptions = (req: GetServerSidePropsContext['req']): NextAuthO
     pages: {
       signIn: '/signin',
     },
-    secret: process.env.NEXTAUTH_SECRET,
     callbacks: {
-      async redirect({ url, baseUrl }) {
-        return baseUrl
+      async session({ session, token, user }) {
+        console.log('SESSION CALLBACK', session, token, user)
+        return session
+      },
+      async jwt({ token, user, account, profile }) {
+        console.log('SESSION CALLBACK', token, user, account, profile)
+        return token
       },
     },
     cookies: {
@@ -70,6 +74,17 @@ export const getAuthOptions = (req: GetServerSidePropsContext['req']): NextAuthO
           path: '/',
           secure: true,
         },
+      },
+    },
+    logger: {
+      error(code, metadata) {
+        console.error(code, metadata)
+      },
+      warn(code) {
+        console.warn(code)
+      },
+      debug(code, metadata) {
+        console.debug(code, metadata)
       },
     },
   }
