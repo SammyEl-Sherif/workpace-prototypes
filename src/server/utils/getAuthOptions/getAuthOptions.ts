@@ -36,39 +36,39 @@ export const getAuthOptions = (req: GetServerSidePropsContext['req']): NextAuthO
       },
     },
     cookies: {
+      pkceCodeVerifier: {
+        name: 'next-auth.pkce.code_verifier',
+        options: {
+          httpOnly: true,
+          sameSite: 'none',
+          path: '/',
+          secure: true,
+        },
+      },
       sessionToken: {
         name: 'next-auth.session-token',
         options: {
           httpOnly: true,
-          sameSite: 'lax',
+          sameSite: 'none',
           path: '/',
-          secure: process.env.NODE_ENV === 'production',
+          secure: true,
+        },
+      },
+      callbackUrl: {
+        name: 'next-auth.callback-url',
+        options: {
+          sameSite: 'none',
+          path: '/',
+          secure: true,
         },
       },
       csrfToken: {
         name: 'next-auth.csrf-token',
         options: {
           httpOnly: true,
-          sameSite: 'lax',
+          sameSite: 'none',
           path: '/',
-          secure: process.env.NODE_ENV === 'production',
-        },
-      },
-      callbackUrl: {
-        name: 'next-auth.callback-url',
-        options: {
-          sameSite: 'lax',
-          path: '/',
-          secure: process.env.NODE_ENV === 'production',
-        },
-      },
-      pkceCodeVerifier: {
-        name: 'next-auth.pkce.code_verifier',
-        options: {
-          httpOnly: true,
-          sameSite: 'lax',
-          path: '/',
-          secure: process.env.NODE_ENV === 'production',
+          secure: true,
         },
       },
     },
