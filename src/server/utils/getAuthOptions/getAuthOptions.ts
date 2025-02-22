@@ -35,42 +35,33 @@ export const getAuthOptions = (req: GetServerSidePropsContext['req']): NextAuthO
         return session
       },
       async jwt({ token, user, account, profile }) {
-        console.log('SESSION CALLBACK', token, user, account, profile)
+        console.log('JWT CALLBACK', token, user, account, profile)
         return token
       },
     },
     cookies: {
-      pkceCodeVerifier: {
-        name: 'next-auth.pkce.code_verifier',
-        options: {
-          httpOnly: true,
-          sameSite: 'none',
-          path: '/',
-          secure: true,
-        },
-      },
       sessionToken: {
-        name: 'next-auth.session-token',
+        name: `${process.env.NODE_ENV === 'production' ? '__Secure-' : ''}next-auth.session-token`,
         options: {
           httpOnly: true,
-          sameSite: 'none',
-          path: '/',
-          secure: true,
-        },
-      },
-      callbackUrl: {
-        name: 'next-auth.callback-url',
-        options: {
           sameSite: 'none',
           path: '/',
           secure: true,
         },
       },
       csrfToken: {
-        name: 'next-auth.csrf-token',
+        name: `${process.env.NODE_ENV === 'production' ? '__Host-' : ''}next-auth.csrf-token`,
         options: {
           httpOnly: true,
-          sameSite: 'none',
+          sameSite: 'lax',
+          path: '/',
+          secure: process.env.NODE_ENV === 'production',
+        },
+      },
+      callbackUrl: {
+        name: `${process.env.NODE_ENV === 'production' ? '__Secure-' : ''}next-auth.callback-url`,
+        options: {
+          sameSite: 'lax',
           path: '/',
           secure: true,
         },
