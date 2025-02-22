@@ -19,7 +19,7 @@ const AuthView: FC<AuthView> = ({ children }) => {
     const isProd = process.env.NODE_ENV === 'production'
     signIn(
       'auth0',
-      { callbackUrl: isProd ? 'http://workpace.io/' : 'http://localhost:3000/' },
+      { callbackUrl: isProd ? 'https://workpace.io/' : 'http://localhost:3000/' },
       { prompt: 'login' }
     )
   }, [pathname])

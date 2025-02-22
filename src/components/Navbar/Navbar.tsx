@@ -14,7 +14,7 @@ const Navbar = () => {
 
   return (
     <div className={styles.container}>
-      <a href={isProd ? 'http://workpace.io/' : 'http://localhost:3000/'}>
+      <a href={isProd ? 'https://workpace.io/' : 'http://localhost:3000/'}>
         <h1 className={styles.brandName}>{getAppName()}</h1>
       </a>
       <div className={styles.authStatus}>
