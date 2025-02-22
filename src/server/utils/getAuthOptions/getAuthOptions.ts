@@ -54,7 +54,7 @@ export const getAuthOptions = (req: GetServerSidePropsContext['req']): NextAuthO
         options: {
           sameSite: 'lax',
           path: '/',
-          secure: true,
+          secure: process.env.NODE_ENV === 'production',
         },
       },
       pkceCodeVerifier: {
