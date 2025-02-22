@@ -3,7 +3,6 @@ import { NextRequestWithAuth, withAuth } from 'next-auth/middleware'
 
 export async function middleware(request: NextRequestWithAuth) {
   console.log('COOKIE', request.cookies)
-  console.log('HEADERS', request.headers)
   return (
     withAuth(
       async () => {
@@ -12,7 +11,7 @@ export async function middleware(request: NextRequestWithAuth) {
       {
         callbacks: {
           authorized: async ({ token }) => {
-            console.log('TOKEN', !token, token, request.nextauth.token)
+            console.log('TOKEN', !token, token)
             if (!token) {
               return false
             }

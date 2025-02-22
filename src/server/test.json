@@ -1,0 +1,18 @@
+{
+  "_gumroad_guid": { "name": "_gumroad_guid", "value": "130b24f0-6b38-4c63-a987-055fe90e9389" },
+  "_ga": { "name": "_ga", "value": "GA1.1.1048785225.1740023547" },
+  "_ga_6LJN6D94N6": { "name": "_ga_6LJN6D94N6", "value": "GS1.1.1740023547.1.1.1740023679.0.0.0" },
+  "next-auth.csrf-token": {
+    "name": "next-auth.csrf-token",
+    "value": "88aed075caaad1898ebb162a7be3c75255d3586d120b2d2b8bbfca7b3f9a0104|b56125d2feccad0221e16424caee28d84e8b1fec896fa4221a95546b6c6056a4"
+  },
+  "next-auth.callback-url": { "name": "next-auth.callback-url", "value": "https://workpace.io" },
+  "__Secure-next-auth.state": {
+    "name": "__Secure-next-auth.state",
+    "value": "eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0..-DuNz9R4XXoavz1v.-TdTaD40YzLeOEUeC-wjxOCYhOxpGRg7C8zRHOuk95kdk3ZWnmEKE99mirtLOzaRQBnK0Gdz_-_HiM4PMkYYvrOb7kl0ZGHczP5UOMDHJbCXgBftX9R6I8YPQ9Dasin4_3wEbVwY702glHfTLvxgh3p1kC65Eflx0hNIzSBqG2EvMwRB_bs.vZ8OerNEzPhOyl7x5qMVHA"
+  },
+  "next-auth.pkce.code_verifier": {
+    "name": "next-auth.pkce.code_verifier",
+    "value": "eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0..X2zB4zrB-kCxOSgp.Ciw2zZcHYeMd_dXjGkY0ycRPtSsikiDKi1FHDM_4A3DxBNLVjt8xfi_ZIX2fX7q498HDY9TVfQWu8ZPz_Kir4K1I8HU36-yFcgAvCyLpWf9x39euCeV1-zO99V0PotF7oGjSY7lNi0DLLLS8dQssMK46ci0_IsWeJuQoWpT2mkgeGRbh9Xw.YfwWoq7twXJrGeujJcHKiQ"
+  }
+}
