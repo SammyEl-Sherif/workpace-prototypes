@@ -30,6 +30,11 @@ export const getAuthOptions = (req: GetServerSidePropsContext['req']): NextAuthO
       signIn: '/signin',
     },
     secret: process.env.NEXTAUTH_SECRET,
+    callbacks: {
+      async redirect({ url, baseUrl }) {
+        return baseUrl
+      },
+    },
     cookies: {
       sessionToken: {
         name: 'next-auth.session-token',
