@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { NextRequestWithAuth, withAuth } from 'next-auth/middleware'
 
+import { Routes } from './interfaces/routes'
 import { getAuthOptions } from './server/utils'
 
 export async function middleware(request: NextRequestWithAuth) {
@@ -19,7 +20,7 @@ export async function middleware(request: NextRequestWithAuth) {
           },
         },
         pages: {
-          signIn: '/signin',
+          signIn: Routes.SIGNIN,
         },
         cookies: {
           ...getAuthOptions().cookies,

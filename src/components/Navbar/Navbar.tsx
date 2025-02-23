@@ -1,12 +1,13 @@
 import { signOut, useSession } from 'next-auth/react'
 
+import { Routes } from '@/interfaces/routes'
 import { getAppName } from '@/utils'
 
 import styles from './Navbar.module.scss'
 
 const Navbar = () => {
   const handleSignOut = async () => {
-    await signOut({ redirect: true, callbackUrl: '/signin' })
+    await signOut({ redirect: true, callbackUrl: Routes.SIGNIN })
   }
   const { data, status } = useSession()
 

@@ -4,6 +4,8 @@ import { useRouter } from 'next/router'
 import { signIn, useSession } from 'next-auth/react'
 import Loading from 'react-loading'
 
+import { Routes } from '@/interfaces/routes'
+
 type AuthView = {
   children: ReactNode
 }
@@ -13,7 +15,7 @@ const AuthView: FC<AuthView> = ({ children }) => {
   const session = useSession()
 
   useEffect(() => {
-    if (pathname !== '/signin') {
+    if (pathname !== Routes.SIGNIN) {
       return
     }
     const isProd = process.env.NODE_ENV === 'production'
@@ -24,7 +26,7 @@ const AuthView: FC<AuthView> = ({ children }) => {
     )
   }, [pathname])
 
-  if (session.status === 'loading' || pathname === '/signin') {
+  if (session.status === 'loading' || pathname === Routes.SIGNIN) {
     return <Loading />
   }
 

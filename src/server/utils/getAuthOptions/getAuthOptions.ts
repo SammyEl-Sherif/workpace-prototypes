@@ -1,6 +1,8 @@
 import { NextAuthOptions } from 'next-auth'
 import Auth0 from 'next-auth/providers/auth0'
 
+import { Routes } from '@/interfaces/routes'
+
 export const getAuthOptions = (): NextAuthOptions => {
   const maxAge = 60 * 60 // 1h
   const providers = [
@@ -26,7 +28,7 @@ export const getAuthOptions = (): NextAuthOptions => {
       maxAge,
     },
     pages: {
-      signIn: '/signin',
+      signIn: Routes.SIGNIN,
     },
     cookies: {
       sessionToken: {
