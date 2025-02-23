@@ -1,9 +1,11 @@
-import { NextAuthOptions } from 'next-auth'
+import type { NextAuthOptions, Session } from 'next-auth'
+import { JWT } from 'next-auth/jwt'
 import Auth0 from 'next-auth/providers/auth0'
 
 import { Routes } from '@/interfaces/routes'
 
 import { getAuthCookiesOptions } from '../getAuthCookiesOptions'
+
 
 export const getAuthOptions = (): NextAuthOptions => {
   const maxAge = 60 * 60 // 1h
@@ -34,6 +36,17 @@ export const getAuthOptions = (): NextAuthOptions => {
     },
     cookies: {
       ...getAuthCookiesOptions(),
+    },
+    callbacks: {
+      async session({ session, token }: { session: Session; token: JWT }) {
+        if (session.user && 'image' in session.user && typeof session.user.image === 'undefined') {
+          session.user.image = null
+        }
+        return session
+      },
+      async redirect({ url, baseUrl }) {
+        return baseUrl
+      },
     },
     logger: {
       error(code, metadata) {
