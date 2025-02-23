@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { NextRequestWithAuth, withAuth } from 'next-auth/middleware'
 
 import { Routes } from './interfaces/routes'
-import { getAuthOptions } from './server/utils'
+import { getAuthCookiesOptions } from './server/utils'
 
 export async function middleware(request: NextRequestWithAuth) {
   return (
@@ -23,7 +23,7 @@ export async function middleware(request: NextRequestWithAuth) {
           signIn: Routes.SIGNIN,
         },
         cookies: {
-          ...getAuthOptions().cookies,
+          ...getAuthCookiesOptions(),
         },
       }
     ) as (request: NextRequestWithAuth) => void

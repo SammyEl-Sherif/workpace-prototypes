@@ -3,6 +3,8 @@ import Auth0 from 'next-auth/providers/auth0'
 
 import { Routes } from '@/interfaces/routes'
 
+import { getAuthCookiesOptions } from '../getAuthCookiesOptions'
+
 export const getAuthOptions = (): NextAuthOptions => {
   const maxAge = 60 * 60 // 1h
   const providers = [
@@ -31,32 +33,7 @@ export const getAuthOptions = (): NextAuthOptions => {
       signIn: Routes.SIGNIN,
     },
     cookies: {
-      sessionToken: {
-        name: `${process.env.NODE_ENV === 'production' ? '__Secure-' : ''}next-auth.session-token`,
-        options: {
-          httpOnly: true,
-          sameSite: 'none',
-          path: '/',
-          secure: true,
-        },
-      },
-      csrfToken: {
-        name: `${process.env.NODE_ENV === 'production' ? '__Host-' : ''}next-auth.csrf-token`,
-        options: {
-          httpOnly: true,
-          sameSite: 'lax',
-          path: '/',
-          secure: process.env.NODE_ENV === 'production',
-        },
-      },
-      callbackUrl: {
-        name: `${process.env.NODE_ENV === 'production' ? '__Secure-' : ''}next-auth.callback-url`,
-        options: {
-          sameSite: 'lax',
-          path: '/',
-          secure: true,
-        },
-      },
+      ...getAuthCookiesOptions(),
     },
     logger: {
       error(code, metadata) {

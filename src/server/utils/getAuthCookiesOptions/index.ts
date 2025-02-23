@@ -1,0 +1,1 @@
+export { getAuthCookiesOptions } from './getAuthCookiesOptions'
