@@ -28,16 +28,6 @@ export const getAuthOptions = (): NextAuthOptions => {
     pages: {
       signIn: '/signin',
     },
-    callbacks: {
-      async session({ session, token, user }) {
-        console.log('SESSION CALLBACK', session, token, user)
-        return session
-      },
-      async jwt({ token, user, account, profile }) {
-        console.log('JWT CALLBACK', token, user, account, profile)
-        return token
-      },
-    },
     cookies: {
       sessionToken: {
         name: `${process.env.NODE_ENV === 'production' ? '__Secure-' : ''}next-auth.session-token`,

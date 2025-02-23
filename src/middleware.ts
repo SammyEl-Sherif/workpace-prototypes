@@ -12,7 +12,6 @@ export async function middleware(request: NextRequestWithAuth) {
       {
         callbacks: {
           authorized: async ({ token }) => {
-            console.log('TOKEN', !token, token)
             if (!token) {
               return false
             }
