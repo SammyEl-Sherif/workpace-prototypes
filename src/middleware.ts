@@ -34,6 +34,6 @@ export const config = {
   /* https://nextjs.org/docs/app/building-your-application/routing/middleware#example */
   matcher: [
     '/:path',
-    '/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|signin).*)',
+    '/((?!api|_next/static|_next/image|_next/data|static|favicon.ico|sitemap.xml|robots.txt|signin).*)',
   ],
 }

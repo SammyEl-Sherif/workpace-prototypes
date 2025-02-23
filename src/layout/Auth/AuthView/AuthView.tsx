@@ -19,11 +19,12 @@ const AuthView: FC<AuthView> = ({ children }) => {
       return
     }
     const isProd = process.env.NODE_ENV === 'production'
-    signIn(
-      'auth0',
-      { callbackUrl: isProd ? 'https://workpace.io/' : 'http://localhost:3000/' },
-      { prompt: 'login' }
-    )
+    const callback = new URLSearchParams(window.location.search).get('callbackUrl') ?? ''
+    const callbackUrl = isProd
+      ? `https://workpace.io/${callback}`
+      : `http://localhost:3000/${callback}`
+
+    signIn('auth0', { callbackUrl }, { prompt: 'login' })
   }, [pathname])
 
   if (session.status === 'loading' || pathname === Routes.SIGNIN) {
