@@ -13,6 +13,7 @@ const Auth = ({ children }: AuthProps) => {
     <SessionProvider
       basePath="/api/auth"
       refetchInterval={59 * 60} // 59 minutes
+      refetchOnWindowFocus={true}
     >
       <AuthView>{children}</AuthView>
     </SessionProvider>
