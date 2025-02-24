@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 
-import { useNotionDatabaseContext } from '@/modules/AccomplishmentReport/contexts'
 import { ProjectsRecord } from '@/pocketbase-types'
 
 import { ProjectCard } from '../../entries'
@@ -15,7 +14,19 @@ export const ProjectsGrid = () => {
   }, [clientSideProjects])
 
   if (Array.isArray(projectList) && projectList.length === 0) {
-    return <div>There are no awesome ideas for you to check out yet, come back soonish.</div>
+    return (
+      <div
+        style={{
+          display: 'flex',
+          height: '25vh',
+          fontSize: '28px',
+          justifyContent: 'left',
+          alignItems: 'center',
+        }}
+      >
+        Hello, there are no awesome ideas for you to review yet, come back soonish ...
+      </div>
+    )
   }
 
   return (
