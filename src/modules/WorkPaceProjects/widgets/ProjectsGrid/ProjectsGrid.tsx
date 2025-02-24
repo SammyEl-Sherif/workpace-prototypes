@@ -14,6 +14,10 @@ export const ProjectsGrid = () => {
     setProjectList(clientSideProjects ?? [])
   }, [clientSideProjects])
 
+  if (Array.isArray(projectList) && projectList.length === 0) {
+    return <div>There are no awesome ideas for you to check out yet, come back soonish.</div>
+  }
+
   return (
     <div
       style={{
