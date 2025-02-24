@@ -6,7 +6,6 @@ import { Routes } from '@/interfaces/routes'
 
 import { getAuthCookiesOptions } from '../getAuthCookiesOptions'
 
-
 export const getAuthOptions = (): NextAuthOptions => {
   const maxAge = 60 * 60 // 1h
   const providers = [
@@ -46,17 +45,6 @@ export const getAuthOptions = (): NextAuthOptions => {
       },
       async redirect({ url, baseUrl }) {
         return baseUrl
-      },
-    },
-    logger: {
-      error(code, metadata) {
-        console.error(code, metadata)
-      },
-      warn(code) {
-        console.warn(code)
-      },
-      debug(code, metadata) {
-        console.debug(code, metadata)
       },
     },
   }
