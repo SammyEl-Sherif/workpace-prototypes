@@ -1,0 +1,36 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.card {
+  position: relative;
+  min-width: 300px;
+  min-height: 350px;
+  background-color: black;
+  color: white;
+  border-radius: 8px;
+  border: solid black 1px;
+  text-align: left;
+  align-content: flex-end;
+  padding: 2rem 1.5rem;
+  font-size: $font-headline-lg-font-size;
+  transition: all 0.3s ease;
+
+  &:hover {
+    outline: solid black 2px;
+    background-color: white;
+    color: black;
+  }
+}
+
+.description {
+  padding: 2rem 1.5rem;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: opacity 0.3s ease;
+  font-size: $font-headline-md-font-size;
+}
+
+.card:hover .description {
+  opacity: 1;
+}

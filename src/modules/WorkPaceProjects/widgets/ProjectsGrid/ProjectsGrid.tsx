@@ -37,8 +37,8 @@ export const ProjectsGrid = () => {
           marginBottom: '16px',
         }}
       >
-        Welcome to WorkPace&apos;s prototyping environment, where we seek to bring a change of pace
-        to your online workspace. Test ideas, share your feedback, and watch products evolve.
+        Welcome to WorkPace&apos;s prototyping environment, where we test products desgined to bring
+        a change of pace to your online workspace.
       </div>
       <div className={styles.grid}>
         {projectList.map((project: ProjectsRecord, index) => {

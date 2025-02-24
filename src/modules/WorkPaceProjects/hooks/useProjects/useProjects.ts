@@ -10,45 +10,31 @@ export const useProjects = (mock: boolean) => {
   return [
     [
       {
-        description: 'A collection of projects that I have worked on.',
+        description:
+          'This prototype enables me to create valuable artifacts, such as year-end reviews, resume sections, and LinkedIn experience descriptions, based on my accomplishments (task tracking in Notion).',
         id: '1',
-        thumbnail: 'https://via.placeholder.com/150',
         title: 'The Good Stuff List',
         url: '/good-stuff-list',
       },
       {
-        description: 'A collection of projects that I have worked on.',
-        id: '1',
-        thumbnail: 'https://via.placeholder.com/150',
-        title: 'The Good Stuff List',
+        description:
+          'This is a placeholder prototype. This links to the good stuff list prototype for now.',
+        id: '2',
+        title: 'Prototype 1',
         url: '/good-stuff-list',
       },
       {
-        description: 'A collection of projects that I have worked on.',
-        id: '1',
-        thumbnail: 'https://via.placeholder.com/150',
-        title: 'The Good Stuff List',
+        description:
+          'This is a placeholder prototype. This links to the good stuff list prototype for now.',
+        id: '3',
+        title: 'Prototype 2',
         url: '/good-stuff-list',
       },
       {
-        description: 'A collection of projects that I have worked on.',
-        id: '1',
-        thumbnail: 'https://via.placeholder.com/150',
-        title: 'The Good Stuff List',
-        url: '/good-stuff-list',
-      },
-      {
-        description: 'A collection of projects that I have worked on.',
-        id: '1',
-        thumbnail: 'https://via.placeholder.com/150',
-        title: 'The Good Stuff List',
-        url: '/good-stuff-list',
-      },
-      {
-        description: 'A collection of projects that I have worked on.',
-        id: '1',
-        thumbnail: 'https://via.placeholder.com/150',
-        title: 'The Good Stuff List',
+        description:
+          'This is a placeholder prototype. This links to the good stuff list prototype for now.',
+        id: '4',
+        title: 'Prototype 3',
         url: '/good-stuff-list',
       },
     ] as ProjectsRecord[],
