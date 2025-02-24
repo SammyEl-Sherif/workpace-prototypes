@@ -4,6 +4,7 @@
   display: grid;
   justify-content: left;
   gap: 24px;
+  margin-bottom: 24px;
 }
 
 @media #{design-tokens.$mq-sm-only} {

@@ -54,7 +54,7 @@ export const useManualFetch = <T>(
     return () => {
       cancelTokenSource.current?.cancel()
     }
-  })
+  }, [])
 
   return useEvent(
     async (

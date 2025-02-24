@@ -12,12 +12,16 @@ export default function MainLayout({ children }: LayoutProps) {
     <>
       <Navbar />
       <div className={styles.banner}>
-        ⚠️ <strong>Warning:</strong> This site is under active development and may be unstable. For
-        critical issues, please contact &nbsp;
-        <a href="mailto:support@workpace.io" className={styles.link}>
-          support@workpace.io
-        </a>
-        . Thank you!
+        <span>
+          ⚠️ <strong>Warning:</strong> This site is under active development and may be unstable.
+          For critical issues, please contact{' '}
+          <span className={styles.linkWrapper}>
+            <a href="mailto:support@workpace.io" className={styles.link}>
+              support@workpace.io
+            </a>
+          </span>
+          .
+        </span>
       </div>
       <main className={styles.containerSize}>{children}</main>
     </>

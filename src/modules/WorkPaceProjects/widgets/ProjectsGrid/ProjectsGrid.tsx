@@ -11,8 +11,10 @@ export const ProjectsGrid = () => {
   const [projectList, setProjectList] = useState<ProjectsRecord[] | []>([])
 
   useEffect(() => {
-    setProjectList(clientSideProjects ?? [])
-  }, [clientSideProjects])
+    if (clientSideProjects && clientSideProjects !== projectList) {
+      setProjectList(clientSideProjects)
+    }
+  }, [])
 
   return (
     <div>
