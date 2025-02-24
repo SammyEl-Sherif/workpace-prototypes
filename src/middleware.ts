@@ -5,6 +5,11 @@ import { Routes } from './interfaces/routes'
 import { getAuthCookiesOptions } from './server/utils'
 
 export async function middleware(request: NextRequestWithAuth) {
+  Object.assign(request.nextUrl, {
+    host: process.env.HOST as string,
+    port: process.env.NODE_ENV === 'production' ? '' : request.nextUrl.port,
+  })
+
   return (
     withAuth(
       async () => {
@@ -13,6 +18,7 @@ export async function middleware(request: NextRequestWithAuth) {
       {
         callbacks: {
           authorized: async ({ token }) => {
+            console.log('authorized callback', !token, token)
             if (!token) {
               return false
             }
