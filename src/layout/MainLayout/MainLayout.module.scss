@@ -14,7 +14,14 @@
 .banner {
   display: flex;
   background-color: #f2a618;
-  max-width: 1440px;
   padding: $size-125 10%;
   align-items: center;
+  flex-flow: row wrap;
+}
+
+.link {
+  cursor: pointer;
+  font-weight: 700;
+  text-decoration: underline;
+  color: black;
 }
