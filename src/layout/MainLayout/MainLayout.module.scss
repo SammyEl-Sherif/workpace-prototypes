@@ -1,3 +1,5 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
 .container {
   display: flex;
   flex-flow: column nowrap;
@@ -7,4 +9,12 @@
     max-width: 1440px;
     margin: 0 10%;
   }
+}
+
+.banner {
+  display: flex;
+  background-color: #f2a618;
+  max-width: 1440px;
+  padding: $size-125 10%;
+  align-items: center;
 }

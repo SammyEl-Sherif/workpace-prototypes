@@ -53,3 +53,75 @@
     font-weight: 400;
   }
 }
+
+.feedback {
+  &Columns {
+    display: flex;
+    gap: 12px;
+    align-items: start;
+  }
+  &Row {
+    margin-top: 4px;
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 4px;
+    align-items: center;
+  }
+}
+
+.profile {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: black;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  color: white;
+}
+
+.profileName {
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.commentAndDate {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.date {
+  color: $color-neutral-600;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.likeDislike {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.link {
+  cursor: pointer;
+  &Group {
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 8px;
+    align-items: center;
+    color: $color-active-100;
+  }
+}
+
+.mainRows {
+  display: flex;
+  width: 100%;
+  flex-flow: column nowrap;
+  gap: 4px;
+}

@@ -2,47 +2,47 @@ import { useEffect, useState } from 'react'
 
 import { ProjectsRecord } from '@/pocketbase-types'
 
+import styles from './ProjectsGrid.module.scss'
 import { ProjectCard } from '../../entries'
 import { useProjects } from '../../hooks'
 
 export const ProjectsGrid = () => {
-  const [clientSideProjects] = useProjects()
+  const [clientSideProjects] = useProjects(true)
   const [projectList, setProjectList] = useState<ProjectsRecord[] | []>([])
 
   useEffect(() => {
     setProjectList(clientSideProjects ?? [])
   }, [clientSideProjects])
 
-  if (Array.isArray(projectList) && projectList.length === 0) {
-    return (
+  return (
+    <div>
       <div
         style={{
           display: 'flex',
-          height: '25vh',
-          fontSize: '28px',
+          paddingTop: '5vh',
+          fontSize: '32px',
           justifyContent: 'left',
           alignItems: 'center',
+          marginBottom: '16px',
         }}
       >
-        Hello, there are no awesome ideas for you to review yet, come back soonish ...
+        Prototypes
       </div>
-    )
-  }
-
-  return (
-    <div
-      style={{
-        display: 'flex',
-        flexFlow: 'row wrap',
-        justifyContent: 'left',
-        marginTop: '35px',
-        marginBottom: '35px',
-      }}
-    >
-      {Array.isArray(projectList) &&
-        projectList.map((project: ProjectsRecord, index) => {
+      <div
+        style={{
+          display: 'flex',
+          fontSize: '18px',
+          marginBottom: '16px',
+        }}
+      >
+        Welcome to WorkPace&apos;s prototyping environment, where we seek to bring a change of pace
+        to your online workspace. Test ideas, share your feedback, and watch products evolve.
+      </div>
+      <div className={styles.grid}>
+        {projectList.map((project: ProjectsRecord, index) => {
           return <ProjectCard key={index} {...project} />
         })}
+      </div>
     </div>
   )
 }

@@ -73,6 +73,42 @@ const NotionInsights = ({ databases }: GoodStuffListPageProps) => {
         <GenerateReportUserPromptInput pages={pages} />
         <LearnMore />
       </div>
+      <div className={styles.section} id="generate-report-user-prompt">
+        <div className={styles.header}>
+          <h1 style={{ fontSize: '32px' }}>Feedback</h1>
+          <div className={styles.section} id="generate-report-user-prompt">
+            <div className={styles.feedbackColumns}>
+              <div className={styles.profile}>1</div>
+              <div className={styles.mainRows}>
+                <div className={styles.commentAndDate}>
+                  <div className={styles.feedbackRow}>
+                    <div className={styles.profileName}>Sammy</div>
+                    <div>
+                      I kinda like this, but I don&apos;t use notion what the heck is that?!?
+                    </div>
+                  </div>
+                  <div className={styles.date}>02/24/2025</div>
+                </div>
+                <div className={styles.actions}>
+                  <div className={styles.linkGroup}>
+                    <a className={styles.link}>Remove</a>
+                    <>|</>
+                    <a className={styles.link}>Reply</a>
+                  </div>
+                  <div className={styles.likeDislike}>
+                    <a className={styles.link}>
+                      <div>👍 (4)</div>
+                    </a>
+                    <a className={styles.link}>
+                      <div>👎 (2)</div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

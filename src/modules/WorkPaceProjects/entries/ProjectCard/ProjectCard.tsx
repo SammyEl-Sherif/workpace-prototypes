@@ -6,15 +6,16 @@ export const ProjectCard: React.FC<ProjectsRecord> = ({ url, title, thumbnail })
     <a href={isProd ? `https://workpace.io${url}` : `http://localhost:3000${url}`}>
       <div
         style={{
-          width: '30vw',
-          height: '20vh',
+          minWidth: '300px',
+          minHeight: '350px',
           backgroundColor: 'black',
           color: 'white',
           borderRadius: '8px',
           border: 'solid black 1px',
-          textAlign: 'center',
-          verticalAlign: 'center',
-          alignContent: 'center',
+          textAlign: 'left',
+          alignContent: 'flex-end',
+          padding: '2rem 1.5rem',
+          fontSize: '22px',
         }}
       >
         {title}
