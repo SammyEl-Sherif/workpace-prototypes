@@ -7,6 +7,10 @@
   align-items: center;
   gap: 5px;
   padding: $size-200 10%;
+
+  @media (max-width: 600px) {
+    padding: $size-200 5%;
+  }
   justify-content: space-between;
 }
 

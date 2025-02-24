@@ -1,3 +1,3 @@
 export const getAppName = (): string => {
-  return '🏗️ WorkPace Prototypes'
+  return 'WorkPace'
 }
