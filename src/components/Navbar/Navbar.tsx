@@ -1,10 +1,11 @@
+import Image from 'next/image'
 import { signOut, useSession } from 'next-auth/react'
 
 import { Routes } from '@/interfaces/routes'
+import Logo from '@/public/favicon.ico'
 import { getAppName } from '@/utils'
 
 import styles from './Navbar.module.scss'
-
 const Navbar = () => {
   const handleSignOut = async () => {
     await signOut({ redirect: true, callbackUrl: Routes.SIGNIN })
@@ -15,8 +16,12 @@ const Navbar = () => {
 
   return (
     <div className={styles.container}>
-      <a href={isProd ? 'https://workpace.io/' : 'http://localhost:3000/'}>
+      <a
+        className={styles.brandContainer}
+        href={isProd ? 'https://workpace.io/' : 'http://localhost:3000/'}
+      >
         <h1 className={styles.brandName}>{getAppName()}</h1>
+        <Image src={Logo} alt="Logo" className={styles.logo} />
       </a>
       <div className={styles.authStatus}>
         {status === 'authenticated' ? <>{data?.user?.name}</> : <>🚫</>}

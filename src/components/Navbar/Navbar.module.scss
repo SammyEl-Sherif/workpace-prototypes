@@ -16,11 +16,20 @@
 
 .brandName {
   color: white;
-  font-size: 26px;
+  font-size: $font-headline-display-font-size;
 }
 
+.brandContainer {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: $size-75;
+}
+
+$logo-dim: 4vh;
 .logo {
-  height: 5vh;
+  width: $logo-dim;
+  height: $logo-dim;
 }
 
 .authStatus {

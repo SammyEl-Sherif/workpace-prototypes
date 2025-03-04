@@ -1,41 +1,60 @@
+import fs from 'fs'
+import path from 'path'
+
 import React from 'react'
 
 import { GetServerSideProps } from 'next'
 
-import { getProjectsController } from '@/api/controllers/pocketbase'
+import { Prototype, PrototypeMeta } from '@/interfaces/prototypes'
 import { DocumentTitle } from '@/layout/DocumentTitle'
 import MainLayout from '@/layout/MainLayout'
 import { WorkpaceProjects } from '@/layout/pages'
-import { PocketbaseProjectsContextProvider } from '@/modules'
-import { ProjectsRecord } from '@/pocketbase-types'
+import { PrototypesContextProvider } from '@/modules'
 import { withPageRequestWrapper } from '@/server/utils/withPageRequestWrapper'
-import { withPocketbaseClient } from '@/server/utils/withPocketbaseClient'
+
+
 
 type WorkPaceProjectsPageProps = {
-  projects: ProjectsRecord[] | null
+  prototypes: Prototype[]
 }
 
 export const getServerSideProps: GetServerSideProps = withPageRequestWrapper(async (context) => {
-  const { projects } = await withPocketbaseClient(async (_, __, client) => {
-    const { data } = await getProjectsController(client) // keep, a users list of databases, need auth
+  const prototypesDir = path.join(process.cwd(), 'pages/prototypes')
+  const files = fs.readdirSync(prototypesDir)
+
+  const prototypes = files.map((file) => {
+    const name = file
+      .replace('.tsx', '')
+      .split('-')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ')
+    const path = `prototypes/${file.replace('.tsx', '')}` as keyof typeof PrototypeMeta
+    const description = PrototypeMeta[path as keyof typeof PrototypeMeta]
+
+    console.log(
+      `Processing file: ${file}, Name: ${name}, Path: ${path}, Description: ${description}`
+    )
+
     return {
-      projects: data,
+      name,
+      path: `/${path}`,
+      description,
     }
-  })(context.req, context.res)
+  })
 
   return {
-    projects,
+    prototypes,
   }
 })
 
-const WorkPaceProjectsPage = ({ projects }: WorkPaceProjectsPageProps) => {
+const WorkPaceProjectsPage = ({ prototypes }: WorkPaceProjectsPageProps) => {
   return (
-    <PocketbaseProjectsContextProvider projects={projects}>
+    <PrototypesContextProvider prototypes={prototypes}>
       <MainLayout>
         <DocumentTitle title="Home" />
         <WorkpaceProjects />
       </MainLayout>
-    </PocketbaseProjectsContextProvider>
+    </PrototypesContextProvider>
   )
 }
 

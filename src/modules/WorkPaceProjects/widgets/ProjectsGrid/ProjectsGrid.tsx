@@ -1,48 +1,31 @@
-import { useEffect, useState } from 'react'
-
-import { ProjectsRecord } from '@/pocketbase-types'
+import { Prototype } from '@/interfaces/prototypes'
 
 import styles from './ProjectsGrid.module.scss'
+import { usePrototypesContext } from '../../contexts'
 import { ProjectCard } from '../../entries'
-import { useProjects } from '../../hooks'
 
 export const ProjectsGrid = () => {
-  const [clientSideProjects] = useProjects(true)
-  const [projectList, setProjectList] = useState<ProjectsRecord[] | []>([])
-
-  useEffect(() => {
-    if (clientSideProjects && clientSideProjects !== projectList) {
-      setProjectList(clientSideProjects)
-    }
-  }, [])
+  const {
+    state: { prototypes },
+  } = usePrototypesContext()
 
   return (
     <div>
-      <div
-        style={{
-          display: 'flex',
-          paddingTop: '5vh',
-          fontSize: '32px',
-          justifyContent: 'left',
-          alignItems: 'center',
-          marginBottom: '16px',
-        }}
-      >
-        Prototypes
-      </div>
-      <div
-        style={{
-          display: 'flex',
-          fontSize: '18px',
-          marginBottom: '16px',
-        }}
-      >
-        Welcome to WorkPace&apos;s prototyping environment, where we test products desgined to bring
+      <div className={styles.title}>Prototypes</div>
+      <div className={styles.subtitle}>
+        Welcome to WorkPace&apos;s prototyping environment, where we test products designed to bring
         a change of pace to your online workspace.
       </div>
       <div className={styles.grid}>
-        {projectList.map((project: ProjectsRecord, index) => {
-          return <ProjectCard key={index} {...project} />
+        {prototypes.map((prototype: Prototype, index) => {
+          return (
+            <ProjectCard
+              path={prototype.path}
+              description={prototype?.description}
+              name={prototype.name}
+              key={index}
+            />
+          )
         })}
       </div>
     </div>

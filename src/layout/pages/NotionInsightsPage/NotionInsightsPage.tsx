@@ -6,7 +6,7 @@ import {
   GenerateReportActions,
   GenerateReportUserPromptInput,
 } from '@/modules/AccomplishmentReport/widgets'
-import { GoodStuffListPageProps } from '@/pages/good-stuff-list'
+import { GoodStuffListPageProps } from '@/pages/prototypes/good-stuff-list'
 
 import styles from './NotionInsights.module.scss'
 

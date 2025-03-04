@@ -1,38 +1,36 @@
 import { createContext, useMemo, FC, PropsWithChildren, useContext, useState } from 'react'
 
-import { ProjectsRecord } from '@/pocketbase-types'
+import { Prototype } from '@/interfaces/prototypes'
 
-type PocketbaseProjectsContextState = {
-  projects: ProjectsRecord[] | null
+type PrototypesContextState = {
+  prototypes: Prototype[]
 }
-type PocketbaseProjectsContextUpdater = (updater: Partial<PocketbaseProjectsContextState>) => void
+type PrototypesContextUpdater = (updater: Partial<PrototypesContextState>) => void
+type PrototypesContextProps = {
+  prototypes: Prototype[]
+}
 
-type PocketbaseProjectsContextProps = Pick<PocketbaseProjectsContextState, 'projects'>
-
-const PocketbaseProjectsContext = createContext<{
-  state: PocketbaseProjectsContextState
-  update: PocketbaseProjectsContextUpdater
+const PrototypesContext = createContext<{
+  state: PrototypesContextState
+  update: PrototypesContextUpdater
 }>({
-  state: { projects: null },
+  state: { prototypes: [] },
   update: () => {},
 })
 
-export const PocketbaseProjectsContextProvider: FC<
-  PropsWithChildren<PocketbaseProjectsContextProps>
-> = ({ children, projects }) => {
-  const [state, setState] = useState<PocketbaseProjectsContextState>({ projects })
+export const PrototypesContextProvider: FC<PropsWithChildren<PrototypesContextProps>> = ({
+  children,
+  prototypes,
+}) => {
+  const [state, setState] = useState<PrototypesContextState>({ prototypes })
 
-  const update: PocketbaseProjectsContextUpdater = (updater) => {
+  const update: PrototypesContextUpdater = (updater) => {
     setState((prevState) => ({ ...prevState, ...updater }))
   }
 
   const contextValue = useMemo(() => ({ state, update }), [state])
 
-  return (
-    <PocketbaseProjectsContext.Provider value={contextValue}>
-      {children}
-    </PocketbaseProjectsContext.Provider>
-  )
+  return <PrototypesContext.Provider value={contextValue}>{children}</PrototypesContext.Provider>
 }
 
-export const usePocketbaseProjectsContext = () => useContext(PocketbaseProjectsContext)
+export const usePrototypesContext = () => useContext(PrototypesContext)

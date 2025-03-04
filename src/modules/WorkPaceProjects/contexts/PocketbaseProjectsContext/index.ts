@@ -1,4 +1,1 @@
-export {
-  PocketbaseProjectsContextProvider,
-  usePocketbaseProjectsContext,
-} from './PocketbaseProjectsContext'
+export { PrototypesContextProvider, usePrototypesContext } from './PocketbaseProjectsContext'
