@@ -1,0 +1,144 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+$logo-dim: 40px;
+
+.container {
+  display: flex;
+  flex-flow: column nowrap;
+  height: 100vh;
+  width: 250px;
+  align-items: flex-start;
+  background-color: black;
+  justify-content: space-between;
+  transition: width 0.3s ease;
+  padding: $size-200;
+}
+
+.collapse {
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.collapsed {
+  display: flex;
+  flex-flow: column nowrap;
+  height: 100vh;
+  width: 75px;
+  transition: width 0.3s ease;
+  align-items: center;
+  background-color: black;
+  justify-content: space-between;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border-color: white;
+  background-color: white;
+  width: $logo-dim;
+  height: $logo-dim;
+  cursor: pointer;
+}
+.username {
+  cursor: pointer;
+}
+.linkStack {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: $size-200;
+  // padding: $size-200;
+  color: white;
+  height: 100%;
+  font-size: $font-headline-sm-font-size;
+}
+.iconLinkStack {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: $size-200;
+  margin-top: $size-200;
+  margin-bottom: $size-200;
+  color: white;
+  height: 100%;
+  font-size: $font-headline-sm-font-size;
+}
+
+.links {
+  &:hover {
+    color: lightgray;
+    transition: color 0.3s ease;
+    text-decoration: underline;
+  }
+}
+
+.linksHeading {
+  color: white;
+  font-size: $font-headline-md-font-size;
+  font-weight: bold;
+}
+
+.brandName {
+  color: white;
+  font-size: $font-headline-lg-font-size;
+}
+
+.brandContainer {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: $size-200;
+}
+
+.hide {
+  display: none;
+  button {
+    display: none;
+  }
+}
+
+.logoName {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: $size-100;
+  justify-content: flex-start;
+  gap: $size-25;
+  cursor: pointer;
+}
+
+.logo {
+  width: $logo-dim;
+  height: $logo-dim;
+}
+
+.authStatus {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: left;
+  gap: 14px;
+  color: white;
+  width: 100%;
+}
+
+.button {
+  padding: 4px 10px;
+  background-color: white;
+  color: black !important;
+  font-size: $font-button-md-font-size;
+  line-height: $font-button-md-line-height;
+  font-weight: $font-button-font-weight-default;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-around;
+  max-width: 200px;
+
+  &:hover {
+    background-color: black;
+    color: white !important;
+    cursor: pointer;
+  }
+}

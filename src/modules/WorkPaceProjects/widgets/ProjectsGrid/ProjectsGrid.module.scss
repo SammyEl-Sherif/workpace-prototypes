@@ -9,11 +9,11 @@
 
 .title {
   display: flex;
-  padding-top: 5vh;
-  font-size: 32px;
+  font-size: design-tokens.$font-headline-display-font-size;
   justify-content: left;
   align-items: center;
   margin-bottom: 16px;
+  font-weight: bold;
 }
 
 .subtitle {

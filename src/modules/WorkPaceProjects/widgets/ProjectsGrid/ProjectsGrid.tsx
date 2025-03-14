@@ -24,6 +24,7 @@ export const ProjectsGrid = () => {
               description={prototype?.description}
               name={prototype.name}
               key={index}
+              icon={prototype.icon}
             />
           )
         })}

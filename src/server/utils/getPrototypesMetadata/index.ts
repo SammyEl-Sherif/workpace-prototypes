@@ -1,0 +1,1 @@
+export { getPrototypesMetadata } from './getPrototypesMetadata'

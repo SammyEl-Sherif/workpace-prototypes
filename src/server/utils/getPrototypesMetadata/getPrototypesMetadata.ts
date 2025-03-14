@@ -1,0 +1,29 @@
+import fs from 'fs'
+import path from 'path'
+
+import { PrototypeMeta } from '@/interfaces/prototypes'
+
+export const getPrototypesMetadata = () => {
+  const prototypesDir = path.join('pages/prototypes')
+  const files = fs.readdirSync(prototypesDir)
+
+  const prototypes = files.map((file) => {
+    const name = file
+      .replace('.tsx', '')
+      .split('-')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ')
+    const path = `prototypes/${file.replace('.tsx', '')}` as keyof typeof PrototypeMeta
+    const description = PrototypeMeta[path as keyof typeof PrototypeMeta].description
+    const icon = PrototypeMeta[path as keyof typeof PrototypeMeta].icon
+
+    return {
+      name: `${icon} ${name}`,
+      path: `/${path}`,
+      description,
+      icon,
+    }
+  })
+
+  return prototypes
+}

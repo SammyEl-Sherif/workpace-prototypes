@@ -1,5 +1,7 @@
 import { GetServerSideProps, GetServerSidePropsContext, GetServerSidePropsResult } from 'next/types'
 
+import { getUser } from '../getUser'
+
 type GetServerSidePropsContextWithQuery = Omit<GetServerSidePropsContext, 'query'> & {
   query: Record<string, string | undefined>
 }
@@ -9,19 +11,15 @@ export const withPageRequestWrapper = <T extends { [key: string]: any } = { [key
 ): GetServerSideProps<T> => {
   return async (context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<T>> => {
     try {
-      const { req, res } = context
+      const { req } = context
       const props = {
-        user: {
-          name: 'Sammy',
-        },
+        userProfile: { ...(await getUser(req)) },
         ...(await handler(context as GetServerSidePropsContextWithQuery)),
       }
       return {
         props,
       }
     } catch (error) {
-      // log errors here once util is implemented
-      // then return a redirect to somewhere
       throw error
     }
   }

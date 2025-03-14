@@ -1,14 +1,18 @@
 import { useState } from 'react'
 
+import { NotionDatabase } from '@/interfaces/notion'
 import { useNotionDatabaseContext } from '@/modules/AccomplishmentReport/contexts'
 import { useNotionDatabasePages } from '@/modules/AccomplishmentReport/hooks'
 import {
   GenerateReportActions,
   GenerateReportUserPromptInput,
 } from '@/modules/AccomplishmentReport/widgets'
-import { GoodStuffListPageProps } from '@/pages/prototypes/good-stuff-list'
 
 import styles from './NotionInsights.module.scss'
+
+export interface NotionInsightsPageProps {
+  databases: NotionDatabase[]
+}
 
 const LearnMore = () => {
   const [isExpanded, setIsExpanded] = useState(false)
@@ -49,7 +53,7 @@ const LearnMore = () => {
   )
 }
 
-const NotionInsights = ({ databases }: GoodStuffListPageProps) => {
+const NotionInsights = ({ databases }: NotionInsightsPageProps) => {
   const {
     state: { database_id, filters },
   } = useNotionDatabaseContext()
