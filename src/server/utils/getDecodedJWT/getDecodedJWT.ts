@@ -20,7 +20,6 @@ interface IdToken {
 }
 
 export const getDecodedJWT = (token: string): { roles: UserGroup[] } => {
-  console.log('testing_getdecodedjwt', token)
   try {
     const userData = jwtDecode(token ?? '') as IdToken
 
