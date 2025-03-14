@@ -6,7 +6,6 @@ import { SessionAccount } from '@/interfaces/user'
 
 import { getAuthCookiesOptions } from '../getAuthCookiesOptions'
 
-
 export const getNextAuthJWT = async <T extends GetServerSidePropsContext['req']>(
   req: T
 ): Promise<Omit<Session & { account?: SessionAccount }, 'expires'> | null> => {

@@ -19,3 +19,10 @@
 .pageContent {
   flex: 1;
 }
+
+@media #{$mq-sm-only} {
+  .pageContent {
+    flex: 1;
+    margin-top: 80px;
+  }
+}

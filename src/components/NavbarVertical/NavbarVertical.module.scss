@@ -12,6 +12,84 @@ $logo-dim: 40px;
   transition: width 0.3s ease;
   padding: $size-200;
 }
+@media #{$mq-sm-only} {
+  .container {
+    display: none;
+  }
+}
+
+.mobileNav {
+  display: none;
+  position: relative;
+  z-index: 100;
+  @media #{$mq-sm-only} {
+    display: flex;
+    position: fixed;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: $size-200;
+    background-color: black;
+    color: white;
+    height: 80px;
+  }
+}
+.mobileIcon {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.mobileMenu {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 70vw;
+  background-color: black;
+  color: white;
+  z-index: 200;
+  transition: transform 0.3s ease;
+  transform: translateX(100%);
+}
+
+.mobileMenuOpen {
+  display: flex;
+  justify-content: space-between;
+  flex-flow: row nowrap;
+  align-items: flex-start;
+  padding: $size-300 $size-200 $size-200 $size-200;
+  transform: translateX(0);
+  max-width: 60vw;
+  width: 100%;
+  transition: transform 0.3s ease;
+}
+
+.mobileLinkStack {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  gap: $size-300;
+}
+.mobileLinkStackWrapper {
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.links {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: $size-150;
+}
+
+.headingAndLinks {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: $size-200;
+}
 
 .collapse {
   color: white;
@@ -49,7 +127,6 @@ $logo-dim: 40px;
   display: flex;
   flex-flow: column nowrap;
   gap: $size-200;
-  // padding: $size-200;
   color: white;
   height: 100%;
   font-size: $font-headline-sm-font-size;
@@ -114,7 +191,6 @@ $logo-dim: 40px;
   width: $logo-dim;
   height: $logo-dim;
 }
-
 .authStatus {
   display: flex;
   flex-flow: column nowrap;
@@ -123,7 +199,6 @@ $logo-dim: 40px;
   color: white;
   width: 100%;
 }
-
 .button {
   padding: 4px 10px;
   background-color: white;
