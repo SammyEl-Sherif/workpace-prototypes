@@ -21,7 +21,7 @@
     "format:root:development": "prettier --check *.*",
     "format:root:production": "prettier --check *.*",
     "commit": "node scripts/commit.js",
-    "sync-droplet": "git pull && export NODE_ENV=production && npm run build && pm2 reload workpace --update-env && pm2 list",
+    "sync-droplet": "git pull && npm i && export NODE_ENV=production && npm run build && pm2 reload workpace --update-env && pm2 list",
     "precommit": "npm-run-all precommit:** --print-label",
     "precommit:": "lint-staged",
     "precommit:src": "npm run lint --workspace src",

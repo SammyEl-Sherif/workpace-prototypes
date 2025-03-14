@@ -1,4 +1,5 @@
 export const getAuthCookiesOptions = () => {
+  console.log('testing_getcookies', process.env.NODE_ENV)
   return {
     sessionToken: {
       name: `${process.env.NODE_ENV === 'production' ? '__Secure-' : ''}next-auth.session-token`,

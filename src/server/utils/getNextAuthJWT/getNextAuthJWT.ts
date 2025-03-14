@@ -10,7 +10,7 @@ export const getNextAuthJWT = async <T extends GetServerSidePropsContext['req']>
   req: T
 ): Promise<Omit<Session & { account?: SessionAccount }, 'expires'> | null> => {
   const { sessionToken } = getAuthCookiesOptions()
-
+  console.log('testing_gettoken', process.env.NODE_ENV)
   const session = (await getToken({
     req,
     secureCookie: process.env.NODE_ENV === 'production',
