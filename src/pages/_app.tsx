@@ -6,13 +6,19 @@ import type { AppProps } from 'next/app'
 
 import { UserInfoContextProvider } from '@/contexts/UserInfoContextProvider'
 import { PageProps } from '@/interfaces/page-props'
+import MainLayout from '@/layout/MainLayout'
+import { PrototypesContextProvider } from '@/modules'
 
 export default function App({ Component, pageProps }: AppProps) {
-  const { userProfile } = pageProps as PageProps
+  const { userProfile, prototypes } = pageProps as PageProps
   return (
     <Auth>
       <UserInfoContextProvider userProfile={userProfile}>
-        <Component {...pageProps} />
+        <PrototypesContextProvider prototypes={prototypes}>
+          <MainLayout>
+            <Component {...pageProps} />
+          </MainLayout>
+        </PrototypesContextProvider>
       </UserInfoContextProvider>
     </Auth>
   )

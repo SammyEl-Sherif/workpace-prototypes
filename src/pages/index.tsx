@@ -2,34 +2,20 @@ import React from 'react'
 
 import { GetServerSideProps } from 'next'
 
-import { Prototype, PrototypeMeta } from '@/interfaces/prototypes'
 import { DocumentTitle } from '@/layout/DocumentTitle'
-import MainLayout from '@/layout/MainLayout'
 import { WorkpaceProjects } from '@/layout/pages'
-import { PrototypesContextProvider } from '@/modules'
-import { getPrototypesMetadata } from '@/server/utils'
 import { withPageRequestWrapper } from '@/server/utils/withPageRequestWrapper'
 
-type WorkPaceProjectsPageProps = {
-  prototypes: Prototype[]
-}
-
-export const getServerSideProps: GetServerSideProps = withPageRequestWrapper(async (context) => {
-  const prototypes = getPrototypesMetadata()
-
-  return {
-    prototypes,
-  }
+export const getServerSideProps: GetServerSideProps = withPageRequestWrapper(async () => {
+  return {}
 })
 
-const WorkPaceProjectsPage = ({ prototypes }: WorkPaceProjectsPageProps) => {
+const WorkPaceProjectsPage = () => {
   return (
-    <PrototypesContextProvider prototypes={prototypes}>
-      <MainLayout>
-        <DocumentTitle title="Home" />
-        <WorkpaceProjects />
-      </MainLayout>
-    </PrototypesContextProvider>
+    <>
+      <DocumentTitle title="Home" />
+      <WorkpaceProjects />
+    </>
   )
 }
 

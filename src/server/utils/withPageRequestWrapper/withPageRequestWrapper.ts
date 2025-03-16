@@ -1,5 +1,6 @@
 import { GetServerSideProps, GetServerSidePropsContext, GetServerSidePropsResult } from 'next/types'
 
+import { getPrototypesMetadata } from '../getPrototypesMetadata'
 import { getUser } from '../getUser'
 
 type GetServerSidePropsContextWithQuery = Omit<GetServerSidePropsContext, 'query'> & {
@@ -12,9 +13,11 @@ export const withPageRequestWrapper = <T extends { [key: string]: any } = { [key
   return async (context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<T>> => {
     try {
       const { req } = context
+      const prototypes = getPrototypesMetadata()
       const props = {
-        userProfile: { ...(await getUser(req)) },
         ...(await handler(context as GetServerSidePropsContextWithQuery)),
+        userProfile: { ...(await getUser(req)) },
+        prototypes,
       }
       return {
         props,

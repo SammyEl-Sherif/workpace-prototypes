@@ -1,3 +1,4 @@
+import { Prototype } from './prototypes'
 import { UserGroup } from './user'
 
 export interface PageProps {
@@ -6,4 +7,5 @@ export interface PageProps {
     email: string
     roles: UserGroup[]
   }
+  prototypes: Prototype[]
 }

@@ -1,9 +1,9 @@
 import fs from 'fs'
 import path from 'path'
 
-import { PrototypeMeta } from '@/interfaces/prototypes'
+import { Prototype, PrototypeMeta } from '@/interfaces/prototypes'
 
-export const getPrototypesMetadata = () => {
+export const getPrototypesMetadata = (): Prototype[] => {
   const prototypesDir = path.join('pages/prototypes')
   const files = fs.readdirSync(prototypesDir)
 
