@@ -16,7 +16,7 @@ const GenerateReportActions = ({ databases, pages }: GenerateReportActionsProps)
   return (
     <div className={styles.container}>
       <div className={styles.actions}>
-        <SelectNotionDatabase label="Notion Database" defaultValue={`${databases[0].id}`}>
+        <SelectNotionDatabase label="Select Notion Database" defaultValue={`${databases[0].id}`}>
           {Array.isArray(databases) &&
             databases.map((db: NotionDatabase) => (
               <option key={db.id} value={db.id}>

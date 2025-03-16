@@ -15,7 +15,7 @@ export interface NotionInsightsPageProps {
 }
 
 const LearnMore = () => {
-  const [isExpanded, setIsExpanded] = useState(false)
+  const [isExpanded, setIsExpanded] = useState(true)
   const handleExpand = () => {
     setIsExpanded(!isExpanded)
   }
@@ -73,9 +73,14 @@ const NotionInsights = ({ databases }: NotionInsightsPageProps) => {
         <div className={styles.header}>
           <h1 style={{ fontSize: '32px' }}>🥇 The Good Stuff List</h1>
         </div>
+        <LearnMore />
+      </div>
+      <div className={styles.section} id="generate-report-user-prompt">
+        <div className={styles.header}>
+          <h1 style={{ fontSize: '32px' }}>Report Generator</h1>
+        </div>
         <GenerateReportActions databases={databases} pages={pages ?? []} />
         <GenerateReportUserPromptInput pages={pages} />
-        <LearnMore />
       </div>
       <div className={styles.section} id="generate-report-user-prompt">
         <div className={styles.header}>

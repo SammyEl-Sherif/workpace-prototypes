@@ -1,11 +1,7 @@
 import { Prototype } from './prototypes'
-import { UserGroup } from './user'
+import { UserProfile } from './user'
 
 export interface PageProps {
-  userProfile: {
-    name: string
-    email: string
-    roles: UserGroup[]
-  }
+  userProfile: UserProfile
   prototypes: Prototype[]
 }

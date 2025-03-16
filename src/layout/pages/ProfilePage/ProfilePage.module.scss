@@ -19,3 +19,54 @@
   font-size: 18px;
   margin-bottom: 16px;
 }
+
+.role {
+  color: white;
+  background-color: black;
+  border-radius: $size-100;
+  padding: $size-100 $size-200;
+
+  &Heading {
+    font-size: $font-headline-sm-font-size;
+    font-weight: bold;
+  }
+}
+
+.roles {
+  display: flex;
+  flex-flow: row wrap;
+  gap: $size-100;
+  align-items: center;
+}
+
+.userInfo {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: $size-100;
+}
+
+.username {
+  font-weight: bold;
+  font-size: $font-headline-lg-font-size;
+}
+.email {
+  font-size: $font-headline-sm-font-size;
+}
+
+.section {
+  display: flex;
+  flex-flow: column nowrap;
+  outline: solid #d5d3d3 1px;
+  border-radius: 3px;
+  margin-bottom: 2%;
+  padding: 3%;
+  background-color: white;
+  gap: $size-200;
+  margin: $size-300 0;
+
+  &Hero {
+    display: flex;
+    flex-flow: column nowrap;
+    padding: 2% 15%;
+  }
+}

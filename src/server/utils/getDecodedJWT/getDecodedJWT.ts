@@ -1,23 +1,6 @@
 import jwtDecode from 'jwt-decode'
 
-import { UserGroup } from '@/interfaces/user'
-
-interface IdToken {
-  'https://workpace.io/roles'?: UserGroup[]
-  nickname?: string
-  name?: string
-  picture?: string
-  updated_at?: string
-  email?: string
-  email_verified?: boolean
-  iss?: string
-  aud?: string
-  sub?: string
-  iat?: number
-  exp?: number
-  sid?: string
-  auth_time?: number
-}
+import { IdToken, UserGroup } from '@/interfaces/user'
 
 export const getDecodedJWT = (token: string): { roles: UserGroup[] } => {
   try {

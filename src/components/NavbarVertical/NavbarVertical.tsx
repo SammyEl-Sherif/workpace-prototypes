@@ -182,9 +182,17 @@ const NavbarVertical = () => {
             })}
           <div className={cn(styles.iconLinkStack)}>
             {isCollapsed && (
-              <a className={styles.iconLinks} href={Routes.HOME}>
-                🏠
-              </a>
+              <>
+                <a className={styles.iconLinks} href={Routes.HOME}>
+                  🏠
+                </a>
+                <a href={Routes.ABOUT} className={styles.links}>
+                  👋
+                </a>
+                <a href={Routes.PROFILE} className={styles.links}>
+                  👤
+                </a>
+              </>
             )}
             {isCollapsed &&
               prototypes.map(({ path, name, icon }: Prototype) => {
