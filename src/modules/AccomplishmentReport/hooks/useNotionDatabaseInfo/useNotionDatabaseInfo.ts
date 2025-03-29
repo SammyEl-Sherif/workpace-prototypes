@@ -13,13 +13,14 @@ export const useNotionDatabaseInfo = ({ database_id }: UseNotionDatabaseInfoPara
     return { database_id }
   }, [database_id])
 
-  const [response, isLoading, error, _, makeRequest] = useFetch<
-    { data: DatabaseObjectResponse },
+  const [response, isLoading, error, _, makeRequest] = useFetch<DatabaseObjectResponse, null>(
+    'notion/database/info',
+    { data },
     null
-  >('notion/database/info', { data }, null)
+  )
 
   return {
-    response: response?.data,
+    response,
     isLoading,
     error,
     makeRequest,

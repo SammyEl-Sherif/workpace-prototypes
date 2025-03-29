@@ -34,7 +34,7 @@ const LearnMore = () => {
         </div>
       )}
       <div className={styles.cardFooter}>
-        <h1 style={{ fontSize: '14px', color: 'gray' }}>Last Update: 1/15/2024</h1>
+        <h1 style={{ fontSize: '14px', color: 'gray' }}>Last Update: 3/26/2025</h1>
         <button
           onClick={handleExpand}
           style={{
@@ -60,13 +60,14 @@ const NotionInsights = ({ databases }: NotionInsightsPageProps) => {
 
   const { pages } = useNotionDatabasePages({
     database_id: database_id ?? '',
-    filters: filters ?? {
+    filters: {
       property: 'Status',
       status: {
-        equals: '🏆 Accomplishment',
+        equals: 'Accomplishment',
       },
     },
   })
+
   return (
     <div className={styles.page}>
       <div className={styles.section} id="generate-report-user-prompt">

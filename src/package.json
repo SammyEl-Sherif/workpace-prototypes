@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@stripe/stripe-js": "^4.1.0",
-    "@workpace/design-system": "^1.0.6",
+    "@workpace/design-system": "^1.0.7",
     "axios": "^1.7.2",
     "classnames": "^2.5.1",
     "https": "^1.0.0",

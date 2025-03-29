@@ -15,17 +15,17 @@ const AllAccomplishmentsModal = ({ pages }: AllAccomplishmentsModalProps) => {
   return (
     <>
       <Button
-        label={`View All (${pages.length ?? '0'})`}
-        primary={false}
-        size="small"
+        variant={'default-secondary'}
         onClick={() => {
           setShowModal(!showModal)
         }}
-      />
+      >
+        {`View All (${pages.length ?? '0'})`}
+      </Button>
       {showModal && (
         <dialog open={showModal} className={styles.overlay}>
           <div className={styles.modal} id="all-pages-insights">
-            <h3 style={{ marginBottom: '10px' }}>pages ({pages.length})</h3>
+            <h3 style={{ marginBottom: '10px' }}>Pages ({pages.length})</h3>
             {Array.isArray(pages) &&
               pages.map((item, i) => (
                 <p style={{ padding: '10px' }} key={i}>
@@ -36,11 +36,13 @@ const AllAccomplishmentsModal = ({ pages }: AllAccomplishmentsModalProps) => {
                 </p>
               ))}
             <Button
-              label="Close"
+              variant={'default-primary'}
               onClick={() => {
                 setShowModal(false)
               }}
-            />
+            >
+              Close
+            </Button>
           </div>
         </dialog>
       )}

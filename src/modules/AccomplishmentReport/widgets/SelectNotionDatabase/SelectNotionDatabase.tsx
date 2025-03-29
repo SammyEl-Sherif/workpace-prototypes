@@ -1,5 +1,7 @@
 import { ReactNode } from 'react'
 
+import { Select } from '@workpace/design-system'
+
 import { useNotionDatabaseContext } from '@/modules/AccomplishmentReport/contexts'
 
 import styles from './Select.module.scss'
@@ -18,12 +20,14 @@ export const SelectNotionDatabase = ({ children, label, defaultValue }: SelectPr
   return (
     <div className={styles.container}>
       <div style={{ position: 'relative' }}>
-        <h3 style={{ fontSize: '12px', position: 'absolute', top: '-16px' }}>
-          <label>{label}</label>
-        </h3>
-        <select onChange={handleDbChange} defaultValue={defaultValue} className={styles.select}>
+        <Select
+          label={label}
+          onChange={handleDbChange}
+          defaultValue={defaultValue}
+          className={styles.select}
+        >
           {children}
-        </select>
+        </Select>
       </div>
     </div>
   )

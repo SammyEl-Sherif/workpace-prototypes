@@ -27,13 +27,15 @@ export const useNotionDatabasePages = ({
     }
   }, [database_id])
 
-  const [response, isLoading, error] = useFetch<{ data: PageSummary[] }, null>(
+  const [response, isLoading, error] = useFetch(
+    /* useFetch<{ data: PageSummary[] }, null> */
     'notion/database/pages',
     { data },
     null
   )
+
   return {
-    pages: response?.data ?? [],
+    pages: (response as PageSummary[]) ?? [],
     isLoading,
     error,
   }

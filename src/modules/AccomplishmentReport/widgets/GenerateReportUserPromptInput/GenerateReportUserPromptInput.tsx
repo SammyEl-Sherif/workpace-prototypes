@@ -43,13 +43,13 @@ const GenerateReportUserPromptInput = ({ pages }: GenerateReportUserPromptInputP
         />
         <div className={styles.buttonRight}>
           <Button
-            label={`Generate Report`}
-            primary={true}
-            size="small"
+            variant={'default-primary'}
             onClick={() => {
               makeRequest()
             }}
-          />
+          >
+            Generate Report
+          </Button>
         </div>
       </div>
       {response && <hr style={{ marginTop: '20px', marginBottom: '5px' }} />}
