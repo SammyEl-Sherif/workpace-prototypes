@@ -3,18 +3,13 @@ import { useState } from 'react'
 import { Button } from '@workpace/design-system'
 import ReactLoading from 'react-loading'
 
-import { PageSummary } from '@/interfaces/notion'
-
 import styles from './GenerateReportUserPromptInput.module.scss'
 import { GeneratedReport } from '../../entries'
-import { useGenerateReport } from '../../hooks'
+import { useGenerateReport, useNotionDatabasePages } from '../../hooks'
 
-type GenerateReportUserPromptInputProps = {
-  pages: PageSummary[] | null
-}
-
-const GenerateReportUserPromptInput = ({ pages }: GenerateReportUserPromptInputProps) => {
+const GenerateReportUserPromptInput = () => {
   const [userPrompt, setUserPrompt] = useState<string>()
+  const { pages } = useNotionDatabasePages()
   const [response, isLoading, , makeRequest] = useGenerateReport({
     pages: pages ?? [],
     userPrompt,

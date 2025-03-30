@@ -29,9 +29,13 @@ export const getServerSideProps: GetServerSideProps = withPageRequestWrapper(asy
 
 const HomePage = ({ databases }: GoodStuffListPageProps) => {
   return (
-    <NotionDatabaseContextProvider database_id={databases[0].id} filters={null}>
+    <NotionDatabaseContextProvider
+      database_id={databases[0] ? databases[0].id : ''}
+      databases={databases}
+      filters={null}
+    >
       <DocumentTitle title="Home" />
-      <NotionInsights databases={databases} />
+      <NotionInsights />
     </NotionDatabaseContextProvider>
   )
 }

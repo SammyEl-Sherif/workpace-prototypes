@@ -25,6 +25,7 @@ export const SelectNotionDatabase = ({ children, label, defaultValue }: SelectPr
           onChange={handleDbChange}
           defaultValue={defaultValue}
           className={styles.select}
+          required
         >
           {children}
         </Select>

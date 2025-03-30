@@ -2,16 +2,13 @@ import { useState } from 'react'
 
 import { Button } from '@workpace/design-system'
 
-import { PageSummary } from '@/interfaces/notion'
-
 import styles from './AllAccomplishmentsModal.module.scss'
+import { useNotionDatabasePages } from '../../hooks'
 
-type AllAccomplishmentsModalProps = {
-  pages: PageSummary[]
-}
-
-const AllAccomplishmentsModal = ({ pages }: AllAccomplishmentsModalProps) => {
+const AllAccomplishmentsModal = () => {
   const [showModal, setShowModal] = useState(false)
+  const { pages } = useNotionDatabasePages()
+
   return (
     <>
       <Button

@@ -64,10 +64,10 @@ const formatNotionAccomplishments = (pages: QueryDatabaseResponse): PageSummary[
     }
   })[]) {
     pageSummaries.push({
-      title: page?.properties.Name.title[0].plain_text,
-      summary: page?.properties['AI summary']?.rich_text[0].plain_text,
-      completionDate: page?.properties['Completion Date']?.date.start,
-      accomplishmentType: page?.properties['Accomplishment Type']?.select?.name,
+      title: page?.properties.Name?.title?.[0]?.plain_text || 'Untitled',
+      summary: page?.properties['AI summary']?.rich_text?.[0]?.plain_text || 'No summary available',
+      completionDate: page?.properties['Completion Date']?.date?.start || null,
+      accomplishmentType: page?.properties['Accomplishment Type']?.select?.name || 'Unknown',
     })
   }
   return pageSummaries

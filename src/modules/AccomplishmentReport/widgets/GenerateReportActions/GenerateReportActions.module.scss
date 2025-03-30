@@ -2,9 +2,9 @@
 
 .actions {
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: column nowrap;
   gap: $size-200;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .container {
@@ -14,5 +14,5 @@
   gap: $size-200;
   padding-bottom: $size-25;
   margin-top: 20px;
-  align-items: center;
+  align-items: flex-start;
 }

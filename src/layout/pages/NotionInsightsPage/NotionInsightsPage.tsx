@@ -1,8 +1,6 @@
 import { useState } from 'react'
 
 import { NotionDatabase } from '@/interfaces/notion'
-import { useNotionDatabaseContext } from '@/modules/AccomplishmentReport/contexts'
-import { useNotionDatabasePages } from '@/modules/AccomplishmentReport/hooks'
 import {
   GenerateReportActions,
   GenerateReportUserPromptInput,
@@ -53,21 +51,7 @@ const LearnMore = () => {
   )
 }
 
-const NotionInsights = ({ databases }: NotionInsightsPageProps) => {
-  const {
-    state: { database_id, filters },
-  } = useNotionDatabaseContext()
-
-  const { pages } = useNotionDatabasePages({
-    database_id: database_id ?? '',
-    filters: {
-      property: 'Status',
-      status: {
-        equals: 'Accomplishment',
-      },
-    },
-  })
-
+const NotionInsights = () => {
   return (
     <div className={styles.page}>
       <div className={styles.section} id="generate-report-user-prompt">
@@ -80,8 +64,8 @@ const NotionInsights = ({ databases }: NotionInsightsPageProps) => {
         <div className={styles.header}>
           <h1 style={{ fontSize: '32px' }}>Report Generator</h1>
         </div>
-        <GenerateReportActions databases={databases} pages={pages ?? []} />
-        <GenerateReportUserPromptInput pages={pages} />
+        <GenerateReportActions />
+        <GenerateReportUserPromptInput />
       </div>
       <div className={styles.section} id="generate-report-user-prompt">
         <div className={styles.header}>
