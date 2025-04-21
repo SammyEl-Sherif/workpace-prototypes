@@ -9,7 +9,6 @@ export const getNotionDatabaseInfoController = async (
 ): Promise<HttpResponse<DatabaseObjectResponse>> => {
   try {
     const database = await client.databases.retrieve({ database_id })
-
     return {
       data: database as DatabaseObjectResponse,
       status: 200,

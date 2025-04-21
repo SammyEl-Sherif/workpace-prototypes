@@ -16,12 +16,14 @@ export const getPrototypesMetadata = (): Prototype[] => {
     const path = `prototypes/${file.replace('.tsx', '')}` as keyof typeof PrototypeMeta
     const description = PrototypeMeta[path as keyof typeof PrototypeMeta].description
     const icon = PrototypeMeta[path as keyof typeof PrototypeMeta].icon
+    const stage = PrototypeMeta[path as keyof typeof PrototypeMeta].stage
 
     return {
       name: `${icon} ${name}`,
       path: `/${path}`,
       description,
       icon,
+      stage,
     }
   })
 

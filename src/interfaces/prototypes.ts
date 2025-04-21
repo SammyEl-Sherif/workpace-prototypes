@@ -7,6 +7,13 @@ export type Prototype = {
   description: string
   icon: any
   permittedRoles?: UserGroup[]
+  stage: PrototypeStage
+}
+
+export const enum PrototypeStage {
+  WIP = 'WIP',
+  MVP = 'MVP',
+  Standalone = 'Standalone',
 }
 
 export const PrototypeMeta = {
@@ -15,5 +22,6 @@ export const PrototypeMeta = {
       'This prototype enables me to create valuable artifacts, such as year-end reviews, resume sections, and LinkedIn experience descriptions, based on my accomplishments (task tracking in Notion).',
     icon: '📝',
     permittedRoles: [UserGroup.Admin],
+    stage: PrototypeStage.WIP,
   },
 }

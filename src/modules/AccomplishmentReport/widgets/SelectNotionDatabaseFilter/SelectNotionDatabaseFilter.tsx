@@ -1,97 +1,121 @@
 import { useMemo, useRef } from 'react'
 
-import { DatabaseObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 import { Select } from '@workpace/design-system'
 
 import styles from './Select.module.scss'
 import { useNotionDatabaseInfo } from '../../hooks'
 import { useNotionDatabaseContext } from '@/modules/AccomplishmentReport/contexts'
-import { PropertyType } from 'notion-types'
+import Loading from 'react-loading'
+import { PropertyType } from '@/interfaces/notion'
 
-interface SelectProps {
-  label: string
-}
+const supportedPropertyTypes = ['status', 'select']
 
-const usePropertyType = (
-  properties: DatabaseObjectResponse['properties'],
-  selectedProperty: string
-): PropertyType | null => {
-  const propertyType = useMemo(() => {
-    return properties[selectedProperty]?.type
-  }, [selectedProperty])
-  return selectedProperty ? (propertyType as PropertyType | null) : null
-}
-
-export const SelectNotionDatabaseFilter = ({ label }: SelectProps) => {
+export const SelectNotionDatabaseFilter = () => {
   const {
     update,
     state: { database_id, filters },
   } = useNotionDatabaseContext()
-  const { response } = useNotionDatabaseInfo({ database_id: database_id ?? '' })
 
-  const property = useRef<string>()
-  const propertyValue = useRef<string>('Accomplishment')
+  const { response, isLoading } = useNotionDatabaseInfo({ database_id: database_id ?? '' })
+  const property = useRef<string>('')
+  const propertyValue = useRef<string>('')
 
-  const handleDbChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const filterName = useMemo(() => {
+    return filters && 'property' in filters
+      ? filters.property
+      : Array.isArray(response?.properties) && response?.properties.length > 0
+      ? response.properties[0].name
+      : ''
+  }, [response?.properties, filters])
+  const propertyType = response?.properties[filterName]?.type ?? ''
+
+  const handlePropertyChange = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+    propertyType: PropertyType
+  ) => {
+    /* when the property changes, select the first option */
+    let propOptionChoice = ''
     property.current = JSON.parse(event.target.value).name
+    propOptionChoice =
+      propertyType === 'select' || propertyType === 'status'
+        ? response?.properties[property.current][propertyType]?.options[0]?.name
+        : ''
     update({
       filters: {
         property: property.current ?? '',
-        status: {
-          equals: propertyValue.current ?? 'N/A',
+        [propertyType]: {
+          equals: propertyValue.current ?? propOptionChoice,
         },
       },
     })
   }
 
-  const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleFilterChange = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+    propertyType: PropertyType
+  ) => {
     propertyValue.current = JSON.parse(event.target.value)
     update({
       filters: {
         property: property.current ?? '',
-        status: {
+        [propertyType]: {
           equals: propertyValue.current,
         },
       },
     })
   }
 
-  const filterName =
-    filters && 'property' in filters
-      ? filters.property
-      : Array.isArray(response?.properties) && response?.properties.length > 0
-      ? response.properties[0].name
-      : ''
-  const propertyType = usePropertyType(response?.properties ?? {}, filterName ?? '')
-
+  if (isLoading) {
+    return <Loading />
+  }
   return (
     <div className={styles.container}>
       <div className={styles.selectGroup}>
         <Select
-          label={label}
+          label="Filter by"
           required
-          onChange={handleDbChange}
+          onChange={(event) => handlePropertyChange(event, propertyType)}
           className={styles.select}
-          defaultValue={''}
         >
           {response?.properties &&
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             Object.entries(response.properties).map(([key, prop]: [string, any]) => (
-              <option key={`${prop.id}-${key}`} value={JSON.stringify(prop)}>
+              <option
+                key={`${prop.id}-${key}`}
+                disabled={!supportedPropertyTypes.includes(prop.type)}
+                value={JSON.stringify(prop)}
+              >
                 {prop.name}
               </option>
             ))}
         </Select>
         {(() => {
           switch (propertyType) {
+            case 'select':
+              return (
+                <Select
+                  label={filterName ?? ''}
+                  required
+                  onChange={(event) => handleFilterChange(event, propertyType)}
+                  className={styles.select}
+                >
+                  {filterName &&
+                    response?.properties[filterName]?.type === 'select' &&
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    response.properties[filterName].select.options.map((prop: any) => (
+                      <option key={prop.id} value={JSON.stringify(prop.name)}>
+                        {prop.name}
+                      </option>
+                    ))}
+                </Select>
+              )
             case 'status':
               return (
                 <Select
                   label={filterName ?? ''}
                   required
-                  onChange={handleFilterChange}
+                  onChange={(event) => handleFilterChange(event, propertyType)}
                   className={styles.select}
-                  defaultValue={''}
                 >
                   {filterName &&
                     response?.properties[filterName]?.type === 'status' &&

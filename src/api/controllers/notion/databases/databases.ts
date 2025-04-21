@@ -6,7 +6,17 @@ import { HttpResponse } from '@/server/types'
 
 export const getNotionDatabasesController = async (
   notion: Client
-): Promise<HttpResponse<NotionDatabase[]>> => {
+): Promise<
+  HttpResponse<{
+    databases: NotionDatabase[]
+    defaultFilter?: {
+      property: string
+      status: {
+        equals: string
+      }
+    }
+  }>
+> => {
   try {
     const response = await notion.search({
       query: '',
@@ -19,14 +29,35 @@ export const getNotionDatabasesController = async (
         timestamp: 'last_edited_time',
       },
     })
+    const firstDatabase = response.results.find(
+      (result): result is DatabaseObjectResponse => 'properties' in result
+    )
+    let defaultFilter
+    if (firstDatabase) {
+      const statusProperty = Object.entries(firstDatabase.properties).find(
+        ([, property]) => property.type === 'status'
+      )
+      defaultFilter = {
+        property: statusProperty?.[0] ?? '',
+        status: {
+          equals:
+            statusProperty?.[1].type === 'status'
+              ? statusProperty[1].status.options[0].name
+              : 'N/A',
+        },
+      }
+    }
 
     return {
-      data: formatNotionDatabases(response.results as DatabaseObjectResponse[]),
+      data: {
+        databases: formatNotionDatabases(response.results as DatabaseObjectResponse[]),
+        defaultFilter,
+      },
       status: 200,
     }
   } catch (error) {
     return {
-      data: {} as NotionDatabase[],
+      data: { databases: {} as NotionDatabase[], defaultFilter: undefined },
       status: 500,
     }
   }

@@ -27,10 +27,10 @@ const GenerateReportUserPromptInput = () => {
             backgroundColor: 'white',
             color: 'black',
             padding: '8px',
-            border: 'solid black 1px',
-            borderRadius: '4px',
+            border: 'solid gray 1px',
+            borderRadius: '2px',
             flexGrow: 1,
-            boxShadow: '1px 1px 5px rgba(0, 0, 0, 0.3)',
+            boxShadow: '1px 1px 5px rgba(0, 0, 0, 0.2)',
             height: '72px',
           }}
           onChange={(e) => setUserPrompt(e.target.value)}

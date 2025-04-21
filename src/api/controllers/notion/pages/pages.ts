@@ -7,6 +7,7 @@ import {
 
 import { PageSummary } from '@/interfaces/notion'
 import { HttpResponse } from '@/server/types'
+// import { getNotionDatabaseInfoController } from '../database'
 
 export const getNotionPagesController = async (
   client: Client,
@@ -39,7 +40,7 @@ const formatNotionAccomplishments = (pages: QueryDatabaseResponse): PageSummary[
   const pageSummaries: PageSummary[] = []
   for (const page of pages.results as (PageObjectResponse & {
     properties: {
-      'AI summary': {
+      Summary: {
         rich_text: {
           plain_text: string | null
         }[]
@@ -49,14 +50,14 @@ const formatNotionAccomplishments = (pages: QueryDatabaseResponse): PageSummary[
           plain_text: string | null
         }[]
       }
-      'Completion Date': {
+      Date: {
         date: {
           start: string | null
           end: string | null
           time_zone: string | null
         }
       }
-      'Accomplishment Type': {
+      'Task Type': {
         select: {
           name: string | null
         }
@@ -65,9 +66,9 @@ const formatNotionAccomplishments = (pages: QueryDatabaseResponse): PageSummary[
   })[]) {
     pageSummaries.push({
       title: page?.properties.Name?.title?.[0]?.plain_text || 'Untitled',
-      summary: page?.properties['AI summary']?.rich_text?.[0]?.plain_text || 'No summary available',
-      completionDate: page?.properties['Completion Date']?.date?.start || null,
-      accomplishmentType: page?.properties['Accomplishment Type']?.select?.name || 'Unknown',
+      summary: page?.properties['Summary']?.rich_text?.[0]?.plain_text || 'No summary available',
+      completionDate: page?.properties['Date']?.date?.start || null,
+      accomplishmentType: page?.properties['Task Type']?.select?.name || 'Unknown',
     })
   }
   return pageSummaries

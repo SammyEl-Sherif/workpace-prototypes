@@ -22,7 +22,7 @@ const GenerateReportActions = () => {
               </option>
             ))}
         </SelectNotionDatabase>
-        <SelectNotionDatabaseFilter label="Properties" />
+        <SelectNotionDatabaseFilter />
       </div>
       <AllAccomplishmentsModal />
     </div>

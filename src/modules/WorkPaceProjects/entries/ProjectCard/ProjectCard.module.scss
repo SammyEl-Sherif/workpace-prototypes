@@ -26,6 +26,25 @@
   }
 }
 
+.badge {
+  background-color: $color-active-800;
+  color: white;
+  border-radius: 8px;
+  text-align: left;
+  align-content: flex-end;
+  padding: 8px;
+  font-size: $font-headline-sm-font-size;
+  transition: all 0.3s ease;
+  display: inline-block;
+
+  &AndTitle {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
 .description {
   padding: 2rem 2rem;
   opacity: 0;

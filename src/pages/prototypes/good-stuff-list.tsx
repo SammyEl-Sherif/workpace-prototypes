@@ -12,27 +12,34 @@ import { withPageRequestWrapper } from '@/server/utils/withPageRequestWrapper'
 
 export interface GoodStuffListPageProps {
   databases: NotionDatabase[]
+  defaultFilter: {
+    property: string
+    status: {
+      equals: string
+    }
+  }
 }
 
 export const getServerSideProps: GetServerSideProps = withPageRequestWrapper(async (context) => {
-  const { databases } = await withNotionClient(async (_, __, client) => {
+  const { databases, defaultFilter } = await withNotionClient(async (_, __, client) => {
     const { data } = await getNotionDatabasesController(client)
     return {
-      databases: data,
+      databases: data.databases,
+      defaultFilter: data.defaultFilter,
     }
   })(context.req, context.res)
-
   return {
     databases,
+    defaultFilter,
   }
 })
 
-const HomePage = ({ databases }: GoodStuffListPageProps) => {
+const HomePage = ({ databases, defaultFilter }: GoodStuffListPageProps) => {
   return (
     <NotionDatabaseContextProvider
       database_id={databases[0] ? databases[0].id : ''}
       databases={databases}
-      filters={null}
+      filters={defaultFilter}
     >
       <DocumentTitle title="Home" />
       <NotionInsights />

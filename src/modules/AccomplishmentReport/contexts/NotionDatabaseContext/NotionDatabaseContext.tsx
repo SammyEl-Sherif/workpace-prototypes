@@ -1,16 +1,16 @@
 import { createContext, useMemo, FC, PropsWithChildren, useContext, useState } from 'react'
 import { QueryDatabaseParameters } from '@notionhq/client/build/src/api-endpoints'
-import { NotionDatabase } from '@/interfaces/notion'
+import { NotionDatabase, PropertyFilter } from '@/interfaces/notion'
 
 type NotionDatabaseContextState = {
   database_id: string | null
   databases: NotionDatabase[] | null
-  filters: QueryDatabaseParameters['filter'] | null
+  filters: Omit<PropertyFilter, 'rollup'> | null
 }
 type NotionDatabaseContextUpdater = (updater: Partial<NotionDatabaseContextState>) => void
 
 type NotionDatabaseContextProps = Omit<NotionDatabaseContextState, 'filters'> & {
-  filters: QueryDatabaseParameters['filter'] | null
+  filters: Omit<PropertyFilter, 'rollup'> | null
 }
 
 const NotionDatabaseContext = createContext<{
