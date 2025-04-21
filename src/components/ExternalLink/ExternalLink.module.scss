@@ -1,0 +1,11 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.link {
+  cursor: pointer;
+  color: $color-active-800;
+  font-weight: bold;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}

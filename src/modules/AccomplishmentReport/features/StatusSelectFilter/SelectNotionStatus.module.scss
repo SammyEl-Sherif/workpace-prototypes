@@ -1,0 +1,13 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.select {
+  padding: 10px 5px;
+  display: block;
+  position: relative;
+}
+
+.container {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+}

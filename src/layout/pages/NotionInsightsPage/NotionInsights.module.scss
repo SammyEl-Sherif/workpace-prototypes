@@ -14,6 +14,16 @@
   }
 }
 
+.summary {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: $size-200;
+  font-size: $font-body-lg-font-size;
+  line-height: $font-body-lg-line-height;
+}
+
 .cardFooter {
   margin-top: 5px;
   display: flex;
@@ -110,6 +120,12 @@
 
 .link {
   cursor: pointer;
+  color: $color-active-800;
+  font-weight: bold;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
   &Group {
     display: flex;
     flex-flow: row nowrap;

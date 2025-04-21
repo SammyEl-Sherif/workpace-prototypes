@@ -1,11 +1,7 @@
 import styles from './GenerateReportActions.module.scss'
-import { AllAccomplishmentsModal } from '../../features'
-import { NotionDatabase } from '@/interfaces/notion'
-import {
-  SelectNotionDatabase,
-  SelectNotionDatabaseFilter,
-} from '@/modules/AccomplishmentReport/widgets'
+import { AllAccomplishmentsModal, StatusSelectFilter } from '../../features'
 import { useNotionDatabaseContext } from '../../contexts'
+import { ExternalLink } from '@/components'
 
 const GenerateReportActions = () => {
   const {
@@ -14,15 +10,17 @@ const GenerateReportActions = () => {
   return (
     <div className={styles.container}>
       <div className={styles.actions}>
-        <SelectNotionDatabase label="Database" defaultValue={`${databases ? databases[0].id : ''}`}>
-          {Array.isArray(databases) &&
-            databases.map((db: NotionDatabase) => (
-              <option key={db.id} value={db.id}>
-                {db.title}
-              </option>
-            ))}
-        </SelectNotionDatabase>
-        <SelectNotionDatabaseFilter />
+        <div className={styles.selectedDb}>
+          <h3>Selected Database:</h3>
+          <ExternalLink
+            external
+            href="https://work-pace.notion.site/1c76838c67878105aa7cddf4d95fa59a?v=1c76838c6787809e89d5000cf1ad7803"
+          >
+            <h3>{databases?.length ? databases[0].title : 'Database N/A'}</h3>
+          </ExternalLink>
+        </div>
+        <StatusSelectFilter />
+        {/* TODO: Implement dynamic property filter <SelectNotionDatabaseFilter /> */}
       </div>
       <AllAccomplishmentsModal />
     </div>

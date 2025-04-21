@@ -7,7 +7,6 @@ import {
 
 import { PageSummary } from '@/interfaces/notion'
 import { HttpResponse } from '@/server/types'
-// import { getNotionDatabaseInfoController } from '../database'
 
 export const getNotionPagesController = async (
   client: Client,
