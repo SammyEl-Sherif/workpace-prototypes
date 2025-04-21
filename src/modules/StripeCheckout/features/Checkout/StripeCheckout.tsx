@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import styles from './StripeCheckout.module.scss'
+import { SectionContainer } from '@/components'
 
 export default function StripeCheckout() {
   const [orderPlaced, setOrderPlaced] = useState(false)
@@ -20,7 +21,7 @@ export default function StripeCheckout() {
 
   return (
     <form action="/api/checkout" method="POST">
-      <section className={styles.section}>
+      <SectionContainer>
         <h1>Product Name</h1>
         {orderPlaced && <p>Order placed! You will receive an email confirmation.</p>}
         {orderCanceled && (
@@ -29,7 +30,7 @@ export default function StripeCheckout() {
         <button type="submit" role="link" className={styles.button}>
           Checkout
         </button>
-      </section>
+      </SectionContainer>
     </form>
   )
 }

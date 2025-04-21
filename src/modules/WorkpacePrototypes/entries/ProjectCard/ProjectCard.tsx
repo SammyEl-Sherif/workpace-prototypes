@@ -9,14 +9,11 @@ export const ProjectCard: React.FC<Prototype> = ({ path, name, description, stag
   const { user } = useUser()
   const isWorkpaceAdmin = user?.roles.includes(UserGroup.Admin)
 
-  return isWorkpaceAdmin ? (
+  return isWorkpaceAdmin || process.env.DISABLE_RBAC ? (
     <a href={isProd ? `https://workpace.io${path}` : `http://localhost:3000${path}`}>
       <div className={styles.card}>
         <div className={styles.description}>{description}</div>
         <div>{name}</div>
-        {/* <div className={styles.badgeAndTitle}>
-          <div className={styles.badge}>{stage}</div>
-        </div> */}
       </div>
     </a>
   ) : (

@@ -7,12 +7,17 @@ type YearEndReviewResponse = {
   response: string | null
 }
 
-export const getYearEndReviewController = async (
-  client: OpenAI,
-  accomplishments: PageSummary[],
+export const getYearEndReviewController = async ({
+  client,
+  accomplishments,
+  userPrompt,
+}: {
+  client: OpenAI
+  accomplishments: PageSummary[]
   userPrompt: string | null
-): Promise<HttpResponse<YearEndReviewResponse>> => {
+}): Promise<HttpResponse<YearEndReviewResponse>> => {
   try {
+    console.log('accomplishments', accomplishments)
     const response: OpenAI.Chat.Completions.ChatCompletion = await client.chat.completions.create({
       model: 'gpt-3.5-turbo',
       messages: [
@@ -26,7 +31,8 @@ export const getYearEndReviewController = async (
         },
         {
           role: 'user',
-          content: userPrompt ?? '',
+          content:
+            userPrompt ?? 'Write me a year end self reflection report I can submit to my manager.',
         },
       ],
     })

@@ -1,8 +1,9 @@
+import { SectionContainer } from '@/components'
 import styles from './About.module.scss'
 
 export const AboutPage = () => {
   return (
-    <div className={styles.section} id="generate-report-user-prompt">
+    <SectionContainer>
       <div className={styles.title}>About Us</div>
       <div className={styles.subtitle}>
         Welcome to WorkPace&apos;s prototyping environment, where we test products designed to bring
@@ -11,6 +12,6 @@ export const AboutPage = () => {
       <div className={styles.title}>Our Tech Stack</div>
       <div className={styles.title}>Our Favorite Tools</div>
       <div className={styles.title}>Get In Touch</div>
-    </div>
+    </SectionContainer>
   )
 }

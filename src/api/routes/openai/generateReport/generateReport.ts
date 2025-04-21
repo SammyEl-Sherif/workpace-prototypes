@@ -9,21 +9,17 @@ export const generateReportRoute = withOpenaiClient<
   NextApiRequest,
   NextApiResponse<GenerateReportDTO>
 >(async (request, response, notionClient) => {
-  const { accomplishments, userPrompt }: { accomplishments: PageSummary[]; userPrompt: string } =
-    request.body
+  const { pages, userPrompt }: { pages: PageSummary[]; userPrompt: string } = request.body
   try {
-    try {
-      const { data, status } = await getYearEndReviewController(
-        notionClient,
-        accomplishments,
-        userPrompt
-      )
-      response.status(status).json(data)
-    } catch (err: any) {
-      response.status(err.statusCode || 500).json(err.message)
-    }
-    response.status(200)
-  } catch (error) {
-    response.status(500)
+    const { data, status } = await getYearEndReviewController({
+      client: notionClient,
+      accomplishments: pages,
+      userPrompt,
+    })
+    response.status(status).json(data)
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
+    response.status(err.statusCode || 500).json(err.message)
   }
 })

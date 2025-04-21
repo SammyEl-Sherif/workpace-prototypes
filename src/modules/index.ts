@@ -1,2 +1,2 @@
 export * from './AccomplishmentReport'
-export * from './WorkPaceProjects'
+export * from './WorkpacePrototypes'

@@ -1,4 +1,3 @@
-export * from './LandingPage'
 export * from './NotionInsightsPage'
-export * from './WorkpaceProjects'
+export * from './WorkpacePrototypes'
 export * from './ProfilePage'

@@ -1,13 +1,14 @@
 import { useUser } from '@/hooks'
 
 import styles from './ProfilePage.module.scss'
+import { SectionContainer } from '@/components'
 
 export const ProfilePage = () => {
   const { user } = useUser()
   return (
     <div>
       <div className={styles.title}>My Profile</div>
-      <div className={styles.section}>
+      <SectionContainer>
         <div className={styles.userInfo}>
           <div className={styles.username}>{user?.name ?? 'No username available'}</div>
           <div className={styles.email}>{user?.email ?? 'Email N/A'}</div>
@@ -20,7 +21,7 @@ export const ProfilePage = () => {
             </div>
           ))}
         </div>
-      </div>
+      </SectionContainer>
     </div>
   )
 }

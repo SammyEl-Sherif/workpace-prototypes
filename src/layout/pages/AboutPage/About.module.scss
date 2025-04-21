@@ -1,10 +1,5 @@
 @use '@workpace/design-system/dist/design-tokens' as *;
 
-.section {
-  display: flex;
-  flex-flow: column nowrap;
-}
-
 .title {
   display: flex;
   font-size: $font-headline-display-font-size;

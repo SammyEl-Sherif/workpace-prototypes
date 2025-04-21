@@ -36,7 +36,7 @@ const SignInForm = forwardRef(() => {
     password: '',
   })
   const methods = useForm<FormStateProps>()
-  const [{ isLoading, isError }, setFormState] = useState({ isLoading: false, isError: '' })
+  const [{ isLoading, isError }] = useState({ isLoading: false, isError: '' })
 
   return (
     <FormProvider {...methods}>
@@ -46,8 +46,7 @@ const SignInForm = forwardRef(() => {
         ) : (
           <>
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '32px' }}>
-              <div>Dude, go ahead ... Sign In ... 😎 </div>
-              {/* <div>{isAuthenticated ? "✅" : "🚫"}</div> */}
+              <div>Sign in</div>
             </div>
             <InputField
               {...methods.register('email')}
