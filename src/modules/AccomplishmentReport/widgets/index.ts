@@ -1,6 +1,5 @@
 export * from './GenerateReportUserPromptInput'
 export * from './GenerateReportActions'
 export * from './SelectNotionDatabase'
-export * from './SelectNotionDatabaseFilter'
 export * from './CommentSection'
 export * from './LearnMore'
