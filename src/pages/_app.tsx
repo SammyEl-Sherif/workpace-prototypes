@@ -13,7 +13,13 @@ export default function App({ Component, pageProps }: AppProps) {
   const { userProfile, prototypes } = pageProps as PageProps
   return (
     <Auth>
-      <UserInfoContextProvider userProfile={userProfile}>
+      <UserInfoContextProvider
+        userProfile={{
+          ...userProfile,
+          name: userProfile?.name ?? '',
+          email: userProfile?.email ?? '',
+        }}
+      >
         <PrototypesContextProvider prototypes={prototypes}>
           <MainLayout>
             <Component {...pageProps} />
