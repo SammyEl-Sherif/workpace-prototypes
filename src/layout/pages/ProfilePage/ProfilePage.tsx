@@ -15,11 +15,12 @@ export const ProfilePage = () => {
         </div>
         <div className={styles.roles}>
           <div className={styles.roleHeading}>User Roles</div>
-          {user?.roles.map((role: string) => (
-            <div key={role} className={styles.role}>
-              {role}
-            </div>
-          ))}
+          {user?.roles &&
+            user?.roles.map((role: string) => (
+              <div key={role} className={styles.role}>
+                {role}
+              </div>
+            ))}
         </div>
       </SectionContainer>
     </div>

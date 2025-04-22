@@ -63,13 +63,14 @@ const NavbarVertical = () => {
                 Prototypes
               </div>
               <div className={styles.links}>
-                {prototypes.map(({ path, name }: Prototype) => {
-                  return (
-                    <a className={styles.links} href={path} key={path}>
-                      {name}
-                    </a>
-                  )
-                })}
+                {prototypes &&
+                  prototypes.map(({ path, name }: Prototype) => {
+                    return (
+                      <a className={styles.links} href={path} key={path}>
+                        {name}
+                      </a>
+                    )
+                  })}
               </div>
             </div>
             <div className={styles.headingAndLinks}>
@@ -170,6 +171,7 @@ const NavbarVertical = () => {
         <div className={cn(styles.linkStack)}>
           <div className={cn(styles.linksHeading, { [styles.hide]: isCollapsed })}>Prototypes</div>
           {!isCollapsed &&
+            prototypes &&
             prototypes.map(({ path, name }: Prototype) => {
               return (
                 <a className={styles.links} href={path} key={path}>
@@ -192,6 +194,7 @@ const NavbarVertical = () => {
               </>
             )}
             {isCollapsed &&
+              prototypes &&
               prototypes.map(({ path, name, icon }: Prototype) => {
                 return (
                   <a className={styles.links} href={path} title={name} key={path}>

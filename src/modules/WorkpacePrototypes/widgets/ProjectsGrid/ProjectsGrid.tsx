@@ -17,18 +17,19 @@ export const ProjectsGrid = () => {
         a change of pace to your online workspace.
       </div>
       <div className={styles.grid}>
-        {prototypes.map((prototype: Prototype, index) => {
-          return (
-            <ProjectCard
-              path={prototype.path}
-              description={prototype?.description}
-              name={prototype.name}
-              key={index}
-              icon={prototype.icon}
-              stage={prototype.stage}
-            />
-          )
-        })}
+        {prototypes &&
+          prototypes.map((prototype: Prototype, index) => {
+            return (
+              <ProjectCard
+                path={prototype.path}
+                description={prototype?.description}
+                name={prototype.name}
+                key={index}
+                icon={prototype.icon}
+                stage={prototype.stage}
+              />
+            )
+          })}
       </div>
     </div>
   )
