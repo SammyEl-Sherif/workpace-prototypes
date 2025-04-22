@@ -14,7 +14,6 @@ export const useGenerateReport = ({ pages, userPrompt }: UseGenerateReportParamP
   const data = useMemo(() => {
     return { pages, userPrompt: userPrompt ?? DefaultPrompts.yearEndReview }
   }, [pages, userPrompt])
-  console.log('accomplishmentUsegenerate', data)
 
   const [response, isLoading, error, , makeRequest] = useFetch<GenerateReportDTO, null>(
     'openai/generateReport',
