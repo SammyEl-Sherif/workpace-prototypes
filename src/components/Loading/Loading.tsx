@@ -12,7 +12,7 @@ export const Loading = ({ className, fullscreen = false }: LoadingProps) => {
     <div
       className={cn(className, { [styles.wrapper]: fullscreen }, { [styles.loading]: fullscreen })}
     >
-      <ReactLoading type="spin" color="#1983EE" height={'20%'} width={'20%'} />
+      <ReactLoading type="spin" color="#1983EE" height={'15%'} width={'15%'} />
     </div>
   )
 }

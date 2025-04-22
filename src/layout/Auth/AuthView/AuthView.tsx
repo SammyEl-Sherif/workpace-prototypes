@@ -27,7 +27,7 @@ const AuthView: FC<AuthView> = ({ children }) => {
     )
   }, [pathname])
 
-  if (session.status === 'loading' || pathname === Routes.SIGNIN) {
+  if (pathname === Routes.SIGNIN) {
     return <Loading fullscreen />
   }
 
