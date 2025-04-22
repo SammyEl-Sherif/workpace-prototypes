@@ -23,7 +23,8 @@ export const LearnMore = () => {
           </div>
           <div>
             <p>
-              This Prototype is currently in the WIP status, and is fixed to a single{' '}
+              This Prototype is currently in the an MVE (minimum valuable experience) stage, and is
+              fixed to a single{' '}
               <ExternalLink
                 href="https://work-pace.notion.site/1c76838c67878105aa7cddf4d95fa59a?v=1c76838c6787809e89d5000cf1ad7803"
                 external
