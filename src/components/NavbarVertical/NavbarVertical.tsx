@@ -185,12 +185,12 @@ const NavbarVertical = () => {
                 <a className={styles.iconLinks} href={Routes.HOME}>
                   🏠
                 </a>
-                <a href={Routes.ABOUT} className={styles.links}>
+                {/* <a href={Routes.ABOUT} className={styles.links}>
                   👋
                 </a>
                 <a href={Routes.PROFILE} className={styles.links}>
                   👤
-                </a>
+                </a> */}
               </>
             )}
             {isCollapsed &&
@@ -205,7 +205,7 @@ const NavbarVertical = () => {
           </div>
         </div>
         <div className={cn(styles.divider, { [styles.hide]: isCollapsed })} />
-        <div className={cn(styles.linkStack, { [styles.hide]: isCollapsed })}>
+        {/* <div className={cn(styles.linkStack, { [styles.hide]: isCollapsed })}>
           <div className={styles.linksHeading}>Learn More</div>
           <a href={Routes.ABOUT} className={styles.links}>
             👋 About Us
@@ -213,7 +213,7 @@ const NavbarVertical = () => {
           <a href={Routes.PROFILE} className={styles.links}>
             👤 My Profile
           </a>
-        </div>
+        </div> */}
         <div className={cn(styles.authStatus, { [styles.hide]: isCollapsed })}>
           {status === 'authenticated' ? (
             <div
@@ -241,13 +241,13 @@ const NavbarVertical = () => {
           )}
         </div>
         {isCollapsed && (
-          <a
-            href={Routes.PROFILE}
+          <div
+            /* href={Routes.PROFILE} */
             className={styles.profile}
             title={Array.isArray(user?.roles) ? user.roles.join(', ') : user?.roles}
           >
             {data?.user?.name?.[0].toUpperCase() ?? 'N/A'}
-          </a>
+          </div>
         )}
       </div>
     </>

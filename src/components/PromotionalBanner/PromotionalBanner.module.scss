@@ -1,0 +1,16 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.banner {
+  display: flex;
+  background-color: #228cfd;
+  padding: $size-125 10%;
+  align-items: center;
+  flex-flow: row wrap;
+}
+
+.link {
+  cursor: pointer;
+  font-weight: 700;
+  text-decoration: underline;
+  color: black;
+}
