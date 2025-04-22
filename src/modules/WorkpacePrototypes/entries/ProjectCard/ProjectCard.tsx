@@ -8,8 +8,9 @@ export const ProjectCard: React.FC<Prototype> = ({ path, name, description, stag
   const isProd = process.env.NODE_ENV === 'production'
   const { user } = useUser()
   const isWorkpaceAdmin = user?.roles.includes(UserGroup.Admin)
+  const disableRbac = process.env.NEXT_PUBLIC_DISABLE_RBAC === 'true'
 
-  return isWorkpaceAdmin || process.env.DISABLE_RBAC ? (
+  return isWorkpaceAdmin || disableRbac ? (
     <a href={isProd ? `https://workpace.io${path}` : `http://localhost:3000${path}`}>
       <div className={styles.card}>
         <div className={styles.description}>{description}</div>
