@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import cn from 'classnames'
 import Image from 'next/image'
-import { signOut, useSession } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 
 import { useUser } from '@/hooks'
 import { Prototype } from '@/interfaces/prototypes'
@@ -14,27 +14,24 @@ import { getAppName } from '@/utils'
 import styles from './NavbarVertical.module.scss'
 
 const NavbarVertical = () => {
-  const handleSignOut = async () => {
-    await signOut({ redirect: true, callbackUrl: Routes.SIGNIN })
-  }
   const { data, status } = useSession()
-
-  const isProd = process.env.NODE_ENV === 'production'
+  const { user, signOut } = useUser()
+  const [isCollapsed, setIsCollapsed] = useState(false)
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false)
 
   const {
     state: { prototypes },
   } = usePrototypesContext()
-  const { user } = useUser()
 
-  const [isCollapsed, setIsCollapsed] = useState(false)
   const handleClick = () => {
     setIsCollapsed(!isCollapsed)
   }
 
-  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false)
   const openMobileNav = () => {
     setIsMobileNavOpen(!isMobileNavOpen)
   }
+
+  const isProd = process.env.NODE_ENV === 'production'
 
   return (
     <>
@@ -102,7 +99,7 @@ const NavbarVertical = () => {
             )}
             {status === 'authenticated' ? (
               <button
-                onClick={handleSignOut}
+                onClick={signOut}
                 className={cn(styles.button, { [styles.hide]: isCollapsed })}
               >
                 Sign out
@@ -110,7 +107,7 @@ const NavbarVertical = () => {
             ) : (
               <button
                 className={cn({ [styles.hide]: isCollapsed })}
-                onClick={() => (window.location.href = '/login')}
+                onClick={() => (window.location.href = '/signin')}
               >
                 Sign In
               </button>
@@ -228,16 +225,13 @@ const NavbarVertical = () => {
             <>🚫</>
           )}
           {status === 'authenticated' ? (
-            <button
-              onClick={handleSignOut}
-              className={cn(styles.button, { [styles.hide]: isCollapsed })}
-            >
+            <button onClick={signOut} className={cn(styles.button, { [styles.hide]: isCollapsed })}>
               Sign out
             </button>
           ) : (
             <button
               className={cn({ [styles.hide]: isCollapsed })}
-              onClick={() => (window.location.href = '/login')}
+              onClick={() => (window.location.href = '/signin')}
             >
               Sign In
             </button>

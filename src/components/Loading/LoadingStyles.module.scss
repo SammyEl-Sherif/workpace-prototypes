@@ -1,0 +1,16 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.loading {
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+  position: absolute;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

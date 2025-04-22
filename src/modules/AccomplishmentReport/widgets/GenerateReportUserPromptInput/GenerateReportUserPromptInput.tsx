@@ -1,11 +1,11 @@
 import { useState } from 'react'
 
 import { Button } from '@workpace/design-system'
-import ReactLoading from 'react-loading'
 
 import styles from './GenerateReportUserPromptInput.module.scss'
 import { GeneratedReport } from '../../entries'
 import { useGenerateReport, useNotionDatabasePages } from '../../hooks'
+import { Loading } from '@/components/Loading'
 
 const GenerateReportUserPromptInput = () => {
   const [userPrompt, setUserPrompt] = useState<string>()
@@ -48,19 +48,7 @@ const GenerateReportUserPromptInput = () => {
         </div>
       </div>
       {response && <hr style={{ marginTop: '20px', marginBottom: '5px' }} />}
-      {isLoading ? (
-        <div className={styles.loading}>
-          <ReactLoading
-            type="spin"
-            color="#1983EE"
-            height={'40%'}
-            width={'40%'}
-            className={styles.loader}
-          />
-        </div>
-      ) : (
-        <GeneratedReport response={response} mocked={false} />
-      )}
+      {isLoading ? <Loading /> : <GeneratedReport response={response} mocked={false} />}
       {response && <hr style={{ marginTop: '5px' }} />}
     </div>
   )
