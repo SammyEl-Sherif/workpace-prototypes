@@ -17,7 +17,7 @@ const AllAccomplishmentsModal = () => {
           setShowModal(!showModal)
         }}
       >
-        {`View All (${pages.length ?? '0'})`}
+        {`View All Tasks (${pages.length ?? '0'})`}
       </Button>
       {showModal && (
         <dialog open={showModal} className={styles.overlay}>

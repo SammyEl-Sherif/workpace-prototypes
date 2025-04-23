@@ -19,6 +19,7 @@ export const getPrototypesMetadata = (): Prototype[] => {
       const description = PrototypeMeta[path as keyof typeof PrototypeMeta].description
       const icon = PrototypeMeta[path as keyof typeof PrototypeMeta].icon
       const stage = PrototypeMeta[path as keyof typeof PrototypeMeta].stage
+      const tech = PrototypeMeta[path as keyof typeof PrototypeMeta].tech
 
       return {
         name: `${icon} ${name}`,
@@ -26,6 +27,7 @@ export const getPrototypesMetadata = (): Prototype[] => {
         description,
         icon,
         stage,
+        tech,
       }
     })
 

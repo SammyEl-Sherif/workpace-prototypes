@@ -8,6 +8,7 @@ export type Prototype = {
   icon: any
   permittedRoles?: UserGroup[]
   stage: PrototypeStage
+  tech: string
 }
 
 export const enum PrototypeStage {
@@ -23,5 +24,6 @@ export const PrototypeMeta = {
     icon: '📝',
     permittedRoles: [UserGroup.Admin],
     stage: PrototypeStage.WIP,
+    tech: 'Notion API, OpenAI API',
   },
 }

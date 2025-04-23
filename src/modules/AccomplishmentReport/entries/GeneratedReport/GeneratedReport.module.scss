@@ -1,4 +1,9 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
 .container {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: $size-200;
   code {
     display: flex;
     word-wrap: break-word;

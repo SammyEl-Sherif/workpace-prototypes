@@ -1,0 +1,1 @@
+export { PrototypeHeading } from './PrototypeHeading'

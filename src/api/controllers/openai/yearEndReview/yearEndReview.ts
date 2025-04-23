@@ -25,7 +25,7 @@ export const getYearEndReviewController = async ({
           content: `Utilize the following relevant data (${JSON.stringify(
             accomplishments
           )}) for headings and return the response as a string which utilizes markdown syntax. 
-          Write a report in essay style without bullet points. Do not use triple backticks for formatting; 
+          Write a report in essay style without bullet points unless I say to use bullet points. Do not use triple backticks for formatting; 
           I will format it using the npm package react-markdown.`,
         },
         {

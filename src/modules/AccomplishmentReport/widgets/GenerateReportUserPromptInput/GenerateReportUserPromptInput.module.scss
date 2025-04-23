@@ -4,12 +4,66 @@
   display: flex;
   flex-flow: row wrap;
   gap: $size-150;
-  align-items: center;
+  align-items: flex-end;
+  justify-content: flex-end;
+  outline: solid black 1px;
+  border-radius: $size-50;
+  width: 100%;
+  height: auto;
 }
 
-.buttonRight {
+.textarea {
+  background-color: white;
+  color: black;
+  border: solid gray 1px;
+  padding: 8px;
+  border-radius: 2px;
+
+  flex-grow: 1;
+  min-height: 36px;
+  border: none;
+  resize: none;
+
+  height: auto;
+  overflow-y: hidden; // Prevents scrolling
+  width: 100%;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.button {
+  height: 24px;
+  border-radius: $size-50;
+  &:hover {
+    background-color: black;
+    color: white;
+  }
+}
+
+.arrow {
   display: flex;
-  align-self: flex-start;
+  align-items: center;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  width: 100%;
+  padding: $size-200;
+}
+
+.actions {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: $size-125;
+}
+
+.submitButton {
+  padding-right: $size-100;
+  fill: black;
+  &:hover {
+    fill: gray;
+  }
 }
 
 .loading {

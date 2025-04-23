@@ -1,24 +1,22 @@
 @use '@workpace/design-system/dist/design-tokens' as *;
 
+.titleAndFilter {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: $size-100;
+}
 .actions {
   display: flex;
   flex-flow: row nowrap;
-  gap: $size-200;
   align-items: center;
-}
-
-.container {
-  display: flex;
-  flex-flow: row wrap;
   justify-content: space-between;
-  gap: $size-200;
-  padding-bottom: $size-25;
-  align-items: flex-start;
 }
 
 .selectedDb {
+  gap: $size-100;
   display: flex;
   flex-flow: row nowrap;
-  gap: $size-50;
   align-items: center;
+  margin: $size-200 0;
 }

@@ -1,0 +1,9 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.badge {
+  background-color: black;
+  border-radius: $size-50;
+  padding: $size-100 $size-150;
+  color: white;
+  font-size: $font-body-sm-font-size;
+}

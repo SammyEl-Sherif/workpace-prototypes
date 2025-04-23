@@ -1,5 +1,4 @@
 export * from './GenerateReportUserPromptInput'
 export * from './GenerateReportActions'
-export * from './SelectNotionDatabase'
+export * from './GenerateReportActions/SelectNotionDatabase'
 export * from './CommentSection'
-export * from './LearnMore'
