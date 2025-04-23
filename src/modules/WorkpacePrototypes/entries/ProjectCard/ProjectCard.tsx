@@ -4,7 +4,7 @@ import { UserGroup } from '@/interfaces/user'
 
 import styles from './ProjectCard.module.scss'
 
-export const ProjectCard: React.FC<Prototype> = ({ path, name, description, stage }) => {
+export const ProjectCard: React.FC<Prototype> = ({ path, name, description }) => {
   const isProd = process.env.NODE_ENV === 'production'
   const { user } = useUser()
   const isWorkpaceAdmin = user?.roles.includes(UserGroup.Admin)
