@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
-import { Button } from '@workpace/design-system'
+import { Button, Text } from '@workpace/design-system'
 
 import styles from './GenerateReportUserPromptInput.module.scss'
 import { AllPages, GeneratedReport } from '../../entries'
@@ -25,6 +25,7 @@ const GenerateReportUserPromptInput = () => {
     <div>
       <SectionContainer>
         <AllPages />
+        <Text variant={'headline-md-emphasis'}>Enter a Prompt</Text>
         <div className={styles.promptWrapper}>
           <textarea
             className={styles.textarea}

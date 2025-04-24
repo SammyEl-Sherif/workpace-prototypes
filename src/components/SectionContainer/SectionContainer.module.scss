@@ -3,7 +3,6 @@
 .section {
   display: flex;
   flex-flow: column nowrap;
-  outline: solid #d5d3d3 1px;
   border-radius: 3px;
   padding: 3%;
   background-color: white;
@@ -14,4 +13,8 @@
     flex-flow: column nowrap;
     padding: 2% 15%;
   }
+}
+
+.outline {
+  outline: solid #d5d3d3 1px;
 }

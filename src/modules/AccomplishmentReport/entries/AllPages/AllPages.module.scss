@@ -6,6 +6,7 @@
   align-items: center;
   gap: $size-100;
 }
+
 .actions {
   display: flex;
   flex-flow: row nowrap;
@@ -19,4 +20,48 @@
   flex-flow: row nowrap;
   align-items: center;
   margin: $size-200 0;
+}
+
+.task {
+  display: flex;
+  flex-flow: column nowrap;
+  padding: $size-125;
+  background-color: #f8f8f7;
+  &:not(:last-child) {
+    border-bottom: solid #606060 1px;
+  }
+  color: black;
+  gap: $size-100;
+  &:hover {
+    background-color: #e3e3e3;
+  }
+  &List {
+    display: flex;
+    flex-flow: column nowrap;
+    font-size: $font-body-lg-font-size;
+    max-height: 340px;
+    margin: $size-150 0;
+    overflow-y: auto;
+    box-sizing: content-box; // Ensure padding doesn't affect overall width
+    border: solid #313131 1px;
+    border-radius: 7px;
+
+    // Scrollbar Styling
+    &::-webkit-scrollbar {
+      width: 12px; /* Set the width of the scrollbar */
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #313131;
+      border-radius: 20px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: #4a4a4a; /* Lighter gray on hover */
+    }
+
+    &::-webkit-scrollbar-thumb:active {
+      background-color: #5c5c5c; /* Even lighter gray on click */
+    }
+  }
 }

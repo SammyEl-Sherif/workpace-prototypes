@@ -60,9 +60,9 @@
 
 .submitButton {
   padding-right: $size-100;
-  fill: black;
+  fill: $color-active-800;
   &:hover {
-    fill: gray;
+    fill: green;
   }
 }
 

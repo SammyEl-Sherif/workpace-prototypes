@@ -14,7 +14,7 @@ export const AllPages = () => {
     <div>
       <div className={styles.actions}>
         <div className={styles.titleAndFilter}>
-          <h3>Tasks ({pages.length})</h3>
+          <Text variant={'headline-md-emphasis'}>Tasks ({pages.length})</Text>
           <StatusSelectFilter />
         </div>
         <div className={styles.selectedDb}>
@@ -27,15 +27,17 @@ export const AllPages = () => {
           </ExternalLink>
         </div>
       </div>
-      {Array.isArray(pages) &&
-        pages.map((item, i) => (
-          <p style={{ padding: '10px' }} key={i}>
-            <span>
-              {i + 1}. {(item as any).title} |{' '}
-            </span>
-            <span>{(item as any).accomplishmentType}</span>
-          </p>
-        ))}
+      <div className={styles.taskList}>
+        {Array.isArray(pages) &&
+          pages.map((item, i) => (
+            <div className={styles.task} key={i}>
+              <Text as="div" variant={'body-lg-emphasis'}>
+                Title: {(item as any).title}
+              </Text>
+              <Text as="div">Type: {(item as any).accomplishmentType}</Text>
+            </div>
+          ))}
+      </div>
     </div>
   )
 }

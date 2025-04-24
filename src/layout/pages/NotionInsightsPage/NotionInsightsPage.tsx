@@ -11,7 +11,7 @@ export interface NotionInsightsPageProps {
 const NotionInsights = () => {
   return (
     <div className={styles.page}>
-      <SectionContainer>
+      <SectionContainer border={false}>
         <PrototypeHeading title="🥇 The Good Stuff List" />
         <GenerateReportUserPromptInput />
       </SectionContainer>
