@@ -5,14 +5,24 @@
   flex-flow: row nowrap;
   align-items: center;
 }
-
-.title {
-  width: 100%;
-}
-
 .description {
   margin: $size-100;
   line-height: $size-300;
+}
+
+@media #{$mq-sm-only} {
+  .wrapper {
+    display: flex;
+    flex-flow: column wrap;
+  }
+  .description {
+    margin: $size-100 0;
+    line-height: $size-300;
+  }
+}
+
+.title {
+  width: 100%;
 }
 
 .badgeGroup {
@@ -22,4 +32,16 @@
   align-items: center;
   justify-content: flex-end;
   width: 100%;
+}
+
+@media #{$mq-sm-only} {
+  .badgeGroup {
+    display: flex;
+    flex-direction: row wrap;
+    gap: $size-100;
+    margin-top: $size-100;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+  }
 }

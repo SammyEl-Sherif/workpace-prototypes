@@ -13,6 +13,14 @@
   align-items: center;
   justify-content: space-between;
 }
+@media #{$mq-sm-only} {
+  .actions {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
 
 .selectedDb {
   gap: $size-100;

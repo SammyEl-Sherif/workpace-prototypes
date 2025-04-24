@@ -57,6 +57,15 @@
   align-items: center;
   gap: $size-125;
 }
+@media #{$mq-sm-only} {
+  .actions {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: $size-125;
+  }
+}
 
 .submitButton {
   padding-right: $size-100;
