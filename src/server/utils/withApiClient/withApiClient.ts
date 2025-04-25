@@ -3,6 +3,7 @@ import { GetServerSidePropsContext } from 'next/types'
 import { HttpClient } from '@/server/types/httpClient'
 
 import { createHttpClient } from '../createHttpClient'
+import { withWorkPaceServer } from '../createHttpClient/withWorkPaceServer'
 
 export const withApiClient = <
   TRequest extends GetServerSidePropsContext['req'],
@@ -13,6 +14,9 @@ export const withApiClient = <
 ) => {
   return async (request: TRequest, response: TResponse) => {
     const client = createHttpClient()
+
+    withWorkPaceServer(client)
+
     return handler(request, response, client)
   }
 }

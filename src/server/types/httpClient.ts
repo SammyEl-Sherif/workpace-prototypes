@@ -2,6 +2,7 @@ import { Axios, AxiosRequestConfig, AxiosResponse, Method } from 'axios'
 
 export enum HttpServer {
   StripeCheckout = 'SC',
+  WorkPace = 'WP',
 }
 
 export type HttpClientRequestConfig<T = any> = {

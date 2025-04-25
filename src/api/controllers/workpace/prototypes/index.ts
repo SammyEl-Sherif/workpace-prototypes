@@ -1,0 +1,1 @@
+export { getWorkPacePrototypesController } from './prototypes'
