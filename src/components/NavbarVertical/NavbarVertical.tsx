@@ -13,7 +13,7 @@ import { getAppName } from '@/utils'
 
 import styles from './NavbarVertical.module.scss'
 
-const NavbarVertical = () => {
+export const NavbarVertical = () => {
   const { data, status } = useSession()
   const { user, signOut } = useUser()
   const [isCollapsed, setIsCollapsed] = useState(false)
@@ -253,5 +253,3 @@ const NavbarVertical = () => {
     </>
   )
 }
-
-export default NavbarVertical

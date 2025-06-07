@@ -1,1 +1,1 @@
-export { default as revokeSession } from './revokeSession'
+export { revokeSession } from './revokeSession'

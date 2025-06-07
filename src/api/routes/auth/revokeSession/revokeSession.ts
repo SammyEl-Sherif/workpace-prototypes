@@ -3,7 +3,7 @@ import auth from '@/pages/api/auth/[...nextauth]'
 import { createHttpClient, getNextAuthJWT, getSession } from '@/server/utils'
 import { NextApiRequest, NextApiResponse } from 'next'
 
-const revokeSession = async (req: NextApiRequest, res: NextApiResponse) => {
+export const revokeSession = async (req: NextApiRequest, res: NextApiResponse) => {
   // const session = await getSession(req, res) // TODO: investigate why getServerSession throws error
   const session = await getNextAuthJWT(req)
   const authToken = `Basic ${Buffer.from(
@@ -41,5 +41,3 @@ const revokeSession = async (req: NextApiRequest, res: NextApiResponse) => {
   res.status(200)
   // res.send(statusText)
 }
-
-export default revokeSession

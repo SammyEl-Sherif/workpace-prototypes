@@ -7,7 +7,7 @@ type GeneratedReportProps = {
   mocked: boolean
 }
 
-const GeneratedReport = ({ response }: GeneratedReportProps) => {
+export const GeneratedReport = ({ response }: GeneratedReportProps) => {
   return (
     <div className={styles.container}>
       <Text variant={'headline-display-emphasis'}>AI Response</Text>
@@ -27,5 +27,3 @@ const GeneratedReport = ({ response }: GeneratedReportProps) => {
     </div>
   )
 }
-
-export default GeneratedReport

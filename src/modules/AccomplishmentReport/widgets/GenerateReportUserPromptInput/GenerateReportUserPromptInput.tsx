@@ -8,7 +8,7 @@ import { useGenerateReport, useNotionDatabasePages } from '../../hooks'
 import ReactLoading from 'react-loading'
 import { SectionContainer } from '@/components'
 
-const GenerateReportUserPromptInput = () => {
+export const GenerateReportUserPromptInput = () => {
   const [userPrompt, setUserPrompt] = useState<string>()
   const { pages } = useNotionDatabasePages()
   const [response, isLoading, , makeRequest] = useGenerateReport({
@@ -112,5 +112,3 @@ const GenerateReportUserPromptInput = () => {
     </div>
   )
 }
-
-export default GenerateReportUserPromptInput

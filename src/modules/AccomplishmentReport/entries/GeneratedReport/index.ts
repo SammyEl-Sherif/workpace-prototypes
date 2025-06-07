@@ -1,1 +1,1 @@
-export { default as GeneratedReport } from './GeneratedReport'
+export { GeneratedReport } from './GeneratedReport'

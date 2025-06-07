@@ -1,1 +1,1 @@
-export { default as AllAccomplishmentsModal } from './AllAccomplishmentsModal'
+export { AllAccomplishmentsModal } from './AllAccomplishmentsModal'

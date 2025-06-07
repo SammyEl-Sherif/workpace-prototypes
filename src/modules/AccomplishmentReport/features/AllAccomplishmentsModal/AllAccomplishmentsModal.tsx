@@ -5,7 +5,7 @@ import { Button } from '@workpace/design-system'
 import styles from './AllAccomplishmentsModal.module.scss'
 import { useNotionDatabasePages } from '../../hooks'
 
-const AllAccomplishmentsModal = () => {
+export const AllAccomplishmentsModal = () => {
   const [showModal, setShowModal] = useState(false)
   const { pages } = useNotionDatabasePages()
 
@@ -46,5 +46,3 @@ const AllAccomplishmentsModal = () => {
     </>
   )
 }
-
-export default AllAccomplishmentsModal
