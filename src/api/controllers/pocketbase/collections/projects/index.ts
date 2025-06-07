@@ -1,1 +1,0 @@
-export { getProjectsController } from './projects'

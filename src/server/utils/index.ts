@@ -1,4 +1,3 @@
-export * from './withPocketbaseClient'
 export * from './withPageRequestWrapper'
 export * from './withOpenaiClient'
 export * from './withNotionClient'

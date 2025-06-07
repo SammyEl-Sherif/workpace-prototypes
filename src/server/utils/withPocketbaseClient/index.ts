@@ -1,1 +1,0 @@
-export { withPocketbaseClient } from './withPocketbaseClient'
