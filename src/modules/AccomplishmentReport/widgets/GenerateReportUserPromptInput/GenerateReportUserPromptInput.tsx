@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 
 import { Button, Text } from '@workpace/design-system'
 
@@ -17,9 +17,15 @@ export const GenerateReportUserPromptInput = () => {
   })
   const bottomRef = useRef<HTMLDivElement>(null)
 
+  // TODO: find scroll fix - issue is auto scroll on page load with hero component
+  /* const hasMounted = useRef(false);
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [isLoading])
+    if (hasMounted.current) {
+      bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      hasMounted.current = true;
+    }
+  }, [isLoading]) */
 
   return (
     <div>

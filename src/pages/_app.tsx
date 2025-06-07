@@ -6,8 +6,8 @@ import type { AppProps } from 'next/app'
 
 import { UserInfoContextProvider } from '@/contexts/UserInfoContextProvider'
 import { PageProps } from '@/interfaces/page-props'
-import MainLayout from '@/layout/MainLayout'
 import { PrototypesContextProvider } from '@/modules'
+import NavigationLayout from '@/layout/NavigationLayout'
 
 export default function App({ Component, pageProps }: AppProps) {
   const { userProfile, prototypes } = pageProps as PageProps
@@ -21,9 +21,9 @@ export default function App({ Component, pageProps }: AppProps) {
         }}
       >
         <PrototypesContextProvider prototypes={prototypes}>
-          <MainLayout>
+          <NavigationLayout>
             <Component {...pageProps} />
-          </MainLayout>
+          </NavigationLayout>
         </PrototypesContextProvider>
       </UserInfoContextProvider>
     </Auth>

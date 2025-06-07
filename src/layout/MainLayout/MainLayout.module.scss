@@ -6,7 +6,6 @@
   flex: 1;
 
   &Size {
-    max-width: 1440px;
     margin: 5% 10%;
   }
 }
@@ -18,7 +17,6 @@
 
 .pageContent {
   flex: 1;
-  overflow: auto;
   height: 100vh;
 }
 
