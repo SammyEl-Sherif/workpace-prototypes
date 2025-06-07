@@ -1,1 +1,0 @@
-export { getStripeProductsRoute } from './products'

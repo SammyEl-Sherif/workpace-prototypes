@@ -1,1 +1,0 @@
-export { getStripeProductsController } from './products'

@@ -19,7 +19,6 @@
     "test:test": "jest --ci --runInBand"
   },
   "dependencies": {
-    "@stripe/stripe-js": "^4.1.0",
     "@workpace/design-system": "^1.0.7",
     "axios": "^1.7.2",
     "classnames": "^2.5.1",
@@ -30,8 +29,7 @@
     "query-string": "^9.0.0",
     "react": "^18",
     "react-dom": "^18",
-    "sass": "^1.44.0",
-    "stripe": "^16.5.0"
+    "sass": "^1.44.0"
   },
   "devDependencies": {
     "@types/node": "^20",
