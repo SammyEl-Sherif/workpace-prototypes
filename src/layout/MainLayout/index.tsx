@@ -3,7 +3,7 @@ import React, { ReactNode } from 'react'
 import { NavbarVertical } from '@/components'
 
 import styles from './MainLayout.module.scss'
-import { PromotionalBanner } from '@/components/PromotionalBanner'
+import { Banner } from '@/components/Banner'
 
 interface LayoutProps {
   children: ReactNode
@@ -14,8 +14,7 @@ export default function MainLayout({ children }: LayoutProps) {
     <div className={styles.pageLayout}>
       <NavbarVertical />
       <div className={styles.pageContent}>
-        {/* <WarningBanner /> */}
-        <PromotionalBanner />
+        <Banner type="promotion" />
         <main className={styles.containerSize}>{children}</main>
       </div>
     </div>

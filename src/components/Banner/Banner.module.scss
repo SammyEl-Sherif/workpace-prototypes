@@ -2,10 +2,14 @@
 
 .banner {
   display: flex;
-  background-color: #f2a618;
+  background-color: #228cfd;
   padding: $size-125 10%;
   align-items: center;
   flex-flow: row wrap;
+}
+
+.warning {
+  background-color: #f2a618;
 }
 
 .link {
