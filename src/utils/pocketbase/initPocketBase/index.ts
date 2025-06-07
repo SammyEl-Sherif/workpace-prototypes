@@ -1,1 +1,0 @@
-export { initPocketBase } from './initPocketBase'

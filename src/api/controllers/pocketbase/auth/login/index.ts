@@ -1,1 +1,0 @@
-export { loginUserController } from './login'

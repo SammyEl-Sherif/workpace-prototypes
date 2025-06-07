@@ -13,8 +13,3 @@ node_modules
 .eslintcache
 .stylelintcache
 .dccache
-
-# PocketBase files
-/pocketbase/pb_data/*
-/pocketbase/*.md
-/pocketbase/pocketbase
