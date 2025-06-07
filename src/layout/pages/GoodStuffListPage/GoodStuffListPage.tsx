@@ -1,14 +1,14 @@
 import { NotionDatabase } from '@/interfaces/notion'
 import { GenerateReportUserPromptInput } from '@/modules/AccomplishmentReport/widgets'
 
-import styles from './NotionInsights.module.scss'
+import styles from './GoodStuffList.module.scss'
 import { PrototypeHeading, SectionContainer } from '@/components'
 
-export interface NotionInsightsPageProps {
+export interface GoodStuffListPageProps {
   databases: NotionDatabase[]
 }
 
-const NotionInsights = () => {
+const GoodStuffListPage = () => {
   return (
     <div className={styles.page}>
       <SectionContainer border={false}>
@@ -19,4 +19,4 @@ const NotionInsights = () => {
   )
 }
 
-export default NotionInsights
+export default GoodStuffListPage

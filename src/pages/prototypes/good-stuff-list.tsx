@@ -5,7 +5,7 @@ import { GetServerSideProps } from 'next'
 import { getNotionDatabasesController } from '@/api/controllers'
 import { NotionDatabase } from '@/interfaces/notion'
 import { DocumentTitle } from '@/layout/DocumentTitle'
-import NotionInsights from '@/layout/pages/NotionInsightsPage/NotionInsightsPage'
+import GoodStuffList from '@/layout/pages/GoodStuffListPage/GoodStuffListPage'
 import { NotionDatabaseContextProvider } from '@/modules/AccomplishmentReport/contexts'
 import { withNotionClient } from '@/server/utils/withNotionClient'
 import { withPageRequestWrapper } from '@/server/utils/withPageRequestWrapper'
@@ -42,7 +42,7 @@ const HomePage = ({ databases, defaultFilter }: GoodStuffListPageProps) => {
       filters={defaultFilter}
     >
       <DocumentTitle title="Home" />
-      <NotionInsights />
+      <GoodStuffList />
     </NotionDatabaseContextProvider>
   )
 }
