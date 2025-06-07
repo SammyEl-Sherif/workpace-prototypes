@@ -1,8 +1,6 @@
 import { Axios, AxiosRequestConfig, AxiosResponse, Method } from 'axios'
 
-export enum HttpServer {
-  StripeCheckout = 'SC',
-}
+export enum HttpServer {}
 
 export type HttpClientRequestConfig<T = any> = {
   url: string
