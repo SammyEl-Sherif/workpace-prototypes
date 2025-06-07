@@ -23,6 +23,7 @@
 @media #{$mq-sm-only} {
   .pageContent {
     flex: 1;
+    height: 100vh;
     margin-top: 80px;
   }
 }

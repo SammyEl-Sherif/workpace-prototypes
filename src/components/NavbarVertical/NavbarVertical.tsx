@@ -76,7 +76,7 @@ export const NavbarVertical = ({ children }: { children: ReactNode }) => {
                     })}
                 </div>
               </div>
-              <div className={styles.headingAndLinks}>
+              {/* <div className={styles.headingAndLinks}>
                 <div className={styles.linksHeading}>Learn More</div>
                 <div className={styles.links}>
                   <a href={Routes.ABOUT} className={styles.links}>
@@ -86,7 +86,7 @@ export const NavbarVertical = ({ children }: { children: ReactNode }) => {
                     👤 My Profile
                   </a>
                 </div>
-              </div>
+              </div> */}
             </div>
             <div className={styles.authStatus}>
               {status === 'authenticated' ? (
