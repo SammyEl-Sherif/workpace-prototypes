@@ -10,7 +10,6 @@ type GeneratedReportProps = {
 export const GeneratedReport = ({ response }: GeneratedReportProps) => {
   return (
     <div className={styles.container}>
-      <Text variant={'headline-display-emphasis'}>AI Response</Text>
       {response ? (
         <ReactMarkdown
           className={styles.container}
@@ -21,9 +20,7 @@ export const GeneratedReport = ({ response }: GeneratedReportProps) => {
         >
           {response}
         </ReactMarkdown>
-      ) : (
-        <div>Click the button in the text box above ...</div>
-      )}
+      ) : null}
     </div>
   )
 }

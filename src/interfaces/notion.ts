@@ -8,6 +8,7 @@ export type PageSummary = {
   summary?: string | null
   completionDate?: string | null
   accomplishmentType?: string | null
+  publicUrl?: string
 }
 
 /** Types of structured data supported by Notion collections */

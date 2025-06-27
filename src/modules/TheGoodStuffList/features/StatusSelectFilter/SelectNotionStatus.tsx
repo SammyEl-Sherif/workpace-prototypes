@@ -2,7 +2,7 @@ import { Select } from '@workpace/design-system'
 
 import styles from './SelectNotionStatus.module.scss'
 import { useNotionDatabaseInfo } from '../../hooks'
-import { useNotionDatabaseContext } from '@/modules/AccomplishmentReport/contexts'
+import { useNotionDatabaseContext } from '@/modules/TheGoodStuffList/contexts'
 
 export const StatusSelectFilter = () => {
   const {

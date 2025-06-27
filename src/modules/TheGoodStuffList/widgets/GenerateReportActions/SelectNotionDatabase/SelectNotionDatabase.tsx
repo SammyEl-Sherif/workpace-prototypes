@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 
 import { Select } from '@workpace/design-system'
 
-import { useNotionDatabaseContext } from '@/modules/AccomplishmentReport/contexts'
+import { useNotionDatabaseContext } from '@/modules/TheGoodStuffList/contexts'
 
 import styles from './Select.module.scss'
 

@@ -1,5 +1,5 @@
 import { NotionDatabase } from '@/interfaces/notion'
-import { GenerateReportUserPromptInput } from '@/modules/AccomplishmentReport/widgets'
+import { GenerateReportUserPromptInput } from '@/modules/TheGoodStuffList/widgets'
 
 import styles from './GoodStuffList.module.scss'
 import { PrototypeHeading, SectionContainer } from '@/components'

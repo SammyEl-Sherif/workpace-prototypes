@@ -1,2 +1,2 @@
 export { SelectNotionDatabase } from './SelectNotionDatabase'
-export * from '../GenerateReportActions/PromptPresetSelector'
+export * from './PromptPresetSelector'

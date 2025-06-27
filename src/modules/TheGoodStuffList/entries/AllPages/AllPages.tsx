@@ -30,12 +30,16 @@ export const AllPages = () => {
       <div className={styles.taskList}>
         {Array.isArray(pages) &&
           pages.map((item, i) => (
-            <div className={styles.task} key={i}>
-              <Text as="div" variant={'body-lg-emphasis'}>
-                Title: {(item as any).title}
-              </Text>
-              <Text as="div">Type: {(item as any).accomplishmentType}</Text>
-            </div>
+            <ExternalLink href={item.publicUrl ?? ''} key={i}>
+              <div className={styles.task} key={i}>
+                <Text as="div" variant={'body-lg-emphasis'}>
+                  {(item as any).title}
+                </Text>
+                <Text className={styles.taskType} variant={'body-md'} as="div">
+                  {(item as any).accomplishmentType}
+                </Text>
+              </div>
+            </ExternalLink>
           ))}
       </div>
     </div>

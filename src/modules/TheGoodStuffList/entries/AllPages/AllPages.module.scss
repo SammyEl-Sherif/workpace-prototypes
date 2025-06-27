@@ -35,6 +35,19 @@
   flex-flow: column nowrap;
   padding: $size-125;
   background-color: #f8f8f7;
+  border: solid black 1px;
+  border-radius: $size-100;
+  width: 250px;
+  height: 100%;
+  justify-content: space-between;
+
+  &Type {
+    background-color: black;
+    color: white;
+    border-radius: $size-50;
+    padding: $size-125 $size-100;
+  }
+
   &:not(:last-child) {
     border-bottom: solid #606060 1px;
   }
@@ -45,14 +58,14 @@
   }
   &List {
     display: flex;
-    flex-flow: column nowrap;
+    flex-flow: row wrap;
     font-size: $font-body-lg-font-size;
     max-height: 340px;
     margin: $size-150 0;
     overflow-y: auto;
     box-sizing: content-box; // Ensure padding doesn't affect overall width
-    border: solid #313131 1px;
     border-radius: 7px;
+    gap: $size-150;
 
     // Scrollbar Styling
     &::-webkit-scrollbar {

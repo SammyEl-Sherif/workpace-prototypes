@@ -68,6 +68,7 @@ const formatNotionAccomplishments = (pages: QueryDatabaseResponse): PageSummary[
       summary: page?.properties['Summary']?.rich_text?.[0]?.plain_text || 'No summary available',
       completionDate: page?.properties['Date']?.date?.start || null,
       accomplishmentType: page?.properties['Task Type']?.select?.name || 'Unknown',
+      publicUrl: page?.public_url ?? '',
     })
   }
   return pageSummaries
