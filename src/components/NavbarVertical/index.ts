@@ -1,1 +1,1 @@
-export { default as NavbarVertical } from './NavbarVertical'
+export { NavbarVertical } from './NavbarVertical'

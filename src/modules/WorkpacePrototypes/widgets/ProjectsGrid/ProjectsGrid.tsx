@@ -2,7 +2,7 @@ import { Prototype } from '@/interfaces/prototypes'
 
 import styles from './ProjectsGrid.module.scss'
 import { usePrototypesContext } from '../../contexts'
-import { ProjectCard } from '../../entries'
+import { PrototypeCard } from '../../entries'
 
 export const ProjectsGrid = () => {
   const {
@@ -20,7 +20,7 @@ export const ProjectsGrid = () => {
         {prototypes &&
           prototypes.map((prototype: Prototype, index) => {
             return (
-              <ProjectCard
+              <PrototypeCard
                 path={prototype.path}
                 description={prototype?.description}
                 name={prototype.name}

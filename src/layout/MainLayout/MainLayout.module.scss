@@ -6,7 +6,6 @@
   flex: 1;
 
   &Size {
-    max-width: 1440px;
     margin: 5% 10%;
   }
 }
@@ -18,13 +17,13 @@
 
 .pageContent {
   flex: 1;
-  overflow: auto;
   height: 100vh;
 }
 
 @media #{$mq-sm-only} {
   .pageContent {
     flex: 1;
+    height: 100vh;
     margin-top: 80px;
   }
 }

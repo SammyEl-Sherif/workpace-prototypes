@@ -6,7 +6,7 @@ import Logo from '@/public/favicon.ico'
 import { getAppName } from '@/utils'
 
 import styles from './Navbar.module.scss'
-const Navbar = () => {
+export const Navbar = () => {
   const handleSignOut = async () => {
     await signOut({ redirect: true, callbackUrl: Routes.SIGNIN })
   }
@@ -36,5 +36,3 @@ const Navbar = () => {
     </div>
   )
 }
-
-export default Navbar

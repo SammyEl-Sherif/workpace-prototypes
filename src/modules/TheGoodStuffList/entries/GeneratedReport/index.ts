@@ -1,0 +1,1 @@
+export { GeneratedReport } from './GeneratedReport'
