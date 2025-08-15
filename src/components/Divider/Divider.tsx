@@ -1,5 +1,3 @@
 import styles from './Divider.module.scss'
 
-export const Divider = () => {
-  return <hr className={styles.divider} />
-}
+export const Divider = () => <hr className={styles.divider} />

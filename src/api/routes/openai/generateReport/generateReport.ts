@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { getYearEndReviewController } from '@/api/controllers'
 import { PageSummary } from '@/interfaces/notion'
 import { GenerateReportDTO } from '@/interfaces/openai'
-import { withOpenaiClient } from '@/server/utils/withOpenaiClient'
+import { withOpenaiClient } from '@/server/utils'
 
 export const generateReportRoute = withOpenaiClient<
   NextApiRequest,

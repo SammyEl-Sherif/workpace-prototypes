@@ -5,9 +5,7 @@ import { usePrototypesContext } from '../../contexts'
 import { ProjectCard } from '../../entries'
 
 export const ProjectsGrid = () => {
-  const {
-    state: { prototypes },
-  } = usePrototypesContext()
+  const { prototypes } = usePrototypesContext()
 
   return (
     <div>
@@ -17,20 +15,13 @@ export const ProjectsGrid = () => {
         a change of pace to your online workspace.
       </div>
       <div className={styles.grid}>
-        {prototypes &&
-          prototypes.map((prototype: Prototype, index) => {
-            return (
-              <ProjectCard
-                path={prototype.path}
-                description={prototype?.description}
-                name={prototype.name}
-                key={index}
-                icon={prototype.icon}
-                stage={prototype.stage}
-                tech={prototype.tech}
-              />
-            )
-          })}
+        {prototypes ? (
+          prototypes.map((prototype: Prototype, index) => (
+            <ProjectCard prototype={prototype} key={index} />
+          ))
+        ) : (
+          <>No Prototypes Available</>
+        )}
       </div>
     </div>
   )

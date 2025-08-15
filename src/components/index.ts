@@ -1,5 +1,4 @@
 export * from './Navbar'
-export * from './NavbarVertical'
 export * from './WarningBanner'
 export * from './ExternalLink'
 export * from './SectionContainer'

@@ -1,21 +1,16 @@
-import { Client } from '@notionhq/client'
 import { GetServerSidePropsContext } from 'next/types'
+import OpenAI from 'openai'
+import { createOpenaiClient } from '../../createHttpClient'
 
-import { createNotionClient } from '../notion/createNotionClient'
-
-export const withNotionClient = <
+export const withOpenaiClient = <
   TRequest extends GetServerSidePropsContext['req'],
   TResponse extends GetServerSidePropsContext['res'],
   TReturn = void
 >(
-  handler: (
-    req: TRequest,
-    res: TResponse,
-    notionClient: Client
-  ) => Promise<TReturn> /*  | TReturn */
+  handler: (req: TRequest, res: TResponse, openaiClient: OpenAI) => Promise<TReturn>
 ) => {
   return async (request: TRequest, response: TResponse) => {
-    const client = createNotionClient()
+    const client = createOpenaiClient()
     return handler(request, response, client)
   }
 }

@@ -1,1 +1,1 @@
-export { default as GenerateReportUserPromptInput } from './GenerateReportUserPromptInput'
+export { GenerateReportUserPromptInput } from './GenerateReportUserPromptInput'

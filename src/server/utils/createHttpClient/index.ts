@@ -1,2 +1,3 @@
 export { createHttpClient } from './createHttpClient'
-export { withNotionClient } from '../withNotionClient'
+export { createNotionClient } from './createNotionClient'
+export { createOpenaiClient } from './createOpenaiClient'

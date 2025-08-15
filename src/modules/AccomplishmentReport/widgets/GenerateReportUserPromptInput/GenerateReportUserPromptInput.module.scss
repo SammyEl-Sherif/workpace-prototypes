@@ -1,78 +1,197 @@
 @use '@workpace/design-system/dist/design-tokens' as *;
 
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: $size-300;
+}
+
+.tasksSection {
+  margin-bottom: $size-200;
+}
+
+.promptSection {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 15px;
+  padding: $size-250;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.promptHeader {
+  margin-bottom: $size-200;
+
+  .promptSubtitle {
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin-top: $size-50;
+  }
+}
+
 .promptWrapper {
   display: flex;
-  flex-flow: row wrap;
-  gap: $size-150;
-  align-items: flex-end;
-  justify-content: flex-end;
-  outline: solid black 1px;
-  border-radius: $size-50;
-  width: 100%;
-  height: auto;
+  flex-direction: column;
+  gap: $size-200;
+}
+
+.textareaContainer {
+  position: relative;
+
+  .textareaFocus {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 10px;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+  }
 }
 
 .textarea {
-  background-color: white;
-  color: black;
-  border: solid gray 1px;
-  padding: 8px;
-  border-radius: 2px;
-
-  flex-grow: 1;
-  min-height: 36px;
-  border: none;
-  resize: none;
-
-  height: auto;
-  overflow-y: hidden; // Prevents scrolling
+  background: white;
+  color: #212529;
+  border: 2px solid rgba(102, 126, 234, 0.2);
+  padding: $size-150;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.5;
+  resize: vertical;
+  min-height: 80px;
+  transition: all 0.3s ease;
   width: 100%;
+  box-sizing: border-box;
 
   &:focus {
     outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+
+    & + .textareaFocus {
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+  }
+
+  &::placeholder {
+    color: #6c757d;
+    opacity: 0.7;
   }
 }
 
-.button {
-  height: 24px;
-  border-radius: $size-50;
+.promptActions {
+  display: flex;
+  flex-direction: column;
+  gap: $size-200;
+}
+
+.presetSection {
+  .presetLabel {
+    font-size: 0.875rem;
+    color: #6c757d;
+    margin-bottom: $size-100;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+.presetButtons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: $size-100;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.presetButton {
+  height: 44px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  background: white;
+  color: #667eea;
+
   &:hover {
-    background-color: black;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+    border-color: transparent;
   }
 }
 
-.arrow {
+.generateButton {
+  height: 52px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
   display: flex;
   align-items: center;
-  flex-flow: row nowrap;
-  justify-content: space-around;
-  width: 100%;
-  padding: $size-200;
-}
+  justify-content: center;
+  gap: $size-50;
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  color: white;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 
-.actions {
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  gap: $size-125;
-}
-@media #{$mq-sm-only} {
-  .actions {
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
     display: flex;
-    flex-flow: row wrap;
     align-items: center;
-    justify-content: flex-end;
-    gap: $size-125;
+    justify-content: center;
+    flex-shrink: 0;
   }
 }
 
-.submitButton {
-  padding-right: $size-100;
-  fill: $color-active-800;
-  &:hover {
-    fill: green;
+.loadingButton {
+  display: flex;
+  align-items: center;
+  gap: $size-100;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
   }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.resultsSection {
+  margin-top: $size-200;
 }
 
 .loading {
@@ -80,5 +199,18 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 50px;
+  padding: $size-400;
+  gap: $size-200;
+
+  p {
+    color: #6c757d;
+    font-size: 1rem;
+  }
+}
+
+.generateButtonText {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: $size-50;
 }
