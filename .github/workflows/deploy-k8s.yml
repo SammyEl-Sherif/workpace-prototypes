@@ -10,7 +10,7 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     env:
-      DOCKER_REGISTRY: registry.digitalocean.com/workpace
+      DOCKER_REGISTRY: registry.digitalocean.com/workpace-containers
       KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
     steps:
       - name: Checkout code
