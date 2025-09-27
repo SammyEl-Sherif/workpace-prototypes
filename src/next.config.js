@@ -5,6 +5,7 @@ module.exports = () => {
   return {
     reactStrictMode: true,
     skipTrailingSlashRedirect: true,
+    output: 'standalone',
     // (Optional) Export as a static site
     // See https://nextjs.org/docs/pages/building-your-application/deploying/static-exports#configuration
     // output: 'export', // Feel free to modify/remove this option
