@@ -40,10 +40,10 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# Copy built application from src workspace
-COPY --from=builder /app/src/public ./public
-COPY --from=builder /app/src/.next/standalone ./
-COPY --from=builder /app/src/.next/static ./.next/static
+# Copy dependencies and source code
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/src/node_modules ./src/node_modules
+COPY . .
 
 USER nextjs
 
@@ -51,4 +51,4 @@ EXPOSE 3000
 
 ENV PORT=3000
 
-CMD ["node", "server.js"]
+CMD ["npm", "run", "start:production", "--workspace", "src"]
