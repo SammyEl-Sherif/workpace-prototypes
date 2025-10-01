@@ -1,6 +1,6 @@
 import { Auth } from '@/layout'
-import '../styles/globals.scss'
 import '@workpace/design-system/styles'
+import '../styles/globals.scss'
 
 import type { AppProps } from 'next/app'
 
@@ -11,6 +11,7 @@ import { PrototypesContextProvider } from '@/modules'
 
 export default function App({ Component, pageProps }: AppProps) {
   const { userProfile, prototypes } = pageProps as PageProps
+
   return (
     <Auth>
       <UserInfoContextProvider

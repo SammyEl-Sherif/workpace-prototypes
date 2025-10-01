@@ -22,7 +22,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: workpace-service
+                name: workpace-loadbalancer
                 port:
                   number: 80
     - host: www.workpace.io
@@ -32,6 +32,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: workpace-service
+                name: workpace-loadbalancer
                 port:
                   number: 80

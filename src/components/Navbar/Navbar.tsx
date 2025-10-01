@@ -24,6 +24,7 @@ const Navbar = () => {
         <Image src={Logo} alt="Logo" className={styles.logo} />
       </a>
       <div className={styles.authStatus}>
+        {/* add here */}
         {status === 'authenticated' ? <>{data?.user?.name}</> : <>🚫</>}
         {status === 'authenticated' ? (
           <button onClick={handleSignOut} className={styles.button}>

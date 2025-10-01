@@ -1,9 +1,10 @@
 import { useState } from 'react'
 
 import cn from 'classnames'
-import Image from 'next/image'
 import { useSession } from 'next-auth/react'
+import Image from 'next/image'
 
+import { EnvironmentIndicator } from '@/components'
 import { useUser } from '@/hooks'
 import { Prototype } from '@/interfaces/prototypes'
 import { Routes } from '@/interfaces/routes'
@@ -86,6 +87,7 @@ const NavbarVertical = () => {
             </div>
           </div>
           <div className={styles.authStatus}>
+            <EnvironmentIndicator />
             {status === 'authenticated' ? (
               <div
                 title={Array.isArray(user?.roles) ? user.roles.join(', ') : user?.roles}
@@ -239,6 +241,7 @@ const NavbarVertical = () => {
               Sign In
             </button>
           )}
+          <EnvironmentIndicator />
         </div>
         {isCollapsed && (
           <div

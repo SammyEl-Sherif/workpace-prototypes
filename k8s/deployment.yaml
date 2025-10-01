@@ -32,7 +32,7 @@ spec:
                   name: workpace-secrets
                   key: nextauth-secret
             - name: NEXTAUTH_URL
-              value: "https://workpace.io"
+              value: "https://${DOMAIN_NAME}"
           # Add other environment variables as needed
           livenessProbe:
             httpGet:

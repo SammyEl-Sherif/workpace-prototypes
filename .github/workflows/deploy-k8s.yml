@@ -4,14 +4,17 @@ on:
   push:
     branches:
       - main
-      - feature/*
+      - feature/WKPC-4
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     env:
       DOCKER_REGISTRY: registry.digitalocean.com/workpace-containers
+      VERSION: ${{ github.sha }}
       KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+      SSL_CERTIFICATE_ID: ${{ secrets.SSL_CERTIFICATE_ID }}
+      DOMAIN_NAME: ${{ secrets.DOMAIN_NAME }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -51,15 +54,12 @@ jobs:
           # Apply namespace if it doesn't exist
           kubectl apply -f k8s/namespace.yaml
 
-          # Update image version in deployment.yaml
-          sed -i "s|\${DOCKER_REGISTRY}|$DOCKER_REGISTRY|g" k8s/deployment.yaml
-          sed -i "s|\${VERSION}|${{ github.sha }}|g" k8s/deployment.yaml
-
-          # Apply Kubernetes configurations
-          kubectl apply -f k8s/deployment.yaml
+          # Deploy using templates with environment variable substitution
+          envsubst < k8s/deployment.yaml | kubectl apply -f -
           kubectl apply -f k8s/service.yaml
-          kubectl apply -f k8s/loadbalancer.yaml
-          kubectl apply -f k8s/ingress.yaml
+          
+          # Deploy load balancer using template with SSL certificate
+          envsubst < k8s/loadbalancer-template.yaml | kubectl apply -f -
 
           # Verify deployment
           kubectl rollout status deployment/workpace-app -n workpace
