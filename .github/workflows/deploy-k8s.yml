@@ -43,6 +43,35 @@ jobs:
             ${{ env.DOCKER_REGISTRY }}/workpace-app:${{ github.sha }}
             ${{ env.DOCKER_REGISTRY }}/workpace-app:latest
 
+      - name: Cleanup old Docker images
+        run: |
+          echo "Cleaning up old Docker images, keeping 3 most recent..."
+
+          # Get all tags except 'latest', sorted by date (newest first)
+          ALL_TAGS=$(doctl registry repository list-tags workpace-app --format Tag,UpdatedAt --no-header | grep -v "^latest" | grep -v "^$" | sort -k2 -r | awk '{print $1}')
+
+          # Count total tags
+          TOTAL=$(echo "$ALL_TAGS" | wc -l | tr -d ' ')
+          echo "Total image tags (excluding 'latest'): $TOTAL"
+
+          # Keep only 3 most recent, delete the rest
+          if [ "$TOTAL" -gt 3 ]; then
+            TAGS_TO_DELETE=$(echo "$ALL_TAGS" | tail -n +4)
+            echo "Deleting old tags:"
+            echo "$TAGS_TO_DELETE" | while read -r tag; do
+              if [ -n "$tag" ]; then
+                echo "  Deleting: $tag"
+                doctl registry repository delete-tag workpace-app "$tag" --force
+              fi
+            done
+            
+            # Run garbage collection to free up storage
+            echo "Running garbage collection..."
+            doctl registry garbage-collection start --include-untagged-manifests --force
+          else
+            echo "Only $TOTAL tags found. No cleanup needed (keeping 3 most recent)."
+          fi
+
       - name: Set up kubeconfig
         run: |
           mkdir -p $HOME/.kube
@@ -57,7 +86,7 @@ jobs:
           # Deploy using templates with environment variable substitution
           envsubst < k8s/deployment.yaml | kubectl apply -f -
           kubectl apply -f k8s/service.yaml
-          
+
           # Deploy load balancer using template with SSL certificate
           envsubst < k8s/loadbalancer-template.yaml | kubectl apply -f -
 
