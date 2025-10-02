@@ -43,6 +43,8 @@ RUN adduser --system --uid 1001 nextjs
 # Copy dependencies and source code
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/src/node_modules ./src/node_modules
+COPY --from=builder /app/src/.next ./src/.next
+COPY --from=builder /app/src/public ./src/public
 COPY . .
 
 USER nextjs
