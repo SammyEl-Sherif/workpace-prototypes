@@ -13,10 +13,10 @@ metadata:
     service.beta.kubernetes.io/do-loadbalancer-algorithm: "round_robin"
     service.beta.kubernetes.io/do-loadbalancer-healthcheck-protocol: "http"
     service.beta.kubernetes.io/do-loadbalancer-healthcheck-path: "/"
-    service.beta.kubernetes.io/do-loadbalancer-healthcheck-port: "3000"
+    service.beta.kubernetes.io/do-loadbalancer-healthcheck-port: "80"
     service.beta.kubernetes.io/do-loadbalancer-certificate-id: "${SSL_CERTIFICATE_ID}"
     service.beta.kubernetes.io/do-loadbalancer-enable-backend-keepalive: "true"
-    service.beta.kubernetes.io/do-loadbalancer-protocol: "https"
+    service.beta.kubernetes.io/do-loadbalancer-type: "REGIONAL"
 spec:
   type: LoadBalancer
   selector:
