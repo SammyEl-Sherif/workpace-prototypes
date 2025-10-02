@@ -15,6 +15,7 @@ jobs:
       KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
       SSL_CERTIFICATE_ID: ${{ secrets.SSL_CERTIFICATE_ID }}
       DOMAIN_NAME: ${{ secrets.DOMAIN_NAME }}
+      NEXT_PUBLIC_DISABLE_RBAC: ${{ secrets.NEXT_PUBLIC_DISABLE_RBAC }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -77,6 +78,25 @@ jobs:
           mkdir -p $HOME/.kube
           echo "$KUBE_CONFIG" > $HOME/.kube/config
           chmod 600 $HOME/.kube/config
+
+      - name: Create or update Kubernetes secrets
+        run: |
+          # Create/update secrets from GitHub Secrets
+          kubectl create secret generic workpace-secrets \
+            --namespace=workpace \
+            --from-literal=nextauth-secret="${{ secrets.NEXTAUTH_SECRET }}" \
+            --from-literal=notion-api-key="${{ secrets.NOTION_API_KEY }}" \
+            --from-literal=notion-default-db-id="${{ secrets.NOTION_DEFAULT_DB_ID }}" \
+            --from-literal=openai-org-id="${{ secrets.OPENAI_ORG_ID }}" \
+            --from-literal=openai-project-id="${{ secrets.OPENAI_PROJECT_ID }}" \
+            --from-literal=openai-api-key="${{ secrets.OPENAI_API_KEY }}" \
+            --from-literal=auth0-secret="${{ secrets.AUTH0_SECRET }}" \
+            --from-literal=auth0-issuer-base-url="${{ secrets.AUTH0_ISSUER_BASE_URL }}" \
+            --from-literal=auth0-client-id="${{ secrets.AUTH0_CLIENT_ID }}" \
+            --from-literal=auth0-client-secret="${{ secrets.AUTH0_CLIENT_SECRET }}" \
+            --from-literal=auth0-scope="${{ secrets.AUTH0_SCOPE }}" \
+            --from-literal=auth0-audience="${{ secrets.AUTH0_AUDIENCE }}" \
+            --dry-run=client -o yaml | kubectl apply -f -
 
       - name: Update Kubernetes deployment
         run: |
