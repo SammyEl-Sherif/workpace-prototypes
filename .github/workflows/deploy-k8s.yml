@@ -47,13 +47,14 @@ jobs:
       - name: Cleanup old Docker images
         run: |
           echo "Cleaning up old Docker images, keeping 3 most recent..."
+          echo "Current build SHA: ${{ github.sha }}"
 
-          # Get all tags except 'latest', sorted by date (newest first)
-          ALL_TAGS=$(doctl registry repository list-tags workpace-app --format Tag,UpdatedAt --no-header | grep -v "^latest" | grep -v "^$" | sort -k2 -r | awk '{print $1}')
+          # Get all tags except 'latest' and current build, sorted by date (newest first)
+          ALL_TAGS=$(doctl registry repository list-tags workpace-app --format Tag,UpdatedAt --no-header | grep -v "^latest" | grep -v "^${{ github.sha }}" | grep -v "^$" | sort -k2 -r | awk '{print $1}')
 
-          # Count total tags
+          # Count total tags (excluding current build)
           TOTAL=$(echo "$ALL_TAGS" | wc -l | tr -d ' ')
-          echo "Total image tags (excluding 'latest'): $TOTAL"
+          echo "Total image tags (excluding 'latest' and current build): $TOTAL"
 
           # Keep only 3 most recent, delete the rest
           if [ "$TOTAL" -gt 3 ]; then
