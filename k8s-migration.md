@@ -13,7 +13,7 @@ Perfect! Let me create a comprehensive checklist for you to get this GitHub Acti
   - Name: `KUBE_CONFIG`
   - Value: Paste the entire kubeconfig content
 
-- [X] **`DIGITALOCEAN_ACCESS_TOKEN`** - DigitalOcean API token
+- [x] **`DIGITALOCEAN_ACCESS_TOKEN`** - DigitalOcean API token
   - Create at: DigitalOcean Control Panel → API → Personal Access Tokens
   - Permissions needed: Read, Write, Container Registry
   - Go to: Repository Settings → Secrets and variables → Actions → New repository secret
