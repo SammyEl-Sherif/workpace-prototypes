@@ -3,6 +3,7 @@ import { useState } from 'react'
 import cn from 'classnames'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
+import Link from 'next/link'
 
 import { useUser } from '@/hooks'
 import { Prototype } from '@/interfaces/prototypes'
@@ -65,9 +66,9 @@ export const Navbar = () => {
                 {prototypes &&
                   prototypes.map(({ path, name }: Prototype) => {
                     return (
-                      <a className={styles.links} href={path} key={path}>
+                      <Link className={styles.links} href={path} key={path}>
                         {name}
-                      </a>
+                      </Link>
                     )
                   })}
               </div>
@@ -75,12 +76,12 @@ export const Navbar = () => {
             <div className={styles.headingAndLinks}>
               <div className={styles.linksHeading}>Learn More</div>
               <div className={styles.links}>
-                <a href={Routes.ABOUT} className={styles.links}>
+                <Link href={Routes.ABOUT} className={styles.links}>
                   👋 About Us
-                </a>
-                <a href={Routes.PROFILE} className={styles.links}>
+                </Link>
+                <Link href={Routes.PROFILE} className={styles.links}>
                   👤 My Profile
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -173,24 +174,24 @@ export const Navbar = () => {
             prototypes &&
             prototypes.map(({ path, name }: Prototype) => {
               return (
-                <a className={styles.links} href={path} key={path}>
+                <Link className={styles.links} href={path} key={path}>
                   {name}
-                </a>
+                </Link>
               )
             })}
           <div className={cn(styles.iconLinkStack)}>
             {isCollapsed && (
-              <a className={styles.iconLinks} href={Routes.HOME}>
+              <Link className={styles.iconLinks} href={Routes.HOME}>
                 🏠
-              </a>
+              </Link>
             )}
             {isCollapsed &&
               prototypes &&
               prototypes.map(({ path, name, icon }: Prototype) => {
                 return (
-                  <a className={styles.links} href={path} title={name} key={path}>
+                  <Link className={styles.links} href={path} title={name} key={path}>
                     {icon}
-                  </a>
+                  </Link>
                 )
               })}
           </div>
