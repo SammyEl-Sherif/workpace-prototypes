@@ -13,18 +13,17 @@ export const AllPages = () => {
   return (
     <div>
       <div className={styles.actions}>
-        <div className={styles.titleAndFilter}>
-          <Text variant={'headline-md-emphasis'}>Tasks ({pages.length})</Text>
-          <StatusSelectFilter />
-        </div>
         <div className={styles.selectedDb}>
-          <Text variant={'headline-sm-emphasis'}>Selected Database:</Text>
+          <Text variant={'headline-sm-emphasis'}>Database:</Text>
           <ExternalLink
             external
             href="https://work-pace.notion.site/1c76838c67878105aa7cddf4d95fa59a?v=1c76838c6787809e89d5000cf1ad7803"
           >
             <h3>{databases?.length ? databases[0].title : 'Database N/A'}</h3>
           </ExternalLink>
+        </div>
+        <div className={styles.titleAndFilter}>
+          <StatusSelectFilter />
         </div>
       </div>
       <div className={styles.taskList}>

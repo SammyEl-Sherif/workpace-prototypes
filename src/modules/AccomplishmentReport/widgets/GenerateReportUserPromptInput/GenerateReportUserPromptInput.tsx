@@ -2,115 +2,160 @@ import { useEffect, useRef, useState } from 'react'
 
 import { Button, Text } from '@workpace/design-system'
 
+import { AllPages } from '../../entries'
 import styles from './GenerateReportUserPromptInput.module.scss'
-import { AllPages, GeneratedReport } from '../../entries'
-import { useGenerateReport, useNotionDatabasePages } from '../../hooks'
-import ReactLoading from 'react-loading'
-import { SectionContainer } from '@/components'
 
-const GenerateReportUserPromptInput = () => {
-  const [userPrompt, setUserPrompt] = useState<string>()
-  const { pages } = useNotionDatabasePages()
-  const [response, isLoading, , makeRequest] = useGenerateReport({
-    pages: pages ?? [],
-    userPrompt,
-  })
-  const bottomRef = useRef<HTMLDivElement>(null)
+interface GenerateReportUserPromptInputProps {
+  onPromptChange?: (prompt: string) => void
+  onGenerateReport?: () => void
+  userPrompt?: string
+  isLoading?: boolean
+  showTaskSection?: boolean
+  showPromptSection?: boolean
+}
 
-  useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [isLoading])
+export const GenerateReportUserPromptInput = ({
+  onPromptChange,
+  onGenerateReport,
+  userPrompt: externalUserPrompt,
+  isLoading: externalIsLoading,
+  showTaskSection = true,
+  showPromptSection = true,
+}: GenerateReportUserPromptInputProps) => {
+  const [internalUserPrompt, setInternalUserPrompt] = useState<string>('')
+  const [internalIsLoading, setInternalIsLoading] = useState(false)
+
+  // Use external state if provided, otherwise use internal state
+  const userPrompt = externalUserPrompt !== undefined ? externalUserPrompt : internalUserPrompt
+  const isLoading = externalIsLoading !== undefined ? externalIsLoading : internalIsLoading
+
+  const handlePromptChange = (newPrompt: string) => {
+    if (onPromptChange) {
+      onPromptChange(newPrompt)
+    } else {
+      setInternalUserPrompt(newPrompt)
+    }
+  }
+
+  const handleGenerateReport = () => {
+    if (onGenerateReport) {
+      onGenerateReport()
+    } else {
+      setInternalIsLoading(true)
+      // Simulate loading for internal state
+      setTimeout(() => setInternalIsLoading(false), 2000)
+    }
+  }
 
   return (
-    <div>
-      <SectionContainer>
-        <AllPages />
-        <Text variant={'headline-md-emphasis'}>Enter a Prompt</Text>
-        <div className={styles.promptWrapper}>
-          <textarea
-            className={styles.textarea}
-            onChange={(e) => {
-              setUserPrompt(e.target.value)
-              const target = e.target as HTMLTextAreaElement
-              target.style.height = 'auto' // Reset height to auto to calculate new height
-              target.style.height = `${target.scrollHeight}px` // Set height based on scrollHeight
-            }}
-            placeholder={"Describe how you'd like to showcase your accomplishments ..."}
-            value={userPrompt}
-            rows={1}
-          />
-          <div className={styles.actions}>
-            <Button
-              onClick={() => {
-                setUserPrompt('Write me a year end review in essay format')
-              }}
-              variant="default-secondary"
-              className={styles.button}
-            >
-              Year End Review
-            </Button>
-            <Button
-              onClick={() => {
-                setUserPrompt(
-                  'Consider the requirements for following job description and advocate for how I fit the role: <Paste Job Requirements Here>'
-                )
-              }}
-              variant="default-secondary"
-              className={styles.button}
-            >
-              Interview Prep
-            </Button>
-            <Button
-              onClick={() => {
-                setUserPrompt('Summarize my accomplishments with a list of bullet points')
-              }}
-              variant="default-secondary"
-              className={styles.button}
-            >
-              Bullet Points
-            </Button>
-            <div
-              className={`${styles.submitButton}`}
-              onClick={() => {
-                makeRequest()
-              }}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="36"
-                height="36"
-                viewBox="0 0 256 256"
-                className={styles.svgIcon}
+    <div className={styles.container}>
+      {/* Tasks Section */}
+      {showTaskSection && (
+        <div className={styles.tasksSection}>
+          <AllPages />
+        </div>
+      )}
+
+      {/* Prompt Section */}
+      {showPromptSection && (
+        <div className={styles.promptSection}>
+          <div className={styles.promptHeader}>
+            <Text variant={'headline-md-emphasis'}>AI Prompt</Text>
+            <div className={styles.promptSubtitle}>Choose a template or write your own prompt</div>
+          </div>
+
+          <div className={styles.promptWrapper}>
+            <div className={styles.textareaContainer}>
+              <textarea
+                className={styles.textarea}
+                onChange={(e) => {
+                  const newPrompt = e.target.value
+                  handlePromptChange(newPrompt)
+
+                  // Auto-resize textarea
+                  const target = e.target as HTMLTextAreaElement
+                  target.style.height = 'auto'
+                  target.style.height = `${target.scrollHeight}px`
+                }}
+                placeholder={"Describe how you'd like to showcase your accomplishments..."}
+                value={userPrompt}
+                rows={3}
+              />
+              <div className={styles.textareaFocus}></div>
+            </div>
+
+            <div className={styles.promptActions}>
+              <div className={styles.presetSection}>
+                <div className={styles.presetLabel}>Quick Templates</div>
+                <div className={styles.presetButtons}>
+                  <Button
+                    onClick={() => {
+                      handlePromptChange('Write me a year end review in essay format')
+                    }}
+                    variant="default-secondary"
+                    className={styles.presetButton}
+                  >
+                    📝 Year End Review
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      handlePromptChange(
+                        'Consider the requirements for following job description and advocate for how I fit the role: <Paste Job Requirements Here>'
+                      )
+                    }}
+                    variant="default-secondary"
+                    className={styles.presetButton}
+                  >
+                    💼 Interview Prep
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      handlePromptChange(
+                        'Summarize my accomplishments with a list of bullet points'
+                      )
+                    }}
+                    variant="default-secondary"
+                    className={styles.presetButton}
+                  >
+                    📋 Bullet Points
+                  </Button>
+                </div>
+              </div>
+
+              <Button
+                onClick={handleGenerateReport}
+                variant="default-primary"
+                className={styles.generateButton}
+                disabled={!userPrompt?.trim() || isLoading}
               >
-                <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm45.66-77.66a8,8,0,0,1-11.32,11.32L128,115.31,93.66,149.66a8,8,0,0,1-11.32-11.32l40-40a8,8,0,0,1,11.32,0Z"></path>
-              </svg>
+                {isLoading ? (
+                  <div className={styles.loadingButton}>
+                    <div className={styles.spinner}></div>
+                    <span>Generating...</span>
+                  </div>
+                ) : (
+                  <>
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .962 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.582a.5.5 0 0 1 0 .962L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.962 0L9.937 15.5z" />
+                      <path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                    </svg>
+                    Generate Report
+                  </>
+                )}
+              </Button>
             </div>
           </div>
         </div>
-      </SectionContainer>
-      <div className={styles.arrow}>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="36"
-          height="36"
-          fill="#000000"
-          viewBox="0 0 256 256"
-        >
-          <path d="M213.66,130.34a8,8,0,0,1,0,11.32l-80,80a8,8,0,0,1-11.32,0l-80-80a8,8,0,0,1,11.32-11.32L128,204.69l74.34-74.35A8,8,0,0,1,213.66,130.34Zm-91.32,11.32a8,8,0,0,0,11.32,0l80-80a8,8,0,0,0-11.32-11.32L128,124.69,53.66,50.34A8,8,0,0,0,42.34,61.66Z"></path>
-        </svg>
-      </div>
-      <div ref={bottomRef} />
-      <SectionContainer>
-        {isLoading ? (
-          <div className={styles.loading}>
-            <ReactLoading type="spin" color="#1983EE" height={'30%'} width={'30%'} />
-          </div>
-        ) : (
-          <GeneratedReport response={response} mocked={false} />
-        )}
-      </SectionContainer>
+      )}
     </div>
   )
 }
-
-export default GenerateReportUserPromptInput

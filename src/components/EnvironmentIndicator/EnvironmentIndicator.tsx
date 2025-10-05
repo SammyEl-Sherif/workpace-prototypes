@@ -11,13 +11,12 @@ export const EnvironmentIndicator: React.FC = () => {
   const isLocal = environment === 'local'
 
   return (
-    <div className={`${styles.indicator} ${isDocker ? styles.docker : styles.local}`} title={`Running in ${isDocker ? 'Docker Container' : 'Local Development'}`}>
-      <span className={styles.icon}>
-        {isDocker ? '🐳' : '💻'}
-      </span>
-      <span className={styles.text}>
-        {isDocker ? 'Container' : 'Local'}
-      </span>
+    <div
+      className={`${styles.indicator} ${isDocker ? styles.docker : styles.local}`}
+      title={`Running in ${isDocker ? 'Docker Container' : 'Local Development'}`}
+    >
+      <span className={styles.icon}>{isDocker ? '🐳' : '💻'}</span>
+      <span className={styles.text}>{isDocker ? 'Container' : 'Local'}</span>
     </div>
   )
 }

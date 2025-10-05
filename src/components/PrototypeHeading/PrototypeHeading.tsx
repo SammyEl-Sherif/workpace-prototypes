@@ -5,9 +5,9 @@ import { Badge } from '../Badge'
 import { Text } from '@workpace/design-system'
 
 export const PrototypeHeading = ({ title }: { title?: string }) => {
-  const { state } = usePrototypesContext()
+  const { prototypes } = usePrototypesContext()
   const { pathname } = useRouter()
-  const currentPrototype = state.prototypes.find((prototype) => prototype.path === pathname)
+  const currentPrototype = prototypes.find((prototype) => prototype.path === pathname)
   const currentPrototypeTech = currentPrototype?.tech
   const techStack = currentPrototypeTech?.split(',')
 

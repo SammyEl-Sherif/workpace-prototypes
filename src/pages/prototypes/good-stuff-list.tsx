@@ -4,11 +4,9 @@ import { GetServerSideProps } from 'next'
 
 import { getNotionDatabasesController } from '@/api/controllers'
 import { NotionDatabase } from '@/interfaces/notion'
-import { DocumentTitle } from '@/layout/DocumentTitle'
-import NotionInsights from '@/layout/pages/NotionInsightsPage/NotionInsightsPage'
+import { NotionInsights, DocumentTitle } from '@/layout'
 import { NotionDatabaseContextProvider } from '@/modules/AccomplishmentReport/contexts'
-import { withNotionClient } from '@/server/utils/withNotionClient'
-import { withPageRequestWrapper } from '@/server/utils/withPageRequestWrapper'
+import { withPageRequestWrapper, withNotionClient } from '@/server/utils'
 
 export interface GoodStuffListPageProps {
   databases: NotionDatabase[]
@@ -22,12 +20,18 @@ export interface GoodStuffListPageProps {
 
 export const getServerSideProps: GetServerSideProps = withPageRequestWrapper(async (context) => {
   const { databases, defaultFilter } = await withNotionClient(async (_, __, client) => {
-    const { data } = await getNotionDatabasesController(client)
+    const {
+      data: { databases, defaultFilter },
+    } = await getNotionDatabasesController(client)
+
     return {
-      databases: data.databases,
-      defaultFilter: data.defaultFilter,
+      databases: databases,
+      defaultFilter: defaultFilter,
     }
   })(context.req, context.res)
+
+  // TODO: If a user does not have any databases them, direct them to a resources to duplicate
+
   return {
     databases,
     defaultFilter,

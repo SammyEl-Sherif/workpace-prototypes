@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import { getNotionDatabaseInfoController } from '@/api/controllers'
-import { withNotionClient } from '@/server/utils/withNotionClient'
+import { withNotionClient } from '@/server/utils'
 
 export const getNotionDatabaseInfoRoute = withNotionClient<NextApiRequest, NextApiResponse>(
   async (request, response, notionClient) => {

@@ -4,7 +4,7 @@ import { getToken } from 'next-auth/jwt'
 
 import { SessionAccount } from '@/interfaces/user'
 
-import { getAuthCookiesOptions } from '../getAuthCookiesOptions'
+import { getAuthCookiesOptions } from '../getAuthOptions/getAuthCookiesOptions'
 
 export const getNextAuthJWT = async <T extends GetServerSidePropsContext['req']>(
   req: T

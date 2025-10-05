@@ -1,15 +1,338 @@
 @use '@workpace/design-system/dist/design-tokens' as *;
 
 .page {
+  min-height: 100vh;
+  background: white;
+  padding: $size-200;
   position: relative;
-  display: flex;
-  flex-flow: column nowrap;
-  flex: 1;
-  width: 100%;
-  height: 100%;
-  background-color: rgb(252, 252, 252);
+  overflow-x: hidden;
+}
 
-  &Content {
-    flex: 1;
+// Floating Header
+.floatingHeader {
+  position: sticky;
+  top: $size-200;
+  z-index: 100;
+  margin-bottom: $size-400;
+
+  .headerContent {
+    background: white;
+    border-radius: 20px;
+    padding: $size-300 $size-400;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: $size-200;
+      text-align: center;
+    }
+  }
+
+  .titleSection {
+    .mainTitle {
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 0;
+      color: #000000;
+    }
+
+    .subtitle {
+      color: #6c757d;
+      margin: $size-50 0 0 0;
+      font-size: 1rem;
+      margin-top: $size-200;
+    }
+  }
+
+  .statsCard {
+    display: flex;
+    gap: $size-300;
+
+    .statItem {
+      text-align: center;
+
+      .statNumber {
+        display: block;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #667eea;
+      }
+
+      .statLabel {
+        font-size: 0.875rem;
+        color: #6c757d;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+    }
+  }
+}
+
+// Main Grid Layout
+.mainGrid {
+  display: flex;
+  flex-direction: column;
+  gap: $size-400;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+// Top Row - Tasks & Generate Report
+.topRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $size-400;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr;
+    gap: $size-300;
+  }
+}
+
+.leftColumn,
+.rightColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+// Bottom Row - AI Report
+.bottomRow {
+  width: 100%;
+}
+
+// Card Styles
+.taskCard,
+.reportCard,
+.generateCard {
+  background: white;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.cardHeader {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: $size-250 $size-300;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #212529;
+  }
+
+  .taskCount,
+  .statusIndicator,
+  .generateStatus {
+    font-size: 0.875rem;
+    padding: $size-50 $size-100;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+
+  .taskCount {
+    background: rgba(102, 126, 234, 0.1);
+    color: #667eea;
+  }
+
+  .generateStatus {
+    background: rgba(40, 167, 69, 0.1);
+    color: #28a745;
+  }
+
+  .statusIndicator {
+    .statusLoading {
+      color: #ffc107;
+      background: rgba(255, 193, 7, 0.1);
+      padding: $size-25 $size-75;
+      border-radius: 15px;
+    }
+
+    .statusReady {
+      color: #28a745;
+      background: rgba(40, 167, 69, 0.1);
+      padding: $size-25 $size-75;
+      border-radius: 15px;
+    }
+
+    .statusIdle {
+      color: #6c757d;
+      background: rgba(108, 117, 125, 0.1);
+      padding: $size-25 $size-75;
+      border-radius: 15px;
+    }
+  }
+}
+
+.taskContent,
+.reportContent,
+.generateContent {
+  padding: $size-300;
+  min-height: 400px;
+}
+
+// Loading States
+.loadingState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  gap: $size-200;
+
+  .loadingAnimation {
+    display: flex;
+    gap: $size-50;
+
+    .loadingDot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #667eea;
+      animation: bounce 1.4s ease-in-out infinite both;
+
+      &:nth-child(1) {
+        animation-delay: -0.32s;
+      }
+      &:nth-child(2) {
+        animation-delay: -0.16s;
+      }
+      &:nth-child(3) {
+        animation-delay: 0s;
+      }
+    }
+  }
+
+  p {
+    color: #6c757d;
+    font-size: 1rem;
+    margin: 0;
+  }
+}
+
+@keyframes bounce {
+  0%,
+  80%,
+  100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+// Empty State
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  text-align: center;
+
+  .emptyIcon {
+    font-size: 4rem;
+    margin-bottom: $size-200;
+    opacity: 0.7;
+  }
+
+  h4 {
+    margin: 0 0 $size-100 0;
+    color: #212529;
+    font-size: 1.25rem;
+  }
+
+  p {
+    color: #6c757d;
+    margin: 0;
+    font-size: 1rem;
+  }
+}
+
+// Report Display
+.reportDisplay {
+  background: white;
+  border-radius: 15px;
+  padding: $size-250;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+// Floating Action Button
+.floatingAction {
+  position: fixed;
+  bottom: $size-400;
+  right: $size-400;
+  z-index: 1000;
+
+  .fab {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: $size-150 $size-300;
+    font-size: 1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: $size-50;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    transition: all 0.3s ease;
+
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    svg {
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .page {
+    padding: $size-100;
+  }
+
+  .floatingHeader .headerContent {
+    padding: $size-200;
+  }
+
+  .mainTitle {
+    font-size: 1.5rem !important;
+  }
+
+  .floatingAction {
+    bottom: $size-200;
+    right: $size-200;
+
+    .fab {
+      padding: $size-125 $size-250;
+      font-size: 0.9rem;
+    }
   }
 }

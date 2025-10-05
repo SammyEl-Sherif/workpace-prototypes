@@ -5,7 +5,7 @@ import Auth0 from 'next-auth/providers/auth0'
 import { Routes } from '@/interfaces/routes'
 import { SessionAccount } from '@/interfaces/user'
 
-import { getAuthCookiesOptions } from '../getAuthCookiesOptions'
+import { getAuthCookiesOptions } from './getAuthCookiesOptions'
 import { getDecodedJWT } from '../getDecodedJWT'
 
 export const getAuthOptions = (): NextAuthOptions => {

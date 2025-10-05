@@ -8,15 +8,13 @@ interface ExternalLinkProps {
   className?: string
 }
 
-export const ExternalLink = ({ children, href, external, className }: ExternalLinkProps) => {
-  return (
-    <a
-      className={cn(styles.link, className)}
-      href={href}
-      target={external ? '_blank' : undefined}
-      rel={external ? 'noopener noreferrer' : undefined}
-    >
-      {children}
-    </a>
-  )
-}
+export const ExternalLink = ({ children, href, external, className }: ExternalLinkProps) => (
+  <a
+    className={cn(styles.link, className)}
+    href={href}
+    target={external ? '_blank' : undefined}
+    rel={external ? 'noopener noreferrer' : undefined}
+  >
+    {children}
+  </a>
+)
