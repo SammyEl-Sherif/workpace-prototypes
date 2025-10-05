@@ -13,3 +13,8 @@ node_modules
 .eslintcache
 .stylelintcache
 .dccache
+
+workpace-k8s-kubeconfig*.yaml
+kubeconfig*.yaml
+*.kubeconfig
+

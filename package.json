@@ -25,7 +25,8 @@
     "precommit": "npm-run-all precommit:** --print-label",
     "precommit:": "lint-staged",
     "precommit:src": "npm run lint --workspace src",
-    "clean": "rm -rf node_modules src/node_modules src/.next"
+    "clean": "rm -rf node_modules src/node_modules src/.next",
+    "dev": "npm run dev --workspace src"
   },
   "dependencies": {
     "@fontsource/roboto": "^5.1.1",

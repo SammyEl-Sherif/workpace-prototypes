@@ -4,6 +4,7 @@ import cn from 'classnames'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 
+import { EnvironmentIndicator } from '@/components'
 import { useUser } from '@/hooks'
 import { Prototype } from '@/interfaces/prototypes'
 import { Routes } from '@/interfaces/routes'
@@ -11,16 +12,18 @@ import { usePrototypesContext } from '@/modules'
 import Logo from '@/public/favicon.ico'
 import { getAppName } from '@/utils'
 
-import { EnvironmentIndicator } from '../EnvironmentIndicator'
-import styles from './Navbar.module.scss'
+import Link from 'next/link'
+import styles from './NavbarVertical.module.scss'
 
-export const Navbar = () => {
+const NavbarVertical = () => {
   const { data, status } = useSession()
   const { user, signOut } = useUser()
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false)
 
-  const { prototypes } = usePrototypesContext()
+  const {
+    prototypes,
+  } = usePrototypesContext()
 
   const handleClick = () => {
     setIsCollapsed(!isCollapsed)
@@ -65,26 +68,16 @@ export const Navbar = () => {
                 {prototypes &&
                   prototypes.map(({ path, name }: Prototype) => {
                     return (
-                      <a className={styles.links} href={path} key={path}>
+                      <Link className={styles.links} href={path} key={path}>
                         {name}
-                      </a>
+                      </Link>
                     )
                   })}
               </div>
             </div>
-            <div className={styles.headingAndLinks}>
-              <div className={styles.linksHeading}>Learn More</div>
-              <div className={styles.links}>
-                <a href={Routes.ABOUT} className={styles.links}>
-                  👋 About Us
-                </a>
-                <a href={Routes.PROFILE} className={styles.links}>
-                  👤 My Profile
-                </a>
-              </div>
-            </div>
           </div>
           <div className={styles.authStatus}>
+            <EnvironmentIndicator />
             {status === 'authenticated' ? (
               <div
                 title={Array.isArray(user?.roles) ? user.roles.join(', ') : user?.roles}
@@ -195,7 +188,6 @@ export const Navbar = () => {
               })}
           </div>
         </div>
-        <EnvironmentIndicator />
         <div className={cn(styles.divider, { [styles.hide]: isCollapsed })} />
         <div className={cn(styles.authStatus, { [styles.hide]: isCollapsed })}>
           {status === 'authenticated' ? (
@@ -222,10 +214,10 @@ export const Navbar = () => {
               Sign In
             </button>
           )}
+          <EnvironmentIndicator />
         </div>
         {isCollapsed && (
           <div
-            /* href={Routes.PROFILE} */
             className={styles.profile}
             title={Array.isArray(user?.roles) ? user.roles.join(', ') : user?.roles}
           >
@@ -236,3 +228,5 @@ export const Navbar = () => {
     </>
   )
 }
+
+export default NavbarVertical

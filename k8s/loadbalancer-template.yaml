@@ -1,0 +1,34 @@
+# Load Balancer Configuration Template
+# This file uses environment variable substitution via envsubst
+# Required environment variables:
+# - SSL_CERTIFICATE_ID: Your DigitalOcean SSL certificate ID
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: workpace-loadbalancer
+  namespace: workpace
+  annotations:
+    service.beta.kubernetes.io/do-loadbalancer-size-unit: "1"
+    service.beta.kubernetes.io/do-loadbalancer-algorithm: "round_robin"
+    service.beta.kubernetes.io/do-loadbalancer-healthcheck-protocol: "http"
+    service.beta.kubernetes.io/do-loadbalancer-healthcheck-path: "/"
+    service.beta.kubernetes.io/do-loadbalancer-healthcheck-port: "80"
+    service.beta.kubernetes.io/do-loadbalancer-certificate-id: "${SSL_CERTIFICATE_ID}"
+    service.beta.kubernetes.io/do-loadbalancer-enable-backend-keepalive: "true"
+    service.beta.kubernetes.io/do-loadbalancer-type: "REGIONAL"
+spec:
+  type: LoadBalancer
+  selector:
+    app: workpace-app
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 3000
+    - name: https
+      protocol: TCP
+      port: 443
+      targetPort: 3000
+  loadBalancerSourceRanges:
+    - 0.0.0.0/0  # Allow traffic from anywhere (adjust as needed)
