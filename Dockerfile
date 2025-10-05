@@ -27,8 +27,8 @@ COPY . .
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
-# Build the application using npm workspace command
-RUN npm run build:src
+# Build the application directly (bypass by-node-env wrapper)
+RUN npm run build:production --workspace src
 
 # Production image, copy all the files and run next
 FROM base AS runner
