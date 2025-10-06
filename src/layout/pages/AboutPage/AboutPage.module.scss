@@ -1,0 +1,396 @@
+.aboutPage {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  color: #333333;
+  background: #ffffff;
+}
+
+.section {
+  margin-bottom: 2rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #000000;
+  margin-bottom: 1.5rem;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  color: #333333;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.description {
+  font-size: 1rem;
+  color: #555555;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.architectureDiagram {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 2rem;
+  border: 1px solid #e9ecef;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  margin: 2rem 0;
+}
+
+.diagramContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.diagramRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.component {
+  background: #ffffff;
+  border: 2px solid #000000;
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  min-width: 200px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.componentTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #000000;
+  margin-bottom: 0.5rem;
+}
+
+.componentDescription {
+  font-size: 0.9rem;
+  color: #333333;
+  line-height: 1.4;
+}
+
+.arrow {
+  font-size: 2rem;
+  color: #000000;
+  margin: 0 1rem;
+}
+
+.techStack {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.techCategory {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid #e9ecef;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.techCategoryTitle {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #000000;
+  margin-bottom: 1rem;
+}
+
+.techList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.techItem {
+  color: #333333;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+
+  &::before {
+    content: '•';
+    color: #000000;
+    margin-right: 0.5rem;
+  }
+}
+
+.personalSection {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 2rem;
+  border: 1px solid #e9ecef;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  margin: 2rem 0;
+}
+
+.personalContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.personalInfo h3 {
+  font-size: 1.8rem;
+  color: #000000;
+  margin-bottom: 1rem;
+}
+
+.personalInfo p {
+  color: #333333;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.coreTechnologies {
+  margin: 1.5rem 0;
+}
+
+.techSectionTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #000000;
+  margin-bottom: 1rem;
+}
+
+.techLogos {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.techLogo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.6rem;
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  min-height: 70px;
+  justify-content: center;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    border-color: #000000;
+  }
+}
+
+.logoPlaceholder {
+  width: 28px;
+  height: 28px;
+  margin-bottom: 0.4rem;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+}
+
+.logoLabel {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: #333333;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.experienceHighlights {
+  margin-top: 1.5rem;
+}
+
+.highlightGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.highlightCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  padding: 0.8rem;
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  min-height: 80px;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    border-color: #000000;
+  }
+}
+
+.highlightIcon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.highlightContent {
+  flex: 1;
+}
+
+.highlightContent h5 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #000000;
+  margin-bottom: 0.5rem;
+}
+
+.highlightContent p {
+  font-size: 0.85rem;
+  color: #555555;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.socialLinks {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.linkedinLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #0077b5;
+  color: white;
+  padding: 0.8rem 1.2rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 119, 181, 0.3);
+
+  &:hover {
+    background: #005885;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 119, 181, 0.4);
+  }
+}
+
+.twitterLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #1da1f2;
+  color: white;
+  padding: 0.8rem 1.2rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(29, 161, 242, 0.3);
+
+  &:hover {
+    background: #0d8bd9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(29, 161, 242, 0.4);
+  }
+}
+
+.socialIcon {
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .aboutPage {
+    padding: 1rem;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .diagramRow {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .arrow {
+    transform: rotate(90deg);
+    margin: 0.5rem 0;
+  }
+
+  .techStack {
+    grid-template-columns: 1fr;
+  }
+
+  .personalContent {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .techLogos {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
+  }
+
+  .techLogo {
+    min-height: 60px;
+    padding: 0.5rem;
+  }
+
+  .logoPlaceholder {
+    width: 24px;
+    height: 24px;
+    font-size: 0.9rem;
+  }
+
+  .logoLabel {
+    font-size: 0.65rem;
+  }
+
+  .highlightGrid {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+
+  .highlightCard {
+    padding: 0.8rem;
+    min-height: 70px;
+  }
+
+  .highlightIcon {
+    font-size: 1.3rem;
+  }
+
+  .socialLinks {
+    flex-direction: column;
+    gap: 0.8rem;
+    align-items: center;
+  }
+
+  .linkedinLink,
+  .twitterLink {
+    width: 100%;
+    max-width: 200px;
+    justify-content: center;
+    padding: 0.7rem 1rem;
+  }
+}
