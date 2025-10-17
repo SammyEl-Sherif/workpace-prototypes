@@ -15,9 +15,9 @@ const LandingNavbar = () => {
           <Link href="/prototypes" className={styles.navLink}>
             Prototypes
           </Link>
-          <a href="#community" className={styles.navLink}>
+          {/* <a href="#community" className={styles.navLink}>
             Community
-          </a>
+          </a> */}
           <Link href="/about" className={styles.navLink}>
             About
           </Link>

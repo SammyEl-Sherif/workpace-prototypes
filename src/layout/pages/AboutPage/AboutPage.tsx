@@ -277,7 +277,8 @@ export const AboutPage = () => {
                 </div>
               </div>
 
-              <div className={styles.arrow}>↘</div>
+              <div className={styles.arrow}>↓</div>
+
 
               {/* External Services */}
               <div className={styles.diagramRow}>
