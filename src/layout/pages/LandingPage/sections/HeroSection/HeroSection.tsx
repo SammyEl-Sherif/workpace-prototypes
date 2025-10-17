@@ -11,9 +11,9 @@ const HeroSection = () => {
           <Link href="/prototypes" className={styles.primaryButton}>
             Explore Prototypes
           </Link>
-          <a href="#community" className={styles.secondaryButton}>
+          {/* <a href="#community" className={styles.secondaryButton}>
             Join Community
-          </a>
+          </a> */}
         </div>
       </div>
       <div className={styles.gradientOverlay} />
