@@ -74,7 +74,7 @@ const FooterSection = () => {
 
           <div className={styles.social}>
             <a
-              href="https://twitter.com/workpace"
+              href="https://x.com/SammyElSherif"
               className={styles.socialLink}
               target="_blank"
               rel="noopener noreferrer"
@@ -83,7 +83,7 @@ const FooterSection = () => {
               🐦
             </a>
             <a
-              href="https://linkedin.com/company/workpace"
+              href="https://www.linkedin.com/in/sammy-el-sherif/"
               className={styles.socialLink}
               target="_blank"
               rel="noopener noreferrer"

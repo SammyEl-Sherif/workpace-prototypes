@@ -63,6 +63,9 @@ export const Navbar = () => {
                 Prototypes
               </div>
               <div className={styles.links}>
+                <Link href={Routes.PROTOTYPES} className={styles.links}>
+                  📋 All Prototypes
+                </Link>
                 {prototypes &&
                   prototypes.map(({ path, name }: Prototype) => {
                     return (
@@ -170,6 +173,11 @@ export const Navbar = () => {
         </div>
         <div className={cn(styles.linkStack)}>
           <div className={cn(styles.linksHeading, { [styles.hide]: isCollapsed })}>Prototypes</div>
+          {!isCollapsed && (
+            <Link className={styles.links} href={Routes.PROTOTYPES}>
+              📋 All Prototypes
+            </Link>
+          )}
           {!isCollapsed &&
             prototypes &&
             prototypes.map(({ path, name }: Prototype) => {
@@ -183,6 +191,11 @@ export const Navbar = () => {
             {isCollapsed && (
               <Link className={styles.iconLinks} href={Routes.HOME}>
                 🏠
+              </Link>
+            )}
+            {isCollapsed && (
+              <Link className={styles.links} href={Routes.PROTOTYPES} title="All Prototypes">
+                📋
               </Link>
             )}
             {isCollapsed &&

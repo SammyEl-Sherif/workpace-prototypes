@@ -1,7 +1,19 @@
+import { useSession } from 'next-auth/react'
 import Link from 'next/link'
+
+import { useUser } from '@/hooks'
+import { Routes } from '@/interfaces/routes'
+
 import styles from './LandingNavbar.module.scss'
 
 const LandingNavbar = () => {
+  const { data, status } = useSession()
+  const { signOut } = useUser()
+
+  const handleSignOut = () => {
+    signOut()
+  }
+
   return (
     <nav className={styles.navbar}>
       <div className={styles.container}>
@@ -12,18 +24,24 @@ const LandingNavbar = () => {
         </div>
 
         <div className={styles.navLinks}>
-          <Link href="/prototypes" className={styles.navLink}>
+          <Link href={Routes.PROTOTYPES} className={styles.navLink}>
             Prototypes
           </Link>
           {/* <a href="#community" className={styles.navLink}>
             Community
           </a> */}
-          <Link href="/about" className={styles.navLink}>
+          <Link href={Routes.ABOUT} className={styles.navLink}>
             About
           </Link>
-          <Link href="/signin" className={styles.signInButton}>
-            Sign In
-          </Link>
+          {status === 'authenticated' ? (
+            <button onClick={handleSignOut} className={styles.signInButton}>
+              Sign Out
+            </button>
+          ) : (
+            <Link href={Routes.SIGNIN} className={styles.signInButton}>
+              Sign In
+            </Link>
+          )}
         </div>
       </div>
     </nav>

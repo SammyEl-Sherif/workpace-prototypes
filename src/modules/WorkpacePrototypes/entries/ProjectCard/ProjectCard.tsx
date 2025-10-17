@@ -9,7 +9,7 @@ export const ProjectCard = ({ prototype }: { prototype: Prototype }) => {
   const { user } = useUser()
   const { path, name, description } = prototype
 
-  const isWorkpaceAdmin = user?.roles.includes(UserGroup.Admin)
+  const isWorkpaceAdmin = user?.roles?.includes(UserGroup.Admin) ?? false
   const disableRbac = process.env.NEXT_PUBLIC_DISABLE_RBAC === 'true'
   const isProd = process.env.NODE_ENV === 'production'
 

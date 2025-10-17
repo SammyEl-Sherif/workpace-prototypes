@@ -18,11 +18,21 @@ export default function App({ Component, pageProps }: AppProps) {
   const isLandingPage = router.pathname === '/'
   const isSigninPage = router.pathname === '/signin'
 
-  // For landing page, render without authentication
+  // For landing page, render without authentication but with context providers
   if (isLandingPage) {
     return (
       <Auth>
-        <Component {...pageProps} />
+        <UserInfoContextProvider
+          userProfile={{
+            ...userProfile,
+            name: userProfile?.name ?? '',
+            email: userProfile?.email ?? '',
+          }}
+        >
+          <PrototypesContextProvider prototypes={prototypes}>
+            <Component {...pageProps} />
+          </PrototypesContextProvider>
+        </UserInfoContextProvider>
       </Auth>
     )
   }
