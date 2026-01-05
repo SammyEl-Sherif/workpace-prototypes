@@ -1,6 +1,8 @@
 export enum Routes {
   HOME = '/',
+  PROTOTYPES = '/prototypes',
   GOOD_STUFF_LIST = 'prototypes/good-stuff-list',
+  BUDGET_BOT = 'prototypes/budget-bot',
   SIGNIN = '/signin',
   ABOUT = '/about',
   PROFILE = '/profile',

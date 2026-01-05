@@ -1,0 +1,160 @@
+.footer {
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 100%);
+  color: #e0e0e0;
+  padding: 4rem 0 2rem 0;
+  border-top: 1px solid rgba(255, 107, 53, 0.3);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 4rem;
+  margin-bottom: 3rem;
+}
+
+.brand {
+  h3,
+  p {
+    margin: 0 0 1rem 0;
+  }
+}
+
+.brandName {
+  font-size: 2rem;
+  font-weight: 700;
+  background: linear-gradient(45deg, #ff4500, #ff6b35);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 0 15px rgba(255, 107, 53, 0.4);
+}
+
+.brandDescription {
+  color: #ffffff;
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+.links {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem;
+}
+
+.linkGroup {
+  h4,
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.linkTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 1rem;
+}
+
+.linkList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.link {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  padding: 0.25rem 0;
+  display: block;
+  line-height: 1.4;
+
+  &:hover {
+    color: #ff6b35;
+    transform: translateX(5px);
+  }
+}
+
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.copyright {
+  p {
+    margin: 0;
+    color: #ffffff;
+    font-size: 0.9rem;
+  }
+}
+
+.social {
+  display: flex;
+  gap: 1rem;
+}
+
+.socialLink {
+  display: inline-block;
+  font-size: 1.5rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-3px) scale(1.1);
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 3rem 0 2rem 0;
+  }
+
+  .content {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .links {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .linkTitle {
+    margin-bottom: 0.8rem;
+  }
+
+  .linkList {
+    gap: 0.6rem;
+  }
+
+  .link {
+    padding: 0.2rem 0;
+  }
+
+  .bottom {
+    flex-direction: column;
+    gap: 1.5rem;
+    text-align: center;
+  }
+
+  .brandName {
+    font-size: 1.8rem;
+  }
+
+  .brandDescription {
+    font-size: 0.95rem;
+  }
+}

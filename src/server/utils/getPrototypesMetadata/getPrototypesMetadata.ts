@@ -9,27 +9,35 @@ export const getPrototypesMetadata = (): Prototype[] => {
 
   const prototypes =
     files &&
-    files.map((file) => {
-      const name = file
-        .replace('.tsx', '')
-        .split('-')
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ')
-      const path = `prototypes/${file.replace('.tsx', '')}` as keyof typeof PrototypeMeta
-      const description = PrototypeMeta[path as keyof typeof PrototypeMeta].description
-      const icon = PrototypeMeta[path as keyof typeof PrototypeMeta].icon
-      const stage = PrototypeMeta[path as keyof typeof PrototypeMeta].stage
-      const tech = PrototypeMeta[path as keyof typeof PrototypeMeta].tech
+    files
+      .filter((file) => file !== 'index.tsx') // Exclude the index file
+      .map((file) => {
+        const fileName = file.replace('.tsx', '')
+        const name = fileName
+          .split('-')
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(' ')
 
-      return {
-        name: `${icon} ${name}`,
-        path: `/${path}`,
-        description,
-        icon,
-        stage,
-        tech,
-      }
-    })
+        // Construct the path that matches the Routes enum
+        const routePath = `prototypes/${fileName}` as keyof typeof PrototypeMeta
 
-  return prototypes
+        // Check if this route exists in PrototypeMeta
+        const meta = PrototypeMeta[routePath]
+        if (!meta) {
+          console.warn(`No metadata found for prototype: ${routePath}`)
+          return null
+        }
+
+        return {
+          name: `${meta.icon} ${name}`,
+          path: `/${routePath}`,
+          description: meta.description,
+          icon: meta.icon,
+          stage: meta.stage,
+          tech: meta.tech,
+        }
+      })
+      .filter((prototype) => prototype !== null) // Remove null entries
+
+  return prototypes as Prototype[]
 }

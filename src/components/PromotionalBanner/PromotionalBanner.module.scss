@@ -2,10 +2,11 @@
 
 .banner {
   display: flex;
-  background-color: #228cfd;
+  background: linear-gradient(45deg, #ff4500, #ff6b35);
   padding: $size-125 10%;
   align-items: center;
   flex-flow: row wrap;
+  box-shadow: 0 4px 15px rgba(255, 69, 0, 0.3);
 }
 
 .link {

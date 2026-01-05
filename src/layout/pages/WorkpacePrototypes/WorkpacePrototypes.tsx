@@ -4,7 +4,7 @@ import { SectionContainer } from '@/components'
 
 const WorkpacePrototypes = () => {
   return (
-    <SectionContainer>
+    <SectionContainer border={false}>
       <ProjectsGrid />
     </SectionContainer>
   )
