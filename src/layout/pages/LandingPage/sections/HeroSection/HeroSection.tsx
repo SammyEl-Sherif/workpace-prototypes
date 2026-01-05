@@ -8,15 +8,22 @@ import styles from './HeroSection.module.scss'
 const HeroSection = () => {
   const { status } = useSession()
 
+  const scrollToPrototypes = () => {
+    const prototypesSection = document.getElementById('prototypes')
+    if (prototypesSection) {
+      prototypesSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }
+
   return (
     <section className={styles.hero}>
       <div className={styles.container}>
         <h1 className={styles.title}>WorkPace</h1>
         <p className={styles.subtitle}>A change of pace in your online workspace</p>
         <div className={styles.cta}>
-          <Link href={Routes.PROTOTYPES} className={styles.primaryButton}>
+          <button onClick={scrollToPrototypes} className={styles.primaryButton}>
             Explore Prototypes
-          </Link>
+          </button>
           {status === 'authenticated' && (
             <Link href={Routes.ABOUT} className={styles.secondaryButton}>
               About

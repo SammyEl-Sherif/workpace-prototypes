@@ -51,11 +51,14 @@
   background: linear-gradient(45deg, #ff4500, #ff6b35);
   color: white;
   text-decoration: none;
+  border: none;
   border-radius: 50px;
   font-weight: 600;
   font-size: 1.1rem;
   transition: all 0.3s ease;
   box-shadow: 0 8px 25px rgba(255, 69, 0, 0.4);
+  cursor: pointer;
+  font-family: inherit;
 
   &:hover {
     transform: translateY(-3px);

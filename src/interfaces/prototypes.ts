@@ -26,4 +26,12 @@ export const PrototypeMeta = {
     stage: PrototypeStage.WIP,
     tech: 'Notion API, OpenAI API',
   },
+  [Routes.BUDGET_BOT]: {
+    description:
+      'A budgeting tool that helps you understand your financial levers by tracking income, expenses, savings, and calculating what you have left for wants.',
+    icon: '💰',
+    permittedRoles: [UserGroup.Admin],
+    stage: PrototypeStage.WIP,
+    tech: 'React, TypeScript',
+  },
 }

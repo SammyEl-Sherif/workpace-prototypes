@@ -6,6 +6,27 @@
   background: #ffffff;
 }
 
+.logoSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 3rem;
+  padding: 2rem 0;
+}
+
+.logo {
+  width: 120px;
+  height: 120px;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  }
+}
+
 .section {
   margin-bottom: 2rem;
 
@@ -392,5 +413,10 @@
     max-width: 200px;
     justify-content: center;
     padding: 0.7rem 1rem;
+  }
+
+  .logo {
+    width: 80px;
+    height: 80px;
   }
 }

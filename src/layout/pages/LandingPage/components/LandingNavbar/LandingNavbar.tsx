@@ -24,15 +24,6 @@ const LandingNavbar = () => {
         </div>
 
         <div className={styles.navLinks}>
-          <Link href={Routes.PROTOTYPES} className={styles.navLink}>
-            Prototypes
-          </Link>
-          {/* <a href="#community" className={styles.navLink}>
-            Community
-          </a> */}
-          <Link href={Routes.ABOUT} className={styles.navLink}>
-            About
-          </Link>
           {status === 'authenticated' ? (
             <button onClick={handleSignOut} className={styles.signInButton}>
               Sign Out

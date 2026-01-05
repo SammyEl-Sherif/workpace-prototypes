@@ -8,9 +8,7 @@ const FooterSection = () => {
         <div className={styles.content}>
           <div className={styles.brand}>
             <h3 className={styles.brandName}>WorkPace</h3>
-            <p className={styles.brandDescription}>
-              A change of pace in your online workspace.
-            </p>
+            <p className={styles.brandDescription}>A change of pace in your online workspace.</p>
           </div>
 
           <div className={styles.links}>

@@ -1,10 +1,19 @@
+import Image from 'next/image'
+
 import { SectionContainer } from '@/components'
+import Logo from '@/public/favicon.ico'
+
 import styles from './AboutPage.module.scss'
 
 export const AboutPage = () => {
   return (
     <SectionContainer>
       <div className={styles.aboutPage}>
+        {/* Logo Section */}
+        <div className={styles.logoSection}>
+          <Image src={Logo} alt="WorkPace Logo" className={styles.logo} />
+        </div>
+
         {/* Mission Section */}
         <section className={styles.section}>
           <h1 className={styles.title}>About WorkPace</h1>
@@ -278,7 +287,6 @@ export const AboutPage = () => {
               </div>
 
               <div className={styles.arrow}>↓</div>
-
 
               {/* External Services */}
               <div className={styles.diagramRow}>
