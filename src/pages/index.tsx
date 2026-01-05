@@ -13,11 +13,11 @@ export const getServerSideProps: GetServerSideProps = withPageRequestWrapper(asy
   return {}
 })
 
-const HomePage = ({ prototypes }: HomePageProps) => {
+const HomePage = () => {
   return (
     <>
       <DocumentTitle title="WorkPace - A change of pace in your online workspace" />
-      <LandingPage prototypes={prototypes} />
+      <LandingPage />
     </>
   )
 }
