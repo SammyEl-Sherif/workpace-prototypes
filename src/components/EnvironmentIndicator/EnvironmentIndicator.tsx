@@ -8,7 +8,6 @@ export const EnvironmentIndicator: React.FC = () => {
   if (environment === 'production') return null
 
   const isDocker = environment === 'docker'
-  const isLocal = environment === 'local'
 
   return (
     <div
