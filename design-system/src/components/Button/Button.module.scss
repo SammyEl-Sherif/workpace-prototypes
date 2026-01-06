@@ -1,0 +1,219 @@
+@use '../../styles' as *;
+
+.button {
+  align-items: center;
+  border-radius: 6px;
+  border-style: solid;
+  border-width: 1px;
+  box-sizing: border-box;
+  display: inline-flex;
+  height: 40px;
+  justify-content: center;
+  min-width: 100px;
+  font: inherit;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.875rem;
+  letter-spacing: 0.025em;
+  transition: all 0.15s ease;
+  position: relative;
+  cursor: pointer;
+  padding: 0 $size-200;
+
+  &:focus {
+    @include focus-outline;
+
+    outline-offset: 2px;
+  }
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+}
+
+@mixin brand-primary {
+  background: $color-primary-600;
+  border-color: $color-primary-600;
+  color: $color-neutral-white;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 5%);
+
+  &:hover:not(:disabled) {
+    background: $color-primary-700;
+    border-color: $color-primary-700;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -1px rgb(0 0 0 / 6%);
+  }
+
+  &:active:not(:disabled) {
+    background: $color-primary-800;
+    border-color: $color-primary-800;
+  }
+}
+
+@mixin brand-secondary {
+  background: $color-neutral-white;
+  border-color: $color-neutral-300;
+  color: $color-neutral-700;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 5%);
+
+  &:hover:not(:disabled) {
+    background: $color-neutral-50;
+    border-color: $color-neutral-400;
+    color: $color-neutral-800;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -1px rgb(0 0 0 / 6%);
+  }
+
+  &:active:not(:disabled) {
+    background: $color-neutral-100;
+    border-color: $color-neutral-500;
+    color: $color-neutral-900;
+  }
+}
+
+@mixin default-primary {
+  background: $color-neutral-900;
+  border-color: $color-neutral-900;
+  color: $color-neutral-white;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 5%);
+
+  &:hover:not(:disabled) {
+    background: $color-neutral-800;
+    border-color: $color-neutral-800;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -1px rgb(0 0 0 / 6%);
+  }
+
+  &:active:not(:disabled) {
+    background: $color-neutral-700;
+    border-color: $color-neutral-700;
+  }
+}
+
+@mixin default-secondary {
+  background: $color-neutral-white;
+  border-color: $color-neutral-300;
+  color: $color-neutral-700;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 5%);
+
+  &:hover:not(:disabled) {
+    background: $color-neutral-50;
+    border-color: $color-neutral-400;
+    color: $color-neutral-800;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -1px rgb(0 0 0 / 6%);
+  }
+
+  &:active:not(:disabled) {
+    background: $color-neutral-100;
+    border-color: $color-neutral-500;
+    color: $color-neutral-900;
+  }
+}
+
+.brand-primary {
+  @include brand-primary;
+}
+
+.brand-secondary {
+  @include brand-secondary;
+}
+
+.default-primary {
+  @include default-primary;
+}
+
+.default-secondary {
+  @include default-secondary;
+}
+
+// Size variants
+.button-sm {
+  height: 32px;
+  min-width: 80px;
+  font-size: 0.75rem;
+  padding: 0 $size-150;
+}
+
+.button-lg {
+  height: 48px;
+  min-width: 120px;
+  font-size: 1rem;
+  padding: 0 $size-300;
+}
+
+// Hero button variant
+.button-hero {
+  height: 48px;
+  min-width: 140px;
+  font-size: 1rem;
+  padding: 0 $size-300;
+  font-weight: 600;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 10%), 0 1px 2px 0 rgb(0 0 0 / 6%);
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -1px rgb(0 0 0 / 6%);
+  }
+}
+
+@include md {
+  .brand-primary-md {
+    @include brand-primary;
+  }
+
+  .brand-secondary-md {
+    @include brand-secondary;
+  }
+
+  .default-primary-md {
+    @include default-primary;
+  }
+
+  .default-secondary-md {
+    @include default-secondary;
+  }
+}
+
+@include lg {
+  .brand-primary-lg {
+    @include brand-primary;
+  }
+
+  .brand-secondary-lg {
+    @include brand-secondary;
+  }
+
+  .default-primary-lg {
+    @include default-primary;
+  }
+
+  .default-secondary-lg {
+    @include default-secondary;
+  }
+}
+
+@include sm {
+  .brand-primary-sm {
+    @include brand-primary;
+  }
+
+  .brand-secondary-sm {
+    @include brand-secondary;
+  }
+
+  .default-primary-sm {
+    @include default-primary;
+  }
+
+  .default-secondary-sm {
+    @include default-secondary;
+  }
+}

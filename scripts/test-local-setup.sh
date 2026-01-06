@@ -71,7 +71,7 @@ main() {
     
     # Test Node.js
     run_test "Node.js is installed" "command_exists node"
-    run_test "Node.js version >= 18" "[ \$(node --version | cut -d'v' -f2 | cut -d'.' -f1) -ge 18 ]"
+    run_test "Node.js version >= 22" "[ \$(node --version | cut -d'v' -f2 | cut -d'.' -f1) -ge 22 ]"
     
     # Test npm
     run_test "npm is installed" "command_exists npm"

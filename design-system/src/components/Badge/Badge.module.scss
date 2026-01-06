@@ -1,0 +1,98 @@
+@use '../../styles' as *;
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: $size-75;
+  font-weight: $font-weight-medium;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  gap: $size-50;
+  border: 1px solid transparent;
+
+  &.sm {
+    padding: $size-50 $size-100;
+    font-size: $font-body-sm-font-size;
+    line-height: 1;
+  }
+
+  &.md {
+    padding: $size-75 $size-150;
+    font-size: $font-body-md-font-size;
+    line-height: 1;
+  }
+
+  &.lg {
+    padding: $size-100 $size-200;
+    font-size: $font-body-lg-font-size;
+    line-height: 1;
+  }
+
+  &.default {
+    background: $color-success-500;
+    color: $color-neutral-white;
+    border-color: $color-success-500;
+
+    &:hover {
+      background: $color-success-600;
+      border-color: $color-success-600;
+    }
+  }
+
+  &.outline {
+    background: transparent;
+    color: $color-neutral-500;
+    border-color: $color-neutral-300;
+
+    &:hover {
+      background: $color-neutral-100;
+      color: $color-neutral-700;
+    }
+  }
+
+  &.success {
+    background: $color-success-100;
+    color: $color-success-700;
+    border-color: $color-success-200;
+
+    &:hover {
+      background: $color-success-200;
+      border-color: $color-success-300;
+    }
+  }
+
+  &.warning {
+    background: $color-warning-100;
+    color: $color-warning-800;
+    border-color: $color-warning-200;
+
+    &:hover {
+      background: $color-warning-200;
+      border-color: $color-warning-300;
+    }
+  }
+
+  &.info {
+    background: $color-info-100;
+    color: $color-info-800;
+    border-color: $color-info-200;
+
+    &:hover {
+      background: $color-info-200;
+      border-color: $color-info-300;
+    }
+  }
+
+  &.error {
+    background: $color-error-100;
+    color: $color-error-700;
+    border-color: $color-error-200;
+
+    &:hover {
+      background: $color-error-200;
+      border-color: $color-error-300;
+    }
+  }
+}
+

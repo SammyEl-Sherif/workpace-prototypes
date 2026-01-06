@@ -1,0 +1,4 @@
+dist
+src/styles/_design-tokens.*
+.storybook/public/*
+docs

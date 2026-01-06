@@ -1,0 +1,96 @@
+@use '../../styles' as *;
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: $size-300;
+  border-radius: $size-150;
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+
+  &.default {
+    background: linear-gradient(135deg, $color-neutral-white 0%, $color-neutral-50 100%);
+    border-color: rgba($color-primary-600, 0.1);
+    box-shadow:
+      0 $size-100 $size-150 rgb(0 0 0 / 5%),
+      0 $size-200 $size-300 rgb(0 0 0 / 10%);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 $size-200 $size-500 rgba($color-primary-600, 0.15),
+        0 $size-100 $size-200 rgb(0 0 0 / 10%);
+    }
+  }
+
+  &.gradient {
+    background: linear-gradient(135deg, $color-neutral-white 0%, $color-primary-50 100%);
+    border-color: rgba($color-primary-600, 0.1);
+    box-shadow:
+      0 $size-100 $size-150 rgb(0 0 0 / 5%),
+      0 $size-200 $size-300 rgb(0 0 0 / 10%);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 $size-200 $size-500 rgba($color-primary-600, 0.15),
+        0 $size-100 $size-200 rgb(0 0 0 / 10%);
+    }
+  }
+
+  &.hero {
+    background: linear-gradient(
+      135deg,
+      $color-primary-600 0%,
+      $color-primary-700 50%,
+      $color-primary-800 100%
+    );
+    color: $color-neutral-white;
+    border: none;
+    box-shadow: 0 $size-200 $size-800 rgba($color-primary-600, 0.3);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 $size-300 $size-900 rgba($color-primary-600, 0.4);
+    }
+  }
+}
+
+.cardHeader {
+  display: flex;
+  flex-direction: column;
+  gap: $size-75;
+  padding: $size-300 $size-300 0 $size-300;
+  align-items: flex-start;
+
+  &.center {
+    text-align: center;
+    align-items: center;
+  }
+}
+
+.cardTitle {
+  font-size: $font-headline-md-font-size;
+  font-weight: $font-weight-bold;
+  line-height: 1.2;
+  margin: 0;
+  color: $color-neutral-800;
+
+  .hero & {
+    color: $color-neutral-white;
+  }
+}
+
+.cardContent {
+  padding: 0 $size-300 $size-300;
+  flex: 1;
+}
+
+.cardFooter {
+  display: flex;
+  align-items: center;
+  padding: 0 $size-300 $size-300;
+  gap: $size-100;
+}

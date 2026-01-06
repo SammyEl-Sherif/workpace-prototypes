@@ -1,0 +1,8 @@
+{
+  "extends": ["stylelint-config-standard-scss", "stylelint-config-css-modules"],
+  "plugins": ["stylelint-scss"],
+  "rules": {
+    "selector-class-pattern": null
+  },
+  "ignoreFiles": [".storybook/public/*"]
+}

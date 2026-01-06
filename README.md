@@ -89,7 +89,7 @@ workpace-prototypes/
 
 ### Local Development
 
-- Node.js 18+
+- Node.js 22+
 - PostgreSQL (or Docker)
 - Environment variables in `.env.local`
 

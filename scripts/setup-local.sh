@@ -40,14 +40,14 @@ check_prerequisites() {
     
     # Check Node.js
     if ! command_exists node; then
-        print_error "Node.js is not installed. Please install Node.js v18 or higher."
+        print_error "Node.js is not installed. Please install Node.js v22 or higher."
         print_warning "Download from: https://nodejs.org/"
         exit 1
     fi
     
     local node_version=$(node --version | cut -d'v' -f2 | cut -d'.' -f1)
-    if [ "$node_version" -lt 18 ]; then
-        print_error "Node.js version 18 or higher is required. Current version: $(node --version)"
+    if [ "$node_version" -lt 22 ]; then
+        print_error "Node.js version 22 or higher is required. Current version: $(node --version)"
         exit 1
     fi
     print_status "Node.js $(node --version) is installed"

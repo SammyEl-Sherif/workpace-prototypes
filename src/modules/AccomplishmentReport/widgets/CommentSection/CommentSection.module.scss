@@ -102,7 +102,7 @@
 
 .link {
   cursor: pointer;
-  color: $color-active-800;
+  color: $color-primary-800;
   font-weight: bold;
   text-decoration: none;
   &:hover {
@@ -113,7 +113,7 @@
     flex-flow: row nowrap;
     gap: 8px;
     align-items: center;
-    color: $color-active-800;
+    color: $color-primary-800;
   }
 }
 

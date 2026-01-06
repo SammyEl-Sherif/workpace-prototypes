@@ -9,6 +9,7 @@
     "start:src": "npm run start --workspace src",
     "build": "npm-run-all --parallel build:** --print-label",
     "build:src": "npm run build --workspace src",
+    "build:design-system": "npm run build --workspace design-system",
     "test": "npm-run-all --parallel test:** --print-label",
     "test:src": "npm run test --workspace src",
     "check": "npm-run-all --parallel check:** --print-label",
@@ -25,8 +26,9 @@
     "precommit": "npm-run-all precommit:** --print-label",
     "precommit:": "lint-staged",
     "precommit:src": "npm run lint --workspace src",
-    "clean": "rm -rf node_modules src/node_modules src/.next",
-    "dev": "npm run dev --workspace src"
+    "clean": "rm -rf node_modules src/node_modules src/.next design-system/node_modules design-system/dist",
+    "dev": "npm run dev --workspace src",
+    "dev:design-system": "npm run start --workspace design-system"
   },
   "dependencies": {
     "@fontsource/roboto": "^5.1.1",
@@ -55,10 +57,11 @@
   },
   "type": "module",
   "workspaces": [
-    "src"
+    "src",
+    "design-system"
   ],
   "engines": {
-    "node": "^18.0.0",
+    "node": "^22.0.0",
     "npm": "^9 || ^10"
   }
 }

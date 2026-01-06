@@ -1,0 +1,84 @@
+{
+  "root": true,
+  "env": {
+    "node": true,
+    "browser": true
+  },
+  "ignorePatterns": ["polymorphic-component-types.ts"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
+    "plugin:storybook/recommended",
+    "next/core-web-vitals",
+    "next/typescript",
+    "plugin:storybook/recommended"
+  ],
+  "plugins": ["@typescript-eslint", "react"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "settings": {
+    "polymorphicPropName": "as",
+    "components": {
+      "Button": "button",
+      "Page": "article",
+      "Header": "header",
+      "Box": "div"
+    },
+    "react": {
+      "version": "detect"
+    }
+  },
+  "overrides": [
+    {
+      "files": ["*.mdx"],
+      "extends": ["plugin:mdx/recommended"],
+      "rules": {
+        "react/prop-types": [0],
+        "react/no-unescaped-entities": 0
+      }
+    },
+    {
+      "files": ["*.stories.@(js|jsx|ts|tsx)"],
+      "extends": ["plugin:storybook/recommended"]
+    }
+  ],
+  "rules": {
+    "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/no-unused-expressions": ["error", {
+      "allowShortCircuit": true,
+      "allowTernary": true,
+      "allowTaggedTemplates": true
+    }],
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": [
+          {
+            "group": ["**/*/Icons/_icons", "!**/*/Icons/_icons/"],
+            "message": "Importing icons from the barrel file will bloat consumers' bundle. Import icons individually."
+          },
+          {
+            "group": ["**/*/tokens/design-tokens.json"],
+            "importNames": ["default"],
+            "message": "Importing tokens from the default export will bloat consumers' bundles. Import tokens and token groups individually."
+          },
+          {
+            "group": ["**/*/lib"],
+            "message": "Importing modules from the package entry point causes circular dependencies. Import from the module directly."
+          }
+        ]
+      }
+    ],
+    "@typescript-eslint/no-vars-requires": 0,
+    "@typescript-eslint/no-unused-vars": ["error", { "varsIgnorePattern": "^_" }],
+    "react-hooks/exhaustive-deps": ["warn", { "additionalHooks": "(useIsomorphicLayoutEffect)" }]
+  }
+}

@@ -1,0 +1,83 @@
+@use 'sass:math';
+@use '../../styles' as *;
+
+$scale: 0.85;
+$scale-reverse: calc(1 / $scale);
+$scaled-padding: calc(($scale-reverse * $size-50) - $size-50);
+
+.floating-text {
+  position: absolute;
+  transform:
+    transform 0.1s ease-in-out,
+    margin-right 0.1s linear,
+    top 0.1s ease-in-out,
+    background-position 0.1s ease-in-out;
+  pointer-events: none;
+  margin-left: $size-150;
+  margin-right: $size-150;
+  background-position: 0 -1em;
+  background-size: 100% calc(2px * math.ceil($scale-reverse));
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(180deg, $color-neutral-white 0, $color-neutral-white);
+  background-image: linear-gradient(0deg, $color-neutral-white 0, $color-neutral-white);
+}
+
+.single-line {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.multiline {
+  top: $size-125;
+}
+
+@mixin afloat {
+  transform: scale($scale) translateY((calc(-1em / 2)));
+  top: -2px;
+  font-weight: $font-weight-medium;
+  background-position: 0 51%;
+
+  &:first-of-type {
+    left: 0;
+  }
+
+  &.error {
+    color: $color-error-600;
+  }
+
+  &.has-icon {
+    margin-right: $size-200;
+  }
+}
+
+:focus ~ .floating-text,
+.stay-afloat {
+  @include afloat;
+}
+
+[placeholder]:not(:placeholder-shown) ~ .floating-text {
+  @include afloat;
+}
+
+.optional {
+  right: $scaled-padding;
+  transform-origin: right top;
+
+  &.has-icon {
+    margin-right: $size-200 + $icons-md;
+  }
+}
+
+.left {
+  left: $scaled-padding;
+  transform-origin: left top;
+}
+
+:root :focus ~ .floating-text {
+  background-size: 100% 5px;
+}
+
+.center {
+  transform-origin: top;
+}

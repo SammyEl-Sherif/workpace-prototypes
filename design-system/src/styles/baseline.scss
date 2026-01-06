@@ -1,0 +1,32 @@
+@use 'design-tokens' as *;
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 100%;
+}
+
+body {
+  font-family: $font-stack;
+  color: $color-neutral-black;
+  background-color: $color-neutral-white;
+  line-height: 1;
+  margin: 0;
+  text-size-adjust: none;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr {
+  margin: 0;
+  padding: 0;
+}

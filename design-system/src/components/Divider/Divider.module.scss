@@ -1,0 +1,42 @@
+@use '../../styles' as *;
+
+.divider {
+  border: none;
+  margin: 0;
+
+  &.horizontal {
+    border-top: 1px solid $color-neutral-200;
+    width: 100%;
+
+    &.sm {
+      margin: $size-50 0;
+    }
+
+    &.md {
+      margin: $size-100 0;
+    }
+
+    &.lg {
+      margin: $size-200 0;
+    }
+  }
+
+  &.vertical {
+    border-left: 1px solid $color-neutral-200;
+    height: 100%;
+    width: 1px;
+
+    &.sm {
+      margin: 0 $size-50;
+    }
+
+    &.md {
+      margin: 0 $size-100;
+    }
+
+    &.lg {
+      margin: 0 $size-200;
+    }
+  }
+}
+

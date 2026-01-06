@@ -17,9 +17,10 @@ export default function App({ Component, pageProps }: AppProps) {
   // Check if current page is the landing page (no auth required)
   const isLandingPage = router.pathname === '/'
   const isSigninPage = router.pathname === '/signin'
+  const isDesignSystemPage = router.pathname === '/design-system'
 
-  // For landing page, render without authentication but with context providers
-  if (isLandingPage) {
+  // For landing page and design-system page, render without authentication but with context providers
+  if (isLandingPage || isDesignSystemPage) {
     return (
       <Auth>
         <UserInfoContextProvider
