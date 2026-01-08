@@ -1,0 +1,19 @@
+@use 'design-tokens' as *;
+
+@mixin sm {
+  @media #{$mq-sm-only, #{$mq-phone-landscape-only}} {
+    @content;
+  }
+}
+
+@mixin md {
+  @media screen and (min-width: $breakpoints-sm) and (max-width: ($breakpoints-lg - 0.02px)) {
+    @content;
+  }
+}
+
+@mixin lg {
+  @media #{$mq-lg-up} {
+    @content;
+  }
+}

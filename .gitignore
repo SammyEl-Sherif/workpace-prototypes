@@ -1,4 +1,14 @@
+# Dependencies
 node_modules
+src/node_modules
+design-system/node_modules
+
+# Build artifacts
+src/.next
+src/out
+design-system/dist
+design-system/storybook-static
+design-system/*.tgz
 
 # IDE Files
 .idea
@@ -13,8 +23,34 @@ node_modules
 .eslintcache
 .stylelintcache
 .dccache
+.rollup.cache
+.cache
 
+# Generated files (design-system)
+design-system/src/styles/_design-tokens.scss
+design-system/tokens/design-tokens.*
+design-system/src/components/Icons/_icons
+design-system/src/components/Logos/_logos
+
+# Kubernetes configs
 workpace-k8s-kubeconfig*.yaml
 kubeconfig*.yaml
 *.kubeconfig
 
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*storybook.log
+
+# Environment files
+.env*.local
+.env
+
+# TypeScript
+*.tsbuildinfo
+src/next-env.d.ts
+design-system/next-env.d.ts
+
+design-system/docs/

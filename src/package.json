@@ -19,7 +19,7 @@
     "test:test": "jest --ci --runInBand"
   },
   "dependencies": {
-    "@workpace/design-system": "^1.0.7",
+    "@workpace/design-system": "file:../design-system",
     "axios": "^1.7.2",
     "chart.js": "^4.5.1",
     "classnames": "^2.5.1",

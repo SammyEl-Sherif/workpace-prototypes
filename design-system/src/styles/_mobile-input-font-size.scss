@@ -1,0 +1,8 @@
+@use 'design-tokens' as *;
+@use 'breakpoints' as *;
+
+@mixin mobile-input-font-size {
+  @include sm {
+    font-size: $font-body-lg-font-size;
+  }
+}

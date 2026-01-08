@@ -1,0 +1,11 @@
+.field-error {
+  display: flex;
+  align-items: flex-start;
+}
+
+.error-icon {
+  $half-line-height: 0.5lh;
+  $half-icon-height: 50%;
+
+  transform: translateY(calc($half-line-height - $half-icon-height));
+}

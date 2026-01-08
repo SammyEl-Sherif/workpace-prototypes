@@ -1,0 +1,278 @@
+@use '../../styles' as *;
+
+.button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: $font-family;
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+  min-height: 40px;
+  padding: 10px 20px;
+  font-size: 14px;
+  letter-spacing: -0.01em;
+  
+  // Rounded corners matching modern design
+  border-radius: 8px;
+
+  &:focus-visible {
+    outline: 2px solid $color-accent-500;
+    outline-offset: 2px;
+  }
+
+  &:disabled,
+  &--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  // Icon/arrow spacing
+  svg,
+  &::after {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 2px;
+  }
+
+  // Size variants are defined below as separate classes
+
+  // Full Width
+  &--full-width {
+    width: 100%;
+  }
+
+  // Icon Styling
+  &__icon {
+    display: inline-flex;
+    align-items: center;
+    
+    &--left {
+      margin-right: -4px;
+    }
+    
+    &--right {
+      margin-left: -4px;
+    }
+  }
+
+  &__text {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  // Loading Spinner
+  &__spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: $color-neutral-white;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+// Mixins for variants (can be used in media queries)
+@mixin brand-primary {
+  background-color: $color-active-500;
+  color: $color-neutral-white;
+  border-color: $color-active-500;
+  box-shadow: 0 1px 2px rgba(255, 107, 53, 0.15);
+
+  &:hover:not(:disabled) {
+    background-color: $color-active-600;
+    border-color: $color-active-600;
+    box-shadow: 0 2px 4px rgba(255, 107, 53, 0.25);
+    transform: translateY(-1px);
+  }
+
+  &:active:not(:disabled) {
+    background-color: $color-active-700;
+    border-color: $color-active-700;
+    box-shadow: 0 1px 2px rgba(255, 107, 53, 0.15);
+    transform: translateY(0);
+  }
+}
+
+@mixin brand-secondary {
+  background-color: $color-accent-500;
+  color: $color-neutral-white;
+  border-color: $color-accent-500;
+  box-shadow: 0 1px 2px rgba(0, 82, 204, 0.15);
+
+  &:hover:not(:disabled) {
+    background-color: $color-accent-600;
+    border-color: $color-accent-600;
+    box-shadow: 0 2px 4px rgba(0, 82, 204, 0.25);
+    transform: translateY(-1px);
+  }
+
+  &:active:not(:disabled) {
+    background-color: $color-accent-700;
+    border-color: $color-accent-700;
+    box-shadow: 0 1px 2px rgba(0, 82, 204, 0.15);
+    transform: translateY(0);
+  }
+}
+
+@mixin default-primary {
+  background-color: $color-neutral-900;
+  color: $color-neutral-white;
+  border-color: $color-neutral-900;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+
+  &:hover:not(:disabled) {
+    background-color: $color-neutral-800;
+    border-color: $color-neutral-800;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+    transform: translateY(-1px);
+  }
+
+  &:active:not(:disabled) {
+    background-color: $color-neutral-700;
+    border-color: $color-neutral-700;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+    transform: translateY(0);
+  }
+}
+
+@mixin default-secondary {
+  background-color: $color-neutral-50;
+  border-color: $color-accent-500;
+  color: $color-accent-600;
+  box-shadow: 0 1px 2px rgba(0, 82, 204, 0.08);
+
+  &:hover:not(:disabled) {
+    background-color: $color-neutral-100;
+    border-color: $color-accent-600;
+    color: $color-accent-700;
+    box-shadow: 0 2px 4px rgba(0, 82, 204, 0.12);
+    transform: translateY(-1px);
+  }
+
+  &:active:not(:disabled) {
+    background-color: $color-neutral-200;
+    border-color: $color-accent-700;
+    color: $color-accent-700;
+    box-shadow: 0 1px 2px rgba(0, 82, 204, 0.08);
+    transform: translateY(0);
+  }
+}
+
+// Classes for variants
+.brand-primary {
+  @include brand-primary;
+}
+
+.brand-secondary {
+  @include brand-secondary;
+}
+
+.default-primary {
+  @include default-primary;
+}
+
+.default-secondary {
+  @include default-secondary;
+}
+
+// Size variants
+.button-sm {
+  min-height: 36px;
+  padding: 8px 16px;
+  font-size: 13px;
+  min-width: 80px;
+  border-radius: 6px;
+}
+
+.button-lg {
+  min-height: 44px;
+  padding: 12px 24px;
+  font-size: 15px;
+  min-width: 120px;
+  border-radius: 8px;
+}
+
+// Responsive breakpoint variants
+@include md {
+  .brand-primary-md {
+    @include brand-primary;
+  }
+
+  .brand-secondary-md {
+    @include brand-secondary;
+  }
+
+  .default-primary-md {
+    @include default-primary;
+  }
+
+  .default-secondary-md {
+    @include default-secondary;
+  }
+}
+
+@include lg {
+  .brand-primary-lg {
+    @include brand-primary;
+  }
+
+  .brand-secondary-lg {
+    @include brand-secondary;
+  }
+
+  .default-primary-lg {
+    @include default-primary;
+  }
+
+  .default-secondary-lg {
+    @include default-secondary;
+  }
+}
+
+@include sm {
+  .brand-primary-sm {
+    @include brand-primary;
+  }
+
+  .brand-secondary-sm {
+    @include brand-secondary;
+  }
+
+  .default-primary-sm {
+    @include default-primary;
+  }
+
+  .default-secondary-sm {
+    @include default-secondary;
+  }
+}
+
+.inheritfont {
+  font: inherit;
+}

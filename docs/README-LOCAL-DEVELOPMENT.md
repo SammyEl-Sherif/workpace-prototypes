@@ -42,8 +42,8 @@ source ~/.zshrc
 ### Option 1: Local Development (Recommended for most development)
 
 ```bash
-# 1. Make sure you're using Node.js 18
-nvm use 18
+# 1. Make sure you're using Node.js 22
+nvm use 22
 
 # 2. Install dependencies
 npm install
@@ -103,10 +103,10 @@ If you see "Port 3000 is in use", make sure you've stopped the other method firs
 
 ### Node Version Issues
 
-Make sure you're using Node.js 18:
+Make sure you're using Node.js 22:
 
 ```bash
-nvm use 18
+nvm use 22
 ```
 
 ### Docker Issues

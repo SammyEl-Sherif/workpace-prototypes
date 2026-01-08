@@ -1,0 +1,34 @@
+@use '../../styles' as *;
+@use 'sass:map';
+
+@each $variant, $value in map.get($tokens, 'icons') {
+  .icon-variant-#{$variant} {
+    width: $value;
+    height: $value;
+  }
+
+  .icon-md-variant-#{$variant} {
+    @include md {
+      width: $value;
+      height: $value;
+    }
+  }
+  .icon-lg-variant-#{$variant} {
+    @include lg {
+      width: $value;
+      height: $value;
+    }
+  }
+  .icon-sm-variant-#{$variant} {
+    @include sm {
+      width: $value;
+      height: $value;
+    }
+  }
+}
+
+.icon {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+}

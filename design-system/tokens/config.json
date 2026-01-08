@@ -1,0 +1,45 @@
+{
+  "source": ["tokens/*.tokens.json"],
+  "platforms": {
+    "scss": {
+      "transformGroup": "scss",
+      "buildPath": "./",
+      "files": [
+        {
+          "destination": "src/styles/_design-tokens.scss",
+          "format": "scss/map-deep"
+        }
+      ]
+    },
+    "json": {
+      "transformGroup": "json",
+      "buildPath": "./",
+      "files": [
+        {
+          "destination": "tokens/design-tokens.json",
+          "format": "json/nested"
+        }
+      ]
+    },
+    "js": {
+      "transformGroup": "js",
+      "files": [
+        {
+          "format": "javascript/module-flat",
+          "destination": "tokens/design-tokens.cjs"
+        },
+        {
+          "format": "javascript/es6",
+          "destination": "tokens/design-tokens.js"
+        },
+        {
+          "format": "typescript/es6-declarations",
+          "destination": "tokens/design-tokens.d.ts",
+          "options": {
+            "outputStringLiterals": true
+          }
+        }
+      ]
+    }
+  }
+}

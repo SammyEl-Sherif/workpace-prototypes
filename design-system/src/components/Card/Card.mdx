@@ -1,0 +1,31 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs';
+import Card, { CardHeader, CardTitle, CardContent, CardFooter } from './index';
+
+<Meta title="Components/Card" component={Card} />
+
+# Card
+
+A card component for displaying content in a structured, visually appealing container.
+
+## Usage
+
+```jsx
+import Card, { CardHeader, CardTitle, CardContent, CardFooter } from '@workpace/design-system';
+
+<Card variant="default">
+  <CardHeader>
+    <CardTitle>Card Title</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <p>Card content goes here...</p>
+  </CardContent>
+  <CardFooter>
+    <button>Action</button>
+  </CardFooter>
+</Card>;
+```
+
+## Props
+
+<ArgsTable of={Card} />
+

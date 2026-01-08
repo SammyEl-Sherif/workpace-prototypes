@@ -1,0 +1,65 @@
+@use 'sass:map';
+@use '../../styles' as *;
+
+$spacing-props: (
+  'padding': 'pad',
+  'margin': 'mar',
+);
+
+@mixin spacing-classes($viewport: '') {
+  @each $scale, $value in map.get($tokens, 'size') {
+    @each $prop, $class in $spacing-props {
+      .#{$class} {
+        &-#{$viewport}#{$scale} {
+          #{$prop}: $value;
+        }
+        &-l-#{$viewport}#{$scale} {
+          #{$prop}-left: $value;
+        }
+        &-r-#{$viewport}#{$scale} {
+          #{$prop}-right: $value;
+        }
+        &-t-#{$viewport}#{$scale} {
+          #{$prop}-top: $value;
+        }
+        &-b-#{$viewport}#{$scale} {
+          #{$prop}-bottom: $value;
+        }
+      }
+    }
+  }
+}
+
+@mixin color-classes($viewport: '') {
+  @each $palette, $colors in map.get($tokens, 'color') {
+    @each $scale, $value in $colors {
+      .color-#{$viewport}#{$palette}-#{$scale} {
+        color: $value;
+      }
+      .bgc-#{$viewport}#{$palette}-#{$scale} {
+        background-color: $value;
+      }
+      .bdc-#{$viewport}#{$palette}-#{$scale} {
+        border-color: $value;
+      }
+    }
+  }
+}
+
+@include spacing-classes;
+@include color-classes;
+
+@include md {
+  @include spacing-classes('md-');
+  @include color-classes('md-');
+}
+
+@include lg {
+  @include spacing-classes('lg-');
+  @include color-classes('lg-');
+}
+
+@include sm {
+  @include spacing-classes('sm-');
+  @include color-classes('sm-');
+}

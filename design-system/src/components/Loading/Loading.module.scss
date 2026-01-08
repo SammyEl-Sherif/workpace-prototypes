@@ -1,0 +1,46 @@
+@use '../../styles' as *;
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+
+  &.fullscreen {
+    position: fixed;
+    inset: 0;
+    background: rgba($color-neutral-white, 0.9);
+    backdrop-filter: blur(4px);
+    z-index: 9999;
+  }
+
+  &.sm {
+    min-height: $size-200;
+  }
+
+  &.md {
+    min-height: $size-400;
+  }
+
+  &.lg {
+    min-height: $size-600;
+  }
+}
+
+.spinner {
+  border: 2px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+

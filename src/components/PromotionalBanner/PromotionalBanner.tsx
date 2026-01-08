@@ -1,6 +1,7 @@
 import styles from './PromotionalBanner.module.scss'
 
-const PromotionalBanner = () => {
+const PromotionalBanner = ({ hide }: { hide?: boolean }) => {
+  if (hide) return null
   return (
     <div className={styles.banner}>
       <span>

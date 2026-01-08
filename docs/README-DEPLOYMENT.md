@@ -49,7 +49,7 @@ The application is containerized using a multi-stage Docker build:
 
 ```dockerfile
 # Optimized Dockerfile with multi-stage build
-FROM node:18-alpine AS base
+FROM node:22-alpine AS base
 # ... (see Dockerfile for complete configuration)
 ```
 

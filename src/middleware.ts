@@ -5,6 +5,11 @@ import { Routes } from './interfaces/routes'
 import { getAuthCookiesOptions } from './server/utils'
 
 export async function middleware(request: NextRequestWithAuth) {
+  // Allow design-system page without authentication
+  if (request.nextUrl.pathname === '/design-system') {
+    return NextResponse.next()
+  }
+
   return (
     withAuth(
       async () => {
@@ -34,6 +39,6 @@ export const config = {
   /* https://nextjs.org/docs/app/building-your-application/routing/middleware#example */
   matcher: [
     '/:path',
-    '/((?!api|_next/static|_next/image|_next/data|static|favicon.ico|sitemap.xml|robots.txt|signin).*)',
+    '/((?!api|_next/static|_next/image|_next/data|static|favicon.ico|sitemap.xml|robots.txt|signin|design-system).*)',
   ],
 }

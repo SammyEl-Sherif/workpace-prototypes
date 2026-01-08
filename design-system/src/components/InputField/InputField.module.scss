@@ -1,0 +1,35 @@
+@use '../../styles' as *;
+
+:root .input {
+  border: 0;
+  margin: 0;
+  border-radius: 0;
+  font-family: $font-stack;
+  font-size: $font-body-md-font-size;
+  font-weight: $font-weight-regular;
+  color: $color-neutral-black;
+  width: 100%;
+  box-sizing: border-box;
+  padding: $size-125 $size-200;
+  height: 100%;
+  min-width: 0;
+  background-color: transparent;
+
+  @include mobile-input-font-size;
+
+  &:focus {
+    border: 0;
+    height: calc(100% - 2px);
+    padding: $size-125 $size-200 - 1px;
+    margin: 0 1px;
+    outline: none;
+  }
+
+  &:not(:focus)::placeholder {
+    color: transparent;
+  }
+
+  &:disabled {
+    color: $color-neutral-600;
+  }
+}

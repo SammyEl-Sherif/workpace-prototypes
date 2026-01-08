@@ -1,0 +1,86 @@
+@use '../../styles' as *;
+
+.font {
+  font-weight: $font-weight-regular;
+}
+
+@mixin font-classes($viewport: '') {
+  .#{$viewport}emphasis {
+    font-weight: $font-weight-medium;
+  }
+
+  // headline
+  .#{$viewport}headline-display {
+    font-size: $font-headline-display-font-size;
+    line-height: $font-headline-display-line-height;
+  }
+  .#{$viewport}headline-lg {
+    font-size: $font-headline-lg-font-size;
+    line-height: $font-headline-lg-line-height;
+  }
+  .#{$viewport}headline-md {
+    font-size: $font-headline-md-font-size;
+    line-height: $font-headline-md-line-height;
+  }
+  .#{$viewport}headline-sm {
+    font-size: $font-headline-sm-font-size;
+    line-height: $font-headline-sm-line-height;
+  }
+
+  // body
+  .#{$viewport}body-lg {
+    font-size: $font-body-lg-font-size;
+    line-height: $font-body-lg-line-height;
+  }
+  .#{$viewport}body-md {
+    font-size: $font-body-md-font-size;
+    line-height: $font-body-md-line-height;
+  }
+  .#{$viewport}body-sm {
+    font-size: $font-body-sm-font-size;
+    line-height: $font-body-sm-line-height;
+  }
+  .#{$viewport}body-xs {
+    font-size: $font-body-xs-font-size;
+    line-height: $font-body-xs-line-height;
+  }
+
+  // paragraph
+  .#{$viewport}body-lg-paragraph {
+    font-size: $font-body-lg-font-size;
+    line-height: $font-body-lg-paragraph-line-height;
+  }
+  .#{$viewport}body-md-paragraph {
+    font-size: $font-body-md-font-size;
+    line-height: $font-body-md-paragraph-line-height;
+  }
+  .#{$viewport}body-sm-paragraph {
+    font-size: $font-body-sm-font-size;
+    line-height: $font-body-sm-paragraph-line-height;
+  }
+  .#{$viewport}body-xs-paragraph {
+    font-size: $font-body-xs-font-size;
+    line-height: $font-body-xs-paragraph-line-height;
+  }
+
+  // button
+  .#{$viewport}button-md {
+    font-size: $font-button-md-font-size;
+    line-height: $font-button-md-line-height;
+    font-weight: $font-weight-medium;
+  }
+}
+
+@include font-classes;
+
+@include lg {
+  @include font-classes('lg-');
+}
+
+@include md {
+  @include font-classes('md-');
+}
+
+@include sm {
+  @include font-classes('sm-');
+}

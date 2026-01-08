@@ -1,0 +1,45 @@
+@use '../../styles' as *;
+
+.select {
+  width: 100%;
+  border: 0;
+  background-color: transparent;
+  appearance: none;
+  padding-right: calc($icons-lg + $size-200);
+  margin: 0;
+  box-sizing: border-box;
+  font-family: inherit;
+
+  @include mobile-input-font-size;
+
+  &::-ms-expand {
+    visibility: hidden;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.select:has(option.placeholder:checked) {
+  color: $color-neutral-600;
+}
+
+.icon {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  width: $size-300;
+  height: $size-300;
+  right: $size-150;
+  top: $size-100;
+  pointer-events: none;
+}
+
+.icon-arrow {
+  display: inline-block;
+}
+
+.select:focus-within ~ .icon > .icon-arrow {
+  transform: rotate(180deg);
+}

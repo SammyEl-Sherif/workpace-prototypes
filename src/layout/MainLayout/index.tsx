@@ -14,8 +14,7 @@ export default function MainLayout({ children }: LayoutProps) {
     <div className={styles.pageLayout}>
       <Navbar />
       <div className={styles.pageContent}>
-        {/* <WarningBanner /> */}
-        <PromotionalBanner />
+        <PromotionalBanner hide={true} />
         <main className={styles.containerSize}>{children}</main>
       </div>
     </div>
