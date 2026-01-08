@@ -79,6 +79,14 @@ jobs:
           echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
           echo "Bumped version to $NEW_VERSION"
 
+      - name: Configure npm for OIDC trusted publishing
+        working-directory: ./design-system
+        run: |
+          # Create .npmrc for OIDC (trusted publishing) without tokens
+          # This avoids workspace issues with npm config commands
+          echo "registry=https://registry.npmjs.org/" > .npmrc
+          echo "✓ npm configured for OIDC trusted publishing (no tokens)"
+
       - name: Publish to NPM
         working-directory: ./design-system
         env:
@@ -86,12 +94,6 @@ jobs:
           NODE_AUTH_TOKEN: ''
           NPM_TOKEN: ''
         run: |
-          # Configure registry for OIDC (trusted publishing)
-          npm config set registry https://registry.npmjs.org/
-          # Remove any token-based auth that might have been set
-          npm config delete //registry.npmjs.org/:_authToken || true
-          # Remove any .npmrc files that might contain tokens
-          rm -f .npmrc ~/.npmrc $HOME/.npmrc || true
           echo "Publishing with OIDC trusted publishing (no token needed)..."
           npm publish --access public
 
