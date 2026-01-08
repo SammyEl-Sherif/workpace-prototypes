@@ -38,6 +38,19 @@ jobs:
           node-version: '18'
           registry-url: 'https://registry.npmjs.org'
 
+      - name: Ensure clean npm authentication
+        working-directory: ./design-system
+        run: |
+          # Remove any existing .npmrc that might have tokens
+          if [ -f .npmrc ]; then
+            echo "Found .npmrc, checking contents..."
+            cat .npmrc
+            # Remove any auth token lines
+            sed -i '/_authToken/d' .npmrc || true
+          fi
+          # Ensure npm uses OIDC by not setting any token
+          echo "Registry configured for OIDC authentication"
+
       - name: Configure Git
         run: |
           git config user.name "github-actions[bot]"
@@ -61,7 +74,11 @@ jobs:
 
       - name: Publish to NPM
         working-directory: ./design-system
-        run: npm publish --access public
+        run: |
+          echo "Checking npm configuration..."
+          npm config list
+          echo "Attempting to publish with OIDC authentication..."
+          npm publish --access public
 
       - name: Commit version bump
         run: |
