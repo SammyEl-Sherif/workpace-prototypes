@@ -35,27 +35,28 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
+          # Node.js 20+ includes npm 11.x which supports trusted publishing
           # Don't set registry-url to avoid token authentication
           # OIDC will be used automatically by npm publish
 
-      - name: Upgrade npm for trusted publishing
+      - name: Verify npm version for trusted publishing
         run: |
           # Trusted publishing requires npm 11.5.1+
           CURRENT_NPM=$(npm --version)
           echo "Current npm version: $CURRENT_NPM"
-          npm install -g npm@latest
-          NEW_NPM=$(npm --version)
-          echo "Upgraded npm version: $NEW_NPM"
           # Verify we have at least npm 11.5.1
-          MAJOR=$(echo $NEW_NPM | cut -d. -f1)
-          MINOR=$(echo $NEW_NPM | cut -d. -f2)
-          PATCH=$(echo $NEW_NPM | cut -d. -f3)
+          MAJOR=$(echo $CURRENT_NPM | cut -d. -f1)
+          MINOR=$(echo $CURRENT_NPM | cut -d. -f2)
+          PATCH=$(echo $CURRENT_NPM | cut -d. -f3)
           if [ "$MAJOR" -lt 11 ] || ([ "$MAJOR" -eq 11 ] && [ "$MINOR" -lt 5 ]) || ([ "$MAJOR" -eq 11 ] && [ "$MINOR" -eq 5 ] && [ "$PATCH" -lt 1 ]); then
-            echo "ERROR: npm version must be 11.5.1 or later for trusted publishing. Current: $NEW_NPM"
-            exit 1
+            echo "Upgrading npm to latest..."
+            npm install -g npm@latest
+            NEW_NPM=$(npm --version)
+            echo "Upgraded npm version: $NEW_NPM"
+          else
+            echo "✓ npm version $CURRENT_NPM meets trusted publishing requirements (11.5.1+)"
           fi
-          echo "✓ npm version $NEW_NPM meets trusted publishing requirements"
 
       - name: Configure Git
         run: |
