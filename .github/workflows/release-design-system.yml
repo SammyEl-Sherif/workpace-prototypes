@@ -36,20 +36,26 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-          registry-url: 'https://registry.npmjs.org'
+          # Don't set registry-url to avoid token authentication
+          # OIDC will be used automatically by npm publish
 
-      - name: Ensure clean npm authentication
-        working-directory: ./design-system
+      - name: Upgrade npm for trusted publishing
         run: |
-          # Remove any existing .npmrc that might have tokens
-          if [ -f .npmrc ]; then
-            echo "Found .npmrc, checking contents..."
-            cat .npmrc
-            # Remove any auth token lines
-            sed -i '/_authToken/d' .npmrc || true
+          # Trusted publishing requires npm 11.5.1+
+          CURRENT_NPM=$(npm --version)
+          echo "Current npm version: $CURRENT_NPM"
+          npm install -g npm@latest
+          NEW_NPM=$(npm --version)
+          echo "Upgraded npm version: $NEW_NPM"
+          # Verify we have at least npm 11.5.1
+          MAJOR=$(echo $NEW_NPM | cut -d. -f1)
+          MINOR=$(echo $NEW_NPM | cut -d. -f2)
+          PATCH=$(echo $NEW_NPM | cut -d. -f3)
+          if [ "$MAJOR" -lt 11 ] || ([ "$MAJOR" -eq 11 ] && [ "$MINOR" -lt 5 ]) || ([ "$MAJOR" -eq 11 ] && [ "$MINOR" -eq 5 ] && [ "$PATCH" -lt 1 ]); then
+            echo "ERROR: npm version must be 11.5.1 or later for trusted publishing. Current: $NEW_NPM"
+            exit 1
           fi
-          # Ensure npm uses OIDC by not setting any token
-          echo "Registry configured for OIDC authentication"
+          echo "✓ npm version $NEW_NPM meets trusted publishing requirements"
 
       - name: Configure Git
         run: |
@@ -74,10 +80,18 @@ jobs:
 
       - name: Publish to NPM
         working-directory: ./design-system
+        env:
+          # Explicitly unset any token to force OIDC usage
+          NODE_AUTH_TOKEN: ''
+          NPM_TOKEN: ''
         run: |
-          echo "Checking npm configuration..."
-          npm config list
-          echo "Attempting to publish with OIDC authentication..."
+          # Configure registry for OIDC (trusted publishing)
+          npm config set registry https://registry.npmjs.org/
+          # Remove any token-based auth that might have been set
+          npm config delete //registry.npmjs.org/:_authToken || true
+          # Remove any .npmrc files that might contain tokens
+          rm -f .npmrc ~/.npmrc $HOME/.npmrc || true
+          echo "Publishing with OIDC trusted publishing (no token needed)..."
           npm publish --access public
 
       - name: Commit version bump
