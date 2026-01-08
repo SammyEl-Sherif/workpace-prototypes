@@ -6,4 +6,6 @@ export enum Routes {
   SIGNIN = '/signin',
   ABOUT = '/about',
   PROFILE = '/profile',
+  DESIGN_SYSTEM = '/design-system',
+  SYSTEM_DESIGN = '/system-design',
 }

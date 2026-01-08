@@ -116,11 +116,14 @@
     }
   },
   "font": {
-    "roboto": {
-      "value": "roboto"
+    "inter": {
+      "value": "inter"
+    },
+    "family": {
+      "value": "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica', 'Arial', sans-serif"
     },
     "stack": {
-      "value": "Roboto, Arial, Helvetica, sans-serif"
+      "value": "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica', 'Arial', sans-serif"
     },
     "weight": {
       "default": {
@@ -515,6 +518,90 @@
       "900": {
         "type": "color",
         "value": "#1e3a8aff"
+      }
+    },
+    "active": {
+      "50": {
+        "type": "color",
+        "value": "#fff4f0ff"
+      },
+      "100": {
+        "type": "color",
+        "value": "#ffe0d6ff"
+      },
+      "200": {
+        "type": "color",
+        "value": "#ffc1a8ff"
+      },
+      "300": {
+        "type": "color",
+        "value": "#ff9d7aff"
+      },
+      "400": {
+        "type": "color",
+        "value": "#ff7a4cff"
+      },
+      "500": {
+        "type": "color",
+        "value": "#ff6b35ff"
+      },
+      "600": {
+        "type": "color",
+        "value": "#ff5722ff"
+      },
+      "700": {
+        "type": "color",
+        "value": "#e64a19ff"
+      },
+      "800": {
+        "type": "color",
+        "value": "#e64a19ff"
+      },
+      "900": {
+        "type": "color",
+        "value": "#c43e15ff"
+      }
+    },
+    "accent": {
+      "50": {
+        "type": "color",
+        "value": "#e6f2ffff"
+      },
+      "100": {
+        "type": "color",
+        "value": "#b3d9ffff"
+      },
+      "200": {
+        "type": "color",
+        "value": "#80bfffff"
+      },
+      "300": {
+        "type": "color",
+        "value": "#4da6ffff"
+      },
+      "400": {
+        "type": "color",
+        "value": "#1a8cffff"
+      },
+      "500": {
+        "type": "color",
+        "value": "#0052ccff"
+      },
+      "600": {
+        "type": "color",
+        "value": "#004099ff"
+      },
+      "700": {
+        "type": "color",
+        "value": "#003080ff"
+      },
+      "800": {
+        "type": "color",
+        "value": "#003080ff"
+      },
+      "900": {
+        "type": "color",
+        "value": "#001f4dff"
       }
     }
   }

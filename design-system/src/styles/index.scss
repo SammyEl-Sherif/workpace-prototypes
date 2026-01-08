@@ -3,5 +3,6 @@
 @forward 'mixins';
 @forward 'focus-outline';
 @forward 'mobile-input-font-size';
+@use 'baseline';
 
 $form-field-height: 40px;

@@ -3,7 +3,7 @@ import Card, { CardHeader, CardTitle, CardContent, CardFooter } from './index';
 
 const meta: Meta<typeof Card> = {
   title: 'Components/Card',
-  component: Card,
+  component: Card as any,
   parameters: {
     layout: 'centered',
   },

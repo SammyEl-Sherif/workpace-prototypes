@@ -1,0 +1,241 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.page {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: $size-400 $size-500;
+}
+
+.header {
+  margin-bottom: $size-600;
+  text-align: center;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 $size-200 0;
+  color: #1a1a1a;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: #666;
+  margin: 0;
+}
+
+.sectionCard {
+  margin-bottom: $size-600;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border: 2px solid #cbd5e1;
+}
+
+.cardHeader {
+  display: flex;
+  flex-direction: column;
+  gap: $size-200;
+  margin-bottom: $size-400;
+  padding-bottom: $size-300;
+  border-bottom: 2px solid #e5e5e5;
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+    color: #1a1a1a;
+  }
+}
+
+.cardSubtitle {
+  font-size: 1rem;
+  color: #666;
+  margin: 0;
+}
+
+// Component Groups
+.componentGroup {
+  margin-bottom: $size-600;
+}
+
+.componentTitle {
+  margin-bottom: $size-200;
+  color: #1a1a1a;
+  font-weight: 600;
+  font-size: 1.3rem;
+}
+
+.componentDemo {
+  background: white;
+  border-radius: 8px;
+  padding: $size-400;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e5e5;
+}
+
+// Button Grid
+.buttonGrid {
+  display: flex;
+  gap: $size-200;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+// Badge Grid
+.badgeGrid {
+  display: flex;
+  gap: $size-150;
+  flex-wrap: wrap;
+  margin-bottom: $size-200;
+}
+
+.badgeSizes {
+  display: flex;
+  gap: $size-150;
+  align-items: center;
+}
+
+// Card Grid
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: $size-300;
+}
+
+.demoCard {
+  height: 100%;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+}
+
+// Form Grid
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: $size-300;
+}
+
+// Interactive Grid
+.interactiveGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: $size-400;
+}
+
+.loadingDemo {
+  text-align: center;
+  padding: $size-400;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e5e5e5;
+}
+
+.loadingGrid {
+  display: flex;
+  justify-content: center;
+  gap: $size-300;
+  margin: $size-200 0;
+}
+
+.iconDemo {
+  text-align: center;
+  padding: $size-400;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e5e5e5;
+}
+
+.iconGrid {
+  display: flex;
+  justify-content: center;
+  gap: $size-300;
+  margin: $size-200 0;
+}
+
+// Pattern Grid
+.patternGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: $size-400;
+}
+
+.patternCard {
+  padding: $size-400;
+  border-radius: 8px;
+  border: 1px solid #e5e5e5;
+  background: white;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+}
+
+// Footer
+.footer {
+  margin-top: $size-600;
+  margin-bottom: 0;
+  padding: $size-500;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 8px;
+  color: white;
+  text-align: center;
+}
+
+.footerContent {
+  margin-bottom: $size-300;
+}
+
+.footerActions {
+  display: flex;
+  gap: $size-150;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.page {
+  padding-bottom: $size-400;
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .page {
+    padding: $size-300 $size-200;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .buttonGrid {
+    justify-content: center;
+  }
+
+  .badgeGrid {
+    justify-content: center;
+  }
+
+  .cardGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .interactiveGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .patternGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .footerActions {
+    justify-content: center;
+  }
+}

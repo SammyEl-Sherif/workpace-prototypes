@@ -14,12 +14,15 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
+  gap: 2rem;
 }
 
 .brand {
+  justify-self: start;
+
   .brandLink {
     font-size: 1.5rem;
     font-weight: 700;
@@ -39,13 +42,19 @@
 .navLinks {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 3rem;
+  justify-content: center;
+  justify-self: center;
+}
+
+.authSection {
+  justify-self: end;
 }
 
 .navLink {
   color: #ffffff;
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 400;
   transition: all 0.3s ease;
 
   &:hover {
@@ -63,6 +72,8 @@
   font-weight: 600;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(255, 69, 0, 0.4);
+  border: none;
+  cursor: pointer;
 
   &:hover {
     transform: translateY(-3px);

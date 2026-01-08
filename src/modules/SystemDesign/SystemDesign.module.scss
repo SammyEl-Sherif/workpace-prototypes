@@ -1,0 +1,235 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.page {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: $size-400 $size-500;
+  padding-bottom: $size-400;
+}
+
+.header {
+  margin-bottom: $size-600;
+  text-align: center;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 $size-200 0;
+  color: #1a1a1a;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: #666;
+  margin: 0;
+}
+
+.sectionCard {
+  margin-bottom: $size-600;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border: 2px solid #cbd5e1;
+}
+
+.cardHeader {
+  display: flex;
+  flex-direction: column;
+  gap: $size-200;
+  margin-bottom: $size-400;
+  padding-bottom: $size-300;
+  border-bottom: 2px solid #e5e5e5;
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+    color: #1a1a1a;
+  }
+}
+
+.cardSubtitle {
+  font-size: 1rem;
+  color: #666;
+  margin: 0;
+}
+
+// Diagram Container
+.diagramContainer {
+  padding: $size-400;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e5e5e5;
+}
+
+.diagram {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $size-300;
+}
+
+.layer {
+  width: 100%;
+  background: #f8fafc;
+  border: 2px solid #cbd5e1;
+  border-radius: 8px;
+  padding: $size-400;
+}
+
+.layerHeader {
+  margin-bottom: $size-300;
+  text-align: center;
+
+  h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+    color: #1a1a1a;
+  }
+}
+
+.layerContent {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $size-300;
+  justify-content: center;
+}
+
+.component {
+  display: flex;
+  align-items: center;
+  gap: $size-200;
+  padding: $size-300;
+  background: white;
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+  min-width: 200px;
+  flex: 1;
+  max-width: 300px;
+}
+
+.componentIcon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.componentText {
+  display: flex;
+  flex-direction: column;
+  gap: $size-100;
+
+  strong {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a1a1a;
+  }
+
+  span {
+    font-size: 0.875rem;
+    color: #666;
+  }
+}
+
+.arrow {
+  font-size: 2rem;
+  color: #667eea;
+  font-weight: bold;
+  padding: $size-200 0;
+}
+
+// Flow Diagram
+.flowDiagram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: $size-200;
+  padding: $size-400;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e5e5e5;
+}
+
+.flowStep {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $size-200;
+  padding: $size-400;
+  background: #f8fafc;
+  border: 2px solid #cbd5e1;
+  border-radius: 8px;
+  min-width: 150px;
+  flex: 1;
+  max-width: 200px;
+}
+
+.flowNumber {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.flowText {
+  display: flex;
+  flex-direction: column;
+  gap: $size-100;
+  text-align: center;
+
+  strong {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a1a1a;
+  }
+
+  span {
+    font-size: 0.875rem;
+    color: #666;
+  }
+}
+
+.flowArrow {
+  font-size: 2rem;
+  color: #667eea;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .page {
+    padding: $size-300 $size-200;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .layerContent {
+    flex-direction: column;
+  }
+
+  .component {
+    max-width: 100%;
+  }
+
+  .flowDiagram {
+    flex-direction: column;
+  }
+
+  .flowArrow {
+    transform: rotate(90deg);
+  }
+
+  .flowStep {
+    max-width: 100%;
+  }
+}
+

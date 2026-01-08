@@ -1,15 +1,12 @@
-import { fn } from '@storybook/test';
 import type { Meta, StoryObj } from '@storybook/react';
 import InputField from './index';
-import React from 'react';
 
 const meta: Meta<typeof InputField> = {
   title: 'Components/Input Field',
-  component: InputField,
+  component: InputField as any,
   parameters: {
     layout: 'centered',
   },
-  args: { onClick: fn() },
   tags: ['autodocs'],
 };
 

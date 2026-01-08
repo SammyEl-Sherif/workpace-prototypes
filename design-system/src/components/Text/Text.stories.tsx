@@ -4,7 +4,7 @@ import Text from './index';
 /** Write a text description. */
 const meta: Meta<typeof Text> = {
   title: 'Components/Text',
-  component: Text,
+  component: Text as any,
   parameters: {
     layout: 'centered',
   },

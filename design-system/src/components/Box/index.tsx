@@ -25,18 +25,28 @@ export type SpacingRange =
   | 900;
 
 export type ColorValue =
+  | 'neutral-50'
   | 'neutral-100'
   | 'neutral-200'
+  | 'neutral-300'
   | 'neutral-400'
   | 'neutral-600'
+  | 'neutral-700'
   | 'neutral-800'
+  | 'neutral-900'
   | 'neutral-black'
   | 'neutral-white'
   | 'urgent-600'
   | 'urgent-900'
   | 'moderate-900'
   | 'passive-800'
-  | 'active-800';
+  | 'active-500'
+  | 'active-600'
+  | 'active-700'
+  | 'active-800'
+  | 'accent-500'
+  | 'accent-600'
+  | 'accent-700';
 
 export type Spacing = SpacingRange | Breakpoints<SpacingRange | undefined> | undefined;
 export type Color = ColorValue | Breakpoints<ColorValue | undefined> | undefined;
@@ -155,10 +165,11 @@ const Box: BoxComponent = forwardRef(function Box<C extends React.ElementType = 
   borderColor && propClassNames.push(getPropClasses(borderColor, 'bdc'));
 
   const className = clsx(rest.className, ...propClassNames);
+  const TagComponent = Tag as any;
   return (
-    <Tag {...rest} ref={ref} className={className}>
+    <TagComponent {...rest} ref={ref} className={className}>
       {children}
-    </Tag>
+    </TagComponent>
   );
 });
 

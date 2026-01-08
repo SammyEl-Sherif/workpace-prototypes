@@ -1,122 +1,190 @@
 @use '../../styles' as *;
 
 .button {
-  align-items: center;
-  border-radius: 6px;
-  border-style: solid;
-  border-width: 1px;
-  box-sizing: border-box;
-  display: inline-flex;
-  height: 40px;
-  justify-content: center;
-  min-width: 100px;
-  font: inherit;
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 0.875rem;
-  letter-spacing: 0.025em;
-  transition: all 0.15s ease;
   position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: $font-family;
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  vertical-align: middle;
   cursor: pointer;
-  padding: 0 $size-200;
+  user-select: none;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+  min-height: 40px;
+  padding: 10px 20px;
+  font-size: 14px;
+  letter-spacing: -0.01em;
+  
+  // Rounded corners matching modern design
+  border-radius: 8px;
 
-  &:focus {
-    @include focus-outline;
-
+  &:focus-visible {
+    outline: 2px solid $color-accent-500;
     outline-offset: 2px;
   }
 
-  &:hover {
+  &:disabled,
+  &--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  &:hover:not(:disabled) {
     transform: translateY(-1px);
   }
 
-  &:active {
+  &:active:not(:disabled) {
     transform: translateY(0);
   }
 
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
+  // Icon/arrow spacing
+  svg,
+  &::after {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 2px;
+  }
+
+  // Size variants are defined below as separate classes
+
+  // Full Width
+  &--full-width {
+    width: 100%;
+  }
+
+  // Icon Styling
+  &__icon {
+    display: inline-flex;
+    align-items: center;
+    
+    &--left {
+      margin-right: -4px;
+    }
+    
+    &--right {
+      margin-left: -4px;
+    }
+  }
+
+  &__text {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  // Loading Spinner
+  &__spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: $color-neutral-white;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
   }
 }
 
+// Mixins for variants (can be used in media queries)
 @mixin brand-primary {
-  background: $color-primary-600;
-  border-color: $color-primary-600;
+  background-color: $color-active-500;
   color: $color-neutral-white;
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 5%);
+  border-color: $color-active-500;
+  box-shadow: 0 1px 2px rgba(255, 107, 53, 0.15);
 
   &:hover:not(:disabled) {
-    background: $color-primary-700;
-    border-color: $color-primary-700;
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -1px rgb(0 0 0 / 6%);
+    background-color: $color-active-600;
+    border-color: $color-active-600;
+    box-shadow: 0 2px 4px rgba(255, 107, 53, 0.25);
+    transform: translateY(-1px);
   }
 
   &:active:not(:disabled) {
-    background: $color-primary-800;
-    border-color: $color-primary-800;
+    background-color: $color-active-700;
+    border-color: $color-active-700;
+    box-shadow: 0 1px 2px rgba(255, 107, 53, 0.15);
+    transform: translateY(0);
   }
 }
 
 @mixin brand-secondary {
-  background: $color-neutral-white;
-  border-color: $color-neutral-300;
-  color: $color-neutral-700;
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 5%);
+  background-color: $color-accent-500;
+  color: $color-neutral-white;
+  border-color: $color-accent-500;
+  box-shadow: 0 1px 2px rgba(0, 82, 204, 0.15);
 
   &:hover:not(:disabled) {
-    background: $color-neutral-50;
-    border-color: $color-neutral-400;
-    color: $color-neutral-800;
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -1px rgb(0 0 0 / 6%);
+    background-color: $color-accent-600;
+    border-color: $color-accent-600;
+    box-shadow: 0 2px 4px rgba(0, 82, 204, 0.25);
+    transform: translateY(-1px);
   }
 
   &:active:not(:disabled) {
-    background: $color-neutral-100;
-    border-color: $color-neutral-500;
-    color: $color-neutral-900;
+    background-color: $color-accent-700;
+    border-color: $color-accent-700;
+    box-shadow: 0 1px 2px rgba(0, 82, 204, 0.15);
+    transform: translateY(0);
   }
 }
 
 @mixin default-primary {
-  background: $color-neutral-900;
-  border-color: $color-neutral-900;
+  background-color: $color-neutral-900;
   color: $color-neutral-white;
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 5%);
+  border-color: $color-neutral-900;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
 
   &:hover:not(:disabled) {
-    background: $color-neutral-800;
+    background-color: $color-neutral-800;
     border-color: $color-neutral-800;
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -1px rgb(0 0 0 / 6%);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+    transform: translateY(-1px);
   }
 
   &:active:not(:disabled) {
-    background: $color-neutral-700;
+    background-color: $color-neutral-700;
     border-color: $color-neutral-700;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+    transform: translateY(0);
   }
 }
 
 @mixin default-secondary {
-  background: $color-neutral-white;
-  border-color: $color-neutral-300;
-  color: $color-neutral-700;
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 5%);
+  background-color: $color-neutral-50;
+  border-color: $color-accent-500;
+  color: $color-accent-600;
+  box-shadow: 0 1px 2px rgba(0, 82, 204, 0.08);
 
   &:hover:not(:disabled) {
-    background: $color-neutral-50;
-    border-color: $color-neutral-400;
-    color: $color-neutral-800;
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -1px rgb(0 0 0 / 6%);
+    background-color: $color-neutral-100;
+    border-color: $color-accent-600;
+    color: $color-accent-700;
+    box-shadow: 0 2px 4px rgba(0, 82, 204, 0.12);
+    transform: translateY(-1px);
   }
 
   &:active:not(:disabled) {
-    background: $color-neutral-100;
-    border-color: $color-neutral-500;
-    color: $color-neutral-900;
+    background-color: $color-neutral-200;
+    border-color: $color-accent-700;
+    color: $color-accent-700;
+    box-shadow: 0 1px 2px rgba(0, 82, 204, 0.08);
+    transform: translateY(0);
   }
 }
 
+// Classes for variants
 .brand-primary {
   @include brand-primary;
 }
@@ -135,35 +203,22 @@
 
 // Size variants
 .button-sm {
-  height: 32px;
+  min-height: 36px;
+  padding: 8px 16px;
+  font-size: 13px;
   min-width: 80px;
-  font-size: 0.75rem;
-  padding: 0 $size-150;
+  border-radius: 6px;
 }
 
 .button-lg {
-  height: 48px;
+  min-height: 44px;
+  padding: 12px 24px;
+  font-size: 15px;
   min-width: 120px;
-  font-size: 1rem;
-  padding: 0 $size-300;
-}
-
-// Hero button variant
-.button-hero {
-  height: 48px;
-  min-width: 140px;
-  font-size: 1rem;
-  padding: 0 $size-300;
-  font-weight: 600;
   border-radius: 8px;
-  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 10%), 0 1px 2px 0 rgb(0 0 0 / 6%);
-
-  &:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -1px rgb(0 0 0 / 6%);
-  }
 }
 
+// Responsive breakpoint variants
 @include md {
   .brand-primary-md {
     @include brand-primary;
@@ -216,4 +271,8 @@
   .default-secondary-sm {
     @include default-secondary;
   }
+}
+
+.inheritfont {
+  font: inherit;
 }

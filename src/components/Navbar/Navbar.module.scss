@@ -8,9 +8,9 @@ $logo-dim: 40px;
   width: 250px;
   align-items: flex-start;
   background-color: black;
-  justify-content: space-between;
   transition: width 0.3s ease;
   padding: $size-200;
+  gap: $size-300;
 }
 @media #{$mq-sm-only} {
   .container {
@@ -128,18 +128,30 @@ $logo-dim: 40px;
   flex-flow: column nowrap;
   gap: $size-200;
   color: white;
-  height: 100%;
+  flex: 0 1 auto;
   font-size: $font-headline-sm-font-size;
 }
+
+.section {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: $size-200;
+  flex-shrink: 0;
+}
+
 .iconLinkStack {
   display: flex;
   flex-flow: column nowrap;
   gap: $size-200;
   margin-top: $size-200;
-  margin-bottom: $size-200;
   color: white;
-  height: 100%;
   font-size: $font-headline-sm-font-size;
+}
+
+.emptyState {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.875rem;
+  font-style: italic;
 }
 
 .links {
@@ -154,6 +166,13 @@ $logo-dim: 40px;
   color: white;
   font-size: $font-headline-md-font-size;
   font-weight: bold;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.2);
+  margin: $size-200 0;
 }
 
 .brandName {
@@ -191,6 +210,11 @@ $logo-dim: 40px;
   width: $logo-dim;
   height: $logo-dim;
 }
+.bottomSection {
+  margin-top: auto;
+  width: 100%;
+}
+
 .authStatus {
   display: flex;
   flex-flow: column nowrap;

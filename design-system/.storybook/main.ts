@@ -18,6 +18,17 @@ const config: StorybookConfig = {
   },
 
   staticDirs: ['./public'],
+  
+  // Configure SWC to use automatic JSX runtime
+  swc: () => ({
+    jsc: {
+      transform: {
+        react: {
+          runtime: 'automatic',
+        },
+      },
+    },
+  }),
 
   docs: {},
 

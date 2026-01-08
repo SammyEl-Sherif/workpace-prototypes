@@ -1,0 +1,53 @@
+# Cursor Rules for WorkPace Prototypes
+
+## Design System Component Usage
+
+**ALWAYS prefer using components from `@workpace/design-system` before creating custom components.**
+
+### Guidelines:
+
+1. **Check Design System First**: Before implementing any UI component, check if it exists in the design-system package:
+   - Review `design-system/src/components/` for available components
+   - Check Storybook documentation at `design-system/docs/` or run `npm run start` in design-system
+   - Available components include: Button, Badge, Card, Text, InputField, Select, Loading, Divider, Box, and Icons
+
+2. **Using Design System Components**:
+   - Import from `@workpace/design-system`: `import { Button, Card, Text } from '@workpace/design-system'`
+   - Use design system components with their variants and props as documented
+   - For navigation links, use polymorphic `as` prop: `<Button as={Link} href="/path">Link Text</Button>`
+
+3. **New Component Callout**: 
+   - **If implementing a new component** that's used multiple times or is a common UI pattern:
+     - ⚠️ **STOP** and check if it should be added to the design-system
+     - If the component is used in 2+ places, it should likely be in the design-system
+     - If the component follows a common UI pattern (buttons, cards, inputs, etc.), it belongs in design-system
+     - **Ask the user** if they want to add it to the design-system before creating a custom implementation
+
+4. **Component Addition Process**:
+   - When adding a new component to design-system:
+     - Create component in `design-system/src/components/[ComponentName]/`
+     - Include: `ComponentName.tsx`, `ComponentName.module.scss`, `index.ts`
+     - Create Storybook stories in `ComponentName.stories.tsx`
+     - Export from `design-system/src/lib.ts`
+     - Use design tokens from `@workpace/design-system/dist/design-tokens` for styling
+     - Follow existing component patterns (polymorphic support, props structure, etc.)
+
+5. **Styling**:
+   - Use design tokens for colors, spacing, typography: `@use '@workpace/design-system/dist/design-tokens' as *;`
+   - Follow existing design system patterns for consistency
+   - Avoid custom colors/values when design tokens are available
+
+6. **Import Order**:
+   - External libraries first
+   - Design system imports
+   - Internal imports (@/ aliases)
+   - Styles
+
+## Code Style
+
+- Use TypeScript strictly
+- Prefer functional components with hooks
+- Use design system components as the foundation
+- Follow existing file structure patterns
+- Maintain consistent naming conventions
+

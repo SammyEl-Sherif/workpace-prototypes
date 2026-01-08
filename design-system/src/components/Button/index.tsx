@@ -1,13 +1,13 @@
+import clsx from 'clsx';
 import React, { forwardRef } from 'react';
+import { Breakpoints, mapBreakpointValues } from '../../breakpoints';
 import {
   PolymorphicComponentPropsWithRef,
   PolymorphicRef,
 } from '../../polymorphic-component-types';
 import { ColorValue, MarginProps } from '../Box';
 import Text from '../Text';
-import { Breakpoints, mapBreakpointValues } from '../../breakpoints';
 import styles from './Button.module.scss';
-import clsx from 'clsx';
 
 type Variant = 'brand-primary' | 'brand-secondary' | 'default-primary' | 'default-secondary';
 
@@ -55,27 +55,30 @@ const Button: ButtonComponent = forwardRef(function Button<C extends React.Eleme
     if (rest.disabled) return 'neutral-200';
     switch (variant) {
       case 'default-primary':
-        return 'neutral-black';
+        return 'neutral-900';
       case 'default-secondary':
-        return 'neutral-white';
+        return 'neutral-50';
       case 'brand-primary':
-        return 'active-800';
+        return 'active-500';
       case 'brand-secondary':
-        return 'neutral-white';
+        return 'accent-500';
       default:
-        return 'neutral-black';
+        return 'neutral-900';
     }
   });
   const borderColor = mapBreakpointValues<Variant, ColorValue>(variant, (variant) => {
     if (rest.disabled) return 'neutral-200';
     switch (variant) {
-      case 'brand-secondary':
-        return 'active-800';
-      case 'default-primary':
-      case 'default-secondary':
       case 'brand-primary':
+        return 'active-500';
+      case 'brand-secondary':
+        return 'accent-500';
+      case 'default-primary':
+        return 'neutral-900';
+      case 'default-secondary':
+        return 'accent-500';
       default:
-        return 'neutral-black';
+        return 'neutral-900';
     }
   });
   const textColor = mapBreakpointValues<Variant, ColorValue>(variant, (variant) => {
@@ -84,11 +87,11 @@ const Button: ButtonComponent = forwardRef(function Button<C extends React.Eleme
       case 'default-primary':
         return 'neutral-white';
       case 'default-secondary':
-        return 'neutral-black';
+        return 'accent-600';
       case 'brand-primary':
         return 'neutral-white';
       case 'brand-secondary':
-        return 'neutral-black';
+        return 'neutral-white';
       default:
         return 'neutral-white';
     }
@@ -101,8 +104,7 @@ const Button: ButtonComponent = forwardRef(function Button<C extends React.Eleme
       backgroundColor={backgroundColor}
       borderColor={borderColor}
       color={textColor}
-      paddingX={200}
-      variant="button-md-emphasis"
+      variant="button-md"
       ref={ref}
       {...rest}
     >

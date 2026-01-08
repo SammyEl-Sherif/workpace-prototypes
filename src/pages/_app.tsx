@@ -18,9 +18,10 @@ export default function App({ Component, pageProps }: AppProps) {
   const isLandingPage = router.pathname === '/'
   const isSigninPage = router.pathname === '/signin'
   const isDesignSystemPage = router.pathname === '/design-system'
+  const isSystemDesignPage = router.pathname === '/system-design'
 
-  // For landing page and design-system page, render without authentication but with context providers
-  if (isLandingPage || isDesignSystemPage) {
+  // For landing page, render without authentication but with context providers
+  if (isLandingPage) {
     return (
       <Auth>
         <UserInfoContextProvider
@@ -32,6 +33,27 @@ export default function App({ Component, pageProps }: AppProps) {
         >
           <PrototypesContextProvider prototypes={prototypes}>
             <Component {...pageProps} />
+          </PrototypesContextProvider>
+        </UserInfoContextProvider>
+      </Auth>
+    )
+  }
+
+  // For design-system and system-design pages, render with MainLayout (side navigation) but without auth requirement
+  if (isDesignSystemPage || isSystemDesignPage) {
+    return (
+      <Auth>
+        <UserInfoContextProvider
+          userProfile={{
+            ...userProfile,
+            name: userProfile?.name ?? '',
+            email: userProfile?.email ?? '',
+          }}
+        >
+          <PrototypesContextProvider prototypes={prototypes}>
+            <MainLayout>
+              <Component {...pageProps} />
+            </MainLayout>
           </PrototypesContextProvider>
         </UserInfoContextProvider>
       </Auth>

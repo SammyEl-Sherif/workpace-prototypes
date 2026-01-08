@@ -1,3 +1,4 @@
+import { Routes } from '@/interfaces/routes'
 import Link from 'next/link'
 import styles from './FooterSection.module.scss'
 
@@ -18,20 +19,25 @@ const FooterSection = () => {
               </div>
               <ul className={styles.linkList}>
                 <li>
-                  <Link href="/prototypes" className={styles.link}>
+                  <Link href={Routes.PROTOTYPES} className={styles.link}>
                     Prototypes
                   </Link>
                 </li>
                 <li>
-                  <Link href="/about" className={styles.link}>
+                  <Link href={Routes.DESIGN_SYSTEM} className={styles.link}>
+                    Design System
+                  </Link>
+                </li>
+                <li>
+                  <Link href={Routes.SYSTEM_DESIGN} className={styles.link}>
+                    System Design
+                  </Link>
+                </li>
+                <li>
+                  <Link href={Routes.ABOUT} className={styles.link}>
                     About
                   </Link>
                 </li>
-                {/* <li>
-                  <a href="#community" className={styles.link}>
-                    Community
-                  </a>
-                </li> */}
               </ul>
             </div>
 

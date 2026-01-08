@@ -3,7 +3,7 @@ import Badge from './index';
 
 const meta: Meta<typeof Badge> = {
   title: 'Components/Badge',
-  component: Badge,
+  component: Badge as any,
   parameters: {
     layout: 'centered',
   },

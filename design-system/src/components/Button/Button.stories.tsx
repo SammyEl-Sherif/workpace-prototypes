@@ -1,11 +1,10 @@
-import React from 'react';
-import { fn } from '@storybook/test';
 import type { Meta, StoryObj } from '@storybook/react';
+import { fn } from '@storybook/test';
 import Button from './index';
 
 const meta: Meta<typeof Button> = {
   title: 'Components/Button',
-  component: Button,
+  component: Button as any,
   parameters: {
     layout: 'centered',
   },
@@ -21,14 +20,17 @@ export default meta;
 type Story = StoryObj<typeof Button>;
 
 export const Variants = {
-  render: () => (
-    <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-      <Button variant="brand-primary">brand-primary</Button>
-      <Button variant="brand-secondary">brand-secondary</Button>
-      <Button variant="default-primary">default-primary</Button>
-      <Button variant="default-secondary">default-secondary</Button>
-    </div>
-  ),
+  render: () => {
+    const ButtonComponent = Button as any;
+    return (
+      <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+        <ButtonComponent variant="brand-primary">Brand Primary</ButtonComponent>
+        <ButtonComponent variant="brand-secondary">Brand Secondary</ButtonComponent>
+        <ButtonComponent variant="default-primary">Default Primary</ButtonComponent>
+        <ButtonComponent variant="default-secondary">Default Secondary</ButtonComponent>
+      </div>
+    );
+  },
 };
 
 export const Primary: Story = {

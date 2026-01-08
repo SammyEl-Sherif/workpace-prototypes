@@ -3,7 +3,7 @@ import Box from './index';
 
 const meta: Meta<typeof Box> = {
   title: 'Components/Box',
-  component: Box,
+  component: Box as any,
   parameters: {
     layout: 'centered',
   },

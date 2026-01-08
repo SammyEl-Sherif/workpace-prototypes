@@ -74,6 +74,17 @@ export const Navbar = () => {
               </div>
             </div>
             <div className={styles.headingAndLinks}>
+              <div className={styles.linksHeading}>Info</div>
+              <div className={styles.links}>
+                <Link href={Routes.DESIGN_SYSTEM} className={styles.links}>
+                  🎨 Design System
+                </Link>
+                <Link href={Routes.SYSTEM_DESIGN} className={styles.links}>
+                  🏗️ System Design
+                </Link>
+              </div>
+            </div>
+            <div className={styles.headingAndLinks}>
               <div className={styles.linksHeading}>Learn More</div>
               <div className={styles.links}>
                 <Link href={Routes.ABOUT} className={styles.links}>
@@ -169,60 +180,94 @@ export const Navbar = () => {
           )}
         </div>
         <div className={cn(styles.linkStack)}>
-          <div className={cn(styles.linksHeading, { [styles.hide]: isCollapsed })}>Prototypes</div>
-          {!isCollapsed &&
-            prototypes &&
-            prototypes.map(({ path, name }: Prototype) => {
-              return (
-                <Link className={styles.links} href={path} key={path}>
-                  {name}
-                </Link>
-              )
-            })}
-          <div className={cn(styles.iconLinkStack)}>
-            {isCollapsed && (
-              <Link className={styles.iconLinks} href={Routes.HOME}>
-                🏠
-              </Link>
-            )}
-            {isCollapsed &&
+          {/* Prototypes Section */}
+          <div className={styles.section}>
+            <div className={cn(styles.linksHeading, { [styles.hide]: isCollapsed })}>Prototypes</div>
+            {!isCollapsed &&
               prototypes &&
-              prototypes.map(({ path, name, icon }: Prototype) => {
+              prototypes.length > 0 &&
+              prototypes.map(({ path, name }: Prototype) => {
                 return (
-                  <Link className={styles.links} href={path} title={name} key={path}>
-                    {icon}
+                  <Link className={styles.links} href={path} key={path}>
+                    {name}
                   </Link>
                 )
               })}
+            {!isCollapsed && (!prototypes || prototypes.length === 0) && (
+              <div className={styles.emptyState}>No prototypes available</div>
+            )}
+            {isCollapsed && (
+              <div className={styles.iconLinkStack}>
+                <Link className={styles.iconLinks} href={Routes.HOME} title="Home">
+                  🏠
+                </Link>
+                {prototypes &&
+                  prototypes.map(({ path, name, icon }: Prototype) => {
+                    return (
+                      <Link className={styles.links} href={path} title={name} key={path}>
+                        {icon}
+                      </Link>
+                    )
+                  })}
+              </div>
+            )}
+          </div>
+
+          {/* Info Section */}
+          <div className={styles.section}>
+            <div className={cn(styles.divider, { [styles.hide]: isCollapsed })} />
+            <div className={cn(styles.linksHeading, { [styles.hide]: isCollapsed })}>Info</div>
+            {!isCollapsed && (
+              <>
+                <Link className={styles.links} href={Routes.DESIGN_SYSTEM}>
+                  🎨 Design System
+                </Link>
+                <Link className={styles.links} href={Routes.SYSTEM_DESIGN}>
+                  🏗️ System Design
+                </Link>
+              </>
+            )}
+            {isCollapsed && (
+              <>
+                <Link className={styles.links} href={Routes.DESIGN_SYSTEM} title="Design System">
+                  🎨
+                </Link>
+                <Link className={styles.links} href={Routes.SYSTEM_DESIGN} title="System Design">
+                  🏗️
+                </Link>
+              </>
+            )}
           </div>
         </div>
-        <EnvironmentIndicator />
-        <div className={cn(styles.divider, { [styles.hide]: isCollapsed })} />
-        <div className={cn(styles.authStatus, { [styles.hide]: isCollapsed })}>
-          {status === 'authenticated' ? (
-            <div
-              title={Array.isArray(user?.roles) ? user.roles.join(', ') : user?.roles}
-              className={cn(styles.username, {
-                [styles.hide]: isCollapsed,
-              })}
-            >
-              {data?.user?.name}
-            </div>
-          ) : (
-            <>🚫</>
-          )}
-          {status === 'authenticated' ? (
-            <button onClick={signOut} className={cn(styles.button, { [styles.hide]: isCollapsed })}>
-              Sign out
-            </button>
-          ) : (
-            <button
-              className={cn({ [styles.hide]: isCollapsed })}
-              onClick={() => (window.location.href = '/signin')}
-            >
-              Sign In
-            </button>
-          )}
+        <div className={styles.bottomSection}>
+          <EnvironmentIndicator />
+          <div className={cn(styles.divider, { [styles.hide]: isCollapsed })} />
+          <div className={cn(styles.authStatus, { [styles.hide]: isCollapsed })}>
+            {status === 'authenticated' ? (
+              <div
+                title={Array.isArray(user?.roles) ? user.roles.join(', ') : user?.roles}
+                className={cn(styles.username, {
+                  [styles.hide]: isCollapsed,
+                })}
+              >
+                {data?.user?.name}
+              </div>
+            ) : (
+              <>🚫</>
+            )}
+            {status === 'authenticated' ? (
+              <button onClick={signOut} className={cn(styles.button, { [styles.hide]: isCollapsed })}>
+                Sign out
+              </button>
+            ) : (
+              <button
+                className={cn({ [styles.hide]: isCollapsed })}
+                onClick={() => (window.location.href = '/signin')}
+              >
+                Sign In
+              </button>
+            )}
+          </div>
         </div>
         {isCollapsed && (
           <div

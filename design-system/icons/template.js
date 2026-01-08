@@ -5,7 +5,7 @@ const template = (variables, { tpl }) => {
      * This file was automatically generated and should not be edited.
      */
 
-    import React, { forwardRef } from 'react';
+    import { forwardRef } from 'react';
     import IconTemplate, { IconProps, SVGIconProps } from "../Icon"
 
     const Icon = forwardRef<SVGSVGElement, SVGIconProps>(function Icon(

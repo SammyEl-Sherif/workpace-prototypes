@@ -3,7 +3,7 @@ import Loading from './index';
 
 const meta: Meta<typeof Loading> = {
   title: 'Components/Loading',
-  component: Loading,
+  component: Loading as any,
   parameters: {
     layout: 'centered',
   },

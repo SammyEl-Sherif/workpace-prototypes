@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES6",
-    "jsx": "preserve", // need to investigate react-jsx option
+    "jsx": "react-jsx", // New JSX transform - no need to import React for JSX
     "module": "ESNext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true, // Allow importing JSON files

@@ -3,7 +3,7 @@ import Divider from './index';
 
 const meta: Meta<typeof Divider> = {
   title: 'Components/Divider',
-  component: Divider,
+  component: Divider as any,
   parameters: {
     layout: 'centered',
   },
