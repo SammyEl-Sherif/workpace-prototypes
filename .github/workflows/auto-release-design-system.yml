@@ -2,14 +2,6 @@ name: Auto Release Design System
 
 # This workflow automatically releases the design-system to NPM when a PR
 # from a branch starting with "wds/" is merged to main/master.
-#
-# SETUP REQUIRED: To enable approval step, configure the environment in GitHub:
-# 1. Go to: Settings → Environments → New environment
-# 2. Name: "design-system-release"
-# 3. Add required reviewers (who can approve releases)
-# 4. Save the environment
-#
-# The workflow will pause at the release job and wait for approval before publishing.
 
 on:
   pull_request:
