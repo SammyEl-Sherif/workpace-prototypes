@@ -23,7 +23,7 @@ const HeroSection = () => {
           <ButtonComponent onClick={() => router.push(Routes.DESIGN_SYSTEM)} variant="brand-secondary">
             Design System
           </ButtonComponent>
-          <ButtonComponent onClick={() => router.push(Routes.SYSTEM_DESIGN)} variant="brand-secondary">
+          <ButtonComponent onClick={() => router.push(Routes.SYSTEM_DESIGN)} variant="default-secondary">
             System Design
           </ButtonComponent>
         </div>

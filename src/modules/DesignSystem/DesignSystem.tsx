@@ -26,7 +26,8 @@ export const DesignSystem = () => {
     setIsLoading(true)
     setTimeout(() => setIsLoading(false), 2000)
   }
-
+  const currentVersion = process.env.WDS_VERSION
+  
   return (
     <div className={styles.page}>
       {/* Header */}
@@ -236,7 +237,7 @@ export const DesignSystem = () => {
           </Text>
         </div>
         <div className={styles.footerActions}>
-          <Badge variant="success">v1.0.7</Badge>
+          <Badge variant="success">v{currentVersion || '1.0.0'}</Badge>
           <Badge variant="info">React 18+</Badge>
           <Badge variant="warning">TypeScript</Badge>
         </div>
