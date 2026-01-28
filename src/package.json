@@ -3,7 +3,7 @@
     "start": "by-node-env",
     "start:development": "next dev",
     "start:production": "next start",
-    "build": "npm run build",
+    "build": "next build",
     "build:development": "NODE_ENV=development next dev",
     "build:production": "next build",
     "check": "next lint & tsc",
@@ -53,6 +53,6 @@
     "stylelint": "^15.0.1",
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-config-standard-scss": "^3.0.0",
-    "typescript": "^5"
+    "typescript": "5.9.3"
   }
 }
