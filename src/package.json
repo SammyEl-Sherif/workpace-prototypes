@@ -5,7 +5,7 @@
     "start:production": "next start",
     "build": "by-node-env",
     "build:development": "NODE_ENV=development next dev",
-    "build:production": "next build",
+    "build:production": "npm run build",
     "check": "next lint & tsc",
     "format": "by-node-env",
     "format:development": "prettier --write . && stylelint **/*.scss --fix",
