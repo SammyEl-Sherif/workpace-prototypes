@@ -1,4 +1,4 @@
-# WorkPace Prototypes
+# WorkPace Prototypes Test
 
 A Next.js application for managing work accomplishments and generating reports using Notion and OpenAI integration.
 
