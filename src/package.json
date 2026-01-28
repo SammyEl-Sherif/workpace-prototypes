@@ -3,7 +3,7 @@
     "start": "by-node-env",
     "start:development": "next dev",
     "start:production": "next start",
-    "build": "next build",
+    "build": "by-node-env",
     "build:development": "NODE_ENV=development next dev",
     "build:production": "next build",
     "check": "next lint & tsc",

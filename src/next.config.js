@@ -58,6 +58,12 @@ module.exports = () => {
         sharp$: false,
         'onnxruntime-node$': false,
       }
+      // Ensure styled-jsx resolves correctly in workspace setups
+      config.resolve.modules = [
+        path.join(__dirname, 'node_modules'),
+        path.join(__dirname, '..', 'node_modules'),
+        'node_modules',
+      ]
       return config
     },
     sassOptions: {
