@@ -1,22 +1,22 @@
-import React, { useState } from 'react'
+import { SectionContainer } from '@/components'
 import {
-  Button,
-  Select,
-  Text,
   Badge,
+  Box,
+  Button,
   Card,
-  CardHeader,
-  CardTitle,
   CardContent,
   CardFooter,
-  InputField,
-  Loading,
+  CardHeader,
+  CardTitle,
   Divider,
-  Box,
   IconArrowDown,
   IconCritical,
+  InputField,
+  Loading,
+  Select,
+  Text,
 } from '@workpace/design-system'
-import { SectionContainer } from '@/components'
+import { useState } from 'react'
 import styles from './DesignSystem.module.scss'
 
 export const DesignSystem = () => {
