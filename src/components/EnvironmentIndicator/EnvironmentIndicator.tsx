@@ -1,8 +1,13 @@
 import { getEnvironment } from '@/utils/getEnvironment'
 import React from 'react'
+import cn from 'classnames'
 import styles from './EnvironmentIndicator.module.scss'
 
-export const EnvironmentIndicator: React.FC = () => {
+interface EnvironmentIndicatorProps {
+  hideText?: boolean
+}
+
+export const EnvironmentIndicator: React.FC<EnvironmentIndicatorProps> = ({ hideText = false }) => {
   const environment = getEnvironment()
 
   if (environment === 'production') return null
@@ -11,11 +16,16 @@ export const EnvironmentIndicator: React.FC = () => {
 
   return (
     <div
-      className={`${styles.indicator} ${isDocker ? styles.docker : styles.local}`}
+      className={cn(styles.indicator, {
+        [styles.docker]: isDocker,
+        [styles.local]: !isDocker,
+      })}
       title={`Running in ${isDocker ? 'Docker Container' : 'Local Development'}`}
     >
       <span className={styles.icon}>{isDocker ? '🐳' : '💻'}</span>
-      <span className={styles.text}>{isDocker ? 'Container' : 'Local'}</span>
+      <span className={cn(styles.text, { [styles.hideText]: hideText })}>
+        {isDocker ? 'Container' : 'Local'}
+      </span>
     </div>
   )
 }

@@ -1,10 +1,12 @@
+import { Button } from '@workpace/design-system'
 import { useSession } from 'next-auth/react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { Button } from '@workpace/design-system'
 
 import { useUser } from '@/hooks'
 import { Routes } from '@/interfaces/routes'
+import Logo from '@/public/favicon.ico'
 
 import styles from './LandingNavbar.module.scss'
 
@@ -29,6 +31,7 @@ const LandingNavbar = () => {
       <div className={styles.container}>
         <div className={styles.brand}>
           <Link href="/" className={styles.brandLink}>
+            <Image src={Logo} alt="Logo" className={styles.logo} />
             WorkPace
           </Link>
         </div>
@@ -46,11 +49,11 @@ const LandingNavbar = () => {
         </div>
         <div className={styles.authSection}>
           {status === 'authenticated' ? (
-            <ButtonComponent onClick={handleSignOut} variant="brand-primary">
+            <ButtonComponent onClick={handleSignOut} variant="default-secondary">
               Sign Out
             </ButtonComponent>
           ) : (
-            <ButtonComponent onClick={handleSignIn} variant="brand-primary">
+            <ButtonComponent onClick={handleSignIn} variant="default-secondary">
               Sign In
             </ButtonComponent>
           )}

@@ -1,2 +1,1 @@
 export { SystemDesign } from './SystemDesign'
-

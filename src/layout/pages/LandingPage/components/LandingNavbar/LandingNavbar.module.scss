@@ -4,9 +4,8 @@
   left: 0;
   right: 0;
   z-index: 1000;
-  background: rgba(10, 10, 10, 0.95);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255, 107, 53, 0.3);
+  background: #fff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   padding: 1rem 0;
 }
 
@@ -24,19 +23,25 @@
   justify-self: start;
 
   .brandLink {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    gap: 0.625rem;
     font-size: 1.5rem;
     font-weight: 700;
-    background: linear-gradient(45deg, #ff4500, #ff6b35);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #191919;
     text-decoration: none;
     transition: all 0.3s ease;
 
     &:hover {
-      transform: scale(1.05);
+      opacity: 0.8;
     }
   }
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
 }
 
 .navLinks {
@@ -52,32 +57,13 @@
 }
 
 .navLink {
-  color: #ffffff;
+  color: #191919;
   text-decoration: none;
   font-weight: 400;
   transition: all 0.3s ease;
 
   &:hover {
-    color: #ff6b35;
-    transform: translateY(-2px);
-  }
-}
-
-.signInButton {
-  background: linear-gradient(45deg, #ff4500, #ff6b35);
-  color: white;
-  padding: 0.8rem 1.5rem;
-  border-radius: 50px;
-  text-decoration: none;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(255, 69, 0, 0.4);
-  border: none;
-  cursor: pointer;
-
-  &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(255, 69, 0, 0.6);
+    opacity: 0.7;
   }
 }
 
@@ -91,11 +77,6 @@
   }
 
   .navLink {
-    font-size: 0.9rem;
-  }
-
-  .signInButton {
-    padding: 0.6rem 1.2rem;
     font-size: 0.9rem;
   }
 }

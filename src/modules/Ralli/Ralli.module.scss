@@ -1,0 +1,33 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $size-500;
+}
+
+.container {
+  text-align: center;
+  max-width: 800px;
+  width: 100%;
+}
+
+.title {
+  margin-bottom: $size-300;
+}
+
+.subtitle {
+  margin-bottom: $size-600;
+  color: $color-neutral-700;
+}
+
+.searchContainer {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.searchInput {
+  width: 100%;
+}

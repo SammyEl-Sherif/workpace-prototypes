@@ -1,5 +1,4 @@
 import { LandingNavbar } from './components/LandingNavbar'
-import { FooterSection } from './sections/FooterSection'
 import { HeroSection } from './sections/HeroSection'
 
 interface LandingPageProps {
@@ -9,7 +8,7 @@ interface LandingPageProps {
 const LandingPage = () => {
   return (
     <div>
-      {/* <LandingNavbar /> */}
+      <LandingNavbar />
       <HeroSection />
       {/* <section
         id="prototypes"

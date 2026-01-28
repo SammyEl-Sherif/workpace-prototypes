@@ -34,4 +34,11 @@ export const PrototypeMeta = {
     stage: PrototypeStage.WIP,
     tech: 'React, TypeScript',
   },
+  [Routes.RALLI]: {
+    description: 'Find deals. Invite friends. Your shortcut to good times.',
+    icon: '🎉',
+    permittedRoles: [UserGroup.Admin],
+    stage: PrototypeStage.WIP,
+    tech: 'React, TypeScript',
+  },
 }

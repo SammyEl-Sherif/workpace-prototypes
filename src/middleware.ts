@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server'
 import { NextRequestWithAuth, withAuth } from 'next-auth/middleware'
+import { NextResponse } from 'next/server'
 
 import { Routes } from './interfaces/routes'
 import { getAuthCookiesOptions } from './server/utils'

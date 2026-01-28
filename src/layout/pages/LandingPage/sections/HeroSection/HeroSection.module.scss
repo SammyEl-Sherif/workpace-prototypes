@@ -4,7 +4,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 30%, #2d1a0a 70%, #3d0a0a 100%);
+  background: #fff;
   overflow: hidden;
   padding-top: 80px; /* Account for fixed navbar */
 }
@@ -19,23 +19,16 @@
 .title {
   font-size: 6rem;
   font-weight: 900;
-  margin: 0 0 2rem 0;
-  background: linear-gradient(45deg, #ff4500, #ff6b35, #ff8c42, #ffa726, #ff9800);
-  background-size: 300% 300%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: gradientShift 4s ease-in-out infinite;
-  text-shadow: 0 0 30px rgba(255, 107, 53, 0.5);
+  margin: 0 0 1rem 0;
+  color: #191919;
 }
 
 .subtitle {
   font-size: 2rem;
-  color: #ffffff;
-  margin: 0 0 3rem 0;
+  color: #191919;
+  margin: 0 0 2rem 0;
   font-weight: 400;
   line-height: 1.6;
-  text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
 }
 
 .cta {
@@ -84,28 +77,6 @@
     color: #0a0a0a;
     transform: translateY(-3px);
     box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
-  }
-}
-
-.gradientOverlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(circle at 20% 80%, rgba(255, 69, 0, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(255, 107, 53, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 40% 40%, rgba(255, 140, 66, 0.2) 0%, transparent 50%);
-  z-index: 1;
-}
-
-@keyframes gradientShift {
-  0%,
-  100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
   }
 }
 

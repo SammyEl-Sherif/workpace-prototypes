@@ -7,8 +7,8 @@
   "scripts": {
     "start": "check-engines && npm run start --workspace src",
     "start:storybook": "npm run start --workspace design-system",
-    "build": "npm-run-all --parallel build:** --print-label",
-    "build:src": "npm run build:storybook --workspace src",
+    "build": "npm run build:src",
+    "build:src": "npm run build --workspace src",
     "build:storybook": "npm run build --workspace design-system",
     "test": "npm-run-all --parallel test:** --print-label",
     "test:src": "npm run test --workspace src",
