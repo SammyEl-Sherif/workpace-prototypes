@@ -19,18 +19,23 @@
     "test:test": "jest --ci --runInBand"
   },
   "dependencies": {
+    "@notionhq/client": "^2.2.15",
     "@workpace/design-system": "1.0.8",
     "axios": "^1.7.2",
     "chart.js": "^4.5.1",
     "classnames": "^2.5.1",
     "https": "^1.0.0",
+    "jwt-decode": "^3.1.2",
     "next": "^14.1.4",
     "next-auth": "^4.24.11",
+    "openai": "^4.57.0",
     "pino": "^9.3.2",
     "query-string": "^9.0.0",
     "react": "^18",
     "react-chartjs-2": "^5.3.1",
     "react-dom": "^18",
+    "react-loading": "^2.0.3",
+    "react-markdown": "^9.0.1",
     "sass": "^1.44.0"
   },
   "devDependencies": {
