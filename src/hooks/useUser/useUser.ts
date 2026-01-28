@@ -6,7 +6,8 @@ import { signOut as nextAuthSignout } from 'next-auth/react'
 export const useUser = () => {
   const userInfo = useUserInfoContext()
   // TODO: Implement revoke session, investigate errors
-  // const revokeSession = useManualFetch('revoke-session')
+  // Note: revoke-session is now handled at /api/auth/revoke-session (unified with auth handler)
+  // const revokeSession = useManualFetch('auth/revoke-session')
 
   const signOut = useCallback(async () => {
     // const [, error] = await revokeSession()

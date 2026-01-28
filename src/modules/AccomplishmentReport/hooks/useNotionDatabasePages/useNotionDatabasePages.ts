@@ -17,6 +17,7 @@ export const useNotionDatabasePages = (): UseNotionDatabaseInfoReturnProps => {
   } = useNotionDatabaseContext()
   const data = useMemo(() => {
     return {
+      action: 'pages',
       database_id,
       filters: filters ?? {
         property: 'Status',
@@ -28,7 +29,7 @@ export const useNotionDatabasePages = (): UseNotionDatabaseInfoReturnProps => {
   }, [database_id, JSON.stringify(filters)])
 
   const [response, isLoading, error] = useFetch<PageSummary[], null>(
-    'notion/database/pages',
+    'notion/database',
     { data },
     null
   )

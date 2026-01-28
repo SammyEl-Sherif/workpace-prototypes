@@ -1,1 +1,1 @@
-export { info, pages } from './database'
+export { default } from './database'

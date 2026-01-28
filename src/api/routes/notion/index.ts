@@ -1,1 +1,1 @@
-export * from './database'
+export { getNotionDatabaseRoute } from './database'
