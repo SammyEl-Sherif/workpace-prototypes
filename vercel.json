@@ -1,8 +1,7 @@
 {
-  "buildCommand": "npm run build:production",
-  "devCommand": "npm run start:development",
-  "installCommand": "cd .. && npm install",
+  "buildCommand": "cd src && npm run build:production",
+  "devCommand": "cd src && npm run start:development",
+  "installCommand": "npm install",
   "framework": "nextjs",
-  "rootDirectory": "src",
   "ignoreCommand": "test \"$VERCEL_GIT_COMMIT_REF\" = \"main\""
 }
