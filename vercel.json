@@ -1,7 +1,8 @@
 {
-  "buildCommand": "NEXT_TELEMETRY_DISABLED=1 npm run build --workspace src",
-  "devCommand": "npm run start:development --workspace src",
-  "installCommand": "npm ci --include=dev",
+  "buildCommand": "NEXT_TELEMETRY_DISABLED=1 npm run build",
+  "devCommand": "npm run start:development",
+  "installCommand": "cd .. && npm ci --include=dev",
   "framework": "nextjs",
+  "rootDirectory": "src",
   "ignoreCommand": "test \"$VERCEL_GIT_COMMIT_REF\" = \"main\""
 }
