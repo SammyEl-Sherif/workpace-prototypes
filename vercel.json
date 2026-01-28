@@ -1,7 +1,0 @@
-{
-  "buildCommand": "npm run build:production --workspace src",
-  "devCommand": "npm run start:development --workspace src",
-  "installCommand": "npm install",
-  "framework": "nextjs",
-  "ignoreCommand": "test \"$VERCEL_GIT_COMMIT_REF\" = \"main\""
-}
