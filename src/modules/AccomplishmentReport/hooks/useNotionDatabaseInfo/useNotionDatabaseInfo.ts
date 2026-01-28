@@ -10,11 +10,11 @@ type UseNotionDatabaseInfoParamProps = {
 
 export const useNotionDatabaseInfo = ({ database_id }: UseNotionDatabaseInfoParamProps) => {
   const data = useMemo(() => {
-    return { action: 'info', database_id }
+    return { database_id }
   }, [database_id])
 
   const [response, isLoading, error, _, makeRequest] = useFetch<DatabaseObjectResponse, null>(
-    'notion/database',
+    'notion/database/info',
     { data },
     null
   )

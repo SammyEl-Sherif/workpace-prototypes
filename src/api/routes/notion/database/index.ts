@@ -1,1 +1,2 @@
-export { getNotionDatabaseRoute } from './database';
+export { getNotionDatabaseInfoRoute } from './info'
+export { getNotionDatabasePagesRoute } from './pages'

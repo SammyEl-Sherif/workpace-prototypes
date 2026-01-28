@@ -4,10 +4,5 @@
   "installCommand": "npm ci --include=dev",
   "devCommand": "npm run dev",
   "framework": "nextjs",
-  "regions": ["iad1"],
-  "functions": {
-    "src/pages/api/[...all].ts": {
-      "maxDuration": 30
-    }
-  }
+  "regions": ["iad1"]
 }
