@@ -57,8 +57,7 @@
   },
   "type": "module",
   "workspaces": [
-    "src",
-    "design-system"
+    "src"
   ],
   "engines": {
     "node": "^22.0.0",
