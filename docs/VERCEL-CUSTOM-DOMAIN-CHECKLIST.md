@@ -110,9 +110,13 @@ Go to: **Auth0 Dashboard → Applications → Your Application**
   - ✅ Removed `/api/auth` from host header (host should only be domain)
   - ✅ Added proper NEXTAUTH_URL handling
   - ✅ Added fallback to use Vercel's `x-forwarded-host` header
+  - ✅ Added comprehensive logging for debugging (visible in Vercel function logs)
 
 - [x] **Updated `src/server/utils/getAuthOptions/getAuthOptions.ts`**
   - ✅ Added explicit `url` option when NEXTAUTH_URL is set
+
+- [x] **Added logging to `src/pages/api/auth/[...nextauth].ts`**
+  - ✅ Logs request details and errors for debugging
 
 ### ✅ 5. Verify Configuration
 
@@ -152,8 +156,15 @@ If you still see `/api/auth/error`:
 
 2. [ ] **Check Vercel Function Logs**
    - Go to Vercel Dashboard → Your Project → Functions
-   - Check logs for `/api/auth/[...nextauth]`
-   - Look for any errors
+   - Click on `/api/auth/[...nextauth]` function
+   - Or go to: Vercel Dashboard → Your Project → Logs
+   - Look for logs prefixed with `=== NextAuth Request Debug ===`
+   - Check for:
+     - Request URL and path
+     - Headers (host, x-forwarded-host, x-forwarded-proto)
+     - NEXTAUTH_URL environment variable value
+     - Final configuration being used
+   - Look for any errors or warnings
 
 3. [ ] **Verify Auth0 Callback URLs**
    - Make sure `https://dev.workpace.io/api/auth/callback/auth0` is in Auth0
@@ -189,9 +200,13 @@ If you still see `/api/auth/error`:
 - **Solution:** Clear browser cookies
 
 #### Issue: 404 Page Not Found
+- **Solution:** Check Vercel function logs (see Section 6.2) to see what URL/path is being requested
+- **Solution:** Verify the request is hitting `/api/auth/[...nextauth]` route
+- **Solution:** Check if the route file exists at `src/pages/api/auth/[...nextauth].ts`
 - **Solution:** Verify domain is properly configured in Vercel
 - **Solution:** Check DNS records are correct
 - **Solution:** Wait for DNS propagation (can take up to 24 hours)
+- **Debug:** Look for logs showing the request URL - if it's not `/api/auth/*`, the route won't match
 
 #### Issue: Auth0 callback fails
 - **Solution:** Verify callback URL in Auth0 matches exactly: `https://dev.workpace.io/api/auth/callback/auth0`
