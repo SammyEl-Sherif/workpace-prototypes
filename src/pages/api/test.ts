@@ -14,7 +14,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   res.status(200).json({
     message: 'API route is working!',
     envCheck: {
-      NEXTAUTH_URL: process.env.NEXTAUTH_URL ? 'SET' : 'NOT SET',
+      NEXTAUTH_URL: process.env.NEXTAUTH_URL ? process.env.NEXTAUTH_URL : 'NOT SET',
       AUTH0_ISSUER_BASE_URL: process.env.AUTH0_ISSUER_BASE_URL ? 'SET' : 'NOT SET',
       AUTH0_SCOPE: process.env.AUTH0_SCOPE ? 'SET' : 'NOT SET',
       AUTH0_AUDIENCE: process.env.AUTH0_AUDIENCE ? 'SET' : 'NOT SET',
