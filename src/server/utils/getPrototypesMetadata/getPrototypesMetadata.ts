@@ -4,7 +4,7 @@ import path from 'path'
 import { Prototype, PrototypeMeta } from '@/interfaces/prototypes'
 
 export const getPrototypesMetadata = (): Prototype[] => {
-  const prototypesDir = path.join('pages/prototypes')
+  const prototypesDir = path.join(process.cwd(), 'pages', 'prototypes')
   const files = fs.readdirSync(prototypesDir)
 
   const prototypes =
