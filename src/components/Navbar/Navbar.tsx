@@ -11,7 +11,7 @@ import { Prototype } from '@/interfaces/prototypes'
 import { Routes } from '@/interfaces/routes'
 import { usePrototypesContext } from '@/modules'
 import Logo from '@/public/favicon.ico'
-import { getAppName, getBaseUrl } from '@/utils'
+import { getAppName } from '@/utils'
 
 import { EnvironmentIndicator } from '../EnvironmentIndicator'
 import styles from './Navbar.module.scss'
@@ -35,16 +35,13 @@ export const Navbar = () => {
     setIsMobileNavOpen(!isMobileNavOpen)
   }
 
-  const baseUrl = getBaseUrl()
-  const homeUrl = `${baseUrl}${Routes.HOME}`
-
   return (
     <>
       <div className={styles.mobileNav}>
-        <a href={homeUrl} className={styles.logoName}>
+        <Link href={Routes.HOME} className={styles.logoName}>
           <Image src={Logo} alt="Logo" className={styles.logo} />
           <h1 className={cn(styles.brandName, { [styles.hide]: isCollapsed })}>{getAppName()}</h1>
-        </a>
+        </Link>
         <a onClick={openMobileNav}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -160,12 +157,12 @@ export const Navbar = () => {
             </div>
           ) : (
             <>
-              <a className={styles.logoName} href={homeUrl}>
+              <Link className={styles.logoName} href={Routes.HOME}>
                 <Image src={Logo} alt="Logo" className={styles.logo} />
                 <h1 className={cn(styles.brandName, { [styles.hide]: isCollapsed })}>
                   {getAppName()}
                 </h1>
-              </a>
+              </Link>
               <div className={styles.collapse} onClick={handleClick}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
