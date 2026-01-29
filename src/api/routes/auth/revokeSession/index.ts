@@ -1,1 +1,1 @@
-export { revokeSession } from './revokeSession';
+export { revokeSession } from './revokeSession'

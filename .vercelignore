@@ -1,0 +1,43 @@
+# Git repository - NEVER deploy this
+.git
+.gitignore
+.gitattributes
+
+# Sensitive configuration files
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+*.crt
+
+# Development files
+.vscode
+.idea
+*.log
+
+# Documentation (optional - exclude if not needed)
+docs/
+*.md
+!README.md
+
+# Kubernetes configs (may contain secrets)
+k8s/
+*.kubeconfig
+
+# Scripts (may contain sensitive logic)
+scripts/
+
+# Docker files
+Dockerfile
+.dockerignore
+docker-compose*.yml
+
+# CI/CD (may contain secrets)
+.github/
+
+# Design system build artifacts (if not needed)
+design-system/dist/
+design-system/storybook-static/
+design-system/docs/
+

@@ -5,4 +5,3 @@ import { apiRequestWrapper } from '@/server/apiRequestWrapper'
 export default apiRequestWrapper({
   [HttpMethod.POST]: getNotionDatabaseInfoRoute,
 })
-
