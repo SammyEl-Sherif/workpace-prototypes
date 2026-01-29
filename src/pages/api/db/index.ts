@@ -1,7 +1,7 @@
-import { healthCheckRoute } from '@/apis/routes/health'
+import { dbHealthCheckRoute } from '@/apis/routes/health'
 import { HttpMethod } from '@/interfaces/httpMethod'
 import { apiRequestWrapper } from '@/server/apiRequestWrapper'
 
 export default apiRequestWrapper({
-  [HttpMethod.GET]: healthCheckRoute,
+  [HttpMethod.GET]: dbHealthCheckRoute,
 })
