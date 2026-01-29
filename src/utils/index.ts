@@ -1,4 +1,5 @@
 export * from './getAppName'
+export * from './getBaseUrl'
 export * from './getBrowserWindow'
 export * from './getEnvironment'
 export * from './stringifyQueryParams'

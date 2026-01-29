@@ -11,7 +11,7 @@ import { Prototype } from '@/interfaces/prototypes'
 import { Routes } from '@/interfaces/routes'
 import { usePrototypesContext } from '@/modules'
 import Logo from '@/public/favicon.ico'
-import { getAppName } from '@/utils'
+import { getAppName, getBaseUrl } from '@/utils'
 
 import { EnvironmentIndicator } from '../EnvironmentIndicator'
 import styles from './Navbar.module.scss'
@@ -35,12 +35,13 @@ export const Navbar = () => {
     setIsMobileNavOpen(!isMobileNavOpen)
   }
 
-  const isProd = process.env.NODE_ENV === 'production'
+  const baseUrl = getBaseUrl()
+  const homeUrl = `${baseUrl}${Routes.HOME}`
 
   return (
     <>
       <div className={styles.mobileNav}>
-        <a href={isProd ? 'https://workpace.io/' : Routes.HOME} className={styles.logoName}>
+        <a href={homeUrl} className={styles.logoName}>
           <Image src={Logo} alt="Logo" className={styles.logo} />
           <h1 className={cn(styles.brandName, { [styles.hide]: isCollapsed })}>{getAppName()}</h1>
         </a>
@@ -159,7 +160,7 @@ export const Navbar = () => {
             </div>
           ) : (
             <>
-              <a className={styles.logoName} href={isProd ? 'https://workpace.io/' : Routes.HOME}>
+              <a className={styles.logoName} href={homeUrl}>
                 <Image src={Logo} alt="Logo" className={styles.logo} />
                 <h1 className={cn(styles.brandName, { [styles.hide]: isCollapsed })}>
                   {getAppName()}
