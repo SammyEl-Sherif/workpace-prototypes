@@ -1,9 +1,9 @@
 /**
  * Gets the base URL for the current environment
- * 
+ *
  * On client-side: Uses window.location.origin to automatically detect the current origin
  * On server-side: Uses NEXTAUTH_URL or falls back to environment-based defaults
- * 
+ *
  * @returns The base URL (e.g., 'http://localhost:3000', 'https://dev.workpace.io', 'https://workpace.io')
  */
 export const getBaseUrl = (): string => {
@@ -34,4 +34,3 @@ export const getBaseUrl = (): string => {
 }
 
 export default getBaseUrl
-

@@ -39,12 +39,6 @@ export const getAuthOptions = (): NextAuthOptions => {
     cookies: {
       ...getAuthCookiesOptions(),
     },
-    debug: true,
-    logger: {
-      error: (code, metadata) => {
-        console.error('NextAuth Error:', code, metadata)
-      },
-    },
     callbacks: {
       async session({
         session,
