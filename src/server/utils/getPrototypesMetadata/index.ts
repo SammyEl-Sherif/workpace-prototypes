@@ -1,1 +1,0 @@
-export { getPrototypesMetadata } from './getPrototypesMetadata'
