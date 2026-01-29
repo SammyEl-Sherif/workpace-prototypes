@@ -26,13 +26,7 @@ export const DesignSystem = () => {
     setIsLoading(true)
     setTimeout(() => setIsLoading(false), 2000)
   }
-  const currentVersion = process.env.WDS_VERSION
-  console.log('SIGNIN PAGE', process.env.NEXTAUTH_URL)
-  console.log('SIGNIN PAGE', process.env.HOST)
-  console.log('SIGNIN PAGE', process.env.NODE_ENV)
-  console.log('SIGNIN PAGE', process.env.AUTH0_ISSUER_BASE_URL)
-  console.log('SIGNIN PAGE', process.env.AUTH0_SCOPE)
-  console.log('SIGNIN PAGE', process.env.AUTH0_AUDIENCE)
+  const currentVersion = process.env.NEXT_PUBLIC_WDS_VERSION
   return (
     <div className={styles.page}>
       {/* Header */}
