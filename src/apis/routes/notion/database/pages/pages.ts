@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import { getNotionPagesController } from '@/api/controllers'
+import { getNotionPagesController } from '@/apis/controllers'
 import { withNotionClient } from '@/server/utils'
 
 export const getNotionDatabasePagesRoute = withNotionClient<NextApiRequest, NextApiResponse>(

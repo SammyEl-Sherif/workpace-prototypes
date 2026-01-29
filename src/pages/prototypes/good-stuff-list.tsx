@@ -1,12 +1,10 @@
-import React from 'react'
-
 import { GetServerSideProps } from 'next'
 
-import { getNotionDatabasesController } from '@/api/controllers'
+import { getNotionDatabasesController } from '@/apis/controllers'
 import { NotionDatabase } from '@/interfaces/notion'
-import { NotionInsights, DocumentTitle } from '@/layout'
+import { DocumentTitle, NotionInsights } from '@/layout'
 import { NotionDatabaseContextProvider } from '@/modules/AccomplishmentReport/contexts'
-import { withPageRequestWrapper, withNotionClient } from '@/server/utils'
+import { withNotionClient, withPageRequestWrapper } from '@/server/utils'
 
 export interface GoodStuffListPageProps {
   databases: NotionDatabase[]

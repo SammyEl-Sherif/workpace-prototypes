@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import { getYearEndReviewController } from '@/api/controllers'
+import { getYearEndReviewController } from '@/apis/controllers'
 import { PageSummary } from '@/interfaces/notion'
 import { GenerateReportDTO } from '@/interfaces/openai'
 import { withOpenaiClient } from '@/server/utils'
