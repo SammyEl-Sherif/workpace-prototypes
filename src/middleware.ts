@@ -43,8 +43,8 @@ export async function middleware(request: NextRequestWithAuth) {
     return new NextResponse('Not Found', { status: 404 })
   }
 
-  // Allow landing page (root) and design-system page without authentication
-  if (pathname === '/' || pathname === '/design-system') {
+  // Allow landing page (root), design-system, and system-design pages without authentication
+  if (pathname === '/' || pathname === '/design-system' || pathname === '/system-design') {
     return NextResponse.next()
   }
 
@@ -66,8 +66,9 @@ export const config = {
      * - favicon.ico, sitemap.xml, robots.txt (SEO files)
      * - signin (sign-in page)
      * - design-system (design system page)
+     * - system-design (system design page)
      * - root path / (landing page - handled in middleware logic)
      */
-    '/((?!api|_next/static|_next/image|_next/data|static|favicon.ico|sitemap.xml|robots.txt|signin|design-system).*)',
+    '/((?!api|_next/static|_next/image|_next/data|static|favicon.ico|sitemap.xml|robots.txt|signin|design-system|system-design).*)',
   ],
 }

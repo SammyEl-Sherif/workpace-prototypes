@@ -1,1 +1,1 @@
-export { withApiAuth, requireApiAuth, isPublicApiRoute, PUBLIC_API_ROUTES } from './withApiAuth'
+export { isPublicApiRoute, PUBLIC_API_ROUTES, requireApiAuth, withApiAuth } from './withApiAuth'
