@@ -1,10 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import { getNotionDatabaseInfoController } from '@/apis/controllers'
-import { withNotionClient } from '@/server/utils'
+import { requireApiAuth, withNotionClient } from '@/server/utils'
 
-export const getNotionDatabaseInfoRoute = withNotionClient<NextApiRequest, NextApiResponse>(
-  async (request, response, notionClient) => {
+export const getNotionDatabaseInfoRoute = requireApiAuth(
+  withNotionClient<NextApiRequest, NextApiResponse>(async (request, response, notionClient) => {
     const { database_id } = request.body
 
     try {
@@ -18,5 +18,5 @@ export const getNotionDatabaseInfoRoute = withNotionClient<NextApiRequest, NextA
     } catch (error) {
       response.status(500)
     }
-  }
+  })
 )

@@ -3,23 +3,24 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { getYearEndReviewController } from '@/apis/controllers'
 import { PageSummary } from '@/interfaces/notion'
 import { GenerateReportDTO } from '@/interfaces/openai'
-import { withOpenaiClient } from '@/server/utils'
+import { requireApiAuth, withOpenaiClient } from '@/server/utils'
 
-export const generateReportRoute = withOpenaiClient<
-  NextApiRequest,
-  NextApiResponse<GenerateReportDTO>
->(async (request, response, notionClient) => {
-  const { pages, userPrompt }: { pages: PageSummary[]; userPrompt: string } = request.body
-  try {
-    const { data, status } = await getYearEndReviewController({
-      client: notionClient,
-      accomplishments: pages,
-      userPrompt,
-    })
-    response.status(status).json(data)
+export const generateReportRoute = requireApiAuth(
+  withOpenaiClient<NextApiRequest, NextApiResponse<GenerateReportDTO>>(
+    async (request, response, notionClient) => {
+      const { pages, userPrompt }: { pages: PageSummary[]; userPrompt: string } = request.body
+      try {
+        const { data, status } = await getYearEndReviewController({
+          client: notionClient,
+          accomplishments: pages,
+          userPrompt,
+        })
+        response.status(status).json(data)
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (err: any) {
-    response.status(err.statusCode || 500).json(err.message)
-  }
-})
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (err: any) {
+        response.status(err.statusCode || 500).json(err.message)
+      }
+    }
+  )
+)

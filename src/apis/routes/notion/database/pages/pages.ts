@@ -1,10 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import { getNotionPagesController } from '@/apis/controllers'
-import { withNotionClient } from '@/server/utils'
+import { requireApiAuth, withNotionClient } from '@/server/utils'
 
-export const getNotionDatabasePagesRoute = withNotionClient<NextApiRequest, NextApiResponse>(
-  async (request, response, notionClient) => {
+export const getNotionDatabasePagesRoute = requireApiAuth(
+  withNotionClient<NextApiRequest, NextApiResponse>(async (request, response, notionClient) => {
     const { database_id, filters } = request.body
 
     try {
@@ -18,5 +18,5 @@ export const getNotionDatabasePagesRoute = withNotionClient<NextApiRequest, Next
     } catch (error) {
       response.status(500)
     }
-  }
+  })
 )

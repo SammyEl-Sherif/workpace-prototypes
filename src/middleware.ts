@@ -1,8 +1,5 @@
-import { NextRequestWithAuth, withAuth } from 'next-auth/middleware'
+import { NextRequestWithAuth } from 'next-auth/middleware'
 import { NextResponse } from 'next/server'
-
-import { Routes } from './interfaces/routes'
-import { getAuthCookiesOptions } from './server/utils'
 
 export async function middleware(request: NextRequestWithAuth) {
   const pathname = request.nextUrl.pathname
@@ -46,34 +43,14 @@ export async function middleware(request: NextRequestWithAuth) {
     return new NextResponse('Not Found', { status: 404 })
   }
 
-  // Allow design-system page without authentication
-  if (pathname === '/design-system') {
+  // Allow landing page (root) and design-system page without authentication
+  if (pathname === '/' || pathname === '/design-system') {
     return NextResponse.next()
   }
 
-  return (
-    withAuth(
-      async () => {
-        return NextResponse.next()
-      },
-      {
-        callbacks: {
-          authorized: async ({ token }) => {
-            if (!token) {
-              return false
-            }
-            return true
-          },
-        },
-        pages: {
-          signIn: Routes.SIGNIN,
-        },
-        cookies: {
-          ...getAuthCookiesOptions(),
-        },
-      }
-    ) as (request: NextRequestWithAuth) => void
-  )(request)
+  // Allow all requests through - authentication will be handled by AuthView component
+  // which will show an overlay instead of redirecting
+  return NextResponse.next()
 }
 
 export const config = {
@@ -89,6 +66,7 @@ export const config = {
      * - favicon.ico, sitemap.xml, robots.txt (SEO files)
      * - signin (sign-in page)
      * - design-system (design system page)
+     * - root path / (landing page - handled in middleware logic)
      */
     '/((?!api|_next/static|_next/image|_next/data|static|favicon.ico|sitemap.xml|robots.txt|signin|design-system).*)',
   ],
