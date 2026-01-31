@@ -1,10 +1,6 @@
 import { LandingNavbar } from './components/LandingNavbar'
 import { HeroSection } from './sections/HeroSection'
 
-interface LandingPageProps {
-  prototypes?: unknown // Prototypes are now accessed via context in ProjectsGrid
-}
-
 const LandingPage = () => {
   return (
     <div>

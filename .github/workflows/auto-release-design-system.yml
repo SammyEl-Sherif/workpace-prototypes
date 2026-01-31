@@ -8,24 +8,26 @@ on:
     types: [closed]
     branches:
       - main
-      - master
 
 jobs:
   check-branch:
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged == true
+    outputs:
+      is_wds: ${{ steps.check-wds.outputs.is_wds }}
     steps:
       - name: Check if branch starts with wds/
         id: check-wds
+        env:
+          BRANCH_NAME: ${{ github.event.pull_request.head.ref }}
         run: |
-          BRANCH="${{ github.event.pull_request.head.ref }}"
-          echo "Merged branch: $BRANCH"
-          if [[ "$BRANCH" == wds/* ]]; then
+          echo "Merged branch: ${BRANCH_NAME}"
+          if [[ "${BRANCH_NAME}" == wds/* ]]; then
             echo "is_wds=true" >> $GITHUB_OUTPUT
-            echo "✓ Branch $BRANCH starts with wds/, will trigger release"
+            echo "✓ Branch ${BRANCH_NAME} starts with wds/, will trigger release"
           else
             echo "is_wds=false" >> $GITHUB_OUTPUT
-            echo "✗ Branch $BRANCH does not start with wds/, skipping release"
+            echo "✗ Branch ${BRANCH_NAME} does not start with wds/, skipping release"
           fi
 
   release:
@@ -37,6 +39,8 @@ jobs:
       url: https://www.npmjs.com/package/@workpace/design-system
     permissions:
       contents: write
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -47,11 +51,9 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          registry-url: 'https://registry.npmjs.org'
+          node-version: "22"
+          registry-url: "https://registry.npmjs.org"
           always-auth: true
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Configure Git
         run: |
@@ -88,4 +90,3 @@ jobs:
         run: |
           git tag -a "design-system/v${{ env.NEW_VERSION }}" -m "Release design-system v${{ env.NEW_VERSION }}"
           git push origin "design-system/v${{ env.NEW_VERSION }}"
-

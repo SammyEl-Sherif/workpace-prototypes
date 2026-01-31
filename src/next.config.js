@@ -18,41 +18,7 @@ module.exports = () => {
 
     // Rewrite requests from werall.com and weralli.localhost to root
     async rewrites() {
-      return [
-        // {
-        //   source: '/:path*',
-        //   has: [
-        //     {
-        //       type: 'host',
-        //       value: 'werall.com',
-        //     },
-        //   ],
-        //   destination: '/',
-        // },
-        {
-          // Match page routes only, excluding API routes and Next.js internal routes
-          // This pattern uses a negative lookahead to exclude paths starting with api/, _next/, etc.
-          source: '/:path((?!api|_next|static|favicon|sitemap|robots).)*',
-          has: [
-            {
-              type: 'host',
-              value: 'weralli.localhost',
-            },
-          ],
-          // Internally serve from /prototypes/ralli
-          destination: '/prototypes/ralli/:path*',
-        },
-        // {
-        //   source: '/:path*',
-        //   has: [
-        //     {
-        //       type: 'host',
-        //       value: 'weralli.localhost',
-        //     },
-        //   ],
-        //   destination: '/',
-        // },
-      ]
+      return []
     },
 
     // Override the default webpack configuration

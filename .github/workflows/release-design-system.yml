@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       version_type:
-        description: 'Version bump type'
+        description: "Version bump type"
         required: true
         type: choice
         options:
@@ -13,16 +13,18 @@ on:
           - major
         default: patch
       branch:
-        description: 'Branch to release from'
+        description: "Branch to release from"
         required: true
         type: string
-        default: 'main'
+        default: "main"
 
 jobs:
   release:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -34,11 +36,9 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          registry-url: 'https://registry.npmjs.org'
+          node-version: "22"
+          registry-url: "https://registry.npmjs.org"
           always-auth: true
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Configure Git
         run: |
@@ -75,4 +75,3 @@ jobs:
         run: |
           git tag -a "design-system/v${{ env.NEW_VERSION }}" -m "Release design-system v${{ env.NEW_VERSION }}"
           git push origin "design-system/v${{ env.NEW_VERSION }}"
-
