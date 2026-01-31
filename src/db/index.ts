@@ -1,4 +1,4 @@
-import { Pool } from 'pg'
+import { Pool, QueryResultRow } from 'pg'
 
 import { pool, supabasePool } from './pool'
 import { loadSql } from './sql'
@@ -54,7 +54,7 @@ export function getDbInfo(connectionPool?: Pool): {
  * @param connectionPool - Optional pool to use. Defaults to Supabase pool
  * @returns Array of query results
  */
-export async function query<T = unknown>(
+export async function query<T extends QueryResultRow = QueryResultRow>(
   sqlPath: string,
   params: unknown[] = [],
   connectionPool?: Pool
@@ -91,7 +91,7 @@ export async function query<T = unknown>(
 /**
  * Execute a SQL query using the Supabase connection pool
  */
-export async function querySupabase<T = unknown>(
+export async function querySupabase<T extends QueryResultRow = QueryResultRow>(
   sqlPath: string,
   params: unknown[] = []
 ): Promise<T[]> {

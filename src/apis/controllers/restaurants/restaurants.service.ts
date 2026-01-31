@@ -359,7 +359,7 @@ export const RestaurantsService = {
       }
     })
 
-    const uniqueTimes = [...new Set(Object.values(dayToTimeMap))]
+    const uniqueTimes = Array.from(new Set(Object.values(dayToTimeMap)))
     const times = uniqueTimes.length === 1 ? uniqueTimes[0] : uniqueTimes.join(', ')
 
     const happyHourDaysArray = hhDays.map((hhDay) => {

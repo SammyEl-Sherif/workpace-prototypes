@@ -38,7 +38,6 @@ export const getDbHealthRoute = async (
       }
 
       response.status(200).json({
-        status: 'healthy',
         database: 'supabase',
         ...result,
       })
