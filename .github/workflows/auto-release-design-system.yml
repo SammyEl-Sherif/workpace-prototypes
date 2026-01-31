@@ -1,0 +1,92 @@
+name: Auto Release Design System
+
+# This workflow automatically releases the design-system to NPM when a PR
+# from a branch starting with "wds/" is merged to main/master.
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+
+jobs:
+  check-branch:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
+    outputs:
+      is_wds: ${{ steps.check-wds.outputs.is_wds }}
+    steps:
+      - name: Check if branch starts with wds/
+        id: check-wds
+        env:
+          BRANCH_NAME: ${{ github.event.pull_request.head.ref }}
+        run: |
+          echo "Merged branch: ${BRANCH_NAME}"
+          if [[ "${BRANCH_NAME}" == wds/* ]]; then
+            echo "is_wds=true" >> $GITHUB_OUTPUT
+            echo "✓ Branch ${BRANCH_NAME} starts with wds/, will trigger release"
+          else
+            echo "is_wds=false" >> $GITHUB_OUTPUT
+            echo "✗ Branch ${BRANCH_NAME} does not start with wds/, skipping release"
+          fi
+
+  release:
+    needs: check-branch
+    if: needs.check-branch.outputs.is_wds == 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: design-system-release
+      url: https://www.npmjs.com/package/@workpace/design-system
+    permissions:
+      contents: write
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          registry-url: "https://registry.npmjs.org"
+          always-auth: true
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Install dependencies
+        working-directory: ./design-system
+        run: npm ci
+
+      - name: Build design system
+        working-directory: ./design-system
+        run: npm run build:production
+
+      - name: Bump version (patch)
+        working-directory: ./design-system
+        run: |
+          npm version patch --no-git-tag-version
+          NEW_VERSION=$(node -p "require('./package.json').version")
+          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+          echo "Bumped version to $NEW_VERSION"
+
+      - name: Publish to NPM
+        working-directory: ./design-system
+        run: npm publish --access public
+
+      - name: Commit version bump
+        run: |
+          git add design-system/package.json design-system/package-lock.json
+          git commit -m "chore: bump design-system version to ${{ env.NEW_VERSION }} [skip ci]"
+          git push origin HEAD:main
+
+      - name: Create git tag
+        run: |
+          git tag -a "design-system/v${{ env.NEW_VERSION }}" -m "Release design-system v${{ env.NEW_VERSION }}"
+          git push origin "design-system/v${{ env.NEW_VERSION }}"

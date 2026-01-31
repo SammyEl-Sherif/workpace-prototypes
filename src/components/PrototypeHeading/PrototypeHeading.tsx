@@ -9,7 +9,7 @@ export const PrototypeHeading = ({ title }: { title?: string }) => {
   const { pathname } = useRouter()
   const currentPrototype = prototypes.find((prototype) => prototype.path === pathname)
   const currentPrototypeTech = currentPrototype?.tech
-  const techStack = currentPrototypeTech?.split(',')
+  const techStack = currentPrototypeTech?.split(',').map((tech) => tech.trim())
 
   return (
     <div>
@@ -23,11 +23,9 @@ export const PrototypeHeading = ({ title }: { title?: string }) => {
           ))}
         </div>
       </div>
-      <div className={styles.description}>
-        <strong>The Good Stuff List</strong> is a notion integration which feeds all of the tasks
-        you track into ChatGPT, alongside a prompt of your choice. There are presets below
-        containing common use cases.
-      </div>
+      {currentPrototype?.description && (
+        <div className={styles.description}>{currentPrototype.description}</div>
+      )}
     </div>
   )
 }

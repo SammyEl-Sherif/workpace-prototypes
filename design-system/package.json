@@ -1,6 +1,6 @@
 {
   "name": "@workpace/design-system",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Reusable building blocks",
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,7 @@
     "start": "storybook dev -p 6006",
     "chromatic": "chromatic --exit-zero-on-changes --exit-once-uploaded --only-change --auto-accept-changes main",
     "commit": "node scripts/commit.js",
-    "prepare": "husky",
+    "prepare": "node -e \"if (!process.env.CI && !process.env.VERCEL) { try { require.resolve('husky'); require('child_process').execSync('husky', {stdio: 'inherit'}) } catch(e) {} }\"",
     "precommit": "npm-run-all precommit:** --print-label",
     "precommit:": "lint-staged",
     "precommit:src": "npm run lint src",

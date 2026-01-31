@@ -7,7 +7,7 @@ $logo-dim: 40px;
   height: 100vh;
   width: 250px;
   align-items: flex-start;
-  background-color: black;
+  background-color: #f3f3f3;
   transition: width 0.3s ease;
   padding: $size-200;
   gap: $size-300;
@@ -30,8 +30,8 @@ $logo-dim: 40px;
     align-items: center;
     width: 100%;
     padding: $size-200;
-    background-color: black;
-    color: white;
+    background-color: #f3f3f3;
+    color: #191919;
     height: 80px;
   }
 }
@@ -47,8 +47,8 @@ $logo-dim: 40px;
   right: 0;
   height: 100vh;
   width: 70vw;
-  background-color: black;
-  color: white;
+  background-color: #f3f3f3;
+  color: #191919;
   z-index: 200;
   transition: transform 0.3s ease;
   transform: translateX(100%);
@@ -92,7 +92,7 @@ $logo-dim: 40px;
 }
 
 .collapse {
-  color: white;
+  color: #191919;
   font-weight: bold;
   cursor: pointer;
   font-size: 18px;
@@ -105,7 +105,7 @@ $logo-dim: 40px;
   width: 75px;
   transition: width 0.3s ease;
   align-items: center;
-  background-color: black;
+  background-color: #f3f3f3;
   justify-content: space-between;
 }
 
@@ -114,8 +114,9 @@ $logo-dim: 40px;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  border-color: white;
-  background-color: white;
+  border-color: #191919;
+  background-color: #191919;
+  color: #f3f3f3;
   width: $logo-dim;
   height: $logo-dim;
   cursor: pointer;
@@ -127,7 +128,7 @@ $logo-dim: 40px;
   display: flex;
   flex-flow: column nowrap;
   gap: $size-200;
-  color: white;
+  color: #191919;
   flex: 0 1 auto;
   font-size: $font-headline-sm-font-size;
 }
@@ -144,26 +145,26 @@ $logo-dim: 40px;
   flex-flow: column nowrap;
   gap: $size-200;
   margin-top: $size-200;
-  color: white;
+  color: #191919;
   font-size: $font-headline-sm-font-size;
 }
 
 .emptyState {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(25, 25, 25, 0.5);
   font-size: 0.875rem;
   font-style: italic;
 }
 
 .links {
   &:hover {
-    color: lightgray;
+    color: rgba(25, 25, 25, 0.7);
     transition: color 0.3s ease;
     text-decoration: underline;
   }
 }
 
 .linksHeading {
-  color: white;
+  color: #191919;
   font-size: $font-headline-md-font-size;
   font-weight: bold;
 }
@@ -171,12 +172,12 @@ $logo-dim: 40px;
 .divider {
   width: 100%;
   height: 1px;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(0, 0, 0, 0.1);
   margin: $size-200 0;
 }
 
 .brandName {
-  color: white;
+  color: #191919;
   font-size: $font-headline-lg-font-size;
 }
 
@@ -220,24 +221,6 @@ $logo-dim: 40px;
   flex-flow: column nowrap;
   align-items: left;
   gap: 14px;
-  color: white;
+  color: #191919;
   width: 100%;
-}
-.button {
-  padding: 4px 10px;
-  background-color: white;
-  color: black !important;
-  font-size: $font-button-md-font-size;
-  line-height: $font-button-md-line-height;
-  font-weight: $font-button-font-weight-default;
-  border-radius: 4px;
-  display: flex;
-  justify-content: space-around;
-  max-width: 200px;
-
-  &:hover {
-    background-color: black;
-    color: white !important;
-    cursor: pointer;
-  }
 }

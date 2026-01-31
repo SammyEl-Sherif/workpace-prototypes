@@ -1,4 +1,4 @@
-import { getNotionDatabaseInfoRoute } from '@/api/routes/notion'
+import { getNotionDatabaseInfoRoute } from '@/apis/routes/notion'
 import { HttpMethod } from '@/interfaces/httpMethod'
 import { apiRequestWrapper } from '@/server/apiRequestWrapper'
 

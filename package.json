@@ -6,10 +6,8 @@
   "license": "ISC",
   "scripts": {
     "start": "check-engines && npm run start --workspace src",
-    "start:storybook": "npm run start --workspace design-system",
-    "build": "npm-run-all --parallel build:** --print-label",
-    "build:src": "npm run build:storybook --workspace src",
-    "build:storybook": "npm run build --workspace design-system",
+    "build": "npm run build:src",
+    "build:src": "npm run build --workspace src",
     "test": "npm-run-all --parallel test:** --print-label",
     "test:src": "npm run test --workspace src",
     "check": "npm-run-all --parallel check:** --print-label",
@@ -27,8 +25,7 @@
     "precommit:": "lint-staged",
     "precommit:src": "npm run lint --workspace src",
     "clean": "rm -rf node_modules src/node_modules src/.next design-system/node_modules design-system/dist",
-    "dev": "npm run dev --workspace src",
-    "dev:storybook": "npm run start --workspace design-system"
+    "dev": "npm run start --workspace src"
   },
   "dependencies": {
     "@fontsource/roboto": "^5.1.1",
@@ -57,8 +54,7 @@
   },
   "type": "module",
   "workspaces": [
-    "src",
-    "design-system"
+    "src"
   ],
   "engines": {
     "node": "^22.0.0",

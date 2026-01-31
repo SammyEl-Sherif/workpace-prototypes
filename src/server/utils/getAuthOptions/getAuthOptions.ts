@@ -5,8 +5,8 @@ import Auth0 from 'next-auth/providers/auth0'
 import { Routes } from '@/interfaces/routes'
 import { SessionAccount } from '@/interfaces/user'
 
-import { getAuthCookiesOptions } from './getAuthCookiesOptions'
 import { getDecodedJWT } from '../getDecodedJWT'
+import { getAuthCookiesOptions } from './getAuthCookiesOptions'
 
 export const getAuthOptions = (): NextAuthOptions => {
   const maxAge = 60 * 60 // 1h

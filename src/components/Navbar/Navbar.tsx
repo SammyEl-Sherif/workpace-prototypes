@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+import { Button } from '@workpace/design-system'
 import cn from 'classnames'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
@@ -14,6 +15,9 @@ import { getAppName } from '@/utils'
 
 import { EnvironmentIndicator } from '../EnvironmentIndicator'
 import styles from './Navbar.module.scss'
+
+// Type assertion workaround for Button component type issue
+const ButtonComponent = Button as any
 
 export const Navbar = () => {
   const { data, status } = useSession()
@@ -31,24 +35,19 @@ export const Navbar = () => {
     setIsMobileNavOpen(!isMobileNavOpen)
   }
 
-  const isProd = process.env.NODE_ENV === 'production'
-
   return (
     <>
       <div className={styles.mobileNav}>
-        <a
-          href={isProd ? 'https://workpace.io/' : 'http://localhost:3000/'}
-          className={styles.logoName}
-        >
+        <Link href={Routes.HOME} className={styles.logoName}>
           <Image src={Logo} alt="Logo" className={styles.logo} />
           <h1 className={cn(styles.brandName, { [styles.hide]: isCollapsed })}>{getAppName()}</h1>
-        </a>
+        </Link>
         <a onClick={openMobileNav}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="28"
             height="28"
-            fill="#ffffff"
+            fill="#191919"
             viewBox="0 0 256 256"
           >
             <path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"></path>
@@ -110,19 +109,21 @@ export const Navbar = () => {
               <>🚫</>
             )}
             {status === 'authenticated' ? (
-              <button
+              <ButtonComponent
                 onClick={signOut}
-                className={cn(styles.button, { [styles.hide]: isCollapsed })}
+                variant="default-secondary"
+                className={cn({ [styles.hide]: isCollapsed })}
               >
                 Sign out
-              </button>
+              </ButtonComponent>
             ) : (
-              <button
-                className={cn({ [styles.hide]: isCollapsed })}
+              <ButtonComponent
                 onClick={() => (window.location.href = '/signin')}
+                variant="brand-secondary"
+                className={cn({ [styles.hide]: isCollapsed })}
               >
                 Sign In
-              </button>
+              </ButtonComponent>
             )}
           </div>
         </div>
@@ -131,7 +132,7 @@ export const Navbar = () => {
             xmlns="http://www.w3.org/2000/svg"
             width="28"
             height="28"
-            fill="#ffffff"
+            fill="#191919"
             viewBox="0 0 256 256"
           >
             <path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"></path>
@@ -156,21 +157,18 @@ export const Navbar = () => {
             </div>
           ) : (
             <>
-              <a
-                className={styles.logoName}
-                href={isProd ? 'https://workpace.io/' : 'http://localhost:3000/'}
-              >
+              <Link className={styles.logoName} href={Routes.HOME}>
                 <Image src={Logo} alt="Logo" className={styles.logo} />
                 <h1 className={cn(styles.brandName, { [styles.hide]: isCollapsed })}>
                   {getAppName()}
                 </h1>
-              </a>
+              </Link>
               <div className={styles.collapse} onClick={handleClick}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
                   height="24"
-                  fill="#ffffff"
+                  fill="#191919"
                   viewBox="0 0 256 256"
                 >
                   <path d="M197.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L123.31,128ZM72,40a8,8,0,0,0-8,8V208a8,8,0,0,0,16,0V48A8,8,0,0,0,72,40Z"></path>
@@ -182,7 +180,9 @@ export const Navbar = () => {
         <div className={cn(styles.linkStack)}>
           {/* Prototypes Section */}
           <div className={styles.section}>
-            <div className={cn(styles.linksHeading, { [styles.hide]: isCollapsed })}>Prototypes</div>
+            <div className={cn(styles.linksHeading, { [styles.hide]: isCollapsed })}>
+              Prototypes
+            </div>
             {!isCollapsed &&
               prototypes &&
               prototypes.length > 0 &&
@@ -240,7 +240,7 @@ export const Navbar = () => {
           </div>
         </div>
         <div className={styles.bottomSection}>
-          <EnvironmentIndicator />
+          <EnvironmentIndicator hideText={isCollapsed} />
           <div className={cn(styles.divider, { [styles.hide]: isCollapsed })} />
           <div className={cn(styles.authStatus, { [styles.hide]: isCollapsed })}>
             {status === 'authenticated' ? (
@@ -256,16 +256,21 @@ export const Navbar = () => {
               <>🚫</>
             )}
             {status === 'authenticated' ? (
-              <button onClick={signOut} className={cn(styles.button, { [styles.hide]: isCollapsed })}>
-                Sign out
-              </button>
-            ) : (
-              <button
+              <ButtonComponent
+                onClick={signOut}
+                variant="default-secondary"
                 className={cn({ [styles.hide]: isCollapsed })}
+              >
+                Sign out
+              </ButtonComponent>
+            ) : (
+              <ButtonComponent
                 onClick={() => (window.location.href = '/signin')}
+                variant="brand-secondary"
+                className={cn({ [styles.hide]: isCollapsed })}
               >
                 Sign In
-              </button>
+              </ButtonComponent>
             )}
           </div>
         </div>

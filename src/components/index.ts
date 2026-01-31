@@ -1,3 +1,4 @@
+export * from './AuthOverlay'
 export * from './Badge'
 export * from './Divider'
 export * from './EnvironmentIndicator'

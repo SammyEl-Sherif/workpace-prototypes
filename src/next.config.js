@@ -3,13 +3,23 @@
 const path = require('path')
 
 module.exports = () => {
+  // Only use standalone output for Docker builds, not for Vercel
+  // Vercel uses serverless functions and doesn't support standalone mode
+  const isDockerBuild = process.env.DOCKER_BUILD === 'true'
+
   return {
     reactStrictMode: true,
     skipTrailingSlashRedirect: true,
-    output: 'standalone',
+    // Only use standalone for Docker builds
+    ...(isDockerBuild && { output: 'standalone' }),
     // (Optional) Export as a static site
     // See https://nextjs.org/docs/pages/building-your-application/deploying/static-exports#configuration
     // output: 'export', // Feel free to modify/remove this option
+
+    // Rewrite requests from werall.com and weralli.localhost to root
+    async rewrites() {
+      return []
+    },
 
     // Override the default webpack configuration
     webpack: (config) => {
@@ -19,6 +29,12 @@ module.exports = () => {
         sharp$: false,
         'onnxruntime-node$': false,
       }
+      // Ensure styled-jsx resolves correctly in workspace setups
+      config.resolve.modules = [
+        path.join(__dirname, 'node_modules'),
+        path.join(__dirname, '..', 'node_modules'),
+        'node_modules',
+      ]
       return config
     },
     sassOptions: {
