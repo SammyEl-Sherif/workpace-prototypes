@@ -1,0 +1,1 @@
+export { getDbDiagnoseRoute } from './diagnose'

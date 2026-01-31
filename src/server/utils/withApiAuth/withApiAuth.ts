@@ -7,10 +7,13 @@ import { getNextAuthJWT } from '../getNextAuthJWT'
  *
  * To add a new public route, add it to this array.
  * Routes matching '/api/auth' will match all NextAuth routes (e.g., /api/auth/signin, /api/auth/callback, etc.)
+ * Routes marked with (prefix) will match all routes starting with that prefix
  */
 export const PUBLIC_API_ROUTES = [
   '/api/health',
-  '/api/auth', // All NextAuth routes
+  '/api/auth', // All NextAuth routes (prefix match)
+  '/api/restaurants', // All restaurant routes (prefix match) - public API
+  '/api/db', // All database health routes (prefix match) - public API
 ] as const
 
 /**
@@ -18,9 +21,10 @@ export const PUBLIC_API_ROUTES = [
  */
 export const isPublicApiRoute = (pathname: string): boolean => {
   return PUBLIC_API_ROUTES.some((route) => {
-    if (route === '/api/auth') {
-      // Match all NextAuth routes (e.g., /api/auth/signin, /api/auth/callback, etc.)
-      return pathname.startsWith('/api/auth')
+    // Routes that should match as prefixes (all sub-routes are also public)
+    const prefixRoutes = ['/api/auth', '/api/restaurants', '/api/db']
+    if (prefixRoutes.includes(route)) {
+      return pathname.startsWith(route)
     }
     return pathname === route
   })

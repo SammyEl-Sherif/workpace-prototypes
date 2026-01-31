@@ -1,0 +1,1 @@
+export { getPrototypesRoute } from './list'
