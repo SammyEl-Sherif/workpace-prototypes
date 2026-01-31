@@ -105,7 +105,7 @@ workpace-prototypes/
 1. **For local development:** See [Local Development Guide](README-LOCAL-DEVELOPMENT.md)
 2. **For production deployment:** See [Kubernetes Deployment Guide](README-DEPLOYMENT.md)
 
-## 🤝 Contributing
+## 🤝 Contributing.
 
 1. Fork the repository
 2. Create a feature branch
