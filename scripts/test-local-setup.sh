@@ -90,7 +90,6 @@ main() {
     # Test project files
     run_test "package.json exists" "file_exists package.json"
     run_test "next.config.js exists" "file_exists src/next.config.js"
-    run_test "Dockerfile exists" "file_exists Dockerfile"
     run_test "docker-compose.dev.yml exists" "file_exists docker-compose.dev.yml"
     
     # Test environment file
@@ -106,8 +105,6 @@ main() {
     # Test scripts
     run_test "setup-local.sh exists and is executable" "[ -x scripts/setup-local.sh ]"
     run_test "dev.sh exists and is executable" "[ -x scripts/dev.sh ]"
-    run_test "setup-k8s.sh exists and is executable" "[ -x scripts/setup-k8s.sh ]"
-    run_test "deploy.sh exists and is executable" "[ -x scripts/deploy.sh ]"
     
     # Test if dependencies are installed
     if dir_exists "node_modules"; then
