@@ -74,7 +74,7 @@ This project deploys to **Vercel**. Pushes to the main branch are automatically 
 
 For local development, see the [Local Development Guide](docs/README-LOCAL-DEVELOPMENT.md).
 
-## 🤝 Contributing
+## 🤝 Contributing.
 
 1. Fork the repository
 2. Create a feature branch

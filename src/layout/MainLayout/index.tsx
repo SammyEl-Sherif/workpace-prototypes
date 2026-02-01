@@ -20,7 +20,10 @@ export default function MainLayout({ children }: LayoutProps) {
   // Show overlay for unauthenticated users on protected routes
   // But allow landing page and other public routes to render normally
   const shouldShowOverlay =
-    status === 'unauthenticated' && pathname !== '/' && pathname !== '/design-system'
+    status === 'unauthenticated' &&
+    pathname !== '/' &&
+    pathname !== '/design-system' &&
+    pathname !== '/system-design'
 
   const pageContent = (
     <div className={styles.pageContent}>

@@ -1,0 +1,1 @@
+export { getRestaurantByIdRoute } from './detail'
