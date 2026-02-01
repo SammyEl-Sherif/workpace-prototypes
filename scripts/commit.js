@@ -105,10 +105,14 @@ async function prompt() {
       {
         type: "text",
         name: "short",
-        message: `${COMMIT_MSG} ${colorize(`(Max chars left: ${MAX_COMMIT_MSG_LEN})`).gray}`,
+        message: `${COMMIT_MSG} ${
+          colorize(`(Max chars left: ${MAX_COMMIT_MSG_LEN})`).gray
+        }`,
         onRender() {
           const left = MAX_COMMIT_MSG_LEN - this.rendered.length;
-          this.msg = `${COMMIT_MSG} ${colorize(`(Max chars left: ${left})`).gray}`;
+          this.msg = `${COMMIT_MSG} ${
+            colorize(`(Max chars left: ${left})`).gray
+          }`;
         },
       },
       {
@@ -138,12 +142,14 @@ async function prompt() {
         console.log(colorize("The git commit process was rejected").red);
         process.exit(1);
       },
-    },
+    }
   );
 
-  let msg = `${TASK_TYPES[type]} ${type}${breaking ? "!" : ""}: WKPC-${ticketNumber} ${short}
+  let msg = `${TASK_TYPES[type]} ${type}${
+    breaking ? "!" : ""
+  }: WP-${ticketNumber} ${short}
     
-    NOTION: [WKPC-${ticketNumber}](https://www.notion.so/work-pace/WKPC-${ticketNumber})
+    NOTION: [WP-${ticketNumber}](https://www.notion.so/work-pace/WP-${ticketNumber})
     BREAKING-CHANGE: ${breaking ? "yes" : "no"}
     `;
   if (!!body.length) {

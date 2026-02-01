@@ -140,9 +140,9 @@ async function prompt() {
     },
   );
 
-  let msg = `${TASK_TYPES[type]} ${type}${breaking ? '!' : ''}: WKPC-${ticketNumber} ${short}
+  let msg = `${TASK_TYPES[type]} ${type}${breaking ? '!' : ''}: WP-${ticketNumber} ${short}
     
-    NOTION: [WKPC-${ticketNumber}](https://www.notion.so/work-pace/WKPC-${ticketNumber})
+    NOTION: [WP-${ticketNumber}](https://www.notion.so/work-pace/WP-${ticketNumber})
     BREAKING-CHANGE: ${breaking ? 'yes' : 'no'}
     `;
   if (body.length) {

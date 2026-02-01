@@ -1,21 +1,20 @@
 import { LandingNavbar } from './components/LandingNavbar'
+import { FeaturesSection } from './sections/FeaturesSection'
 import { HeroSection } from './sections/HeroSection'
+import { PrototypesSection } from './sections/PrototypesSection'
+
+import { usePrototypesContext } from '@/modules/WorkpacePrototypes/contexts'
 
 const LandingPage = () => {
+  const { prototypes } = usePrototypesContext()
+
   return (
-    <div>
+    <>
       <LandingNavbar />
       <HeroSection />
-      {/* <section
-        id="prototypes"
-        style={{ padding: '80px 5px', maxWidth: '1200px', margin: '0 auto', width: '100%' }}
-      >
-        <ProjectsGrid />
-      </section> */}
-      {/* <CommunitySection /> */}
-      {/* <TestimonialsSection /> */}
-      {/* <FooterSection /> */}
-    </div>
+      <FeaturesSection />
+      <PrototypesSection prototypes={prototypes || []} />
+    </>
   )
 }
 

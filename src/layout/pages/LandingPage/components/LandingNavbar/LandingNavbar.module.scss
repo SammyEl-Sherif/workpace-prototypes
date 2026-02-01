@@ -4,8 +4,10 @@
   left: 0;
   right: 0;
   z-index: 1000;
-  background: #fff;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  background: rgba(10, 10, 10, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding: 1rem 0;
 }
 
@@ -29,7 +31,7 @@
     gap: 0.625rem;
     font-size: 1.5rem;
     font-weight: 700;
-    color: #191919;
+    color: #ffffff;
     text-decoration: none;
     transition: all 0.3s ease;
 
@@ -57,13 +59,14 @@
 }
 
 .navLink {
-  color: #191919;
+  color: #ffffff;
   text-decoration: none;
   font-weight: 400;
   transition: all 0.3s ease;
+  opacity: 0.9;
 
   &:hover {
-    opacity: 0.7;
+    opacity: 1;
   }
 }
 
