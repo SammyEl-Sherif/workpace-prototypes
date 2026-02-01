@@ -29,15 +29,6 @@ open http://localhost:3000
 - **ESLint & Prettier** for code quality
 - **VS Code** configuration
 
-### ✅ Production-Ready Kubernetes Deployment
-
-- **Multi-stage Docker** builds
-- **Kubernetes manifests** for all components
-- **GitHub Actions** CI/CD pipeline
-- **SSL certificates** with Let's Encrypt
-- **Monitoring** with Prometheus & Grafana
-- **Health checks** and resource management
-
 ## 🛠️ Available Scripts
 
 ### Local Development
@@ -49,16 +40,6 @@ open http://localhost:3000
 ./scripts/dev.sh test             # Run tests
 ./scripts/dev.sh lint             # Run linting
 ./scripts/test-local-setup.sh     # Test your setup
-```
-
-### Production Deployment
-
-```bash
-./scripts/setup-k8s.sh            # Complete K8s setup
-./scripts/deploy.sh deploy        # Deploy app
-./scripts/deploy.sh status        # Check status
-./scripts/deploy.sh logs          # View logs
-./scripts/deploy.sh monitoring    # Deploy monitoring
 ```
 
 ## 📁 Project Structure
@@ -73,18 +54,11 @@ workpace-prototypes/
 │   │   └── WorkpacePrototypes/
 │   ├── pages/                   # Next.js pages
 │   └── ...
-├── k8s/                         # Kubernetes manifests
-│   ├── deployment.yaml
-│   ├── service.yaml
-│   ├── ingress.yaml
-│   └── monitoring/
-├── scripts/                     # All scripts
+├── design-system/               # Shared design system package
+├── scripts/                     # Development scripts
 │   ├── setup-local.sh          # Local setup
-│   ├── dev.sh                  # Development
-│   ├── setup-k8s.sh            # K8s setup
-│   └── deploy.sh               # Deployment
+│   └── dev.sh                  # Development
 ├── docker-compose.dev.yml       # Local development
-├── Dockerfile                   # Production container
 └── .env.example                 # Environment template
 ```
 
@@ -97,21 +71,19 @@ workpace-prototypes/
 - **Authentication** - NextAuth.js with multiple providers
 - **Responsive UI** - Modern design with SCSS modules
 - **TypeScript** - Full type safety throughout
+- **Design System** - Shared component library
 
-### 🚀 DevOps Features
+### 🚀 Development Features
 
-- **Docker** - Containerized development and production
-- **Kubernetes** - Production deployment with auto-scaling
-- **CI/CD** - Automated testing and deployment
-- **Monitoring** - Prometheus, Grafana, and health checks
-- **SSL/TLS** - Automatic certificate management
-- **Database** - PostgreSQL with connection pooling
+- **Docker** - Containerized local development
+- **Hot Reload** - Instant feedback during development
+- **Type Checking** - Full TypeScript support
+- **Linting** - ESLint & Prettier for code quality
 
 ## 📚 Documentation
 
-- **[README.md](README.md)** - Project overview
+- **[README.md](../README.md)** - Project overview
 - **[Local Development Guide](README-LOCAL-DEVELOPMENT.md)** - Detailed local setup
-- **[Kubernetes Deployment Guide](README-DEPLOYMENT.md)** - Production deployment
 
 ## 🎯 Use Cases
 
@@ -122,18 +94,10 @@ workpace-prototypes/
 - **API testing** with built-in tools
 - **Database management** with Docker
 
-### For DevOps
-
-- **Kubernetes deployment** with monitoring
-- **CI/CD pipeline** with GitHub Actions
-- **SSL certificate** management
-- **Scaling and load balancing**
-
 ### For Teams
 
 - **Consistent development** environment
-- **Automated testing** and deployment
-- **Monitoring and alerting**
+- **Automated testing** and linting
 - **Documentation and guides**
 
 ## 🔍 Troubleshooting
@@ -173,7 +137,6 @@ Once everything is running, you'll have:
 - ✅ **Hot reload** for instant development
 - ✅ **TypeScript** type checking
 - ✅ **ESLint** code quality
-- ✅ **Production-ready** Kubernetes deployment
 
 ## 🚀 Next Steps
 

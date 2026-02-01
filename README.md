@@ -26,22 +26,12 @@ A Next.js application for managing work accomplishments and generating reports u
    http://localhost:3000
    ```
 
-### Production Deployment
-
-For Kubernetes deployment to Digital Ocean:
-
-```bash
-./scripts/setup-k8s.sh
-```
-
 ## 📚 Documentation
 
-- **[Local Development Guide](README-LOCAL-DEVELOPMENT.md)** - Complete guide for running locally
-- **[Kubernetes Deployment Guide](README-DEPLOYMENT.md)** - Production deployment instructions
+- **[Local Development Guide](docs/README-LOCAL-DEVELOPMENT.md)** - Complete guide for running locally
+- **[Quick Start Guide](docs/QUICK-START.md)** - Get up and running quickly
 
 ## 🛠️ Development Scripts
-
-### Local Development
 
 ```bash
 ./scripts/setup-local.sh     # Initial setup
@@ -49,15 +39,6 @@ For Kubernetes deployment to Digital Ocean:
 ./scripts/dev.sh dev         # Start dev server
 ./scripts/dev.sh test        # Run tests
 ./scripts/dev.sh lint        # Run linting
-```
-
-### Production Deployment
-
-```bash
-./scripts/setup-k8s.sh       # Complete Kubernetes setup
-./scripts/deploy.sh deploy   # Deploy application
-./scripts/deploy.sh status   # Check status
-./scripts/deploy.sh logs     # View logs
 ```
 
 ## 🏗️ Project Structure
@@ -70,10 +51,10 @@ workpace-prototypes/
 │   ├── modules/            # Feature modules
 │   ├── pages/              # Next.js pages
 │   └── ...
-├── k8s/                    # Kubernetes manifests
-├── scripts/                # Development & deployment scripts
+├── design-system/          # Shared design system package
+├── scripts/                # Development scripts
 ├── docker-compose.dev.yml  # Local development with Docker
-└── Dockerfile              # Production container
+└── vercel.json             # Vercel deployment configuration
 ```
 
 ## 🔧 Features
@@ -83,27 +64,15 @@ workpace-prototypes/
 - **Authentication** - NextAuth.js with multiple providers
 - **Responsive Design** - Modern UI with SCSS modules
 - **TypeScript** - Full type safety
-- **Kubernetes Ready** - Production deployment with monitoring
+- **Design System** - Shared component library
 
 ## 🚀 Deployment
 
-### Local Development
-
-- Node.js 22+
-- PostgreSQL (or Docker)
-- Environment variables in `.env.local`
-
-### Production
-
-- Kubernetes cluster
-- Digital Ocean Container Registry
-- SSL certificates with cert-manager
-- Monitoring with Prometheus & Grafana
+This project deploys to **Vercel**. Pushes to the main branch are automatically deployed.
 
 ## 📖 Getting Started
 
-1. **For local development:** See [Local Development Guide](README-LOCAL-DEVELOPMENT.md)
-2. **For production deployment:** See [Kubernetes Deployment Guide](README-DEPLOYMENT.md)
+For local development, see the [Local Development Guide](docs/README-LOCAL-DEVELOPMENT.md).
 
 ## 🤝 Contributing.
 
