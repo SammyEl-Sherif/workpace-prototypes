@@ -24,13 +24,10 @@ export async function middleware(request: NextRequestWithAuth) {
     '/.gitignore',
     '/.gitattributes',
     '/.dockerignore',
-    '/Dockerfile',
     '/docker-compose.yml',
     '/.github',
     '/.vscode',
     '/.idea',
-    '/k8s',
-    '/.kubeconfig',
   ]
 
   // Check if path starts with any blocked path

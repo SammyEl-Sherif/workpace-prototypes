@@ -1,7 +1,6 @@
 version: "3.8"
 
 services:
-  # PostgreSQL Database
   postgres:
     image: postgres:15
     container_name: workpace-postgres
@@ -21,21 +20,6 @@ services:
       timeout: 5s
       retries: 5
 
-  # Redis (for caching and sessions)
-  # redis:
-  #   image: redis:7-alpine
-  #   container_name: workpace-redis
-  #   ports:
-  #     - "6379:6379"
-  #   volumes:
-  #     - redis_data:/data
-  #   healthcheck:
-  #     test: ["CMD", "redis-cli", "ping"]
-  #     interval: 10s
-  #     timeout: 5s
-  #     retries: 5
-
-  # Application (optional - for containerized development)
   app:
     build:
       context: .
