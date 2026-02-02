@@ -11,7 +11,7 @@ import { getNextAuthJWT } from '../getNextAuthJWT'
  */
 export const PUBLIC_API_ROUTES = [
   '/api/health',
-  '/api/auth', // All NextAuth routes (prefix match)
+  '/api/auth', // All NextAuth routes (prefix match) - includes /api/auth/supabase/*
   '/api/restaurants', // All restaurant routes (prefix match) - public API
   '/api/db', // All database health routes (prefix match) - public API
 ] as const

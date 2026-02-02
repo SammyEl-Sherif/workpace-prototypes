@@ -1,23 +1,26 @@
 import { useUserInfoContext } from '@/contexts/UserInfoContextProvider'
-import { useCallback } from 'react'
-import { useManualFetch } from '../useManualFetch'
 import { signOut as nextAuthSignout } from 'next-auth/react'
+import { useCallback } from 'react'
 
 export const useUser = () => {
   const userInfo = useUserInfoContext()
-  const revokeSession = useManualFetch('revoke-session')
 
   const signOut = useCallback(async () => {
-    // Revoke session on Auth0 before clearing local session
-    try {
-      const [, error] = await revokeSession()
-      if (error) {
-        console.error('Error revoking session:', error)
-        // Continue with sign out even if revocation fails
+    // Check if we have Supabase session
+    const hasSupabaseSession =
+      typeof document !== 'undefined' &&
+      (document.cookie.includes('sb-access-token') || document.cookie.includes('sb-refresh-token'))
+
+    // Sign out from Supabase if session exists
+    if (hasSupabaseSession) {
+      try {
+        await fetch('/api/auth/supabase/signout', {
+          method: 'POST',
+        })
+      } catch (error) {
+        console.error('Error signing out from Supabase:', error)
+        // Continue with other sign out steps
       }
-    } catch (error) {
-      console.error('Unexpected error during session revocation:', error)
-      // Continue with sign out even if revocation fails
     }
 
     // Clear all local storage
@@ -32,24 +35,20 @@ export const useUser = () => {
       pathname ? `&callbackUrl=${encodeURIComponent(pathname)}` : ''
     }`
 
-    // Use NextAuth's signOut which will clear cookies
-    // Then redirect to our logout endpoint which will handle Auth0 logout
+    // Clear NextAuth session and redirect to signin
     try {
-      // First clear NextAuth session
-      await nextAuthSignout({ redirect: false })
-
-      // Then redirect to logout endpoint which will redirect to Auth0
-      if (typeof window !== 'undefined') {
-        window.location.href = `/api/logout?callbackUrl=${encodeURIComponent(callbackUrl)}`
-      }
+      await nextAuthSignout({
+        redirect: true,
+        callbackUrl: callbackUrl,
+      })
     } catch (error) {
       console.error('Error during sign out:', error)
-      // Fallback: just redirect to logout endpoint
+      // Fallback: just redirect to signin
       if (typeof window !== 'undefined') {
-        window.location.href = `/api/logout?callbackUrl=${encodeURIComponent(callbackUrl)}`
+        window.location.href = callbackUrl
       }
     }
-  }, [revokeSession])
+  }, [])
 
   return {
     user: userInfo.userProfile,

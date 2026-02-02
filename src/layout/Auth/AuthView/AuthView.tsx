@@ -48,24 +48,26 @@ const AuthView: FC<AuthView> = ({ children }) => {
       return
     }
 
+    // Don't auto-trigger Auth0 sign-in - let Supabase auth UI handle it
     // Only trigger sign-in if we're unauthenticated (not loading, as that might be during callback)
-    if (status === 'unauthenticated') {
-      hasTriggeredSignIn.current = true
-      const callback = new URLSearchParams(window.location.search).get('callbackUrl') ?? ''
-      const isSignOut = query.signout === 'true'
+    // Commented out to use Supabase auth instead
+    // if (status === 'unauthenticated') {
+    //   hasTriggeredSignIn.current = true
+    //   const callback = new URLSearchParams(window.location.search).get('callbackUrl') ?? ''
+    //   const isSignOut = query.signout === 'true'
 
-      signIn(
-        'auth0',
-        callback ? { callbackUrl: callback } : undefined,
-        isSignOut ? { prompt: 'login' } : undefined
-      )
-    }
+    //   signIn(
+    //     'auth0',
+    //     callback ? { callbackUrl: callback } : undefined,
+    //     isSignOut ? { prompt: 'login' } : undefined
+    //   )
+    // }
   }, [pathname, status, session, query, asPath, push])
 
-  // Show loading on sign-in page
-  if (pathname === Routes.SIGNIN) {
-    return <Loading fullscreen />
-  }
+  // Don't show loading on sign-in page - let Supabase auth UI render
+  // if (pathname === Routes.SIGNIN) {
+  //   return <Loading fullscreen />
+  // }
 
   // Allow all children to render - MainLayout will handle showing the overlay
   // for unauthenticated users on protected routes

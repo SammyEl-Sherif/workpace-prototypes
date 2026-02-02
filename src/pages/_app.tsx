@@ -60,13 +60,19 @@ export default function App({ Component, pageProps }: AppProps) {
     )
   }
 
-  // For signin page, render without full layout
+  // For signin page, render without layout (no navbar) but with context providers
   if (isSigninPage) {
     return (
       <Auth>
-        <MainLayout>
+        <UserInfoContextProvider
+          userProfile={{
+            ...userProfile,
+            name: userProfile?.name ?? '',
+            email: userProfile?.email ?? '',
+          }}
+        >
           <Component {...pageProps} />
-        </MainLayout>
+        </UserInfoContextProvider>
       </Auth>
     )
   }

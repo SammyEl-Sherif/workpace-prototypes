@@ -6,7 +6,7 @@ import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { useUser } from '@/hooks'
+import { useSupabaseSession, useUser } from '@/hooks'
 import { Prototype } from '@/interfaces/prototypes'
 import { Routes } from '@/interfaces/routes'
 import { usePrototypesContext } from '@/modules'
@@ -22,10 +22,25 @@ const ButtonComponent = Button as any
 export const Navbar = () => {
   const { data, status } = useSession()
   const { user, signOut } = useUser()
+  const {
+    user: supabaseUser,
+    isAuthenticated: isSupabaseAuthenticated,
+    isLoading: isSupabaseLoading,
+  } = useSupabaseSession()
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false)
 
   const { prototypes } = usePrototypesContext()
+
+  // Check if user is authenticated via either NextAuth or Supabase
+  const isAuthenticated = status === 'authenticated' || isSupabaseAuthenticated
+  const displayUser = data?.user || supabaseUser
+  const userName =
+    (displayUser && 'name' in displayUser ? displayUser.name : null) ||
+    (supabaseUser && 'user_metadata' in supabaseUser ? supabaseUser.user_metadata?.name : null) ||
+    (displayUser && 'email' in displayUser ? displayUser.email : null) ||
+    (supabaseUser && 'email' in supabaseUser ? supabaseUser.email : null) ||
+    'User'
 
   const handleClick = () => {
     setIsCollapsed(!isCollapsed)
@@ -96,19 +111,19 @@ export const Navbar = () => {
             </div>
           </div>
           <div className={styles.authStatus}>
-            {status === 'authenticated' ? (
+            {isAuthenticated ? (
               <div
                 title={Array.isArray(user?.roles) ? user.roles.join(', ') : user?.roles}
                 className={cn(styles.username, {
                   [styles.hide]: isCollapsed,
                 })}
               >
-                {data?.user?.name}
+                {userName}
               </div>
             ) : (
               <>🚫</>
             )}
-            {status === 'authenticated' ? (
+            {isAuthenticated ? (
               <ButtonComponent
                 onClick={signOut}
                 variant="default-secondary"
@@ -243,19 +258,19 @@ export const Navbar = () => {
           <EnvironmentIndicator hideText={isCollapsed} />
           <div className={cn(styles.divider, { [styles.hide]: isCollapsed })} />
           <div className={cn(styles.authStatus, { [styles.hide]: isCollapsed })}>
-            {status === 'authenticated' ? (
+            {isAuthenticated ? (
               <div
                 title={Array.isArray(user?.roles) ? user.roles.join(', ') : user?.roles}
                 className={cn(styles.username, {
                   [styles.hide]: isCollapsed,
                 })}
               >
-                {data?.user?.name}
+                {userName}
               </div>
             ) : (
               <>🚫</>
             )}
-            {status === 'authenticated' ? (
+            {isAuthenticated ? (
               <ButtonComponent
                 onClick={signOut}
                 variant="default-secondary"
@@ -280,7 +295,7 @@ export const Navbar = () => {
             className={styles.profile}
             title={Array.isArray(user?.roles) ? user.roles.join(', ') : user?.roles}
           >
-            {data?.user?.name?.[0].toUpperCase() ?? 'N/A'}
+            {userName?.[0].toUpperCase() ?? 'N/A'}
           </div>
         )}
       </div>

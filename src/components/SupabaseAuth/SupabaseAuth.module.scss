@@ -1,0 +1,171 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: $size-300;
+  background: #fafafa;
+}
+
+.brandSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: $size-250;
+  gap: $size-200;
+}
+
+.brandLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.logo {
+  width: 160px;
+  height: 160px;
+  object-fit: contain;
+}
+
+.brandTitle {
+  margin: 0;
+  color: $color-neutral-900;
+  font-weight: $font-weight-bold;
+}
+
+.brandSubtitle {
+  margin: 0;
+  color: $color-neutral-600;
+}
+
+.card {
+  width: 100%;
+  max-width: 450px;
+  padding: $size-500;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  margin-bottom: $size-400;
+  gap: $size-50;
+}
+
+.subtitle {
+  color: $color-neutral-600;
+  font-weight: $font-weight-regular;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: $size-250;
+}
+
+.toggleGroup {
+  display: flex;
+  gap: $size-50;
+  background: $color-neutral-100;
+  padding: $size-50;
+  border-radius: 8px;
+}
+
+.toggleButton {
+  flex: 1;
+  padding: $size-150 $size-200;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: $font-body-md-font-size;
+  font-weight: $font-weight-medium;
+  color: $color-neutral-600;
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: $color-neutral-900;
+  }
+
+  &.active {
+    background: $color-neutral-white;
+    color: $color-neutral-900;
+    font-weight: $font-weight-bold;
+  }
+}
+
+.submitButton {
+  width: 100%;
+  margin-top: $size-300;
+}
+
+.footer {
+  margin-top: $size-400;
+  text-align: center;
+}
+
+.linkButton {
+  background: none;
+  border: none;
+  color: $color-accent-400;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: inherit;
+  padding: 0;
+  margin-left: $size-25;
+
+  &:hover {
+    color: $color-active-600;
+  }
+}
+
+.successMessage {
+  padding: $size-150;
+  background: $color-success-100;
+  border-radius: 6px;
+  color: $color-success-700;
+  border: 1px solid $color-success-200;
+}
+
+.errorMessage {
+  padding: $size-150;
+  background: $color-error-100;
+  border-radius: 6px;
+  color: $color-error-700;
+  border: 1px solid $color-error-200;
+}
+
+.resendSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $size-150;
+  margin-top: $size-200;
+  padding: $size-200;
+  background: $color-neutral-50;
+  border-radius: 6px;
+}
+
+.resendText {
+  color: $color-neutral-600;
+  text-align: center;
+}
+
+.resendButton {
+  width: 100%;
+}

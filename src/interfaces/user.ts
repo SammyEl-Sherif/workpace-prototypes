@@ -14,6 +14,20 @@ export interface SessionAccount {
   scope: string
 }
 
+export interface SupabaseSession {
+  user: {
+    id: string
+    email?: string
+    phone?: string
+    email_verified?: boolean
+    phone_verified?: boolean
+    user_metadata?: Record<string, any>
+    app_metadata?: Record<string, any>
+  }
+  accessToken: string
+  refreshToken?: string
+}
+
 export interface UserProfile {
   roles: UserGroup[]
   nickname?: string
