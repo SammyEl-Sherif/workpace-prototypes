@@ -1,0 +1,84 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: $size-200;
+  padding: $size-300;
+  background: white;
+  border-radius: 12px;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+.formHeader {
+  margin-bottom: $size-100;
+}
+
+.error {
+  padding: $size-150;
+  background: rgba(220, 38, 38, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(220, 38, 38, 0.3);
+}
+
+.textareaContainer {
+  display: flex;
+  flex-direction: column;
+  gap: $size-100;
+}
+
+.label {
+  font-weight: 500;
+  color: $color-neutral-900;
+}
+
+.textarea {
+  width: 100%;
+  padding: $size-150;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.5;
+  resize: vertical;
+  min-height: 100px;
+  transition: all 0.3s ease;
+  background-color: $color-neutral-50;
+  color: $color-neutral-900;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  }
+
+  &::placeholder {
+    color: #6c757d;
+    opacity: 0.7;
+  }
+}
+
+.goalSection {
+  display: flex;
+  flex-direction: column;
+  gap: $size-200;
+}
+
+.newGoalInput {
+  display: flex;
+  flex-direction: column;
+  gap: $size-150;
+  padding: $size-200;
+  background: rgba(102, 126, 234, 0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+.newGoalActions {
+  display: flex;
+  gap: $size-150;
+}
+
+.formActions {
+  display: flex;
+  gap: $size-150;
+  margin-top: $size-100;
+}

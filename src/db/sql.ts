@@ -17,24 +17,53 @@ export function loadSql(relativePath: string): string {
   }
 
   // Resolve the SQL file path
-  // In Next.js/Vercel, process.cwd() is the project root
+  // In this workspace setup, Next.js runs from the src directory
+  // So process.cwd() will be the src directory, not the project root
+  const cwd = process.cwd()
+  
+  // Determine the base path for SQL files
+  // In Next.js compiled code, __dirname points to .next/server/pages/api/...
+  // We need to find the src directory
+  let sqlBasePath: string
+  
+  if (__dirname.includes('.next')) {
+    // We're in compiled Next.js code
+    // __dirname will be something like: /path/to/src/.next/server/pages/api/db/...
+    // We need to extract the src directory path
+    const nextIndex = __dirname.indexOf('.next')
+    sqlBasePath = __dirname.substring(0, nextIndex)
+  } else {
+    // We're in development or the file is in its original location
+    // __dirname will be: /path/to/src/db
+    // So we go up one level to get src, then use db/sql
+    sqlBasePath = path.resolve(__dirname, '..')
+  }
+  
+  // Check if sqlBasePath ends with 'src'
+  const isSrcDir = sqlBasePath.endsWith('src') || sqlBasePath.endsWith(path.sep + 'src') || sqlBasePath.endsWith('/src') || sqlBasePath.endsWith('\\src')
+  
   const possiblePaths = [
-    // Production: files are in the .next/server folder or root
-    path.join(process.cwd(), 'src', 'db', 'sql', relativePath),
-    // Alternative: if sql files are copied to public or another location
-    path.join(process.cwd(), 'sql', relativePath),
-    // Development with tsx/ts-node
+    // Primary: try from process.cwd() directly (most likely - cwd is src directory)
+    path.join(cwd, 'db', 'sql', relativePath),
+    // Secondary: if base is src directory, db/sql is directly under it
+    isSrcDir ? path.join(sqlBasePath, 'db', 'sql', relativePath) : null,
+    // Alternative: if base is project root, use src/db/sql
+    !isSrcDir ? path.join(sqlBasePath, 'src', 'db', 'sql', relativePath) : null,
+    // Fallback: try from process.cwd() with src (in case cwd is project root)
+    path.join(cwd, 'src', 'db', 'sql', relativePath),
+    // Last resort: relative to __dirname
     path.join(__dirname, 'sql', relativePath),
-  ]
+  ].filter((p): p is string => p !== null)
 
   let sqlContent: string | null = null
   let foundPath: string | null = null
 
   for (const filePath of possiblePaths) {
     try {
-      if (fs.existsSync(filePath)) {
-        sqlContent = fs.readFileSync(filePath, 'utf8')
-        foundPath = filePath
+      const normalizedPath = path.normalize(filePath)
+      if (fs.existsSync(normalizedPath)) {
+        sqlContent = fs.readFileSync(normalizedPath, 'utf8')
+        foundPath = normalizedPath
         break
       }
     } catch {
@@ -45,8 +74,8 @@ export function loadSql(relativePath: string): string {
   if (!sqlContent) {
     throw new Error(
       `SQL file not found: ${relativePath}\nSearched paths:\n${possiblePaths
-        .map((p) => `  - ${p}`)
-        .join('\n')}`
+        .map((p) => `  - ${path.normalize(p)}`)
+        .join('\n')}\nSQL base path: ${sqlBasePath}\n__dirname: ${__dirname}\nprocess.cwd(): ${cwd}\nIs src dir: ${isSrcDir}`
     )
   }
 

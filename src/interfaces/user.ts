@@ -1,6 +1,7 @@
 export enum UserGroup {
-  Admin = 'workpace-admin',
-  Premium = 'premium',
+  Admin = 'admin',
+  Vip = 'vip',
+  Default = 'default',
 }
 
 export interface SessionAccount {

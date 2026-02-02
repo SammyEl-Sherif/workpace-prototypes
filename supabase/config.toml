@@ -1,0 +1,50 @@
+# Supabase CLI Configuration
+# This file configures the Supabase CLI for local development and migrations
+
+[project]
+# Project ID from your Supabase dashboard
+# You can find this in your project settings
+# project_id = "jxignzhaycyzfylwnifg"
+
+[auth]
+# Enable signup
+enable_signup = true
+
+[api]
+# API configuration
+enabled = true
+port = 54321
+schemas = ["public", "auth"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+# Database configuration
+port = 54322
+shadow_port = 54320
+major_version = 17
+
+[studio]
+# Supabase Studio configuration
+enabled = true
+port = 54323
+
+[inbucket]
+# Email testing (for local development)
+enabled = true
+port = 54324
+
+[storage]
+# Storage configuration
+enabled = true
+file_size_limit = "50MiB"
+
+[db.migrations]
+# Schema files are applied in lexicographic order by default
+# For custom ordering, specify schema_paths explicitly
+# schema_paths = [
+#   "./schemas/prototypes.sql",
+#   "./schemas/user_roles.sql",
+#   "./schemas/good_things.sql",
+# ]
+
