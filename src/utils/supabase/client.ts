@@ -9,11 +9,11 @@ import { createClient } from '@supabase/supabase-js'
  */
 export const getSupabaseClient = () => {
   const supabaseUrl = process.env.NEXT_PUBLIC_WORKPACE_SUPABASE_URL
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_WORKPACE_SUPABASE_ANON_KEY
+  const supabaseAnonKey = process.env.WORKPACE_SUPABASE_SERVICE_ROLE_KEY
 
   if (!supabaseUrl || !supabaseAnonKey) {
     throw new Error(
-      'Missing Supabase configuration. Please set NEXT_PUBLIC_WORKPACE_SUPABASE_URL and NEXT_PUBLIC_WORKPACE_SUPABASE_ANON_KEY environment variables.'
+      'Missing Supabase configuration. Please set NEXT_PUBLIC_WORKPACE_SUPABASE_URL and WORKPACE_SUPABASE_SERVICE_ROLE_KEY environment variables.'
     )
   }
 

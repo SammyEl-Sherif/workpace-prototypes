@@ -5,7 +5,7 @@
 - [ ] Create Supabase project at [supabase.com](https://supabase.com)
 - [ ] Add environment variables to `.env.local`:
   - `NEXT_PUBLIC_WORKPACE_SUPABASE_URL`
-  - `NEXT_PUBLIC_WORKPACE_SUPABASE_ANON_KEY`
+  - `WORKPACE_SUPABASE_SERVICE_ROLE_KEY`
   - `WORKPACE_SUPABASE_SERVICE_ROLE_KEY`
 - [ ] Enable Phone and Email providers in Supabase dashboard
 - [ ] Configure SMS provider (Twilio) for phone authentication
@@ -20,7 +20,7 @@ Add these to your `.env.local` file:
 
 # ✅ Public (safe to expose to client)
 NEXT_PUBLIC_WORKPACE_SUPABASE_URL=https://your-project-id.supabase.co
-NEXT_PUBLIC_WORKPACE_SUPABASE_ANON_KEY=your-publishable-key-or-anon-key-here
+WORKPACE_SUPABASE_SERVICE_ROLE_KEY=your-publishable-key-or-anon-key-here
 # Note: "Publishable key" (new) and "anon key" (legacy) are the same - both are safe to expose
 # They're restricted by RLS policies and designed to be public
 
@@ -30,96 +30,96 @@ WORKPACE_SUPABASE_SERVICE_ROLE_KEY=your-service-role-key-here
 
 ## API Endpoints
 
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/auth/supabase/signup` | POST | Sign up with email or phone |
-| `/api/auth/supabase/signin` | POST | Sign in with email/password or phone OTP |
-| `/api/auth/supabase/verify` | POST | Verify OTP for phone/email |
-| `/api/auth/supabase/signout` | POST | Sign out and clear session |
+| Endpoint                     | Method | Description                              |
+| ---------------------------- | ------ | ---------------------------------------- |
+| `/api/auth/supabase/signup`  | POST   | Sign up with email or phone              |
+| `/api/auth/supabase/signin`  | POST   | Sign in with email/password or phone OTP |
+| `/api/auth/supabase/verify`  | POST   | Verify OTP for phone/email               |
+| `/api/auth/supabase/signout` | POST   | Sign out and clear session               |
 
 ## Code Examples
 
 ### Sign Up with Email
 
 ```typescript
-const response = await fetch('/api/auth/supabase/signup', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
+const response = await fetch("/api/auth/supabase/signup", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
-    email: 'user@example.com',
-    password: 'password123'
-  })
-})
+    email: "user@example.com",
+    password: "password123",
+  }),
+});
 ```
 
 ### Sign Up with Phone (Passwordless)
 
 ```typescript
-const response = await fetch('/api/auth/supabase/signup', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
+const response = await fetch("/api/auth/supabase/signup", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
-    phone: '+1234567890'
-  })
-})
+    phone: "+1234567890",
+  }),
+});
 ```
 
 ### Sign In with Email/Password
 
 ```typescript
-const response = await fetch('/api/auth/supabase/signin', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
+const response = await fetch("/api/auth/supabase/signin", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
-    email: 'user@example.com',
-    password: 'password123'
-  })
-})
+    email: "user@example.com",
+    password: "password123",
+  }),
+});
 ```
 
 ### Sign In with Phone OTP
 
 ```typescript
 // Step 1: Request OTP
-await fetch('/api/auth/supabase/signin', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
+await fetch("/api/auth/supabase/signin", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
-    phone: '+1234567890'
-  })
-})
+    phone: "+1234567890",
+  }),
+});
 
 // Step 2: Verify OTP
-await fetch('/api/auth/supabase/verify', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
+await fetch("/api/auth/supabase/verify", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
-    phone: '+1234567890',
-    token: '123456',
-    type: 'sms'
-  })
-})
+    phone: "+1234567890",
+    token: "123456",
+    type: "sms",
+  }),
+});
 ```
 
 ### Protected API Route
 
 ```typescript
-import { withSupabaseAuth } from '@/server/utils'
+import { withSupabaseAuth } from "@/server/utils";
 
 export default withSupabaseAuth(async (req, res, session) => {
   // session.user contains authenticated user
   // session.accessToken contains access token
-  res.json({ user: session.user })
-})
+  res.json({ user: session.user });
+});
 ```
 
 ### Client-Side Supabase Client
 
 ```typescript
-import { getSupabaseClient } from '@/utils/supabase/client'
+import { getSupabaseClient } from "@/utils/supabase/client";
 
-const supabase = getSupabaseClient()
-const { data: { user } } = await supabase.auth.getUser()
+const supabase = getSupabaseClient();
+const { data: { user } } = await supabase.auth.getUser();
 ```
 
 ## File Locations
@@ -138,4 +138,3 @@ const { data: { user } } = await supabase.auth.getUser()
 - Supabase routes are public (no auth required to call them)
 - Sessions are stored in HTTP-only cookies
 - Service role key should NEVER be exposed to client
-

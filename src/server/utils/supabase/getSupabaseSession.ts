@@ -8,7 +8,7 @@ import { NextApiRequest } from 'next'
 export const getSupabaseSession = async (req: NextApiRequest) => {
   const supabaseUrl = process.env.NEXT_PUBLIC_WORKPACE_SUPABASE_URL
   // Trim whitespace from the key (common issue when copying from Supabase dashboard)
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_WORKPACE_SUPABASE_ANON_KEY?.trim()
+  const supabaseAnonKey = process.env.WORKPACE_SUPABASE_SERVICE_ROLE_KEY?.trim()
 
   if (!supabaseUrl || !supabaseAnonKey) {
     return null

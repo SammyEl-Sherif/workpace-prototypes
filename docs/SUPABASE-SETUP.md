@@ -23,7 +23,7 @@ NEXT_PUBLIC_WORKPACE_SUPABASE_URL=https://your-project-id.supabase.co
 #    It's restricted by Row Level Security (RLS) policies and can only
 #    perform actions your RLS policies allow. This is the standard Supabase pattern.
 #    Note: "Publishable key" (new format) and "anon key" (legacy) are the same - use either one
-NEXT_PUBLIC_WORKPACE_SUPABASE_ANON_KEY=your-publishable-key-or-anon-key-here
+WORKPACE_SUPABASE_SERVICE_ROLE_KEY=your-publishable-key-or-anon-key-here
 
 # Supabase Service Role Key (found in Project Settings > API)
 # ⚠️ SECRET - This key has admin privileges. Never expose it in client-side code!
@@ -37,13 +37,13 @@ WORKPACE_SUPABASE_SERVICE_ROLE_KEY=your-service-role-key-here
 2. Navigate to **Settings** > **API**
 3. You'll find:
    - **Project URL** → Use for `NEXT_PUBLIC_WORKPACE_SUPABASE_URL` (safe to expose)
-   - **Publishable key** (new) or **anon key** (legacy) → Use for `NEXT_PUBLIC_WORKPACE_SUPABASE_ANON_KEY` (safe to expose - designed to be public)
+   - **Publishable key** (new) or **anon key** (legacy) → Use for `WORKPACE_SUPABASE_SERVICE_ROLE_KEY` (safe to expose - designed to be public)
      - **Note**: "Publishable key" and "anon key" are the same thing - Supabase is transitioning to "publishable key" format (`sb_publishable_xxx`), but both work identically
    - **service_role key** → Use for `WORKPACE_SUPABASE_SERVICE_ROLE_KEY` (⚠️ SECRET - server-only, no NEXT_PUBLIC_ prefix)
 
 ### Why is the Publishable/Anon Key Public?
 
-The `NEXT_PUBLIC_WORKPACE_SUPABASE_ANON_KEY` (which can be either a "publishable key" or "anon key") is **intentionally public** and safe to expose in client-side code because:
+The `WORKPACE_SUPABASE_SERVICE_ROLE_KEY` (which can be either a "publishable key" or "anon key") is **intentionally public** and safe to expose in client-side code because:
 
 - It's restricted by **Row Level Security (RLS)** policies you define
 - It can only perform actions your RLS policies explicitly allow
