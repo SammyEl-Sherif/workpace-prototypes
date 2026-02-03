@@ -7,10 +7,11 @@ type GoodThingsResponse = {
 }
 
 export const useGoodThings = () => {
-  const [response, isLoading, error, , makeRequest] = useFetch<
-    GoodThingsResponse,
+  const [response, isLoading, error, , makeRequest] = useFetch<GoodThingsResponse, null>(
+    'good-stuff-list/good-things',
+    { method: 'get', manual: true },
     null
-  >('good-stuff-list/good-things', { method: 'get', manual: true }, null)
+  )
 
   return {
     goodThings: (response as GoodThingsResponse)?.data?.good_things ?? [],

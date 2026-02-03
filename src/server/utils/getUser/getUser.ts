@@ -11,7 +11,7 @@ interface UserRoleRow {
 
 export const getUser = async <T extends GetServerSidePropsContext['req']>(req: T) => {
   const session = await getNextAuthJWT(req)
-  
+
   // Extract user ID from session - JWT token stores id at top level
   const userId = (session as any)?.id || (session as any)?.user?.id
 

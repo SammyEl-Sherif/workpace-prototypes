@@ -2,13 +2,6 @@
 
 .container {
   width: 100%;
-  margin-top: $size-600;
-  padding-top: $size-500;
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-.header {
-  margin-bottom: $size-400;
 }
 
 .tableWrapper {
@@ -81,6 +74,56 @@
 
 .empty {
   color: #6c757d;
+  text-align: center;
+  padding: $size-400 !important;
+}
+
+.loadingRow {
+  padding: $size-400 !important;
+  text-align: center;
+}
+
+.loadingState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $size-200;
+  padding: $size-300 0;
+
+  .loadingAnimation {
+    display: flex;
+    gap: $size-50;
+
+    .loadingDot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #667eea;
+      animation: bounce 1.4s ease-in-out infinite both;
+
+      &:nth-child(1) {
+        animation-delay: -0.32s;
+      }
+      &:nth-child(2) {
+        animation-delay: -0.16s;
+      }
+      &:nth-child(3) {
+        animation-delay: 0s;
+      }
+    }
+  }
+}
+
+@keyframes bounce {
+  0%,
+  80%,
+  100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
 }
 
 @media (max-width: 768px) {

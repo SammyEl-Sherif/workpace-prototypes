@@ -41,11 +41,7 @@ export const SavedReportsService = {
     return results[0]
   },
 
-  async update(
-    id: string,
-    userId: string,
-    input: UpdateSavedReportInput
-  ): Promise<SavedReport> {
+  async update(id: string, userId: string, input: UpdateSavedReportInput): Promise<SavedReport> {
     const existing = await this.getById(id, userId)
     if (!existing) {
       throw new Error('Saved report not found or you do not have permission to update it')
@@ -54,7 +50,8 @@ export const SavedReportsService = {
     const title = input.title?.trim() || existing.title
     const content = input.content?.trim() || existing.content
     const format = input.format || existing.format
-    const prompt_used = input.prompt_used !== undefined ? input.prompt_used?.trim() || null : existing.prompt_used
+    const prompt_used =
+      input.prompt_used !== undefined ? input.prompt_used?.trim() || null : existing.prompt_used
 
     if (!title || title === '') {
       throw new Error('Title is required')

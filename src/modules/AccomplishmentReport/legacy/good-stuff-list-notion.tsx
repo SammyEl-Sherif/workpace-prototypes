@@ -1,7 +1,7 @@
 /**
  * @deprecated This file contains the old Notion-based implementation
  * Kept for reference and potential future migration back
- * 
+ *
  * Original implementation date: Before migration to Supabase
  * Migration date: Current
  */

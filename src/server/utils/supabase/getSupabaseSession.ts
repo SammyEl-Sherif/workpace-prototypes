@@ -21,12 +21,12 @@ export const getSupabaseSession = async (req: NextApiRequest) => {
   // - Legacy anon key: JWT format
   // Note: Sometimes keys have whitespace or encoding issues, so we check multiple patterns
   const finalAnonKey = supabaseAnonKey // Already trimmed on line 11
-  const isValidFormat = 
-    finalAnonKey.startsWith('eyJ') || 
+  const isValidFormat =
+    finalAnonKey.startsWith('eyJ') ||
     finalAnonKey.startsWith('sb_') ||
     finalAnonKey.includes('sb_publishable_') ||
     finalAnonKey.includes('publishable')
-  
+
   if (!isValidFormat) {
     return null
   }
@@ -61,7 +61,7 @@ export const getSupabaseSession = async (req: NextApiRequest) => {
   // Next.js automatically decodes cookies, but handle edge cases
   let accessToken = req.cookies['sb-access-token'] || null
   let refreshToken = req.cookies['sb-refresh-token'] || null
-  
+
   // Try to decode if it looks URL-encoded (contains %)
   if (accessToken && accessToken.includes('%')) {
     try {
@@ -84,15 +84,17 @@ export const getSupabaseSession = async (req: NextApiRequest) => {
         data: { user },
         error,
       } = await supabase.auth.getUser(accessToken)
-      
+
       if (!error && user) {
         return { user, accessToken, refreshToken }
       }
-      
+
       // If token is invalid, try to refresh
       if (error && refreshToken) {
         try {
-          const { data, error: refreshError } = await supabase.auth.refreshSession({ refresh_token: refreshToken })
+          const { data, error: refreshError } = await supabase.auth.refreshSession({
+            refresh_token: refreshToken,
+          })
           if (!refreshError && data.session) {
             return {
               user: data.user,

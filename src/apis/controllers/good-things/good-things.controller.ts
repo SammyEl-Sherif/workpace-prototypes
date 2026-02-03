@@ -1,10 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import { GoodThingsService } from './good-things.service'
-import {
-  CreateGoodThingInput,
-  UpdateGoodThingInput,
-} from '@/interfaces/good-things'
+import { CreateGoodThingInput, UpdateGoodThingInput } from '@/interfaces/good-things'
 import { HttpResponse } from '@/server/types'
 import { withSupabaseAuth } from '@/server/utils'
 
@@ -68,11 +65,7 @@ export const getGoodThingByIdController = withSupabaseAuth(
 )
 
 export const createGoodThingController = withSupabaseAuth(
-  async (
-    req: NextApiRequest,
-    res: NextApiResponse<HttpResponse<{ good_thing: any }>>,
-    session
-  ) => {
+  async (req: NextApiRequest, res: NextApiResponse<HttpResponse<{ good_thing: any }>>, session) => {
     try {
       if (req.method !== 'POST') {
         res.status(405).json({
@@ -104,11 +97,7 @@ export const createGoodThingController = withSupabaseAuth(
 )
 
 export const updateGoodThingController = withSupabaseAuth(
-  async (
-    req: NextApiRequest,
-    res: NextApiResponse<HttpResponse<{ good_thing: any }>>,
-    session
-  ) => {
+  async (req: NextApiRequest, res: NextApiResponse<HttpResponse<{ good_thing: any }>>, session) => {
     try {
       if (req.method !== 'PUT' && req.method !== 'PATCH') {
         res.status(405).json({
@@ -140,7 +129,11 @@ export const updateGoodThingController = withSupabaseAuth(
         status: 200,
       })
     } catch (error: any) {
-      const status = error.message.includes('not found') ? 404 : error.message.includes('required') ? 400 : 500
+      const status = error.message.includes('not found')
+        ? 404
+        : error.message.includes('required')
+        ? 400
+        : 500
       res.status(status).json({
         data: { good_thing: null as any },
         status,

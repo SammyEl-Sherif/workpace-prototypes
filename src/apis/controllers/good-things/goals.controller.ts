@@ -6,11 +6,7 @@ import { HttpResponse } from '@/server/types'
 import { withSupabaseAuth } from '@/server/utils'
 
 export const getGoalsController = withSupabaseAuth(
-  async (
-    req: NextApiRequest,
-    res: NextApiResponse<HttpResponse<{ goals: any[] }>>,
-    session
-  ) => {
+  async (req: NextApiRequest, res: NextApiResponse<HttpResponse<{ goals: any[] }>>, session) => {
     try {
       const userId = session.user.id
       const goals = await GoalsService.getAll(userId)
@@ -65,11 +61,7 @@ export const getGoalByIdController = withSupabaseAuth(
 )
 
 export const createGoalController = withSupabaseAuth(
-  async (
-    req: NextApiRequest,
-    res: NextApiResponse<HttpResponse<{ goal: any }>>,
-    session
-  ) => {
+  async (req: NextApiRequest, res: NextApiResponse<HttpResponse<{ goal: any }>>, session) => {
     try {
       if (req.method !== 'POST') {
         res.status(405).json({
@@ -101,11 +93,7 @@ export const createGoalController = withSupabaseAuth(
 )
 
 export const updateGoalController = withSupabaseAuth(
-  async (
-    req: NextApiRequest,
-    res: NextApiResponse<HttpResponse<{ goal: any }>>,
-    session
-  ) => {
+  async (req: NextApiRequest, res: NextApiResponse<HttpResponse<{ goal: any }>>, session) => {
     try {
       if (req.method !== 'PUT' && req.method !== 'PATCH') {
         res.status(405).json({
@@ -137,7 +125,11 @@ export const updateGoalController = withSupabaseAuth(
         status: 200,
       })
     } catch (error: any) {
-      const status = error.message.includes('not found') ? 404 : error.message.includes('required') ? 400 : 500
+      const status = error.message.includes('not found')
+        ? 404
+        : error.message.includes('required')
+        ? 400
+        : 500
       res.status(status).json({
         data: { goal: null as any },
         status,

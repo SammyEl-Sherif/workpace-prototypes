@@ -1,7 +1,4 @@
-import {
-  getGoodThingsRoute,
-  createGoodThingRoute,
-} from './good-things'
+import { getGoodThingsRoute, createGoodThingRoute } from './good-things'
 import { HttpMethod } from '@/interfaces/httpMethod'
 import { apiRequestWrapper } from '@/server/apiRequestWrapper'
 

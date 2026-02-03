@@ -18,8 +18,7 @@ export const ProjectCard = ({ prototype }: { prototype: Prototype }) => {
     disableRbac ||
     !permittedRoles ||
     permittedRoles.length === 0 ||
-    (user?.roles &&
-      permittedRoles.some((requiredRole) => user.roles.includes(requiredRole)))
+    (user?.roles && permittedRoles.some((requiredRole) => user.roles.includes(requiredRole)))
 
   return hasAccess ? (
     <Link href={path}>

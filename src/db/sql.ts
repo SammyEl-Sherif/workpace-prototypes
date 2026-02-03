@@ -20,12 +20,12 @@ export function loadSql(relativePath: string): string {
   // In this workspace setup, Next.js runs from the src directory
   // So process.cwd() will be the src directory, not the project root
   const cwd = process.cwd()
-  
+
   // Determine the base path for SQL files
   // In Next.js compiled code, __dirname points to .next/server/pages/api/...
   // We need to find the src directory
   let sqlBasePath: string
-  
+
   if (__dirname.includes('.next')) {
     // We're in compiled Next.js code
     // __dirname will be something like: /path/to/src/.next/server/pages/api/db/...
@@ -38,10 +38,14 @@ export function loadSql(relativePath: string): string {
     // So we go up one level to get src, then use db/sql
     sqlBasePath = path.resolve(__dirname, '..')
   }
-  
+
   // Check if sqlBasePath ends with 'src'
-  const isSrcDir = sqlBasePath.endsWith('src') || sqlBasePath.endsWith(path.sep + 'src') || sqlBasePath.endsWith('/src') || sqlBasePath.endsWith('\\src')
-  
+  const isSrcDir =
+    sqlBasePath.endsWith('src') ||
+    sqlBasePath.endsWith(path.sep + 'src') ||
+    sqlBasePath.endsWith('/src') ||
+    sqlBasePath.endsWith('\\src')
+
   const possiblePaths = [
     // Primary: try from process.cwd() directly (most likely - cwd is src directory)
     path.join(cwd, 'db', 'sql', relativePath),
@@ -75,7 +79,9 @@ export function loadSql(relativePath: string): string {
     throw new Error(
       `SQL file not found: ${relativePath}\nSearched paths:\n${possiblePaths
         .map((p) => `  - ${path.normalize(p)}`)
-        .join('\n')}\nSQL base path: ${sqlBasePath}\n__dirname: ${__dirname}\nprocess.cwd(): ${cwd}\nIs src dir: ${isSrcDir}`
+        .join(
+          '\n'
+        )}\nSQL base path: ${sqlBasePath}\n__dirname: ${__dirname}\nprocess.cwd(): ${cwd}\nIs src dir: ${isSrcDir}`
     )
   }
 

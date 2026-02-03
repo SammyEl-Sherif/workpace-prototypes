@@ -12,16 +12,16 @@
   position: sticky;
   top: $size-200;
   z-index: 100;
-  margin-bottom: $size-500;
+  margin-bottom: 0;
 
   .headerContent {
     background: transparent;
-    padding: $size-400 0;
+    // padding: $size-400 0;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-    padding-bottom: $size-400;
+    position: relative;
 
     @media (max-width: 768px) {
       flex-direction: column;
@@ -53,7 +53,7 @@
 
   .statsCard {
     display: flex;
-    gap: $size-400;
+    // gap: $size-200;
     padding-left: $size-400;
 
     @media (max-width: 768px) {
@@ -62,8 +62,50 @@
       justify-content: flex-start;
     }
 
-    .statItem {
+    .statTile {
+      background: white;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-bottom: none;
+      // border-radius: 8px 8px 0 0;
+      padding: $size-300 $size-400;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
       text-align: left;
+      position: relative;
+      min-width: 120px;
+
+      &:hover {
+        background: #f8f9fa;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      }
+
+      &.active {
+        background: white;
+        border-color: #667eea;
+        border-width: 2px;
+        border-bottom: none;
+        z-index: 10;
+        box-shadow: 0 -4px 12px rgba(102, 126, 234, 0.15);
+
+        .statNumber {
+          color: #667eea;
+        }
+
+        // Extend border down through header padding to connect with view container
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: calc(
+            1px - 1px
+          ); // Extend through header padding, border, and 1px more to overlap viewContainer border
+          left: -2px;
+          right: -2px;
+          height: 2px;
+          background: #667eea;
+          z-index: 12;
+        }
+      }
 
       .statNumber {
         display: block;
@@ -71,6 +113,7 @@
         font-weight: 700;
         color: #667eea;
         line-height: 1.2;
+        transition: color 0.2s ease;
       }
 
       .statLabel {
@@ -88,24 +131,207 @@
 .mainGrid {
   display: flex;
   flex-direction: column;
-  gap: $size-600;
   max-width: 1400px;
   margin: 0 auto;
+  margin-top: 0;
 }
 
-.topRow {
+.viewContainer {
   width: 100%;
-  padding-top: $size-200;
+  padding-top: $size-500;
+  margin-top: 0;
+  position: relative;
+  z-index: 1;
+  background: white;
+  border-radius: 0 0 8px 8px;
+  min-height: 400px;
 }
 
-.bottomRow {
-  width: 100%;
-  padding-top: $size-400;
+.reportsViewHeader {
+  display: flex;
+  align-items: center;
+  gap: $size-200;
+  margin-bottom: $size-150;
+
+  .statusBadge {
+    flex-shrink: 0;
+
+    .statusLoading {
+      color: #ffc107;
+      background: rgba(255, 193, 7, 0.1);
+      padding: $size-25 $size-75;
+      border-radius: 15px;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    .statusReady {
+      color: #28a745;
+      background: rgba(40, 167, 69, 0.1);
+      padding: $size-25 $size-75;
+      border-radius: 15px;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    .statusIdle {
+      color: #6c757d;
+      background: rgba(108, 117, 125, 0.1);
+      padding: $size-25 $size-75;
+      border-radius: 15px;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+  }
 }
 
-.reportsTableRow {
+.promptInputContainer {
+  position: relative;
   width: 100%;
-  padding-top: $size-600;
+  margin-bottom: $size-500;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  transition: all 0.2s ease;
+
+  &:focus-within {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.08);
+  }
+
+  .promptTextarea {
+    width: 100%;
+    padding: $size-200 $size-300 $size-500 $size-300; // Reduced padding
+    border: none;
+    border-radius: 12px;
+    font-size: 0.9375rem;
+    font-family: inherit;
+    resize: none;
+    overflow-y: auto;
+    height: auto;
+    min-height: 60px;
+    max-height: 300px;
+    background-color: transparent;
+    color: #212529;
+    line-height: 1.6;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+
+    &:focus {
+      outline: none;
+    }
+
+    &::placeholder {
+      color: #9ca3af;
+    }
+  }
+
+  .promptControls {
+    position: absolute;
+    bottom: $size-75;
+    right: $size-100;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: $size-100;
+    pointer-events: none; // Allow clicks to pass through to textarea
+
+    .templateDropdown {
+      pointer-events: auto; // Re-enable pointer events for dropdown
+
+      .templateSelect {
+        appearance: none;
+        background: rgba(108, 117, 125, 0.1);
+        color: #6c757d;
+        border: 1px solid rgba(108, 117, 125, 0.2);
+        border-radius: 18px;
+        padding: $size-50 $size-150 $size-50 $size-150;
+        font-size: 0.8125rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        height: 28px;
+        background-image: url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 12 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 4L6 8L10 4' stroke='%236c757d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right $size-75 center;
+        background-size: 10px;
+        padding-right: $size-300;
+        white-space: nowrap;
+
+        &:hover {
+          background-color: rgba(108, 117, 125, 0.15);
+          border-color: rgba(108, 117, 125, 0.3);
+        }
+
+        &:focus {
+          outline: none;
+          border-color: #667eea;
+          background-color: rgba(102, 126, 234, 0.1);
+          color: #667eea;
+        }
+
+        option {
+          background: white;
+          color: #212529;
+        }
+      }
+    }
+
+    .generateArrowButton {
+      pointer-events: auto; // Re-enable pointer events for button
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+
+      &:hover:not(:disabled) {
+        background: #5568d3;
+        transform: scale(1.05);
+      }
+
+      &:active:not(:disabled) {
+        transform: scale(0.95);
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      .loadingSpinner {
+        width: 18px;
+        height: 18px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-top-color: white;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+      }
+    }
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.reportsTableSection {
+  width: 100%;
 }
 
 .reportCard {
@@ -399,7 +625,6 @@
     font-size: 1rem;
   }
 }
-
 
 @media (max-width: 768px) {
   .page {

@@ -1,8 +1,4 @@
-import {
-  getGoodThingByIdRoute,
-  updateGoodThingRoute,
-  deleteGoodThingRoute,
-} from './good-things'
+import { getGoodThingByIdRoute, updateGoodThingRoute, deleteGoodThingRoute } from './good-things'
 import { HttpMethod } from '@/interfaces/httpMethod'
 import { apiRequestWrapper } from '@/server/apiRequestWrapper'
 

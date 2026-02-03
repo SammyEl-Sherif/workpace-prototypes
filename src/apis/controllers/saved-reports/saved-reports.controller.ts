@@ -1,10 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import { SavedReportsService } from './saved-reports.service'
-import {
-  CreateSavedReportInput,
-  UpdateSavedReportInput,
-} from '@/interfaces/saved-reports'
+import { CreateSavedReportInput, UpdateSavedReportInput } from '@/interfaces/saved-reports'
 import { HttpResponse } from '@/server/types'
 import { withSupabaseAuth } from '@/server/utils'
 
@@ -149,11 +146,7 @@ export const updateSavedReportController = withSupabaseAuth(
 )
 
 export const deleteSavedReportController = withSupabaseAuth(
-  async (
-    req: NextApiRequest,
-    res: NextApiResponse<HttpResponse<null>>,
-    session
-  ) => {
+  async (req: NextApiRequest, res: NextApiResponse<HttpResponse<null>>, session) => {
     try {
       const { id } = req.query
       const userId = session.user.id

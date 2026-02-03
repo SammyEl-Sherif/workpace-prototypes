@@ -30,11 +30,7 @@ export const GoalsService = {
       throw new Error('Goal name is required')
     }
 
-    const results = await querySupabase<Goal>('goals/update.sql', [
-      id,
-      userId,
-      input.name.trim(),
-    ])
+    const results = await querySupabase<Goal>('goals/update.sql', [id, userId, input.name.trim()])
 
     if (results.length === 0) {
       throw new Error('Goal not found or you do not have permission to update it')

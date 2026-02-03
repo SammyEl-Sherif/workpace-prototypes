@@ -1,25 +1,36 @@
-import { useMemo, useState, useEffect } from 'react'
-import {
-  useReactTable,
-  getCoreRowModel,
-  getSortedRowModel,
-  getFilteredRowModel,
-  flexRender,
-  createColumnHelper,
-  SortingState,
-  ColumnFiltersState,
-} from '@tanstack/react-table'
 import { useSavedReports } from '@/hooks'
 import { SavedReport } from '@/interfaces/saved-reports'
-import { Text, Button } from '@workpace/design-system'
+import {
+  ColumnFiltersState,
+  createColumnHelper,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getSortedRowModel,
+  SortingState,
+  useReactTable,
+} from '@tanstack/react-table'
+import { Button, Text } from '@workpace/design-system'
+import { useEffect, useMemo, useState } from 'react'
+import { ReportModal } from '../ReportModal'
 import styles from './SavedReportsTable.module.scss'
 
 const columnHelper = createColumnHelper<SavedReport>()
 
-export const SavedReportsTable = () => {
+interface SavedReportsTableProps {
+  isLoadingReport?: boolean
+  generatingReportId?: string | null
+}
+
+export const SavedReportsTable = ({
+  isLoadingReport = false,
+  generatingReportId = null,
+}: SavedReportsTableProps) => {
   const { savedReports, isLoading, error, refetch } = useSavedReports()
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [selectedReport, setSelectedReport] = useState<SavedReport | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   useEffect(() => {
     refetch()
@@ -36,40 +47,13 @@ export const SavedReportsTable = () => {
   }
 
   const handleViewReport = (report: SavedReport) => {
-    // Open report in a new window or modal
-    const newWindow = window.open('', '_blank')
-    if (newWindow) {
-      newWindow.document.write(`
-        <!DOCTYPE html>
-        <html>
-          <head>
-            <title>${report.title}</title>
-            <style>
-              body {
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-                max-width: 800px;
-                margin: 40px auto;
-                padding: 20px;
-                line-height: 1.6;
-              }
-              h1 { color: #212529; }
-              pre { background: #f8f9fa; padding: 15px; border-radius: 8px; overflow-x: auto; }
-            </style>
-          </head>
-          <body>
-            <h1>${report.title}</h1>
-            <p><strong>Format:</strong> ${report.format}</p>
-            <p><strong>Created:</strong> ${formatDate(report.created_at)}</p>
-            ${report.prompt_used ? `<p><strong>Prompt:</strong> ${report.prompt_used}</p>` : ''}
-            <hr>
-            ${report.format === 'markdown' 
-              ? `<div>${report.content.replace(/\n/g, '<br>')}</div>` 
-              : `<pre>${report.content}</pre>`}
-          </body>
-        </html>
-      `)
-      newWindow.document.close()
-    }
+    setSelectedReport(report)
+    setIsModalOpen(true)
+  }
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false)
+    setSelectedReport(null)
   }
 
   const handleDeleteReport = async (id: string) => {
@@ -99,9 +83,7 @@ export const SavedReportsTable = () => {
     () => [
       columnHelper.accessor('title', {
         header: 'Title',
-        cell: (info) => (
-          <Text variant="body-md-emphasis">{info.getValue()}</Text>
-        ),
+        cell: (info) => <Text variant="body-md-emphasis">{info.getValue()}</Text>,
       }),
       columnHelper.accessor('format', {
         header: 'Format',
@@ -123,7 +105,12 @@ export const SavedReportsTable = () => {
         header: 'Prompt',
         cell: (info) => {
           const prompt = info.getValue()
-          if (!prompt) return <Text variant="body-sm" color="neutral-400">—</Text>
+          if (!prompt)
+            return (
+              <Text variant="body-sm" color="neutral-400">
+                —
+              </Text>
+            )
           const truncated = prompt.length > 50 ? prompt.substring(0, 50) + '...' : prompt
           return (
             <Text variant="body-sm" color="neutral-600" title={prompt}>
@@ -158,8 +145,34 @@ export const SavedReportsTable = () => {
     []
   )
 
+  // Add loading row if generating
+  const tableData = useMemo(() => {
+    if (isLoadingReport && generatingReportId) {
+      // Check if the generating report is already in the list
+      const exists = savedReports.some((r) => r.id === generatingReportId)
+      if (!exists) {
+        // Add a temporary loading row
+        return [
+          {
+            id: generatingReportId,
+            title: 'Generating...',
+            format: 'markdown' as const,
+            created_at: new Date().toISOString(),
+            prompt_used: null,
+            user_id: '',
+            content: '',
+            updated_at: new Date().toISOString(),
+            isGenerating: true,
+          },
+          ...savedReports,
+        ]
+      }
+    }
+    return savedReports
+  }, [savedReports, isLoadingReport, generatingReportId])
+
   const table = useReactTable({
-    data: savedReports,
+    data: tableData,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -172,7 +185,7 @@ export const SavedReportsTable = () => {
     onColumnFiltersChange: setColumnFilters,
   })
 
-  if (isLoading) {
+  if (isLoading && !isLoadingReport) {
     return (
       <div className={styles.loading}>
         <Text>Loading saved reports...</Text>
@@ -188,56 +201,75 @@ export const SavedReportsTable = () => {
     )
   }
 
-  if (savedReports.length === 0) {
-    return (
-      <div className={styles.empty}>
-        <Text>No saved reports yet. Generate and save a report to see it here.</Text>
-      </div>
-    )
-  }
+  const hasRows = table.getRowModel().rows.length > 0
 
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
-        <Text variant="headline-md-emphasis">Saved Reports</Text>
-      </div>
-      <div className={styles.tableWrapper}>
-        <table className={styles.table}>
-          <thead>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <th key={header.id} className={styles.th}>
-                    {header.isPlaceholder ? null : (
-                      <div
-                        className={styles.headerCell}
-                        onClick={header.column.getToggleSortingHandler()}
-                      >
-                        {flexRender(header.column.columnDef.header, header.getContext())}
-                        {{
-                          asc: ' ↑',
-                          desc: ' ↓',
-                        }[header.column.getIsSorted() as string] ?? null}
-                      </div>
-                    )}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody>
-            {table.getRowModel().rows.map((row) => (
-              <tr key={row.id} className={styles.tr}>
-                {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id} className={styles.td}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+    <>
+      <div className={styles.container}>
+        <div className={styles.tableWrapper}>
+          <table className={styles.table}>
+            <thead>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <tr key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => (
+                    <th key={header.id} className={styles.th}>
+                      {header.isPlaceholder ? null : (
+                        <div
+                          className={styles.headerCell}
+                          onClick={header.column.getToggleSortingHandler()}
+                        >
+                          {flexRender(header.column.columnDef.header, header.getContext())}
+                          {{
+                            asc: ' ↑',
+                            desc: ' ↓',
+                          }[header.column.getIsSorted() as string] ?? null}
+                        </div>
+                      )}
+                    </th>
+                  ))}
+                </tr>
+              ))}
+            </thead>
+            <tbody>
+              {!hasRows && !isLoadingReport ? (
+                <tr>
+                  <td colSpan={columns.length} className={styles.empty}>
+                    <Text>No saved reports yet. Generate a report to see it here.</Text>
                   </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                </tr>
+              ) : (
+                table.getRowModel().rows.map((row) => {
+                  const isGenerating = (row.original as any).isGenerating
+                  return (
+                    <tr key={row.id} className={styles.tr}>
+                      {isGenerating ? (
+                        <td colSpan={columns.length} className={styles.loadingRow}>
+                          <div className={styles.loadingState}>
+                            <div className={styles.loadingAnimation}>
+                              <div className={styles.loadingDot}></div>
+                              <div className={styles.loadingDot}></div>
+                              <div className={styles.loadingDot}></div>
+                            </div>
+                            <Text>AI is crafting your report...</Text>
+                          </div>
+                        </td>
+                      ) : (
+                        row.getVisibleCells().map((cell) => (
+                          <td key={cell.id} className={styles.td}>
+                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                          </td>
+                        ))
+                      )}
+                    </tr>
+                  )
+                })
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
+
+      <ReportModal isOpen={isModalOpen} onClose={handleCloseModal} report={selectedReport} />
+    </>
   )
 }

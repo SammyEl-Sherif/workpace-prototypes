@@ -1,9 +1,5 @@
 import { querySupabase } from '@/db'
-import {
-  GoodThing,
-  CreateGoodThingInput,
-  UpdateGoodThingInput,
-} from '@/interfaces/good-things'
+import { GoodThing, CreateGoodThingInput, UpdateGoodThingInput } from '@/interfaces/good-things'
 
 export const GoodThingsService = {
   async getAll(userId: string): Promise<GoodThing[]> {
@@ -24,10 +20,10 @@ export const GoodThingsService = {
     if (input.goal_id) {
       // Verify the goal belongs to the user
       const { querySupabase: querySupabaseForValidation } = await import('@/db')
-      const goalResults = await querySupabaseForValidation<{ id: string }>(
-        'goals/get_by_id.sql',
-        [input.goal_id, userId]
-      )
+      const goalResults = await querySupabaseForValidation<{ id: string }>('goals/get_by_id.sql', [
+        input.goal_id,
+        userId,
+      ])
       if (goalResults.length === 0) {
         throw new Error('Goal not found or you do not have permission to use it')
       }
@@ -49,11 +45,7 @@ export const GoodThingsService = {
     return this.getById(results[0].id, userId) as Promise<GoodThing>
   },
 
-  async update(
-    id: string,
-    userId: string,
-    input: UpdateGoodThingInput
-  ): Promise<GoodThing> {
+  async update(id: string, userId: string, input: UpdateGoodThingInput): Promise<GoodThing> {
     if (!input.title || input.title.trim() === '') {
       throw new Error('Title is required')
     }
@@ -61,10 +53,10 @@ export const GoodThingsService = {
     // Validate goal_id if provided
     if (input.goal_id) {
       const { querySupabase: querySupabaseForValidation } = await import('@/db')
-      const goalResults = await querySupabaseForValidation<{ id: string }>(
-        'goals/get_by_id.sql',
-        [input.goal_id, userId]
-      )
+      const goalResults = await querySupabaseForValidation<{ id: string }>('goals/get_by_id.sql', [
+        input.goal_id,
+        userId,
+      ])
       if (goalResults.length === 0) {
         throw new Error('Goal not found or you do not have permission to use it')
       }

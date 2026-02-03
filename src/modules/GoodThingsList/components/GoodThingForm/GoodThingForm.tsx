@@ -13,8 +13,12 @@ interface GoodThingFormProps {
 export const GoodThingForm = ({ goodThing, onSuccess, onCancel }: GoodThingFormProps) => {
   const { goals, isLoading: goalsLoading, refetch: refetchGoals } = useGoals()
   const { refetch: refetchGoodThings } = useGoodThings()
-  const createGoodThing = useManualFetch<{ data: { good_thing: GoodThing } }>('good-stuff-list/good-things')
-  const updateGoodThing = useManualFetch<{ data: { good_thing: GoodThing } }>(`good-stuff-list/good-things/${goodThing?.id || ''}`)
+  const createGoodThing = useManualFetch<{ data: { good_thing: GoodThing } }>(
+    'good-stuff-list/good-things'
+  )
+  const updateGoodThing = useManualFetch<{ data: { good_thing: GoodThing } }>(
+    `good-stuff-list/good-things/${goodThing?.id || ''}`
+  )
 
   const [title, setTitle] = useState(goodThing?.title || '')
   const [description, setDescription] = useState(goodThing?.description || '')
@@ -205,11 +209,7 @@ export const GoodThingForm = ({ goodThing, onSuccess, onCancel }: GoodThingFormP
       />
 
       <div className={styles.formActions}>
-        <Button
-          type="submit"
-          variant="brand-primary"
-          disabled={isSubmitting || !title.trim()}
-        >
+        <Button type="submit" variant="brand-primary" disabled={isSubmitting || !title.trim()}>
           {isSubmitting ? 'Saving...' : goodThing ? 'Update' : 'Add'}
         </Button>
         {onCancel && (

@@ -1,7 +1,4 @@
-import {
-  getSavedReportsRoute,
-  createSavedReportRoute,
-} from './saved-reports'
+import { getSavedReportsRoute, createSavedReportRoute } from './saved-reports'
 import { HttpMethod } from '@/interfaces/httpMethod'
 import { apiRequestWrapper } from '@/server/apiRequestWrapper'
 

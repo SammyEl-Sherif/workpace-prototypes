@@ -67,7 +67,7 @@ export const GoodThingsList = () => {
       <div className={styles.header}>
         <Text variant="headline-lg-emphasis">Your Good Things</Text>
         <Button
-          variant="brand-primary"
+          variant="brand-secondary"
           onClick={() => {
             setShowForm(true)
             setEditingId(null)
@@ -102,11 +102,7 @@ export const GoodThingsList = () => {
 
       <div className={styles.list}>
         {goodThings.length === 0 ? (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className={styles.empty}
-          >
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className={styles.empty}>
             <Text>No good things yet. Add your first one!</Text>
           </motion.div>
         ) : (

@@ -1,4 +1,10 @@
-import { getGoalsRoute, getGoalByIdRoute, createGoalRoute, updateGoalRoute, deleteGoalRoute } from './goals'
+import {
+  getGoalsRoute,
+  getGoalByIdRoute,
+  createGoalRoute,
+  updateGoalRoute,
+  deleteGoalRoute,
+} from './goals'
 import { HttpMethod } from '@/interfaces/httpMethod'
 import { apiRequestWrapper } from '@/server/apiRequestWrapper'
 

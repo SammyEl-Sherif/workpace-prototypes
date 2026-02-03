@@ -7,10 +7,11 @@ type SavedReportsResponse = {
 }
 
 export const useSavedReports = () => {
-  const [response, isLoading, error, , makeRequest] = useFetch<
-    SavedReportsResponse,
+  const [response, isLoading, error, , makeRequest] = useFetch<SavedReportsResponse, null>(
+    'good-stuff-list/saved-reports',
+    { method: 'get', manual: true },
     null
-  >('good-stuff-list/saved-reports', { method: 'get', manual: true }, null)
+  )
 
   return {
     savedReports: (response as SavedReportsResponse)?.data?.saved_reports ?? [],
