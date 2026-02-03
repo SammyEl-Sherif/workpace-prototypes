@@ -199,8 +199,8 @@ const SupabaseAuth: FC<SupabaseAuthProps> = ({ defaultMode = 'signin' }) => {
           }
         }
       }
-    } catch (err: any) {
-      setError(err?.message || 'An unexpected error occurred')
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'An unexpected error occurred')
     } finally {
       setIsLoading(false)
     }
@@ -230,8 +230,8 @@ const SupabaseAuth: FC<SupabaseAuthProps> = ({ defaultMode = 'signin' }) => {
       } else {
         setSuccess('Confirmation email resent! Please check your inbox.')
       }
-    } catch (err: any) {
-      setError(err?.message || 'An unexpected error occurred')
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'An unexpected error occurred')
     } finally {
       setIsResending(false)
     }
@@ -317,7 +317,7 @@ const SupabaseAuth: FC<SupabaseAuthProps> = ({ defaultMode = 'signin' }) => {
           {requiresEmailConfirmation && (
             <div className={styles.resendSection}>
               <Text variant="body-sm" className={styles.resendText}>
-                Didn't receive the email?
+                Didn&apos;t receive the email?
               </Text>
               <Button
                 type="button"

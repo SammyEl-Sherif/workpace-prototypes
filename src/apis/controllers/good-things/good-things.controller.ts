@@ -12,6 +12,13 @@ export const getGoodThingsController = withSupabaseAuth(
     session
   ) => {
     try {
+      if (!session.user) {
+        res.status(401).json({
+          data: { good_things: [] },
+          status: 401,
+        })
+        return
+      }
       const userId = session.user.id
       const goodThings = await GoodThingsService.getAll(userId)
 
@@ -19,11 +26,10 @@ export const getGoodThingsController = withSupabaseAuth(
         data: { good_things: goodThings },
         status: 200,
       })
-    } catch (error: any) {
+    } catch (error: unknown) {
       res.status(500).json({
         data: { good_things: [] },
         status: 500,
-        error: error.message || 'Failed to fetch good things',
       })
     }
   }
@@ -36,6 +42,13 @@ export const getGoodThingByIdController = withSupabaseAuth(
     session
   ) => {
     try {
+      if (!session.user) {
+        res.status(401).json({
+          data: { good_thing: null },
+          status: 401,
+        })
+        return
+      }
       const { id } = req.query
       const userId = session.user.id
 
@@ -43,7 +56,6 @@ export const getGoodThingByIdController = withSupabaseAuth(
         res.status(400).json({
           data: { good_thing: null },
           status: 400,
-          error: 'Good thing ID is required',
         })
         return
       }
@@ -54,11 +66,10 @@ export const getGoodThingByIdController = withSupabaseAuth(
         data: { good_thing: goodThing },
         status: 200,
       })
-    } catch (error: any) {
+    } catch (error: unknown) {
       res.status(500).json({
         data: { good_thing: null },
         status: 500,
-        error: error.message || 'Failed to fetch good thing',
       })
     }
   }
@@ -71,11 +82,17 @@ export const createGoodThingController = withSupabaseAuth(
         res.status(405).json({
           data: { good_thing: null as any },
           status: 405,
-          error: 'Method not allowed',
         })
         return
       }
 
+      if (!session.user) {
+        res.status(401).json({
+          data: { good_thing: null as any },
+          status: 401,
+        })
+        return
+      }
       const userId = session.user.id
       const input: CreateGoodThingInput = req.body
 
@@ -85,12 +102,11 @@ export const createGoodThingController = withSupabaseAuth(
         data: { good_thing: goodThing },
         status: 201,
       })
-    } catch (error: any) {
-      const status = error.message.includes('required') ? 400 : 500
+    } catch (error: unknown) {
+      const status = error instanceof Error && error.message.includes('required') ? 400 : 500
       res.status(status).json({
         data: { good_thing: null as any },
         status,
-        error: error.message || 'Failed to create good thing',
       })
     }
   }
@@ -103,11 +119,17 @@ export const updateGoodThingController = withSupabaseAuth(
         res.status(405).json({
           data: { good_thing: null as any },
           status: 405,
-          error: 'Method not allowed',
         })
         return
       }
 
+      if (!session.user) {
+        res.status(401).json({
+          data: { good_thing: null as any },
+          status: 401,
+        })
+        return
+      }
       const { id } = req.query
       const userId = session.user.id
 
@@ -115,7 +137,6 @@ export const updateGoodThingController = withSupabaseAuth(
         res.status(400).json({
           data: { good_thing: null as any },
           status: 400,
-          error: 'Good thing ID is required',
         })
         return
       }
@@ -128,16 +149,16 @@ export const updateGoodThingController = withSupabaseAuth(
         data: { good_thing: goodThing },
         status: 200,
       })
-    } catch (error: any) {
-      const status = error.message.includes('not found')
-        ? 404
-        : error.message.includes('required')
-        ? 400
-        : 500
+    } catch (error: unknown) {
+      const status =
+        error instanceof Error && error.message.includes('not found')
+          ? 404
+          : error instanceof Error && error.message.includes('required')
+          ? 400
+          : 500
       res.status(status).json({
         data: { good_thing: null as any },
         status,
-        error: error.message || 'Failed to update good thing',
       })
     }
   }
@@ -154,11 +175,17 @@ export const deleteGoodThingController = withSupabaseAuth(
         res.status(405).json({
           data: { success: false },
           status: 405,
-          error: 'Method not allowed',
         })
         return
       }
 
+      if (!session.user) {
+        res.status(401).json({
+          data: { success: false },
+          status: 401,
+        })
+        return
+      }
       const { id } = req.query
       const userId = session.user.id
 
@@ -166,7 +193,6 @@ export const deleteGoodThingController = withSupabaseAuth(
         res.status(400).json({
           data: { success: false },
           status: 400,
-          error: 'Good thing ID is required',
         })
         return
       }
@@ -177,12 +203,11 @@ export const deleteGoodThingController = withSupabaseAuth(
         data: { success: true },
         status: 200,
       })
-    } catch (error: any) {
-      const status = error.message.includes('not found') ? 404 : 500
+    } catch (error: unknown) {
+      const status = error instanceof Error && error.message.includes('not found') ? 404 : 500
       res.status(status).json({
         data: { success: false },
         status,
-        error: error.message || 'Failed to delete good thing',
       })
     }
   }

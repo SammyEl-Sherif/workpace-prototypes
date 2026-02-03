@@ -8,6 +8,7 @@ import { Routes } from '@/interfaces/routes'
 import styles from './AuthOverlay.module.scss'
 
 // Type assertion workaround for Button component type issue
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ButtonComponent = Button as any
 
 type AuthOverlayProps = {

@@ -69,7 +69,7 @@ export const ReportModal = ({ isOpen, onClose, report }: ReportModalProps) => {
               )}
             </div>
           </div>
-          <Button variant="default-secondary" size="sm" onClick={onClose}>
+          <Button variant="default-secondary" onClick={onClose}>
             Close
           </Button>
         </div>

@@ -38,12 +38,19 @@ export const verify = async (req: NextApiRequest, res: NextApiResponse): Promise
 
     const supabase = createSupabaseServerClient()
 
-    const verifyResponse = await supabase.auth.verifyOtp({
-      phone,
-      email,
-      token,
-      type: type as 'sms' | 'email',
-    })
+    // Verify OTP - need to handle email and SMS separately due to type constraints
+    const verifyResponse =
+      type === 'email'
+        ? await supabase.auth.verifyOtp({
+            email,
+            token,
+            type: 'email',
+          })
+        : await supabase.auth.verifyOtp({
+            phone,
+            token,
+            type: 'sms',
+          })
 
     if (verifyResponse.error) {
       res.status(400).json({

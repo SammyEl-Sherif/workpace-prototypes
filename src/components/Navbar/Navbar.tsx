@@ -17,6 +17,7 @@ import { EnvironmentIndicator } from '../EnvironmentIndicator'
 import styles from './Navbar.module.scss'
 
 // Type assertion workaround for Button component type issue
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ButtonComponent = Button as any
 
 export const Navbar = () => {
@@ -25,7 +26,6 @@ export const Navbar = () => {
   const {
     user: supabaseUser,
     isAuthenticated: isSupabaseAuthenticated,
-    isLoading: isSupabaseLoading,
   } = useSupabaseSession()
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false)

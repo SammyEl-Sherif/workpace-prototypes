@@ -12,6 +12,13 @@ export const getSavedReportsController = withSupabaseAuth(
     session
   ) => {
     try {
+      if (!session.user) {
+        res.status(401).json({
+          data: { saved_reports: [] },
+          status: 401,
+        })
+        return
+      }
       const userId = session.user.id
       const savedReports = await SavedReportsService.getAll(userId)
 
@@ -19,11 +26,10 @@ export const getSavedReportsController = withSupabaseAuth(
         data: { saved_reports: savedReports },
         status: 200,
       })
-    } catch (error: any) {
+    } catch (error: unknown) {
       res.status(500).json({
         data: { saved_reports: [] },
         status: 500,
-        error: error.message || 'Failed to fetch saved reports',
       })
     }
   }
@@ -36,6 +42,13 @@ export const getSavedReportByIdController = withSupabaseAuth(
     session
   ) => {
     try {
+      if (!session.user) {
+        res.status(401).json({
+          data: { saved_report: null },
+          status: 401,
+        })
+        return
+      }
       const { id } = req.query
       const userId = session.user.id
 
@@ -43,7 +56,6 @@ export const getSavedReportByIdController = withSupabaseAuth(
         res.status(400).json({
           data: { saved_report: null },
           status: 400,
-          error: 'Saved report ID is required',
         })
         return
       }
@@ -54,7 +66,6 @@ export const getSavedReportByIdController = withSupabaseAuth(
         res.status(404).json({
           data: { saved_report: null },
           status: 404,
-          error: 'Saved report not found',
         })
         return
       }
@@ -63,11 +74,10 @@ export const getSavedReportByIdController = withSupabaseAuth(
         data: { saved_report: savedReport },
         status: 200,
       })
-    } catch (error: any) {
+    } catch (error: unknown) {
       res.status(500).json({
         data: { saved_report: null },
         status: 500,
-        error: error.message || 'Failed to fetch saved report',
       })
     }
   }
@@ -80,6 +90,13 @@ export const createSavedReportController = withSupabaseAuth(
     session
   ) => {
     try {
+      if (!session.user) {
+        res.status(401).json({
+          data: { saved_report: null },
+          status: 401,
+        })
+        return
+      }
       const userId = session.user.id
       const input: CreateSavedReportInput = req.body
 
@@ -87,7 +104,6 @@ export const createSavedReportController = withSupabaseAuth(
         res.status(400).json({
           data: { saved_report: null },
           status: 400,
-          error: 'Title and content are required',
         })
         return
       }
@@ -98,11 +114,10 @@ export const createSavedReportController = withSupabaseAuth(
         data: { saved_report: savedReport },
         status: 201,
       })
-    } catch (error: any) {
+    } catch (error: unknown) {
       res.status(500).json({
         data: { saved_report: null },
         status: 500,
-        error: error.message || 'Failed to create saved report',
       })
     }
   }
@@ -115,6 +130,13 @@ export const updateSavedReportController = withSupabaseAuth(
     session
   ) => {
     try {
+      if (!session.user) {
+        res.status(401).json({
+          data: { saved_report: null },
+          status: 401,
+        })
+        return
+      }
       const { id } = req.query
       const userId = session.user.id
       const input: UpdateSavedReportInput = req.body
@@ -123,7 +145,6 @@ export const updateSavedReportController = withSupabaseAuth(
         res.status(400).json({
           data: { saved_report: null },
           status: 400,
-          error: 'Saved report ID is required',
         })
         return
       }
@@ -134,12 +155,11 @@ export const updateSavedReportController = withSupabaseAuth(
         data: { saved_report: savedReport },
         status: 200,
       })
-    } catch (error: any) {
-      const statusCode = error.message?.includes('not found') ? 404 : 500
+    } catch (error: unknown) {
+      const statusCode = error instanceof Error && error.message?.includes('not found') ? 404 : 500
       res.status(statusCode).json({
         data: { saved_report: null },
         status: statusCode,
-        error: error.message || 'Failed to update saved report',
       })
     }
   }
@@ -148,6 +168,13 @@ export const updateSavedReportController = withSupabaseAuth(
 export const deleteSavedReportController = withSupabaseAuth(
   async (req: NextApiRequest, res: NextApiResponse<HttpResponse<null>>, session) => {
     try {
+      if (!session.user) {
+        res.status(401).json({
+          data: null,
+          status: 401,
+        })
+        return
+      }
       const { id } = req.query
       const userId = session.user.id
 
@@ -155,7 +182,6 @@ export const deleteSavedReportController = withSupabaseAuth(
         res.status(400).json({
           data: null,
           status: 400,
-          error: 'Saved report ID is required',
         })
         return
       }
@@ -166,12 +192,11 @@ export const deleteSavedReportController = withSupabaseAuth(
         data: null,
         status: 200,
       })
-    } catch (error: any) {
-      const statusCode = error.message?.includes('not found') ? 404 : 500
+    } catch (error: unknown) {
+      const statusCode = error instanceof Error && error.message?.includes('not found') ? 404 : 500
       res.status(statusCode).json({
         data: null,
         status: statusCode,
-        error: error.message || 'Failed to delete saved report',
       })
     }
   }

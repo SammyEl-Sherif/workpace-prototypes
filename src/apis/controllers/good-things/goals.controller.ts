@@ -8,6 +8,13 @@ import { withSupabaseAuth } from '@/server/utils'
 export const getGoalsController = withSupabaseAuth(
   async (req: NextApiRequest, res: NextApiResponse<HttpResponse<{ goals: any[] }>>, session) => {
     try {
+      if (!session.user) {
+        res.status(401).json({
+          data: { goals: [] },
+          status: 401,
+        })
+        return
+      }
       const userId = session.user.id
       const goals = await GoalsService.getAll(userId)
 
@@ -15,11 +22,10 @@ export const getGoalsController = withSupabaseAuth(
         data: { goals },
         status: 200,
       })
-    } catch (error: any) {
+    } catch (error: unknown) {
       res.status(500).json({
         data: { goals: [] },
         status: 500,
-        error: error.message || 'Failed to fetch goals',
       })
     }
   }
@@ -32,6 +38,13 @@ export const getGoalByIdController = withSupabaseAuth(
     session
   ) => {
     try {
+      if (!session.user) {
+        res.status(401).json({
+          data: { goal: null },
+          status: 401,
+        })
+        return
+      }
       const { id } = req.query
       const userId = session.user.id
 
@@ -39,7 +52,6 @@ export const getGoalByIdController = withSupabaseAuth(
         res.status(400).json({
           data: { goal: null },
           status: 400,
-          error: 'Goal ID is required',
         })
         return
       }
@@ -50,11 +62,10 @@ export const getGoalByIdController = withSupabaseAuth(
         data: { goal },
         status: 200,
       })
-    } catch (error: any) {
+    } catch (error: unknown) {
       res.status(500).json({
         data: { goal: null },
         status: 500,
-        error: error.message || 'Failed to fetch goal',
       })
     }
   }
@@ -67,11 +78,17 @@ export const createGoalController = withSupabaseAuth(
         res.status(405).json({
           data: { goal: null as any },
           status: 405,
-          error: 'Method not allowed',
         })
         return
       }
 
+      if (!session.user) {
+        res.status(401).json({
+          data: { goal: null as any },
+          status: 401,
+        })
+        return
+      }
       const userId = session.user.id
       const input: CreateGoalInput = req.body
 
@@ -81,12 +98,11 @@ export const createGoalController = withSupabaseAuth(
         data: { goal },
         status: 201,
       })
-    } catch (error: any) {
-      const status = error.message.includes('required') ? 400 : 500
+    } catch (error: unknown) {
+      const status = error instanceof Error && error.message.includes('required') ? 400 : 500
       res.status(status).json({
         data: { goal: null as any },
         status,
-        error: error.message || 'Failed to create goal',
       })
     }
   }
@@ -99,11 +115,17 @@ export const updateGoalController = withSupabaseAuth(
         res.status(405).json({
           data: { goal: null as any },
           status: 405,
-          error: 'Method not allowed',
         })
         return
       }
 
+      if (!session.user) {
+        res.status(401).json({
+          data: { goal: null as any },
+          status: 401,
+        })
+        return
+      }
       const { id } = req.query
       const userId = session.user.id
 
@@ -111,7 +133,6 @@ export const updateGoalController = withSupabaseAuth(
         res.status(400).json({
           data: { goal: null as any },
           status: 400,
-          error: 'Goal ID is required',
         })
         return
       }
@@ -124,16 +145,16 @@ export const updateGoalController = withSupabaseAuth(
         data: { goal },
         status: 200,
       })
-    } catch (error: any) {
-      const status = error.message.includes('not found')
-        ? 404
-        : error.message.includes('required')
-        ? 400
-        : 500
+    } catch (error: unknown) {
+      const status =
+        error instanceof Error && error.message.includes('not found')
+          ? 404
+          : error instanceof Error && error.message.includes('required')
+          ? 400
+          : 500
       res.status(status).json({
         data: { goal: null as any },
         status,
-        error: error.message || 'Failed to update goal',
       })
     }
   }
@@ -150,11 +171,17 @@ export const deleteGoalController = withSupabaseAuth(
         res.status(405).json({
           data: { success: false },
           status: 405,
-          error: 'Method not allowed',
         })
         return
       }
 
+      if (!session.user) {
+        res.status(401).json({
+          data: { success: false },
+          status: 401,
+        })
+        return
+      }
       const { id } = req.query
       const userId = session.user.id
 
@@ -162,7 +189,6 @@ export const deleteGoalController = withSupabaseAuth(
         res.status(400).json({
           data: { success: false },
           status: 400,
-          error: 'Goal ID is required',
         })
         return
       }
@@ -173,12 +199,11 @@ export const deleteGoalController = withSupabaseAuth(
         data: { success: true },
         status: 200,
       })
-    } catch (error: any) {
-      const status = error.message.includes('not found') ? 404 : 500
+    } catch (error: unknown) {
+      const status = error instanceof Error && error.message.includes('not found') ? 404 : 500
       res.status(status).json({
         data: { success: false },
         status,
-        error: error.message || 'Failed to delete goal',
       })
     }
   }

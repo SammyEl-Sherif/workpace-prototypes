@@ -126,14 +126,12 @@ export const SavedReportsTable = ({
           <div className={styles.actions}>
             <Button
               variant="default-secondary"
-              size="sm"
               onClick={() => handleViewReport(info.row.original)}
             >
               View
             </Button>
             <Button
               variant="default-secondary"
-              size="sm"
               onClick={() => handleDeleteReport(info.row.original.id)}
             >
               Delete
