@@ -2,7 +2,7 @@ import { useGoodThings, useManualFetch, useSavedReports } from '@/hooks'
 import { CreateSavedReportInput } from '@/interfaces/saved-reports'
 import { Box, Text } from '@workpace/design-system'
 import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { GoodThingsList, ReportModal, SavedReportsTable } from './components'
 import styles from './GoodThingsListPage.module.scss'
 import { useGenerateReportFromGoodThings } from './hooks/useGenerateReportFromGoodThings'
@@ -40,6 +40,7 @@ export const GoodThingsListPage = () => {
   useEffect(() => {
     refetch()
     refetchSavedReports()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handlePromptChange = (prompt: string) => {
@@ -59,6 +60,11 @@ export const GoodThingsListPage = () => {
     setSaveSuccess(false)
     setSaveError(null)
   }
+
+  const handlePreviewReport = useCallback((report: any) => {
+    setSelectedReport(report)
+    setIsModalOpen(true)
+  }, [])
 
   // Auto-save and preview when report is generated
   useEffect(() => {
@@ -117,12 +123,7 @@ export const GoodThingsListPage = () => {
     }
     autoSaveAndPreview()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [response, isLoadingReport, generatingReportId])
-
-  const handlePreviewReport = (report: any) => {
-    setSelectedReport(report)
-    setIsModalOpen(true)
-  }
+  }, [response, isLoadingReport, generatingReportId, selectedPreset, userPrompt, handlePreviewReport])
 
   const handleCloseModal = () => {
     setIsModalOpen(false)
@@ -231,9 +232,8 @@ export const GoodThingsListPage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.2 }}
-          className={`${styles.viewContainer} ${
-            activeView === 'good-things' ? styles.goodThingsView : styles.reportsView
-          }`}
+          className={`${styles.viewContainer} ${activeView === 'good-things' ? styles.goodThingsView : styles.reportsView
+            }`}
         >
           {activeView === 'good-things' ? (
             <GoodThingsList />
