@@ -3,12 +3,13 @@ import { CreateSavedReportInput } from '@/interfaces/saved-reports'
 import { Box, Text } from '@workpace/design-system'
 import { motion } from 'framer-motion'
 import { useCallback, useEffect, useState } from 'react'
-import { GoodThingsList, ReportModal, SavedReportsTable } from './components'
+import { ActivityGraph, GoodThingsList, ReportModal, SavedReportsTable } from './components'
 import styles from './GoodThingsListPage.module.scss'
 import { useGenerateReportFromGoodThings } from './hooks/useGenerateReportFromGoodThings'
 
 const PRESET_PROMPTS = {
-  'year-end-review': 'Write me a year end review in essay format',
+  'year-end-review':
+    'Write a professional, detailed year-end performance review for a manager in essay format. The tone should be reflective, confident, and balanced—highlighting key accomplishments, leadership growth, team impact, and areas for continued development. The essay should feel authentic and well-structured, providing examples that demonstrate strategic thinking, people management, and measurable results.',
   'linkedin-experience':
     'Write a professional LinkedIn experience summary highlighting my key accomplishments and impact',
   'job-application':
@@ -123,61 +124,18 @@ export const GoodThingsListPage = () => {
     }
     autoSaveAndPreview()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [response, isLoadingReport, generatingReportId, selectedPreset, userPrompt, handlePreviewReport])
+  }, [
+    response,
+    isLoadingReport,
+    generatingReportId,
+    selectedPreset,
+    userPrompt,
+    handlePreviewReport,
+  ])
 
   const handleCloseModal = () => {
     setIsModalOpen(false)
     setSelectedReport(null)
-  }
-
-  const handleSaveReport = async () => {
-    if (!response || !response.trim()) {
-      setSaveError('No report content to save')
-      return
-    }
-
-    setIsSaving(true)
-    setSaveError(null)
-    setSaveSuccess(false)
-
-    try {
-      // Generate a default title based on the prompt or preset
-      let title = 'Generated Report'
-      if (selectedPreset && selectedPreset in PRESET_PROMPTS) {
-        const presetLabels: Record<string, string> = {
-          'year-end-review': 'Year End Review',
-          'linkedin-experience': 'LinkedIn Experience Summary',
-          'job-application': 'Job Application Report',
-        }
-        title = presetLabels[selectedPreset] || title
-      } else if (userPrompt) {
-        // Use first 50 chars of prompt as title
-        title = userPrompt.substring(0, 50).trim()
-        if (userPrompt.length > 50) title += '...'
-      }
-
-      const input: CreateSavedReportInput = {
-        title,
-        content: response,
-        format: 'markdown', // Default to markdown as requested
-        prompt_used: userPrompt || null,
-      }
-
-      const [result, error] = await createSavedReport({
-        method: 'post',
-        data: input,
-      })
-
-      if (error) throw error
-
-      setSaveSuccess(true)
-      setTimeout(() => setSaveSuccess(false), 3000)
-      await refetchSavedReports() // Refresh the saved reports list
-    } catch (err: any) {
-      setSaveError(err.message || 'Failed to save report')
-    } finally {
-      setIsSaving(false)
-    }
   }
 
   return (
@@ -232,8 +190,9 @@ export const GoodThingsListPage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.2 }}
-          className={`${styles.viewContainer} ${activeView === 'good-things' ? styles.goodThingsView : styles.reportsView
-            }`}
+          className={`${styles.viewContainer} ${
+            activeView === 'good-things' ? styles.goodThingsView : styles.reportsView
+          }`}
         >
           {activeView === 'good-things' ? (
             <GoodThingsList />
@@ -327,6 +286,8 @@ export const GoodThingsListPage = () => {
           )}
         </motion.div>
       </div>
+
+      <ActivityGraph goodThings={goodThings} />
 
       <ReportModal isOpen={isModalOpen} onClose={handleCloseModal} report={selectedReport} />
     </div>

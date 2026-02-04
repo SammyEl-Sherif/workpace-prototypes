@@ -8,7 +8,7 @@ export const ProjectsGrid = () => {
   const { prototypes } = usePrototypesContext()
 
   return (
-    <div>
+    <div className={styles.container}>
       <div className={styles.title}>Products</div>
       <div className={styles.grid}>
         {prototypes ? (

@@ -4,19 +4,23 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import { useUser } from '@/hooks'
+import { useSupabaseSession, useUser } from '@/hooks'
 import { Routes } from '@/interfaces/routes'
 import Logo from '@/public/favicon.ico'
 
-import styles from './LandingNavbar.module.scss'
+import styles from './StandardNavbar.module.scss'
 
 // Type assertion workaround for Button component type issue
 const ButtonComponent = Button as any
 
-const LandingNavbar = () => {
+const StandardNavbar = () => {
   const { data, status } = useSession()
   const { signOut } = useUser()
+  const { user: supabaseUser, isAuthenticated: isSupabaseAuthenticated } = useSupabaseSession()
   const router = useRouter()
+
+  // Check if user is authenticated via either NextAuth or Supabase
+  const isAuthenticated = status === 'authenticated' || isSupabaseAuthenticated
 
   const handleSignOut = () => {
     signOut()
@@ -44,11 +48,11 @@ const LandingNavbar = () => {
             Design System
           </Link>
           <Link href={Routes.SYSTEM_DESIGN} className={styles.navLink}>
-            System Design
+            System Designs
           </Link>
         </div>
         <div className={styles.authSection}>
-          {status === 'authenticated' ? (
+          {isAuthenticated ? (
             <ButtonComponent onClick={handleSignOut} variant="default-secondary">
               Sign Out
             </ButtonComponent>
@@ -63,4 +67,4 @@ const LandingNavbar = () => {
   )
 }
 
-export default LandingNavbar
+export default StandardNavbar

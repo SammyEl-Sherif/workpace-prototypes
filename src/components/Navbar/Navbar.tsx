@@ -23,10 +23,7 @@ const ButtonComponent = Button as any
 export const Navbar = () => {
   const { data, status } = useSession()
   const { user, signOut } = useUser()
-  const {
-    user: supabaseUser,
-    isAuthenticated: isSupabaseAuthenticated,
-  } = useSupabaseSession()
+  const { user: supabaseUser, isAuthenticated: isSupabaseAuthenticated } = useSupabaseSession()
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false)
 

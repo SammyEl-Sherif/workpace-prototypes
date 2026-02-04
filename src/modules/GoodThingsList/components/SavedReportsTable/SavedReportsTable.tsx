@@ -1,4 +1,4 @@
-import { useSavedReports } from '@/hooks'
+import { useManualFetch, useSavedReports } from '@/hooks'
 import { SavedReport } from '@/interfaces/saved-reports'
 import {
   ColumnFiltersState,
@@ -31,6 +31,7 @@ export const SavedReportsTable = ({
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [selectedReport, setSelectedReport] = useState<SavedReport | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const deleteSavedReport = useManualFetch<{ data: null }>('')
 
   useEffect(() => {
     refetch()
@@ -60,17 +61,13 @@ export const SavedReportsTable = ({
     if (!confirm('Are you sure you want to delete this report?')) return
 
     try {
-      const response = await fetch(`/api/good-stuff-list/saved-reports/${id}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
+      const [result, error] = await deleteSavedReport({
+        method: 'delete',
+        url: `good-stuff-list/saved-reports/${id}`,
       })
 
-      if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.error || 'Failed to delete report')
+      if (error) {
+        throw error
       }
 
       await refetch()
@@ -124,10 +121,7 @@ export const SavedReportsTable = ({
         header: 'Actions',
         cell: (info) => (
           <div className={styles.actions}>
-            <Button
-              variant="default-secondary"
-              onClick={() => handleViewReport(info.row.original)}
-            >
+            <Button variant="default-secondary" onClick={() => handleViewReport(info.row.original)}>
               View
             </Button>
             <Button

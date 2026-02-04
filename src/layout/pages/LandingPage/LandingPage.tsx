@@ -1,10 +1,10 @@
-import { LandingNavbar } from './components/LandingNavbar'
+import { StandardNavbar } from './components/StandardNavbar'
 import { HeroSection } from './sections/HeroSection'
 
 const LandingPage = () => {
   return (
     <div>
-      <LandingNavbar />
+      <StandardNavbar />
       <HeroSection />
       {/* <section
         id="prototypes"

@@ -1,12 +1,13 @@
-import React, { ReactNode } from 'react'
+import { ReactNode } from 'react'
 
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 
-import { AuthOverlay, Navbar } from '@/components'
+import { AuthOverlay } from '@/components'
+import { PromotionalBanner } from '@/components/PromotionalBanner'
+import { StandardNavbar, SubNavbar } from '@/layout/pages/LandingPage/components'
 
 import styles from './MainLayout.module.scss'
-import { PromotionalBanner } from '@/components/PromotionalBanner'
 
 interface LayoutProps {
   children: ReactNode
@@ -26,6 +27,9 @@ export default function MainLayout({ children }: LayoutProps) {
     pathname !== '/design-system' &&
     pathname !== '/system-design'
 
+  // Don't show navbar on sign in page
+  const shouldShowNavbar = pathname !== '/signin'
+
   const pageContent = (
     <div className={styles.pageContent}>
       <PromotionalBanner hide={true} />
@@ -35,7 +39,9 @@ export default function MainLayout({ children }: LayoutProps) {
 
   return (
     <div className={styles.pageLayout}>
-      <Navbar />
+      {/* {shouldShowNavbar && <StandardNavbar />} */}
+      <StandardNavbar />
+      <SubNavbar />
       {shouldShowOverlay ? <AuthOverlay>{pageContent}</AuthOverlay> : pageContent}
     </div>
   )
