@@ -42,6 +42,7 @@ export default function MainLayout({ children }: LayoutProps) {
       {/* {shouldShowNavbar && <StandardNavbar />} */}
       <StandardNavbar />
       <SubNavbar />
+      <div className={styles.navbarSpacer} />
       {shouldShowOverlay ? <AuthOverlay>{pageContent}</AuthOverlay> : pageContent}
     </div>
   )

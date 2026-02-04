@@ -1,11 +1,11 @@
 @use '@workpace/design-system/dist/design-tokens' as *;
 
 .page {
-  min-height: 100vh;
+  min-height: calc(90vh - 120px); // Fill remaining viewport height minus navbar spacer (120px)
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: $size-500;
+  padding: $size-50;
 }
 
 .container {

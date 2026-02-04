@@ -67,16 +67,159 @@
   }
 }
 
+.hamburgerButton {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  justify-self: end;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.3s ease;
+
+  &:hover {
+    opacity: 0.7;
+  }
+
+  svg {
+    display: block;
+  }
+}
+
+// Mobile Menu Overlay
+.mobileMenuOverlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  backdrop-filter: blur(2px);
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// Mobile Menu
+.mobileMenu {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 70vw;
+  max-width: 300px;
+  background: #fff;
+  z-index: 1000;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  transform: translateX(100%);
+  flex-direction: column;
+}
+
+.mobileMenuOpen {
+  display: flex;
+  transform: translateX(0);
+}
+
+.mobileMenuHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+  .brand {
+    flex: 1;
+  }
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.3s ease;
+
+  &:hover {
+    opacity: 0.7;
+  }
+
+  svg {
+    display: block;
+  }
+}
+
+.mobileMenuContent {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1rem;
+  gap: 2rem;
+  overflow-y: auto;
+}
+
+.mobileNavLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.mobileNavLink {
+  color: #191919;
+  text-decoration: none;
+  font-weight: 400;
+  font-size: 1.125rem;
+  transition: all 0.3s ease;
+  padding: 0.5rem 0;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.mobileAuthSection {
+  margin-top: auto;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
 @media (max-width: 768px) {
   .container {
     padding: 0 1rem;
+    grid-template-columns: 1fr auto;
   }
 
   .navLinks {
-    gap: 1rem;
+    display: none;
   }
 
-  .navLink {
-    font-size: 0.9rem;
+  .authSection {
+    display: none;
+  }
+
+  .hamburgerButton {
+    display: flex;
+  }
+
+  .mobileMenuOverlay {
+    display: block;
+  }
+
+  .mobileMenu {
+    display: flex;
   }
 }
