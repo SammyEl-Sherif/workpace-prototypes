@@ -1,5 +1,7 @@
 export * from './ActivityGraph'
+export * from './DayGrid'
 export * from './GoodThingForm'
 export * from './GoodThingsList'
+export * from './MediaUpload'
 export * from './SavedReportsTable'
 export * from './ReportModal'

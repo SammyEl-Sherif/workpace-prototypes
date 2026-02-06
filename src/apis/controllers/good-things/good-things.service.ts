@@ -86,4 +86,12 @@ export const GoodThingsService = {
       throw new Error('Good thing not found or you do not have permission to delete it')
     }
   },
+
+  async getByDateRange(userId: string, startDate: string, endDate: string): Promise<GoodThing[]> {
+    return querySupabase<GoodThing>('good_things/get_by_date_range.sql', [
+      userId,
+      startDate,
+      endDate,
+    ])
+  },
 }

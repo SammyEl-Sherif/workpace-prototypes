@@ -3,7 +3,7 @@ import { CreateSavedReportInput } from '@/interfaces/saved-reports'
 import { Box, Text } from '@workpace/design-system'
 import { motion } from 'framer-motion'
 import { useCallback, useEffect, useState } from 'react'
-import { ActivityGraph, GoodThingsList, ReportModal, SavedReportsTable } from './components'
+import { DayGrid, GoodThingsList, ReportModal, SavedReportsTable } from './components'
 import styles from './GoodThingsListPage.module.scss'
 import { useGenerateReportFromGoodThings } from './hooks/useGenerateReportFromGoodThings'
 
@@ -287,7 +287,7 @@ export const GoodThingsListPage = () => {
         </motion.div>
       </div>
 
-      <ActivityGraph goodThings={goodThings} />
+      <DayGrid goodThings={goodThings} onRefetch={refetch} />
 
       <ReportModal isOpen={isModalOpen} onClose={handleCloseModal} report={selectedReport} />
     </div>

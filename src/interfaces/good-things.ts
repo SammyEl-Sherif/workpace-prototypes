@@ -39,3 +39,26 @@ export interface UpdateGoodThingInput {
   description?: string | null
   completion_date?: string | null
 }
+
+export interface GoodThingMedia {
+  id: string
+  good_thing_id: string
+  user_id: string
+  file_name: string
+  storage_path: string
+  media_type: 'photo' | 'video'
+  media_url: string
+  thumbnail_url: string | null
+  file_size_bytes: number | null
+  mime_type: string | null
+  created_at: string
+}
+
+export interface GoodThingWithMedia extends GoodThing {
+  media?: GoodThingMedia[]
+}
+
+export interface DayEntry {
+  date: string
+  goodThings: GoodThingWithMedia[]
+}

@@ -6,11 +6,17 @@ import styles from './GoodThingForm.module.scss'
 
 interface GoodThingFormProps {
   goodThing?: GoodThing | null
+  defaultDate?: string
   onSuccess?: () => void
   onCancel?: () => void
 }
 
-export const GoodThingForm = ({ goodThing, onSuccess, onCancel }: GoodThingFormProps) => {
+export const GoodThingForm = ({
+  goodThing,
+  defaultDate,
+  onSuccess,
+  onCancel,
+}: GoodThingFormProps) => {
   const { goals, isLoading: goalsLoading, refetch: refetchGoals } = useGoals()
   const { refetch: refetchGoodThings } = useGoodThings()
   const createGoodThing = useManualFetch<{ data: { good_thing: GoodThing } }>(
@@ -24,7 +30,7 @@ export const GoodThingForm = ({ goodThing, onSuccess, onCancel }: GoodThingFormP
   const [description, setDescription] = useState(goodThing?.description || '')
   const [goalId, setGoalId] = useState<string>(goodThing?.goal_id || '')
   const [completionDate, setCompletionDate] = useState(
-    goodThing?.completion_date ? goodThing.completion_date.split('T')[0] : ''
+    goodThing?.completion_date ? goodThing.completion_date.split('T')[0] : defaultDate || ''
   )
   const [newGoalName, setNewGoalName] = useState('')
   const [showNewGoalInput, setShowNewGoalInput] = useState(false)

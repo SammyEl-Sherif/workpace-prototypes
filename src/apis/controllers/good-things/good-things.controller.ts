@@ -164,6 +164,45 @@ export const updateGoodThingController = withSupabaseAuth(
   }
 )
 
+export const getGoodThingsByDateRangeController = withSupabaseAuth(
+  async (
+    req: NextApiRequest,
+    res: NextApiResponse<HttpResponse<{ good_things: any[] }>>,
+    session
+  ) => {
+    try {
+      if (!session.user) {
+        res.status(401).json({ data: { good_things: [] }, status: 401 })
+        return
+      }
+
+      const { start_date, end_date } = req.query
+      if (
+        !start_date ||
+        !end_date ||
+        typeof start_date !== 'string' ||
+        typeof end_date !== 'string'
+      ) {
+        res.status(400).json({ data: { good_things: [] }, status: 400 })
+        return
+      }
+
+      const goodThings = await GoodThingsService.getByDateRange(
+        session.user.id,
+        start_date,
+        end_date
+      )
+
+      res.status(200).json({
+        data: { good_things: goodThings },
+        status: 200,
+      })
+    } catch (error: unknown) {
+      res.status(500).json({ data: { good_things: [] }, status: 500 })
+    }
+  }
+)
+
 export const deleteGoodThingController = withSupabaseAuth(
   async (
     req: NextApiRequest,
