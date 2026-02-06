@@ -5,10 +5,23 @@ import { useEffect, useState } from 'react'
 import { GoodThingForm } from '../GoodThingForm'
 import styles from './GoodThingsList.module.scss'
 
-export const GoodThingsList = () => {
+interface GoodThingsListProps {
+  addFormOpen?: boolean
+  onAddFormClose?: () => void
+}
+
+export const GoodThingsList = ({ addFormOpen, onAddFormClose }: GoodThingsListProps) => {
   const { goodThings, isLoading, error, refetch } = useGoodThings()
   const [editingId, setEditingId] = useState<string | null>(null)
   const [showForm, setShowForm] = useState(false)
+
+  // Sync external add-form trigger
+  useEffect(() => {
+    if (addFormOpen) {
+      setEditingId(null)
+      setShowForm(true)
+    }
+  }, [addFormOpen])
 
   useEffect(() => {
     refetch()
@@ -64,19 +77,6 @@ export const GoodThingsList = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <Text variant="headline-lg-emphasis">Your Good Things</Text>
-        <Button
-          variant="brand-secondary"
-          onClick={() => {
-            setShowForm(true)
-            setEditingId(null)
-          }}
-        >
-          + Add Good Thing
-        </Button>
-      </div>
-
       {showForm && (
         <motion.div
           initial={{ opacity: 0, y: -10 }}
@@ -90,11 +90,13 @@ export const GoodThingsList = () => {
             onSuccess={() => {
               setShowForm(false)
               setEditingId(null)
+              onAddFormClose?.()
               refetch()
             }}
             onCancel={() => {
               setShowForm(false)
               setEditingId(null)
+              onAddFormClose?.()
             }}
           />
         </motion.div>

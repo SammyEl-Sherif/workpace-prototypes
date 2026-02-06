@@ -34,6 +34,8 @@ export const GoodThingsListPage = () => {
   const [generatingReportId, setGeneratingReportId] = useState<string | null>(null)
   const [selectedReport, setSelectedReport] = useState<any | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [showHistory, setShowHistory] = useState(false)
+  const [addFormOpen, setAddFormOpen] = useState(false)
   const createSavedReport = useManualFetch<{ data: { saved_report: any } }>(
     'good-stuff-list/saved-reports'
   )
@@ -184,110 +186,116 @@ export const GoodThingsListPage = () => {
         </div>
       </motion.div>
 
-      <div className={styles.mainGrid}>
-        <motion.div
-          key={activeView}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.2 }}
-          className={`${styles.viewContainer} ${
-            activeView === 'good-things' ? styles.goodThingsView : styles.reportsView
-          }`}
+      {activeView === 'good-things' ? (
+        <DayGrid
+          goodThings={goodThings}
+          onRefetch={refetch}
+          showHistory={showHistory}
+          onToggleHistory={() => setShowHistory((prev) => !prev)}
+          onAddGoodThing={() => setAddFormOpen(true)}
         >
-          {activeView === 'good-things' ? (
-            <GoodThingsList />
-          ) : (
-            <>
-              <div className={styles.reportsViewHeader}>
-                <Text variant="headline-md-emphasis">Generate a Report</Text>
-                <div className={styles.statusBadge}>
-                  {isLoadingReport ? (
-                    <span className={styles.statusLoading}>Generating...</span>
-                  ) : response ? (
-                    <span className={styles.statusReady}>Ready</span>
-                  ) : (
-                    <span className={styles.statusIdle}>Waiting</span>
-                  )}
-                </div>
+          {/* History content — rendered inside DayGrid when showHistory is true */}
+          <div className={styles.mainGrid}>
+            <GoodThingsList
+              addFormOpen={addFormOpen}
+              onAddFormClose={() => setAddFormOpen(false)}
+            />
+          </div>
+        </DayGrid>
+      ) : (
+        <div className={styles.mainGrid}>
+          <motion.div
+            key="reports"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+            className={`${styles.viewContainer} ${styles.reportsView}`}
+          >
+            <div className={styles.reportsViewHeader}>
+              <Text variant="headline-md-emphasis">Generate a Report</Text>
+              <div className={styles.statusBadge}>
+                {isLoadingReport ? (
+                  <span className={styles.statusLoading}>Generating...</span>
+                ) : response ? (
+                  <span className={styles.statusReady}>Ready</span>
+                ) : (
+                  <span className={styles.statusIdle}>Waiting</span>
+                )}
               </div>
-              <div className={styles.promptInputContainer}>
-                <textarea
-                  className={styles.promptTextarea}
-                  onChange={(e) => {
-                    handlePromptChange(e.target.value)
-                    setSelectedPreset('') // Clear preset when user types manually
-                    // Auto-resize textarea
-                    e.target.style.height = 'auto'
-                    e.target.style.height = `${e.target.scrollHeight}px`
-                  }}
-                  onKeyDown={(e) => {
-                    // Allow Enter to submit, Shift+Enter for new line
-                    if (e.key === 'Enter' && !e.shiftKey) {
-                      e.preventDefault()
-                      if (userPrompt?.trim() && !isLoadingReport) {
-                        handleGenerateReport()
-                      }
+            </div>
+            <div className={styles.promptInputContainer}>
+              <textarea
+                className={styles.promptTextarea}
+                onChange={(e) => {
+                  handlePromptChange(e.target.value)
+                  setSelectedPreset('')
+                  e.target.style.height = 'auto'
+                  e.target.style.height = `${e.target.scrollHeight}px`
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault()
+                    if (userPrompt?.trim() && !isLoadingReport) {
+                      handleGenerateReport()
                     }
-                  }}
-                  placeholder="Describe how you'd like to showcase your accomplishments..."
-                  value={userPrompt || ''}
-                  rows={1}
-                />
-                <div className={styles.promptControls}>
-                  <div className={styles.templateDropdown}>
-                    <select
-                      className={styles.templateSelect}
-                      value={selectedPreset}
-                      onChange={(e) => handlePresetChange(e.target.value)}
-                    >
-                      <option value="">Template</option>
-                      <option value="year-end-review">Year End Review</option>
-                      <option value="linkedin-experience">LinkedIn Experience</option>
-                      <option value="job-application">Job Application</option>
-                    </select>
-                  </div>
-                  <button
-                    type="button"
-                    className={styles.generateArrowButton}
-                    onClick={handleGenerateReport}
-                    disabled={!userPrompt?.trim() || isLoadingReport}
+                  }
+                }}
+                placeholder="Describe how you'd like to showcase your accomplishments..."
+                value={userPrompt || ''}
+                rows={1}
+              />
+              <div className={styles.promptControls}>
+                <div className={styles.templateDropdown}>
+                  <select
+                    className={styles.templateSelect}
+                    value={selectedPreset}
+                    onChange={(e) => handlePresetChange(e.target.value)}
                   >
-                    {isLoadingReport ? (
-                      <div className={styles.loadingSpinner}></div>
-                    ) : (
-                      <svg
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                        <polyline points="12 5 19 12 12 19"></polyline>
-                      </svg>
-                    )}
-                  </button>
+                    <option value="">Template</option>
+                    <option value="year-end-review">Year End Review</option>
+                    <option value="linkedin-experience">LinkedIn Experience</option>
+                    <option value="job-application">Job Application</option>
+                  </select>
                 </div>
+                <button
+                  type="button"
+                  className={styles.generateArrowButton}
+                  onClick={handleGenerateReport}
+                  disabled={!userPrompt?.trim() || isLoadingReport}
+                >
+                  {isLoadingReport ? (
+                    <div className={styles.loadingSpinner}></div>
+                  ) : (
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  )}
+                </button>
               </div>
+            </div>
 
-              <div className={styles.reportsTableSection}>
-                <Box marginBottom={150}>
-                  <Text variant="headline-md-emphasis">Saved Reports</Text>
-                </Box>
-                <SavedReportsTable
-                  isLoadingReport={isLoadingReport}
-                  generatingReportId={generatingReportId}
-                />
-              </div>
-            </>
-          )}
-        </motion.div>
-      </div>
-
-      <DayGrid goodThings={goodThings} onRefetch={refetch} />
+            <div className={styles.reportsTableSection}>
+              <Box marginBottom={150}>
+                <Text variant="headline-md-emphasis">Saved Reports</Text>
+              </Box>
+              <SavedReportsTable
+                isLoadingReport={isLoadingReport}
+                generatingReportId={generatingReportId}
+              />
+            </div>
+          </motion.div>
+        </div>
+      )}
 
       <ReportModal isOpen={isModalOpen} onClose={handleCloseModal} report={selectedReport} />
     </div>
