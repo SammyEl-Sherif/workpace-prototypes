@@ -3,6 +3,7 @@ import { GoodThing, GoodThingMedia } from '@/interfaces/good-things'
 import { Button, Text } from '@workpace/design-system'
 import { motion, AnimatePresence } from 'framer-motion'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { GoodThingForm } from '../GoodThingForm'
 import { MediaUpload } from '../MediaUpload'
 import styles from './DayGrid.module.scss'
@@ -210,6 +211,135 @@ export const DayGrid = ({
     return 4
   }
 
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    if (selectedDay) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [selectedDay])
+
+  // Close on escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && selectedDay) {
+        setSelectedDay(null)
+        setShowForm(false)
+      }
+    }
+    window.addEventListener('keydown', handleEscape)
+    return () => window.removeEventListener('keydown', handleEscape)
+  }, [selectedDay])
+
+  const handleCloseModal = () => {
+    setSelectedDay(null)
+    setShowForm(false)
+  }
+
+  // Day detail modal content
+  const dayDetailModal =
+    selectedDay && typeof window !== 'undefined'
+      ? createPortal(
+          <div className={styles.modalOverlay} onClick={handleCloseModal}>
+            <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+              <div className={styles.modalHeader}>
+                <div className={styles.modalHeaderInfo}>
+                  <Text variant="headline-md-emphasis">{formatDateFull(selectedDay.date)}</Text>
+                  <Text variant="body-md" color="neutral-600">
+                    {selectedDay.goodThings.length === 0
+                      ? 'No achievements logged'
+                      : `${selectedDay.goodThings.length} achievement${
+                          selectedDay.goodThings.length !== 1 ? 's' : ''
+                        }`}
+                  </Text>
+                </div>
+                <div className={styles.modalHeaderActions}>
+                  {!showForm && (
+                    <Button variant="brand-primary" onClick={() => setShowForm(true)}>
+                      + Add
+                    </Button>
+                  )}
+                  <Button variant="default-secondary" onClick={handleCloseModal}>
+                    Close
+                  </Button>
+                </div>
+              </div>
+              <div className={styles.modalBody}>
+                {showForm && (
+                  <div className={styles.formContainer}>
+                    <GoodThingForm
+                      defaultDate={selectedDay.dateKey}
+                      onSuccess={handleFormSuccess}
+                      onCancel={() => setShowForm(false)}
+                    />
+                  </div>
+                )}
+
+                {selectedDay.goodThings.length > 0 && (
+                  <div className={styles.achievementList}>
+                    {selectedDay.goodThings.map((gt) => (
+                      <div key={gt.id} className={styles.achievementCard}>
+                        <div className={styles.achievementContent}>
+                          <Text variant="headline-sm-emphasis">{gt.title}</Text>
+                          {gt.description && (
+                            <Text variant="body-md" color="neutral-600">
+                              {gt.description}
+                            </Text>
+                          )}
+                          {gt.goal_name && <span className={styles.goalBadge}>{gt.goal_name}</span>}
+                        </div>
+
+                        {selectedDay.media.filter((m) => m.good_thing_id === gt.id).length > 0 && (
+                          <div className={styles.mediaGallery}>
+                            {selectedDay.media
+                              .filter((m) => m.good_thing_id === gt.id)
+                              .map((media) => (
+                                <div key={media.id} className={styles.mediaPreview}>
+                                  {media.media_type === 'photo' ? (
+                                    <img
+                                      src={media.media_url}
+                                      alt={media.file_name}
+                                      className={styles.mediaFull}
+                                    />
+                                  ) : (
+                                    <video
+                                      src={media.media_url}
+                                      controls
+                                      className={styles.mediaFull}
+                                    />
+                                  )}
+                                </div>
+                              ))}
+                          </div>
+                        )}
+
+                        <MediaUpload goodThingId={gt.id} onUploadComplete={handleMediaUploaded} />
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {selectedDay.goodThings.length === 0 && !showForm && (
+                  <div className={styles.emptyDay}>
+                    <Text variant="body-md" color="neutral-500">
+                      Nothing logged for this day yet.
+                    </Text>
+                    <Button variant="brand-primary" onClick={() => setShowForm(true)}>
+                      + Log an Achievement
+                    </Button>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>,
+          document.body
+        )
+      : null
+
   return (
     <div className={styles.container}>
       {/* Header — always visible, text switches based on view */}
@@ -284,14 +414,14 @@ export const DayGrid = ({
                     } ${isSelected ? styles.selected : ''} ${hasMedia ? styles.hasMedia : ''}`}
                     onClick={() => handleDayClick(day)}
                     initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
+                    animate={{ opacity: 1, scale: isSelected ? 1.05 : 1 }}
                     transition={{
                       duration: 0.2,
                       delay: index * 0.015,
                       ease: [0.22, 1, 0.36, 1],
                     }}
-                    whileHover={{ scale: 1.08 }}
-                    whileTap={{ scale: 0.95 }}
+                    whileHover={{ scale: 1.06 }}
+                    whileTap={{ scale: 0.97 }}
                     title={`${formatDate(day.date)} — ${count} achievement${
                       count !== 1 ? 's' : ''
                     }`}
@@ -315,116 +445,6 @@ export const DayGrid = ({
               </div>
               <span className={styles.legendLabel}>More</span>
             </div>
-
-            <AnimatePresence>
-              {selectedDay && (
-                <motion.div
-                  key="day-detail"
-                  initial={{ opacity: 0, y: 20, height: 0 }}
-                  animate={{ opacity: 1, y: 0, height: 'auto' }}
-                  exit={{ opacity: 0, y: 20, height: 0 }}
-                  transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                  className={styles.dayDetail}
-                >
-                  <div className={styles.dayDetailHeader}>
-                    <div>
-                      <Text variant="headline-sm-emphasis">{formatDateFull(selectedDay.date)}</Text>
-                      <Text variant="body-md" color="neutral-600">
-                        {selectedDay.goodThings.length === 0
-                          ? 'No achievements logged'
-                          : `${selectedDay.goodThings.length} achievement${
-                              selectedDay.goodThings.length !== 1 ? 's' : ''
-                            }`}
-                      </Text>
-                    </div>
-                    <div className={styles.dayDetailActions}>
-                      {!showForm && (
-                        <Button variant="brand-primary" onClick={() => setShowForm(true)}>
-                          + Add Achievement
-                        </Button>
-                      )}
-                      <Button
-                        variant="default-secondary"
-                        onClick={() => {
-                          setSelectedDay(null)
-                          setShowForm(false)
-                        }}
-                      >
-                        Close
-                      </Button>
-                    </div>
-                  </div>
-
-                  {showForm && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 10 }}
-                      className={styles.formContainer}
-                    >
-                      <GoodThingForm
-                        defaultDate={selectedDay.dateKey}
-                        onSuccess={handleFormSuccess}
-                        onCancel={() => setShowForm(false)}
-                      />
-                    </motion.div>
-                  )}
-
-                  {selectedDay.goodThings.length > 0 && (
-                    <div className={styles.achievementList}>
-                      {selectedDay.goodThings.map((gt) => (
-                        <motion.div
-                          key={gt.id}
-                          className={styles.achievementCard}
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ duration: 0.2 }}
-                        >
-                          <div className={styles.achievementContent}>
-                            <Text variant="headline-sm-emphasis">{gt.title}</Text>
-                            {gt.description && (
-                              <Text variant="body-md" color="neutral-600">
-                                {gt.description}
-                              </Text>
-                            )}
-                            {gt.goal_name && (
-                              <span className={styles.goalBadge}>{gt.goal_name}</span>
-                            )}
-                          </div>
-
-                          {selectedDay.media.filter((m) => m.good_thing_id === gt.id).length >
-                            0 && (
-                            <div className={styles.mediaGallery}>
-                              {selectedDay.media
-                                .filter((m) => m.good_thing_id === gt.id)
-                                .map((media) => (
-                                  <div key={media.id} className={styles.mediaPreview}>
-                                    {media.media_type === 'photo' ? (
-                                      <img
-                                        src={media.media_url}
-                                        alt={media.file_name}
-                                        className={styles.mediaFull}
-                                      />
-                                    ) : (
-                                      <video
-                                        src={media.media_url}
-                                        controls
-                                        className={styles.mediaFull}
-                                      />
-                                    )}
-                                  </div>
-                                ))}
-                            </div>
-                          )}
-
-                          <MediaUpload goodThingId={gt.id} onUploadComplete={handleMediaUploaded} />
-                        </motion.div>
-                      ))}
-                    </div>
-                  )}
-                </motion.div>
-              )}
-            </AnimatePresence>
           </motion.div>
         ) : (
           <motion.div
@@ -438,6 +458,9 @@ export const DayGrid = ({
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Day detail modal — rendered via portal */}
+      {dayDetailModal}
     </div>
   )
 }

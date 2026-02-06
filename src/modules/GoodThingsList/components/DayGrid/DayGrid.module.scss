@@ -189,20 +189,10 @@
     outline: 3px solid #667eea;
     outline-offset: -3px;
     box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-    transform: scale(1.05);
   }
 
   &.hasMedia {
     outline-color: transparent;
-  }
-
-  &:hover {
-    transform: scale(1.08);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-  }
-
-  &:active {
-    transform: scale(0.95);
   }
 }
 
@@ -283,37 +273,137 @@
   }
 }
 
-.dayDetail {
-  margin-top: $size-500;
-  background: #f8f9fa;
-  border-radius: 12px;
-  padding: $size-400;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-}
-
-.dayDetailHeader {
+// --- Day Detail Modal ---
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10000;
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: $size-300;
-  gap: $size-200;
+  align-items: center;
+  justify-content: center;
+  padding: $size-300;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  pointer-events: auto;
+  animation: fadeIn 0.2s ease-out;
 
-  @media (max-width: 600px) {
-    flex-direction: column;
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 }
 
-.dayDetailActions {
+.modalContent {
+  background: white;
+  border-radius: $size-200;
+  box-shadow: 0 $size-400 $size-800 rgba(0, 0, 0, 0.2), 0 $size-200 $size-400 rgba(0, 0, 0, 0.1);
   display: flex;
-  gap: $size-150;
+  flex-direction: column;
+  max-height: 90vh;
+  width: 100%;
+  max-width: 700px;
+  overflow: hidden;
+  position: relative;
+  z-index: 10001;
+  pointer-events: auto;
+  animation: slideInDesktop 0.3s ease-out;
+
+  @keyframes slideInDesktop {
+    from {
+      opacity: 0;
+      transform: scale(0.95) translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  @media (max-width: 768px) {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-width: 100%;
+    max-height: 90vh;
+    border-radius: $size-500 $size-500 0 0;
+    margin: 0;
+    padding: 0;
+    animation: slideUpMobile 0.3s ease-out;
+
+    @keyframes slideUpMobile {
+      from {
+        transform: translateY(100%);
+      }
+      to {
+        transform: translateY(0);
+      }
+    }
+  }
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: $size-400;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  gap: $size-200;
   flex-shrink: 0;
+
+  @media (max-width: 768px) {
+    padding: $size-300;
+  }
+}
+
+.modalHeaderInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: $size-50;
+}
+
+.modalHeaderActions {
+  display: flex;
+  gap: $size-100;
+  flex-shrink: 0;
+}
+
+.modalBody {
+  flex: 1;
+  overflow-y: auto;
+  padding: $size-400;
+
+  @media (max-width: 768px) {
+    padding: $size-300;
+  }
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #f8f9fa;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+    &:hover {
+      background: #aaa;
+    }
+  }
 }
 
 .formContainer {
   margin-bottom: $size-400;
   padding: $size-300;
-  background: white;
+  background: #f8f9fa;
   border-radius: 10px;
   border: 1px solid rgba(0, 0, 0, 0.06);
 }
@@ -325,7 +415,7 @@
 }
 
 .achievementCard {
-  background: white;
+  background: #f8f9fa;
   border-radius: 10px;
   padding: $size-300;
   border: 1px solid rgba(0, 0, 0, 0.06);
@@ -356,7 +446,7 @@
 
 .mediaGallery {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: $size-200;
   margin-top: $size-200;
 
@@ -378,6 +468,16 @@
   background: #f0f0f0;
 }
 
+.emptyDay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $size-300;
+  padding: $size-600 $size-300;
+  text-align: center;
+}
+
 @media (max-width: 768px) {
   .container {
     padding: $size-300 0;
@@ -391,9 +491,5 @@
 
   .square {
     border-radius: 8px;
-  }
-
-  .dayDetail {
-    padding: $size-300;
   }
 }

@@ -4,10 +4,15 @@
   width: 100%;
 }
 
+// --- Desktop: Table view ---
 .tableWrapper {
   overflow-x: auto;
   border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 8px;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 }
 
 .table {
@@ -126,18 +131,49 @@
   }
 }
 
-@media (max-width: 768px) {
-  .tableWrapper {
-    font-size: 0.875rem;
-  }
+// --- Mobile: Card view ---
+.cardList {
+  display: none;
 
-  .th,
-  .td {
-    padding: $size-150 $size-200;
-  }
-
-  .actions {
+  @media (max-width: 768px) {
+    display: flex;
     flex-direction: column;
-    gap: $size-75;
+    gap: $size-200;
   }
+}
+
+.reportCard {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  padding: $size-300;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: rgba(102, 126, 234, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  }
+}
+
+.reportCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: $size-100;
+}
+
+.reportCardActions {
+  display: flex;
+  gap: $size-100;
+  margin-top: $size-200;
+  padding-top: $size-200;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.emptyCard {
+  text-align: center;
+  padding: $size-400;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
 }

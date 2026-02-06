@@ -209,7 +209,7 @@
 
   .promptTextarea {
     width: 100%;
-    padding: $size-200 $size-300 $size-500 $size-300; // Reduced padding
+    padding: $size-200 $size-300 $size-500 $size-300;
     border: none;
     border-radius: 12px;
     font-size: 0.9375rem;
@@ -242,10 +242,10 @@
     align-items: center;
     justify-content: flex-end;
     gap: $size-100;
-    pointer-events: none; // Allow clicks to pass through to textarea
+    pointer-events: none;
 
     .templateDropdown {
-      pointer-events: auto; // Re-enable pointer events for dropdown
+      pointer-events: auto;
 
       .templateSelect {
         appearance: none;
@@ -286,7 +286,7 @@
     }
 
     .generateArrowButton {
-      pointer-events: auto; // Re-enable pointer events for button
+      pointer-events: auto;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -327,6 +327,31 @@
         border-top-color: white;
         border-radius: 50%;
         animation: spin 0.8s linear infinite;
+      }
+    }
+  }
+
+  // Mobile: stack textarea and controls vertically
+  @media (max-width: 768px) {
+    .promptTextarea {
+      padding-bottom: $size-200;
+      min-height: 80px;
+    }
+
+    .promptControls {
+      position: relative;
+      bottom: auto;
+      right: auto;
+      justify-content: flex-end;
+      padding: 0 $size-150 $size-150 $size-150;
+      pointer-events: auto;
+
+      .templateDropdown {
+        flex: 1;
+
+        .templateSelect {
+          width: 100%;
+        }
       }
     }
   }
@@ -643,7 +668,7 @@
     margin-bottom: $size-300;
 
     .headerContent {
-      padding: $size-300 0;
+      padding: $size-300 0 0 0;
     }
   }
 

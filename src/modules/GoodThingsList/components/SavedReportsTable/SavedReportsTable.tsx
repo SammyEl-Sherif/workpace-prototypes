@@ -198,6 +198,7 @@ export const SavedReportsTable = ({
   return (
     <>
       <div className={styles.container}>
+        {/* Desktop: Table view */}
         <div className={styles.tableWrapper}>
           <table className={styles.table}>
             <thead>
@@ -258,6 +259,60 @@ export const SavedReportsTable = ({
               )}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile: Card view */}
+        <div className={styles.cardList}>
+          {isLoadingReport && generatingReportId && (
+            <div className={styles.reportCard}>
+              <div className={styles.loadingState}>
+                <div className={styles.loadingAnimation}>
+                  <div className={styles.loadingDot}></div>
+                  <div className={styles.loadingDot}></div>
+                  <div className={styles.loadingDot}></div>
+                </div>
+                <Text>AI is crafting your report...</Text>
+              </div>
+            </div>
+          )}
+          {tableData.filter((r) => !(r as any).isGenerating).length === 0 && !isLoadingReport ? (
+            <div className={styles.emptyCard}>
+              <Text color="neutral-600">
+                No saved reports yet. Generate a report to see it here.
+              </Text>
+            </div>
+          ) : (
+            tableData
+              .filter((r) => !(r as any).isGenerating)
+              .map((report) => (
+                <div key={report.id} className={styles.reportCard}>
+                  <div className={styles.reportCardHeader}>
+                    <Text variant="headline-sm-emphasis">{report.title}</Text>
+                    <Text variant="body-sm" color="neutral-500">
+                      {formatDate(report.created_at)}
+                    </Text>
+                  </div>
+                  {report.prompt_used && (
+                    <Text variant="body-sm" color="neutral-600" marginTop={100}>
+                      {report.prompt_used.length > 80
+                        ? report.prompt_used.substring(0, 80) + '...'
+                        : report.prompt_used}
+                    </Text>
+                  )}
+                  <div className={styles.reportCardActions}>
+                    <Button variant="default-secondary" onClick={() => handleViewReport(report)}>
+                      View
+                    </Button>
+                    <Button
+                      variant="default-secondary"
+                      onClick={() => handleDeleteReport(report.id)}
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                </div>
+              ))
+          )}
         </div>
       </div>
 
