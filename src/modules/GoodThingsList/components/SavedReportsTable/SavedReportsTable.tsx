@@ -288,7 +288,7 @@ export const SavedReportsTable = ({
                 <div key={report.id} className={styles.reportCard}>
                   <div className={styles.reportCardHeader}>
                     <Text variant="headline-sm-emphasis">{report.title}</Text>
-                    <Text variant="body-sm" color="neutral-500">
+                    <Text variant="body-sm" color="neutral-400">
                       {formatDate(report.created_at)}
                     </Text>
                   </div>

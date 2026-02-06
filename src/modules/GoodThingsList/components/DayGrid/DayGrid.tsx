@@ -325,7 +325,7 @@ export const DayGrid = ({
 
                 {selectedDay.goodThings.length === 0 && !showForm && (
                   <div className={styles.emptyDay}>
-                    <Text variant="body-md" color="neutral-500">
+                    <Text variant="body-md" color="neutral-400">
                       Nothing logged for this day yet.
                     </Text>
                     <Button variant="brand-primary" onClick={() => setShowForm(true)}>
