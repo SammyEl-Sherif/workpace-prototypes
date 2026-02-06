@@ -61,7 +61,7 @@ const StandardNavbar = () => {
               Design System
             </Link>
             <Link href={Routes.SYSTEM_DESIGN} className={styles.navLink}>
-              System Designs
+              System Design
             </Link>
           </div>
           <div className={styles.authSection}>
@@ -147,7 +147,7 @@ const StandardNavbar = () => {
               className={styles.mobileNavLink}
               onClick={closeMobileNav}
             >
-              System Designs
+              System Design
             </Link>
           </div>
 
