@@ -2,25 +2,46 @@
 
 ## Design System Component Usage
 
-**ALWAYS prefer using components from `@workpace/design-system` before creating
-custom components.**
+**ALWAYS prefer using components from the published `@workpace/design-system`
+npm package before creating custom components.**
+
+### Package Architecture
+
+`@workpace/design-system` is a **published npm package** consumed by `src/` as
+an external dependency — NOT as a local workspace symlink. The design-system
+source code lives in `design-system/` in this repo for development and
+publishing, but `src/` always imports from the **installed published package**.
+
+- **NEVER** import directly from `design-system/src/` or relative paths into the
+  design-system source.
+- **ALWAYS** import from the published package:
+  `import { Button } from '@workpace/design-system'`
+- The `design-system/` directory in this repo is **reference only** from
+  `src/`'s perspective — use it as documentation and examples of available
+  components, their props, variants, and usage patterns.
 
 ### Guidelines:
 
 1. **Check Design System First**: Before implementing any UI component, check if
    it exists in the design-system package:
-   - Review `design-system/src/components/` for available components
-   - Check Storybook documentation at `design-system/docs/` or run
-     `npm run start` in design-system
+   - Browse `design-system/src/components/` as **documentation/reference** for
+     available components, their props, and usage examples
+   - Review Storybook stories (`*.stories.tsx`) to understand component variants
+     and configurations
+   - Check Storybook docs at `design-system/docs/` or run `npm run start` in
+     design-system
    - Available components include: Button, Badge, Card, Text, InputField,
      Select, Loading, Divider, Box, and Icons
 
 2. **Using Design System Components**:
-   - Import from `@workpace/design-system`:
+   - Always import from the **published package**:
      `import { Button, Card, Text } from '@workpace/design-system'`
+   - NEVER import from `design-system/src/...` or `../../design-system/...`
    - Use design system components with their variants and props as documented
    - For navigation links, use polymorphic `as` prop:
      `<Button as={Link} href="/path">Link Text</Button>`
+   - If you need to understand a component's API, read its source in
+     `design-system/src/components/[ComponentName]/` as reference
 
 3. **New Component Callout**:
    - **If implementing a new component** that's used multiple times or is a
@@ -32,6 +53,9 @@ custom components.**
        etc.), it belongs in design-system
      - **Ask the user** if they want to add it to the design-system before
        creating a custom implementation
+   - New design-system components are only available in `src/` **after** the
+     design-system is published to npm and the version is bumped in
+     `src/package.json`
 
 4. **Component Addition Process**:
    - When adding a new component to design-system:
@@ -43,6 +67,8 @@ custom components.**
        styling
      - Follow existing component patterns (polymorphic support, props structure,
        etc.)
+   - After adding, remind the user to **publish a new version** via the GitHub
+     Actions workflow and update the version in `src/package.json`
 
 5. **Styling**:
    - Use design tokens for colors, spacing, typography:
@@ -52,7 +78,7 @@ custom components.**
 
 6. **Import Order**:
    - External libraries first
-   - Design system imports
+   - Design system imports (`@workpace/design-system`)
    - Internal imports (@/ aliases)
    - Styles
 
