@@ -224,7 +224,7 @@ export const GoodThingForm = ({
   }
 
   const deleteRemovedMedia = async () => {
-    for (const mediaId of removedMediaIds) {
+    for (const mediaId of Array.from(removedMediaIds)) {
       await fetch(`/api/good-stuff-list/good-thing-media/${mediaId}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
