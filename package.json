@@ -8,7 +8,6 @@
     "start": "check-engines && npm run start --workspace src",
     "build": "npm run build:src",
     "build:src": "npm run build --workspace src",
-    "build:design-system": "npm run build:production --workspace design-system",
     "test": "npm-run-all --parallel test:** --print-label",
     "test:src": "npm run test --workspace src",
     "check": "npm-run-all --parallel check:** --print-label",
