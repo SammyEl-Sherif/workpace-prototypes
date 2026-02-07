@@ -13,10 +13,10 @@ on:
           - major
         default: patch
       branch:
-        description: "Branch to release from"
-        required: true
+        description: "Branch to release from (leave empty to use current branch)"
+        required: false
         type: string
-        default: "main"
+        default: ""
 
 jobs:
   release:
@@ -30,7 +30,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          ref: ${{ inputs.branch }}
+          ref: ${{ inputs.branch || github.ref_name }}
           fetch-depth: 0
 
       - name: Setup Node.js
@@ -85,7 +85,7 @@ jobs:
         run: |
           git add design-system/package.json design-system/package-lock.json
           git commit -m "chore: bump design-system version to ${{ env.NEW_VERSION }}"
-          git push origin HEAD:${{ inputs.branch }}
+          git push origin HEAD:${{ inputs.branch || github.ref_name }}
 
       - name: Create git tag
         run: |
