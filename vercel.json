@@ -1,6 +1,6 @@
 {
-  "buildCommand": "npm run build --workspace=design-system && npm run build:production --workspace=src",
-  "outputDirectory": ".next",
+  "buildCommand": "npm run build",
+  "outputDirectory": "src/.next",
   "installCommand": "npm ci --include=dev",
   "devCommand": "npm run dev",
   "framework": "nextjs",
