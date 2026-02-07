@@ -1,4 +1,5 @@
-import { useGoodThings } from '@/hooks'
+import { useGoodThings, useManualFetch } from '@/hooks'
+import { GoodThing, GoodThingMedia } from '@/interfaces/good-things'
 import { Badge, Button, Card, CardContent, Text } from '@workpace/design-system'
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
@@ -8,12 +9,27 @@ import styles from './GoodThingsList.module.scss'
 interface GoodThingsListProps {
   addFormOpen?: boolean
   onAddFormClose?: () => void
+  /** Pre-filtered list of good things (e.g. by goal). When provided the component won't fetch its own. */
+  goodThings?: GoodThing[]
 }
 
-export const GoodThingsList = ({ addFormOpen, onAddFormClose }: GoodThingsListProps) => {
-  const { goodThings, isLoading, error, refetch } = useGoodThings()
+export const GoodThingsList = ({
+  addFormOpen,
+  onAddFormClose,
+  goodThings: goodThingsProp,
+}: GoodThingsListProps) => {
+  const { goodThings: allGoodThings, isLoading, error, refetch } = useGoodThings()
+
+  // Use the prop when supplied (already filtered), otherwise fall back to our own fetch
+  const goodThings = goodThingsProp ?? allGoodThings
+
   const [editingId, setEditingId] = useState<string | null>(null)
   const [showForm, setShowForm] = useState(false)
+  const [editingMedia, setEditingMedia] = useState<GoodThingMedia[]>([])
+
+  const fetchMedia = useManualFetch<{ data: { media: GoodThingMedia[] } }>(
+    'good-stuff-list/good-thing-media'
+  )
 
   // Sync external add-form trigger
   useEffect(() => {
@@ -24,8 +40,31 @@ export const GoodThingsList = ({ addFormOpen, onAddFormClose }: GoodThingsListPr
   }, [addFormOpen])
 
   useEffect(() => {
-    refetch()
+    if (!goodThingsProp) {
+      refetch()
+    }
   }, [])
+
+  // Fetch media when starting to edit a good thing
+  const handleStartEdit = async (id: string) => {
+    setEditingId(id)
+    setShowForm(true)
+    setEditingMedia([])
+
+    try {
+      const [response] = await fetchMedia({
+        method: 'get',
+        url: `good-stuff-list/good-thing-media/${id}`,
+        params: { goodThingId: id },
+      })
+
+      if (response?.data?.media) {
+        setEditingMedia(response.data.media)
+      }
+    } catch {
+      // If media fetch fails, continue editing without media
+    }
+  }
 
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this good thing?')) return
@@ -36,7 +75,7 @@ export const GoodThingsList = ({ addFormOpen, onAddFormClose }: GoodThingsListPr
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include', // Include cookies
+        credentials: 'include',
       })
 
       if (!response.ok) {
@@ -59,7 +98,7 @@ export const GoodThingsList = ({ addFormOpen, onAddFormClose }: GoodThingsListPr
     })
   }
 
-  if (isLoading) {
+  if (isLoading && !goodThingsProp) {
     return (
       <div className={styles.loading}>
         <Text>Loading...</Text>
@@ -67,10 +106,10 @@ export const GoodThingsList = ({ addFormOpen, onAddFormClose }: GoodThingsListPr
     )
   }
 
-  if (error) {
+  if (error && !goodThingsProp) {
     return (
       <div className={styles.error}>
-        <Text color="urgent-600">Error loading good things: {error.message}</Text>
+        <Text color="error-600">Error loading good things: {error.message}</Text>
       </div>
     )
   }
@@ -87,84 +126,152 @@ export const GoodThingsList = ({ addFormOpen, onAddFormClose }: GoodThingsListPr
         >
           <GoodThingForm
             goodThing={editingId ? goodThings.find((gt) => gt.id === editingId) || null : null}
+            existingMedia={editingId ? editingMedia : []}
             onSuccess={() => {
               setShowForm(false)
               setEditingId(null)
+              setEditingMedia([])
               onAddFormClose?.()
               refetch()
             }}
             onCancel={() => {
               setShowForm(false)
               setEditingId(null)
+              setEditingMedia([])
               onAddFormClose?.()
             }}
           />
         </motion.div>
       )}
 
-      <div className={styles.list}>
-        {goodThings.length === 0 ? (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className={styles.empty}>
-            <Text>No good things yet. Add your first one!</Text>
-          </motion.div>
-        ) : (
-          goodThings.map((goodThing, index) => (
-            <motion.div
-              key={goodThing.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.3,
-                delay: index * 0.05,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              whileHover={{ y: -2 }}
-            >
-              <Card className={styles.card}>
-                <CardContent>
-                  <div className={styles.cardHeader}>
-                    <div>
-                      <Text variant="headline-sm-emphasis">{goodThing.title}</Text>
-                      {goodThing.goal_name && (
-                        <Badge variant="info" size="sm" margin={100}>
+      {goodThings.length === 0 ? (
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className={styles.empty}>
+          <Text>No good things yet. Add your first one!</Text>
+        </motion.div>
+      ) : (
+        <>
+          {/* Desktop: Table view */}
+          <div className={styles.tableWrapper}>
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th className={styles.th}>Title</th>
+                  <th className={styles.th}>Description</th>
+                  <th className={styles.th}>Goal</th>
+                  <th className={styles.th}>Date</th>
+                  <th className={styles.th}>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {goodThings.map((goodThing) => (
+                  <tr key={goodThing.id} className={styles.tr}>
+                    <td className={styles.td}>
+                      <Text variant="body-md-emphasis">{goodThing.title}</Text>
+                    </td>
+                    <td className={styles.td}>
+                      <Text variant="body-sm" color="neutral-600">
+                        {goodThing.description
+                          ? goodThing.description.length > 80
+                            ? goodThing.description.substring(0, 80) + '...'
+                            : goodThing.description
+                          : '—'}
+                      </Text>
+                    </td>
+                    <td className={styles.td}>
+                      {goodThing.goal_name ? (
+                        <Badge variant="info" size="sm">
                           {goodThing.goal_name}
                         </Badge>
+                      ) : (
+                        <Text variant="body-sm" color="neutral-400">
+                          —
+                        </Text>
                       )}
+                    </td>
+                    <td className={styles.td}>
+                      <Text variant="body-sm" color="neutral-600">
+                        {formatDate(goodThing.completion_date)}
+                      </Text>
+                    </td>
+                    <td className={styles.td}>
+                      <div className={styles.actions}>
+                        <Button
+                          variant="default-secondary"
+                          onClick={() => handleStartEdit(goodThing.id)}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          variant="default-secondary"
+                          onClick={() => handleDelete(goodThing.id)}
+                        >
+                          Delete
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Mobile: Card view */}
+          <div className={styles.cardList}>
+            {goodThings.map((goodThing, index) => (
+              <motion.div
+                key={goodThing.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.3,
+                  delay: index * 0.05,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+                whileHover={{ y: -2 }}
+              >
+                <Card className={styles.card}>
+                  <CardContent>
+                    <div className={styles.cardHeader}>
+                      <div>
+                        <Text variant="headline-sm-emphasis">{goodThing.title}</Text>
+                        {goodThing.goal_name && (
+                          <Badge variant="info" size="sm" margin={100}>
+                            {goodThing.goal_name}
+                          </Badge>
+                        )}
+                      </div>
+                      <div className={styles.cardActions}>
+                        <Button
+                          variant="default-secondary"
+                          onClick={() => handleStartEdit(goodThing.id)}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          variant="default-secondary"
+                          onClick={() => handleDelete(goodThing.id)}
+                        >
+                          Delete
+                        </Button>
+                      </div>
                     </div>
-                    <div className={styles.cardActions}>
-                      <Button
-                        variant="default-secondary"
-                        onClick={() => {
-                          setEditingId(goodThing.id)
-                          setShowForm(true)
-                        }}
-                      >
-                        Edit
-                      </Button>
-                      <Button
-                        variant="default-secondary"
-                        onClick={() => handleDelete(goodThing.id)}
-                      >
-                        Delete
-                      </Button>
+                    {goodThing.description && (
+                      <Text variant="body-md" marginTop={150}>
+                        {goodThing.description}
+                      </Text>
+                    )}
+                    <div className={styles.cardFooter}>
+                      <Text variant="body-sm" color="neutral-600">
+                        {formatDate(goodThing.completion_date)}
+                      </Text>
                     </div>
-                  </div>
-                  {goodThing.description && (
-                    <Text variant="body-md" marginTop={150}>
-                      {goodThing.description}
-                    </Text>
-                  )}
-                  <div className={styles.cardFooter}>
-                    <Text variant="body-sm" color="neutral-600">
-                      {formatDate(goodThing.completion_date)}
-                    </Text>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))
-        )}
-      </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </>
+      )}
     </div>
   )
 }

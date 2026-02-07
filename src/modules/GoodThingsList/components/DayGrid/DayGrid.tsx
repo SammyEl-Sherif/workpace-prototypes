@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { GoodThingForm } from '../GoodThingForm'
-import { MediaUpload } from '../MediaUpload'
 import styles from './DayGrid.module.scss'
 
 const GRID_SIZE = 32
@@ -23,6 +22,8 @@ interface DayGridProps {
   showHistory: boolean
   onToggleHistory: () => void
   onAddGoodThing?: () => void
+  selectedGoalId: string
+  onGoalChange: (goalId: string) => void
   children?: React.ReactNode
 }
 
@@ -32,12 +33,14 @@ export const DayGrid = ({
   showHistory,
   onToggleHistory,
   onAddGoodThing,
+  selectedGoalId,
+  onGoalChange,
   children,
 }: DayGridProps) => {
   const [selectedDay, setSelectedDay] = useState<DayData | null>(null)
   const [showForm, setShowForm] = useState(false)
+  const [editingGoodThingId, setEditingGoodThingId] = useState<string | null>(null)
   const [mediaMap, setMediaMap] = useState<Record<string, GoodThingMedia[]>>({})
-  const [selectedGoalId, setSelectedGoalId] = useState<string>('all')
 
   const { goals, refetch: refetchGoals } = useGoals()
 
@@ -144,16 +147,45 @@ export const DayGrid = ({
     [selectedDay]
   )
 
+  // Keep selectedDay in sync with the latest days data so media/goodThings
+  // updates are reflected immediately without closing and reopening the modal.
+  useEffect(() => {
+    if (selectedDay) {
+      const updated = days.find((d) => d.dateKey === selectedDay.dateKey)
+      if (updated) {
+        setSelectedDay(updated)
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [days])
+
   const handleFormSuccess = () => {
     setShowForm(false)
-    setSelectedDay(null)
+    setEditingGoodThingId(null)
     onRefetch()
+    // Re-fetch media so thumbnails update
+    setMediaMap({})
   }
 
-  const handleMediaUploaded = () => {
-    onRefetch()
-    // Re-fetch media
-    setMediaMap({})
+  const handleDeleteGoodThing = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this?')) return
+
+    try {
+      const response = await fetch(`/api/good-stuff-list/good-things/${id}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to delete')
+      }
+
+      onRefetch()
+    } catch (err: any) {
+      alert(err.message || 'Failed to delete')
+    }
   }
 
   const formatDate = (date: Date) => {
@@ -211,6 +243,12 @@ export const DayGrid = ({
     return 4
   }
 
+  // Helper: get media for a specific good thing
+  const getMediaForGoodThing = (goodThingId: string): GoodThingMedia[] => {
+    if (!selectedDay) return []
+    return selectedDay.media.filter((m) => m.good_thing_id === goodThingId)
+  }
+
   // Prevent body scroll when modal is open
   useEffect(() => {
     if (selectedDay) {
@@ -229,6 +267,7 @@ export const DayGrid = ({
       if (e.key === 'Escape' && selectedDay) {
         setSelectedDay(null)
         setShowForm(false)
+        setEditingGoodThingId(null)
       }
     }
     window.addEventListener('keydown', handleEscape)
@@ -238,6 +277,7 @@ export const DayGrid = ({
   const handleCloseModal = () => {
     setSelectedDay(null)
     setShowForm(false)
+    setEditingGoodThingId(null)
   }
 
   // Day detail modal content
@@ -258,8 +298,14 @@ export const DayGrid = ({
                   </Text>
                 </div>
                 <div className={styles.modalHeaderActions}>
-                  {!showForm && (
-                    <Button variant="brand-primary" onClick={() => setShowForm(true)}>
+                  {!showForm && !editingGoodThingId && (
+                    <Button
+                      variant="brand-primary"
+                      onClick={() => {
+                        setEditingGoodThingId(null)
+                        setShowForm(true)
+                      }}
+                    >
                       + Add
                     </Button>
                   )}
@@ -269,12 +315,15 @@ export const DayGrid = ({
                 </div>
               </div>
               <div className={styles.modalBody}>
-                {showForm && (
+                {/* "Add new" form — only shown when adding, not editing */}
+                {showForm && !editingGoodThingId && (
                   <div className={styles.formContainer}>
                     <GoodThingForm
                       defaultDate={selectedDay.dateKey}
                       onSuccess={handleFormSuccess}
-                      onCancel={() => setShowForm(false)}
+                      onCancel={() => {
+                        setShowForm(false)
+                      }}
                     />
                   </div>
                 )}
@@ -283,41 +332,104 @@ export const DayGrid = ({
                   <div className={styles.achievementList}>
                     {selectedDay.goodThings.map((gt) => (
                       <div key={gt.id} className={styles.achievementCard}>
-                        <div className={styles.achievementContent}>
-                          <Text variant="headline-sm-emphasis">{gt.title}</Text>
-                          {gt.description && (
-                            <Text variant="body-md" color="neutral-600">
-                              {gt.description}
-                            </Text>
-                          )}
-                          {gt.goal_name && <span className={styles.goalBadge}>{gt.goal_name}</span>}
-                        </div>
-
-                        {selectedDay.media.filter((m) => m.good_thing_id === gt.id).length > 0 && (
-                          <div className={styles.mediaGallery}>
-                            {selectedDay.media
-                              .filter((m) => m.good_thing_id === gt.id)
-                              .map((media) => (
-                                <div key={media.id} className={styles.mediaPreview}>
-                                  {media.media_type === 'photo' ? (
-                                    <img
-                                      src={media.media_url}
-                                      alt={media.file_name}
-                                      className={styles.mediaFull}
-                                    />
-                                  ) : (
-                                    <video
-                                      src={media.media_url}
-                                      controls
-                                      className={styles.mediaFull}
-                                    />
-                                  )}
-                                </div>
-                              ))}
+                        {editingGoodThingId === gt.id ? (
+                          /* Inline edit form — replaces the card content in-place */
+                          <div className={styles.inlineFormContainer}>
+                            <GoodThingForm
+                              goodThing={gt}
+                              existingMedia={getMediaForGoodThing(gt.id)}
+                              defaultDate={selectedDay.dateKey}
+                              onSuccess={handleFormSuccess}
+                              onCancel={() => {
+                                setEditingGoodThingId(null)
+                              }}
+                            />
                           </div>
-                        )}
+                        ) : (
+                          /* Static card content */
+                          <>
+                            <div className={styles.achievementHeader}>
+                              <div className={styles.achievementContent}>
+                                <Text variant="headline-sm-emphasis">{gt.title}</Text>
+                                {gt.description && (
+                                  <Text variant="body-md" color="neutral-600">
+                                    {gt.description}
+                                  </Text>
+                                )}
+                                {gt.goal_name && (
+                                  <span className={styles.goalBadge}>{gt.goal_name}</span>
+                                )}
+                              </div>
+                              <div className={styles.achievementActions}>
+                                <button
+                                  type="button"
+                                  className={styles.actionButton}
+                                  title="Edit"
+                                  onClick={() => {
+                                    setEditingGoodThingId(gt.id)
+                                    setShowForm(false)
+                                  }}
+                                >
+                                  <svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  >
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                                  </svg>
+                                </button>
+                                <button
+                                  type="button"
+                                  className={`${styles.actionButton} ${styles.actionButtonDanger}`}
+                                  title="Delete"
+                                  onClick={() => handleDeleteGoodThing(gt.id)}
+                                >
+                                  <svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  >
+                                    <polyline points="3 6 5 6 21 6" />
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                                  </svg>
+                                </button>
+                              </div>
+                            </div>
 
-                        <MediaUpload goodThingId={gt.id} onUploadComplete={handleMediaUploaded} />
+                            {getMediaForGoodThing(gt.id).length > 0 && (
+                              <div className={styles.mediaGallery}>
+                                {getMediaForGoodThing(gt.id).map((media) => (
+                                  <div key={media.id} className={styles.mediaPreview}>
+                                    {media.media_type === 'photo' ? (
+                                      <img
+                                        src={media.media_url}
+                                        alt={media.file_name}
+                                        className={styles.mediaFull}
+                                      />
+                                    ) : (
+                                      <video
+                                        src={media.media_url}
+                                        controls
+                                        className={styles.mediaFull}
+                                      />
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </>
+                        )}
                       </div>
                     ))}
                   </div>
@@ -360,7 +472,7 @@ export const DayGrid = ({
               className={styles.goalSelect}
               value={selectedGoalId}
               onChange={(e) => {
-                setSelectedGoalId(e.target.value)
+                onGoalChange(e.target.value)
                 setSelectedDay(null)
                 setShowForm(false)
               }}

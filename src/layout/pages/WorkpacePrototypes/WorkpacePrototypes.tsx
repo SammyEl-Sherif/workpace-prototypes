@@ -1,13 +1,7 @@
 import { ProjectsGrid } from '@/modules'
 
-import { SectionContainer } from '@/components'
-
 const WorkpacePrototypes = () => {
-  return (
-    <SectionContainer border={false}>
-      <ProjectsGrid />
-    </SectionContainer>
-  )
+  return <ProjectsGrid />
 }
 
 export default WorkpacePrototypes

@@ -36,7 +36,7 @@ const FieldError: FieldErrorComponent = forwardRef(function FieldError<
     <Text
       as={asComponent}
       {...rest}
-      color="urgent-600"
+      color="error-600"
       className={className}
       ref={ref}
       variant="body-sm"

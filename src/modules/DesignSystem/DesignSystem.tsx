@@ -57,13 +57,6 @@ export const DesignSystem = () => {
           transition={{ duration: 0.4, delay: 0.2 }}
           className={styles.section}
         >
-          <div className={styles.sectionHeader}>
-            <h2 className={styles.sectionTitle}>Core Components</h2>
-            <p className={styles.sectionSubtitle}>
-              Essential building blocks for your applications
-            </p>
-          </div>
-
           {/* Buttons */}
           <div className={styles.componentGroup}>
             <Text variant="headline-md" className={styles.componentTitle}>

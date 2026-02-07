@@ -2,7 +2,7 @@ import { useGoodThings, useManualFetch, useSavedReports } from '@/hooks'
 import { CreateSavedReportInput } from '@/interfaces/saved-reports'
 import { Box, Text } from '@workpace/design-system'
 import { motion } from 'framer-motion'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { DayGrid, GoodThingsList, ReportModal, SavedReportsTable } from './components'
 import styles from './GoodThingsListPage.module.scss'
 import { useGenerateReportFromGoodThings } from './hooks/useGenerateReportFromGoodThings'
@@ -24,6 +24,13 @@ export const GoodThingsListPage = () => {
   const [activeView, setActiveView] = useState<ViewType>('good-things')
   const [userPrompt, setUserPrompt] = useState<string>()
   const [selectedPreset, setSelectedPreset] = useState<string>('')
+  const [selectedGoalId, setSelectedGoalId] = useState<string>('all')
+
+  // Filtered good things based on selected goal (shared between DayGrid & GoodThingsList)
+  const filteredGoodThings = useMemo(() => {
+    if (selectedGoalId === 'all') return goodThings
+    return goodThings.filter((gt) => gt.goal_id === selectedGoalId)
+  }, [goodThings, selectedGoalId])
   const [response, isLoadingReport, , makeRequest] = useGenerateReportFromGoodThings({
     goodThings,
     userPrompt,
@@ -193,12 +200,15 @@ export const GoodThingsListPage = () => {
           showHistory={showHistory}
           onToggleHistory={() => setShowHistory((prev) => !prev)}
           onAddGoodThing={() => setAddFormOpen(true)}
+          selectedGoalId={selectedGoalId}
+          onGoalChange={setSelectedGoalId}
         >
           {/* History content — rendered inside DayGrid when showHistory is true */}
           <div className={styles.mainGrid}>
             <GoodThingsList
               addFormOpen={addFormOpen}
               onAddFormClose={() => setAddFormOpen(false)}
+              goodThings={filteredGoodThings}
             />
           </div>
         </DayGrid>

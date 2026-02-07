@@ -138,7 +138,7 @@ export const MediaUpload = ({ goodThingId, onUploadComplete }: MediaUploadProps)
 
       {uploadError && (
         <div className={styles.error}>
-          <Text variant="body-sm" color="urgent-600">
+          <Text variant="body-sm" color="error-600">
             {uploadError}
           </Text>
         </div>

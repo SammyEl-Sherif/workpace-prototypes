@@ -408,6 +408,10 @@
   border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
+.inlineFormContainer {
+  margin: -#{$size-50} 0;
+}
+
 .achievementList {
   display: flex;
   flex-direction: column;
@@ -426,10 +430,61 @@
   }
 }
 
+.achievementHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: $size-200;
+}
+
 .achievementContent {
   display: flex;
   flex-direction: column;
   gap: $size-75;
+  flex: 1;
+  min-width: 0;
+}
+
+.achievementActions {
+  display: flex;
+  gap: $size-50;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+
+  .achievementCard:hover & {
+    opacity: 1;
+  }
+}
+
+.actionButton {
+  appearance: none;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  padding: $size-50;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: $color-neutral-600;
+  transition: all 0.15s ease;
+
+  &:hover {
+    background: rgba(102, 126, 234, 0.08);
+    border-color: rgba(102, 126, 234, 0.3);
+    color: #667eea;
+  }
+
+  &Danger {
+    &:hover {
+      background: rgba(220, 53, 69, 0.08);
+      border-color: rgba(220, 53, 69, 0.3);
+      color: #dc3545;
+    }
+  }
 }
 
 .goalBadge {

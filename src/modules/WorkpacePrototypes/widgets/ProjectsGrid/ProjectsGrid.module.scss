@@ -1,60 +1,68 @@
-@use '@workpace/design-system/dist/design-tokens' as design-tokens;
+@use '@workpace/design-system/dist/design-tokens' as *;
 
-.container {
-  max-width: 1200px;
+// ─── Page wrapper ────────────────────────────────────────────────────
+.page {
+  max-width: 1120px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: $size-600 $size-300 $size-800;
 }
 
-@media (max-width: 768px) {
-  .container {
-    padding: 0 1rem;
-  }
-}
-
-.grid {
-  display: grid;
-  justify-content: left;
-  gap: 24px;
-  margin-bottom: 24px;
+// ─── Header ──────────────────────────────────────────────────────────
+.header {
+  margin-bottom: $size-600;
 }
 
 .title {
-  display: flex;
-  font-size: design-tokens.$font-headline-display-font-size;
-  justify-content: left;
-  align-items: center;
-  margin-bottom: 16px;
-  font-weight: bold;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: $color-neutral-900;
+  margin: 0 0 $size-150 0;
 }
 
 .subtitle {
-  display: flex;
-  font-size: 18px;
-  margin-bottom: 16px;
+  font-size: $font-body-lg-font-size;
+  line-height: $font-body-lg-paragraph-line-height;
+  color: $color-neutral-500;
+  margin: 0;
+  max-width: 560px;
 }
 
-@media #{design-tokens.$mq-sm-only} {
-  .grid {
-    grid-template-columns: repeat(1, 1fr);
-  }
+// ─── Grid ────────────────────────────────────────────────────────────
+.grid {
+  display: grid;
+  gap: $size-300;
+  grid-template-columns: 1fr;
 }
 
-@media #{design-tokens.$mq-md-up} {
+@media #{$mq-md-up} {
   .grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media #{design-tokens.$mq-lg-up} {
+@media #{$mq-lg-up} {
   .grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-@media #{design-tokens.$mq-xl-up} {
-  .grid {
-    display: flex;
-    flex-flow: row wrap;
+// ─── Empty state ─────────────────────────────────────────────────────
+.empty {
+  text-align: center;
+  padding: $size-800 $size-300;
+  color: $color-neutral-400;
+  font-size: $font-body-lg-font-size;
+}
+
+// ─── Responsive ──────────────────────────────────────────────────────
+@media #{$mq-sm-only} {
+  .page {
+    padding: $size-400 $size-200 $size-600;
+  }
+
+  .header {
+    margin-bottom: $size-400;
   }
 }

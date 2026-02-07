@@ -1,91 +1,217 @@
 @use '@workpace/design-system/dist/design-tokens' as *;
 
+// ─── Card Link (wrapper) ─────────────────────────────────────────────
+.cardLink {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  height: 100%;
+}
+
+// ─── Card ─────────────────────────────────────────────────────────────
 .card {
   position: relative;
-  min-width: 300px;
-  min-height: 350px;
-  background-color: black;
-  color: white;
-  border-radius: 8px;
-  border: solid black 1px;
-  text-align: left;
-  align-content: flex-end;
-  padding: 2rem 2rem;
-  font-size: $font-headline-lg-font-size;
-  transition: all 0.3s ease;
+  height: 100%;
+  min-height: 340px;
+  background: $color-neutral-white;
+  border-radius: 16px;
+  border: 1px solid $color-neutral-100;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  cursor: pointer;
 
   &:hover {
-    outline: solid black 2px;
-    background-color: white;
-    color: black;
+    border-color: $color-neutral-200;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
 
-    .description {
-      opacity: 1;
-      color: black;
+    .glowEffect {
+      opacity: 0.06;
+    }
+
+    .cta {
+      gap: $size-150;
+    }
+
+    .ctaArrow {
+      transform: translateX(2px);
+    }
+
+    .accentStrip {
+      height: 6px;
     }
   }
 }
 
-.badge {
-  background-color: $color-primary-800;
-  color: white;
-  border-radius: 8px;
-  text-align: left;
-  align-content: flex-end;
-  padding: 8px;
+.cardLocked {
+  @extend .card;
+  cursor: default;
+  opacity: 0.7;
+
+  &:hover {
+    border-color: $color-neutral-100;
+    box-shadow: none;
+
+    .accentStrip {
+      height: 4px;
+    }
+  }
+}
+
+// ─── Accent Strip ────────────────────────────────────────────────────
+.accentStrip {
+  width: 100%;
+  height: 4px;
+  flex-shrink: 0;
+  transition: height 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+// ─── Card Inner Content ──────────────────────────────────────────────
+.cardInner {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: $size-300 $size-300 $size-250;
+}
+
+// ─── Header: Icon + Stage Badge ──────────────────────────────────────
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $size-200;
+}
+
+.icon {
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+.stageBadge {
+  font-size: $font-body-xs-font-size;
+  font-weight: $font-weight-medium;
+  padding: $size-50 $size-125;
+  border-radius: 100px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+
+  &[data-stage='WIP'] {
+    background: $color-warning-50;
+    color: $color-warning-700;
+  }
+
+  &[data-stage='MVP'] {
+    background: $color-primary-50;
+    color: $color-primary-700;
+  }
+
+  &[data-stage='Standalone'] {
+    background: $color-success-50;
+    color: $color-success-700;
+  }
+}
+
+// ─── Title ───────────────────────────────────────────────────────────
+.cardTitle {
   font-size: $font-headline-sm-font-size;
-  transition: all 0.3s ease;
-  display: inline-block;
-
-  &AndTitle {
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-    justify-content: space-between;
-  }
+  font-weight: $font-weight-bold;
+  line-height: $font-headline-sm-line-height;
+  color: $color-neutral-900;
+  margin: 0 0 $size-100 0;
+  letter-spacing: -0.01em;
 }
 
-.description {
-  padding: 2rem 2rem;
-  opacity: 0;
+// ─── Description ─────────────────────────────────────────────────────
+.cardDescription {
+  font-size: $font-body-md-font-size;
+  line-height: $font-body-md-paragraph-line-height;
+  color: $color-neutral-500;
+  margin: 0;
+  flex: 1;
+
+  // Clamp to 3 lines
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// ─── Tech Tags ───────────────────────────────────────────────────────
+.techTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $size-75;
+  margin-top: $size-200;
+}
+
+.techTag {
+  font-size: $font-body-xs-font-size;
+  font-weight: $font-weight-regular;
+  color: $color-neutral-500;
+  background: $color-neutral-50;
+  padding: $size-25 $size-100;
+  border-radius: 6px;
+  border: 1px solid $color-neutral-100;
+}
+
+// ─── Footer: CTA ─────────────────────────────────────────────────────
+.cardFooter {
+  margin-top: $size-250;
+  padding-top: $size-200;
+  border-top: 1px solid $color-neutral-100;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: $size-100;
+  font-size: $font-body-md-font-size;
+  font-weight: $font-weight-medium;
+  color: $color-primary-600;
+  transition: gap 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ctaArrow {
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.lockedLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: $size-100;
+  font-size: $font-body-sm-font-size;
+  font-weight: $font-weight-medium;
+  color: $color-neutral-400;
+}
+
+// ─── Glow Effect ─────────────────────────────────────────────────────
+.glowEffect {
   position: absolute;
-  top: 0;
-  left: 0;
-  transition: opacity 0.3s ease;
-  font-size: $font-headline-md-font-size;
-}
-
-.cardDisabled {
-  position: relative;
-  min-width: 300px;
-  min-height: 350px;
-  background-color: black;
-  color: white;
-  border-radius: 8px;
-  border: solid black 1px;
-  text-align: left;
-  align-content: flex-end;
-  padding: 2rem 2rem;
-  font-size: $font-headline-lg-font-size;
-  transition: all 0.3s ease;
-
-  &:hover {
-    outline: solid black 2px;
-    background-color: darkgray;
-    color: black;
-
-    .descriptionDisabled {
-      opacity: 1;
-    }
-  }
-}
-
-.descriptionDisabled {
-  padding: 2rem 2rem;
+  inset: 0;
   opacity: 0;
-  transition: opacity 0.3s ease;
-  position: absolute;
-  top: 0;
-  left: 0;
-  font-size: $font-headline-md-font-size;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  border-radius: 16px;
+}
+
+// ─── Responsive ──────────────────────────────────────────────────────
+@media #{$mq-sm-only} {
+  .card,
+  .cardLocked {
+    min-height: 280px;
+  }
+
+  .cardInner {
+    padding: $size-250 $size-250 $size-200;
+  }
+
+  .icon {
+    font-size: 2rem;
+  }
+
+  .cardTitle {
+    font-size: $font-body-lg-font-size;
+  }
 }

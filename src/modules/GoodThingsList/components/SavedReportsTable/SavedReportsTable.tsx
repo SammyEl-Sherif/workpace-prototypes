@@ -188,7 +188,7 @@ export const SavedReportsTable = ({
   if (error) {
     return (
       <div className={styles.error}>
-        <Text color="urgent-600">Error loading saved reports: {error.message}</Text>
+        <Text color="error-600">Error loading saved reports: {error.message}</Text>
       </div>
     )
   }

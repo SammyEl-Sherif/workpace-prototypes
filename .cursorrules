@@ -2,26 +2,36 @@
 
 ## Design System Component Usage
 
-**ALWAYS prefer using components from `@workpace/design-system` before creating custom components.**
+**ALWAYS prefer using components from `@workpace/design-system` before creating
+custom components.**
 
 ### Guidelines:
 
-1. **Check Design System First**: Before implementing any UI component, check if it exists in the design-system package:
+1. **Check Design System First**: Before implementing any UI component, check if
+   it exists in the design-system package:
    - Review `design-system/src/components/` for available components
-   - Check Storybook documentation at `design-system/docs/` or run `npm run start` in design-system
-   - Available components include: Button, Badge, Card, Text, InputField, Select, Loading, Divider, Box, and Icons
+   - Check Storybook documentation at `design-system/docs/` or run
+     `npm run start` in design-system
+   - Available components include: Button, Badge, Card, Text, InputField,
+     Select, Loading, Divider, Box, and Icons
 
 2. **Using Design System Components**:
-   - Import from `@workpace/design-system`: `import { Button, Card, Text } from '@workpace/design-system'`
+   - Import from `@workpace/design-system`:
+     `import { Button, Card, Text } from '@workpace/design-system'`
    - Use design system components with their variants and props as documented
-   - For navigation links, use polymorphic `as` prop: `<Button as={Link} href="/path">Link Text</Button>`
+   - For navigation links, use polymorphic `as` prop:
+     `<Button as={Link} href="/path">Link Text</Button>`
 
-3. **New Component Callout**: 
-   - **If implementing a new component** that's used multiple times or is a common UI pattern:
+3. **New Component Callout**:
+   - **If implementing a new component** that's used multiple times or is a
+     common UI pattern:
      - ⚠️ **STOP** and check if it should be added to the design-system
-     - If the component is used in 2+ places, it should likely be in the design-system
-     - If the component follows a common UI pattern (buttons, cards, inputs, etc.), it belongs in design-system
-     - **Ask the user** if they want to add it to the design-system before creating a custom implementation
+     - If the component is used in 2+ places, it should likely be in the
+       design-system
+     - If the component follows a common UI pattern (buttons, cards, inputs,
+       etc.), it belongs in design-system
+     - **Ask the user** if they want to add it to the design-system before
+       creating a custom implementation
 
 4. **Component Addition Process**:
    - When adding a new component to design-system:
@@ -29,11 +39,14 @@
      - Include: `ComponentName.tsx`, `ComponentName.module.scss`, `index.ts`
      - Create Storybook stories in `ComponentName.stories.tsx`
      - Export from `design-system/src/lib.ts`
-     - Use design tokens from `@workpace/design-system/dist/design-tokens` for styling
-     - Follow existing component patterns (polymorphic support, props structure, etc.)
+     - Use design tokens from `@workpace/design-system/dist/design-tokens` for
+       styling
+     - Follow existing component patterns (polymorphic support, props structure,
+       etc.)
 
 5. **Styling**:
-   - Use design tokens for colors, spacing, typography: `@use '@workpace/design-system/dist/design-tokens' as *;`
+   - Use design tokens for colors, spacing, typography:
+     `@use '@workpace/design-system/dist/design-tokens' as *;`
    - Follow existing design system patterns for consistency
    - Avoid custom colors/values when design tokens are available
 
@@ -43,21 +56,109 @@
    - Internal imports (@/ aliases)
    - Styles
 
+## Design Tokens Reference (SCSS)
+
+**CRITICAL: Only use the EXACT token variable names listed below. Do NOT invent,
+guess, or hallucinate token names.**
+
+Import tokens in `.module.scss` files with:
+
+```scss
+@use "@workpace/design-system/dist/design-tokens" as *;
+```
+
+### Color Tokens
+
+Each color scale has shades: `50, 100, 200, 300, 400, 500, 600, 700, 800, 900`
+
+| Scale       | Variable Pattern         | Example              | Purpose                               |
+| ----------- | ------------------------ | -------------------- | ------------------------------------- |
+| **neutral** | `$color-neutral-{shade}` | `$color-neutral-500` | Grays, text, backgrounds, borders     |
+| **primary** | `$color-primary-{shade}` | `$color-primary-500` | Brand blue, primary actions           |
+| **success** | `$color-success-{shade}` | `$color-success-500` | Positive states, confirmations        |
+| **warning** | `$color-warning-{shade}` | `$color-warning-500` | Caution states, alerts                |
+| **error**   | `$color-error-{shade}`   | `$color-error-500`   | Destructive, invalid, critical states |
+| **info**    | `$color-info-{shade}`    | `$color-info-500`    | Informational states                  |
+| **active**  | `$color-active-{shade}`  | `$color-active-500`  | Active/selected states (orange)       |
+| **accent**  | `$color-accent-{shade}`  | `$color-accent-500`  | Accent color (deep blue)              |
+
+Special neutrals: `$color-neutral-black`, `$color-neutral-white`
+
+**⚠️ Common mistakes — these token names DO NOT EXIST:**
+
+- ~~`$color-urgent-*`~~ → use `$color-error-*`
+- ~~`$color-danger-*`~~ → use `$color-error-*`
+- ~~`$color-destructive-*`~~ → use `$color-error-*`
+- ~~`$color-red-*`~~ → use `$color-error-*`
+- ~~`$color-green-*`~~ → use `$color-success-*`
+- ~~`$color-blue-*`~~ → use `$color-primary-*` or `$color-info-*`
+- ~~`$color-yellow-*`~~ → use `$color-warning-*`
+- ~~`$color-orange-*`~~ → use `$color-active-*`
+- ~~`$color-gray-*`~~ / ~~`$color-grey-*`~~ → use `$color-neutral-*`
+- ~~`$color-secondary-*`~~ → use `$color-accent-*`
+- ~~`$color-disabled-*`~~ → does not exist, use `$color-neutral-*` shades
+- ~~`$color-dark-*`~~ / ~~`$color-light-*`~~ → does not exist, use appropriate
+  scale shades
+
+### Size / Spacing Tokens
+
+`$size-25` (2px), `$size-50` (4px), `$size-75` (6px), `$size-100` (8px),
+`$size-125` (10px), `$size-150` (12px), `$size-200` (16px), `$size-250` (20px),
+`$size-300` (24px), `$size-400` (32px), `$size-500` (40px), `$size-600` (48px),
+`$size-700` (56px), `$size-800` (64px), `$size-900` (72px)
+
+### Typography Tokens
+
+- **Font stack**: `$font-family`, `$font-stack`
+- **Weights**: `$font-weight-regular` (400), `$font-weight-medium` (500),
+  `$font-weight-bold` (700), `$font-weight-emphasis` (500),
+  `$font-weight-default` (400)
+- **Headlines**: `$font-headline-{display|lg|md|sm}-font-size`,
+  `$font-headline-{display|lg|md|sm}-line-height`
+- **Body**: `$font-body-{lg|md|sm|xs}-font-size`,
+  `$font-body-{lg|md|sm|xs}-line-height`,
+  `$font-body-{lg|md|sm|xs}-paragraph-line-height`
+- **Button**: `$font-button-{md|sm}-font-size`,
+  `$font-button-{md|sm}-line-height`,
+  `$font-button-font-weight-{default|emphasis}`
+
+### Breakpoint & Media Query Tokens
+
+- **Breakpoints**: `$breakpoints-sm` (1px), `$breakpoints-md` (640px),
+  `$breakpoints-lg` (1024px), `$breakpoints-xl` (1280px)
+- **Media queries**: `$mq-sm-only`, `$mq-md-up`, `$mq-lg-up`, `$mq-xl-up`,
+  `$mq-phone-landscape-only`
+
+### Icon Size Tokens
+
+`$icons-sm` (16px), `$icons-md` (20px), `$icons-lg` (24px)
+
 ## Supabase Database & Migrations
 
-**NEVER use Supabase MCP tools (`apply_migration`, `execute_sql`) to modify the remote database schema or migration history.** The ONLY allowed ways to update Supabase are:
+**NEVER use Supabase MCP tools (`apply_migration`, `execute_sql`) to modify the
+remote database schema or migration history.** The ONLY allowed ways to update
+Supabase are:
 
-1. **`npm run supabase:diff:local`** — Generate a migration by diffing local shadow DB against declared schemas in `./supabase/schemas/`.
+1. **`npm run supabase:diff:local`** — Generate a migration by diffing local
+   shadow DB against declared schemas in `./supabase/schemas/`.
 2. **`npm run supabase:push`** — Push local migrations to the remote database.
 
 ### Rules:
 
-- **Schema changes** go in declarative SQL files under `./supabase/schemas/`. These define the desired final state.
-- **Migrations** are generated automatically via `npm run supabase:diff:local` — NEVER write migration files by hand or via MCP tools.
-- **Pushing** migrations to remote is done ONLY via `npm run supabase:push` — NEVER use `mcp_supabase_apply_migration` or `mcp_supabase_execute_sql` for DDL/schema changes.
-- You MAY use `mcp_supabase_execute_sql` for **read-only queries** (e.g., `SELECT` statements to inspect data) but NEVER for writes, DDL, or schema modifications.
-- You MAY use `mcp_supabase_list_tables`, `mcp_supabase_list_migrations`, `mcp_supabase_get_advisors`, and other read-only MCP tools for inspection.
-- If a migration needs to be repaired, inform the user and let them run the repair commands manually.
+- **Schema changes** go in declarative SQL files under `./supabase/schemas/`.
+  These define the desired final state.
+- **Migrations** are generated automatically via `npm run supabase:diff:local` —
+  NEVER write migration files by hand or via MCP tools.
+- **Pushing** migrations to remote is done ONLY via `npm run supabase:push` —
+  NEVER use `mcp_supabase_apply_migration` or `mcp_supabase_execute_sql` for
+  DDL/schema changes.
+- You MAY use `mcp_supabase_execute_sql` for **read-only queries** (e.g.,
+  `SELECT` statements to inspect data) but NEVER for writes, DDL, or schema
+  modifications.
+- You MAY use `mcp_supabase_list_tables`, `mcp_supabase_list_migrations`,
+  `mcp_supabase_get_advisors`, and other read-only MCP tools for inspection.
+- If a migration needs to be repaired, inform the user and let them run the
+  repair commands manually.
 
 ## Code Style
 
@@ -66,4 +167,3 @@
 - Use design system components as the foundation
 - Follow existing file structure patterns
 - Maintain consistent naming conventions
-

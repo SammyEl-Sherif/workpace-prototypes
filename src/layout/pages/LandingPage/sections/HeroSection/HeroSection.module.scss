@@ -27,7 +27,7 @@
   text-align: center;
   max-width: 800px;
   padding: 0 2rem;
-  margin-bottom: 28vh; /* push content above the initial rectangle */
+  margin-bottom: 22vh; /* push content above the initial rectangle */
   opacity: var(--hero-opacity, 1);
   transform: translateY(var(--hero-push, 0px));
   will-change: transform, opacity;
@@ -63,15 +63,64 @@
 
 .showcaseRectangle {
   position: absolute;
-  top: calc(65% * (1 - var(--rect-progress, 0)));
-  left: calc(3% * (1 - var(--rect-progress, 0)));
-  right: calc(3% * (1 - var(--rect-progress, 0)));
-  bottom: calc(5% * (1 - var(--rect-progress, 0)));
-  border-radius: calc(20px * (1 - var(--rect-progress, 0)));
+  top: calc(76% * (1 - var(--rect-progress, 0)));
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: calc(20px * (1 - var(--rect-progress, 0)))
+    calc(20px * (1 - var(--rect-progress, 0))) 0 0;
   background: #1a1a1a;
   z-index: 0;
-  will-change: top, left, right, bottom, border-radius;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+  will-change: top, border-radius;
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* ── Company Logos Marquee ──
+   Faded company names displayed inside the dark rectangle.
+   ────────────────────────────────────────────────────────────────────────── */
+
+.companyLogos {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  width: 100%;
+  padding: 0 2rem;
+  overflow: hidden;
+  opacity: calc(1 - var(--rect-progress, 0));
+  will-change: opacity;
+}
+
+.companyTrack {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  animation: marquee 30s linear infinite;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.companyName {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.18);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 /* ── Scroll Spacer ──

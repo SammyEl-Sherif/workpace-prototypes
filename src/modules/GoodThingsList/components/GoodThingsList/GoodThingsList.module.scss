@@ -10,10 +10,71 @@
   margin-bottom: $size-400;
 }
 
-.list {
+// --- Desktop: Table view ---
+.tableWrapper {
+  overflow-x: auto;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+.th {
+  padding: $size-200 $size-300;
+  text-align: left;
+  background: #f8f9fa;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: #212529;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.tr {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #f8f9fa;
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.td {
+  padding: $size-200 $size-300;
+  font-size: 0.9375rem;
+  color: #212529;
+  vertical-align: middle;
+}
+
+.actions {
   display: flex;
-  flex-direction: column;
-  gap: $size-300;
+  gap: $size-100;
+  align-items: center;
+}
+
+// --- Mobile: Card view ---
+.cardList {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    gap: $size-300;
+  }
 }
 
 .card {

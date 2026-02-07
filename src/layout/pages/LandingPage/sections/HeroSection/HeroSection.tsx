@@ -18,6 +18,21 @@ const subtitles = [
   'Modern Solutions for Age Old Problems.',
 ]
 
+const COMPANIES = [
+  'Apple',
+  'Google',
+  'Notion',
+  'Stripe',
+  'Figma',
+  'Slack',
+  'Spotify',
+  'Airbnb',
+  'Netflix',
+  'Linear',
+  'Vercel',
+  'Shopify',
+]
+
 const FEATURES = [
   {
     title: 'Prototypes',
@@ -161,7 +176,25 @@ const HeroSection = () => {
         </div>
 
         {/* Dark rectangle — expands from a bar to full-screen */}
-        <div className={styles.showcaseRectangle} />
+        <div className={styles.showcaseRectangle}>
+          <div className={styles.companyLogos}>
+            {/* Two identical tracks for seamless loop */}
+            <div className={styles.companyTrack}>
+              {[...COMPANIES, ...COMPANIES].map((name, i) => (
+                <span key={`a-${i}`} className={styles.companyName}>
+                  {name}
+                </span>
+              ))}
+            </div>
+            <div className={styles.companyTrack}>
+              {[...COMPANIES, ...COMPANIES].map((name, i) => (
+                <span key={`b-${i}`} className={styles.companyName}>
+                  {name}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* ─── Scroll spacer — creates the scrollable distance for the animation ─── */}
