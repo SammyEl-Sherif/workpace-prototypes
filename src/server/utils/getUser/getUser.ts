@@ -48,7 +48,7 @@ export const getUser = async <T extends GetServerSidePropsContext['req']>(req: T
 
   // Extract name and email from session
   const name = (session as any)?.name || (session as any)?.user?.name || 'placeholder_name'
-  const email = (session as any)?.email || (session as any)?.user?.email
+  const email = (session as any)?.email || (session as any)?.user?.email || null
 
   const userProfile = {
     name,

@@ -26,7 +26,7 @@
     "precommit:": "lint-staged",
     "precommit:src": "npm run lint --workspace src",
     "clean": "rm -rf node_modules src/node_modules src/.next design-system/node_modules design-system/dist",
-    "dev": "npm run start --workspace src",
+    "dev": "NEXT_IGNORE_INCORRECT_LOCKFILE=1 npm run start --workspace src",
     "supabase:init": "supabase init",
     "supabase:link": "supabase link --project-ref $SUPABASE_PROJECT_REF",
     "supabase:diff": "supabase db diff --linked -f",
