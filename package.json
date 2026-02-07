@@ -6,8 +6,8 @@
   "license": "ISC",
   "scripts": {
     "start": "check-engines && npm run start --workspace src",
-    "build": "npm run build:design-system && npm run build:src",
-    "build:design-system": "npm run build --workspace design-system",
+    "build": "npm run build:src",
+    "build:design-system": "npm --prefix design-system run build",
     "build:src": "npm run build --workspace src",
     "test": "npm-run-all --parallel test:** --print-label",
     "test:src": "npm run test --workspace src",
@@ -65,7 +65,6 @@
   },
   "type": "module",
   "workspaces": [
-    "design-system",
     "src"
   ],
   "engines": {
