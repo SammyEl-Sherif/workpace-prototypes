@@ -18,9 +18,10 @@ export type LoadingProps<C extends React.ElementType> = PolymorphicComponentProp
 
 type LoadingComponent = <C extends React.ElementType = 'div'>(
   props: LoadingProps<C>,
-) => React.ReactElement<LoadingProps<C>> | null;
+) => React.ReactNode;
 
-const Loading: LoadingComponent = forwardRef(function Loading<C extends React.ElementType = 'div'>(
+// @ts-expect-error - Generic forwardRef is not directly supported in TypeScript
+const Loading = forwardRef(function Loading<C extends React.ElementType = 'div'>(
   { as, fullscreen = false, size = 'md', color = '#2563eb', ...rest }: LoadingProps<C>,
   ref?: PolymorphicRef<C>,
 ) {
@@ -59,5 +60,5 @@ const Loading: LoadingComponent = forwardRef(function Loading<C extends React.El
   );
 });
 
-export default Loading as typeof Loading;
+export default Loading as LoadingComponent;
 

@@ -6,7 +6,8 @@
   "license": "ISC",
   "scripts": {
     "start": "check-engines && npm run start --workspace src",
-    "build": "npm run build:src",
+    "build": "npm run build:design-system && npm run build:src",
+    "build:design-system": "npm run build --workspace design-system",
     "build:src": "npm run build --workspace src",
     "test": "npm-run-all --parallel test:** --print-label",
     "test:src": "npm run test --workspace src",
@@ -44,6 +45,8 @@
     "ignore": "^5.2.4",
     "jwt-decode": "^3.1.2",
     "openai": "^4.57.0",
+    "react": "^18",
+    "react-dom": "^18",
     "react-hook-form": "^7.54.2",
     "react-loading": "^2.0.3",
     "react-markdown": "^9.0.1"

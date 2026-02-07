@@ -91,7 +91,7 @@ type BoxProps<C extends React.ElementType> = PolymorphicComponentPropsWithRef<C,
 
 type BoxComponent = <C extends React.ElementType = 'div'>(
   props: BoxProps<C> & { ref?: PolymorphicRef<C> },
-) => React.ReactElement | null;
+) => React.ReactNode;
 
 function getPropClasses(value: Spacing | Color | undefined, prefix: string) {
   // if passed a single value
@@ -111,7 +111,8 @@ function getPropClasses(value: Spacing | Color | undefined, prefix: string) {
   return undefined;
 }
 
-const Box: BoxComponent = forwardRef(function Box<C extends React.ElementType = 'div'>(
+// @ts-expect-error - Generic forwardRef is not directly supported in TypeScript
+const Box = forwardRef(function Box<C extends React.ElementType = 'div'>(
   props: BoxProps<C>,
   ref?: PolymorphicRef<C>,
 ) {
@@ -173,4 +174,4 @@ const Box: BoxComponent = forwardRef(function Box<C extends React.ElementType = 
   );
 });
 
-export default Box as typeof Box;
+export default Box as BoxComponent;

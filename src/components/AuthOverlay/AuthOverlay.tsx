@@ -7,10 +7,6 @@ import { Routes } from '@/interfaces/routes'
 
 import styles from './AuthOverlay.module.scss'
 
-// Type assertion workaround for Button component type issue
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const ButtonComponent = Button as any
-
 type AuthOverlayProps = {
   children: React.ReactNode
 }
@@ -30,9 +26,9 @@ const AuthOverlay: FC<AuthOverlayProps> = ({ children }) => {
           <Text variant="headline-md" className={styles.message}>
             You need to sign up to view this page
           </Text>
-          <ButtonComponent onClick={handleSignIn} variant="brand-primary">
+          <Button onClick={handleSignIn} variant="brand-primary">
             Sign In
-          </ButtonComponent>
+          </Button>
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npm run build:production --workspace=src",
+  "buildCommand": "npm run build --workspace=design-system && npm run build:production --workspace=src",
   "outputDirectory": ".next",
   "installCommand": "npm ci --include=dev",
   "devCommand": "npm run dev",
