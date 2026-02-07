@@ -10,6 +10,7 @@ module.exports = () => {
   return {
     reactStrictMode: true,
     skipTrailingSlashRedirect: true,
+    transpilePackages: ['@workpace/design-system'],
     // Only use standalone for Docker builds
     ...(isDockerBuild && { output: 'standalone' }),
     // (Optional) Export as a static site

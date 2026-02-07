@@ -2,7 +2,7 @@
   "name": "@workpace/design-system",
   "version": "1.0.10",
   "description": "Reusable building blocks",
-  "main": "index.js",
+  "main": "./dist/production/lib.js",
   "scripts": {
     "build": "rollup -c",
     "build:production": "NODE_ENV=production npm run build",
@@ -127,19 +127,22 @@
   "exports": {
     ".": {
       "types": "./dist/production/lib.d.ts",
-      "development": {
-        "require": "./dist/development/lib.cjs",
-        "import": "./dist/development/lib.js"
-      },
       "production": {
         "require": "./dist/production/lib.cjs",
         "import": "./dist/production/lib.js"
       },
-      "require": "./dist/lib-env-wrapper.cjs"
+      "development": {
+        "require": "./dist/development/lib.cjs",
+        "import": "./dist/development/lib.js"
+      },
+      "import": "./dist/production/lib.js",
+      "require": "./dist/lib-env-wrapper.cjs",
+      "default": "./dist/production/lib.js"
     },
     "./styles": {
+      "production": "./dist/production/styles.css",
       "development": "./dist/development/styles.css",
-      "production": "./dist/production/styles.css"
+      "default": "./dist/production/styles.css"
     },
     "./fonts": "./dist/fonts.css",
     "./tokens": {
