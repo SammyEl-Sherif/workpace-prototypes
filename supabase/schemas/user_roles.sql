@@ -68,3 +68,20 @@ CREATE TRIGGER update_user_roles_updated_at
   BEFORE UPDATE ON public.user_roles
   FOR EACH ROW
   EXECUTE FUNCTION update_user_roles_updated_at();
+
+-- Automatically assign 'default' role when a new user signs up
+CREATE OR REPLACE FUNCTION public.assign_default_role()
+RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO public.user_roles (user_id, role)
+  VALUES (NEW.id, 'default'::user_role)
+  ON CONFLICT (user_id, role) DO NOTHING;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+CREATE TRIGGER on_auth_user_created
+  AFTER INSERT ON auth.users
+  FOR EACH ROW
+  EXECUTE FUNCTION public.assign_default_role();

@@ -27,9 +27,6 @@ export default function MainLayout({ children }: LayoutProps) {
     pathname !== '/design-system' &&
     pathname !== '/system-design'
 
-  // Don't show navbar on sign in page
-  const shouldShowNavbar = pathname !== '/signin'
-
   const pageContent = (
     <div className={styles.pageContent}>
       <PromotionalBanner hide={true} />
@@ -39,7 +36,6 @@ export default function MainLayout({ children }: LayoutProps) {
 
   return (
     <div className={styles.pageLayout}>
-      {/* {shouldShowNavbar && <StandardNavbar />} */}
       <StandardNavbar />
       <SubNavbar />
       <div className={styles.navbarSpacer} />

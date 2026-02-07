@@ -6,6 +6,7 @@
   padding: $size-200;
   position: relative;
   overflow-x: hidden;
+  margin-top: $size-700;
 }
 
 .floatingHeader {
@@ -19,7 +20,6 @@
 
   .headerContent {
     background: transparent;
-    // padding: $size-400 0;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;

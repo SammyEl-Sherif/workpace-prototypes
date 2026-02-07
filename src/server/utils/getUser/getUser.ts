@@ -36,14 +36,9 @@ export const getUser = async <T extends GetServerSidePropsContext['req']>(req: T
       })
     } catch (error) {
       console.error('Error fetching user roles from Supabase:', error)
-      // Default to empty roles array on error
+      // Keep roles as empty array on error — user will have no access
       roles = []
     }
-  }
-
-  // If no roles found, default to 'default' role
-  if (roles.length === 0) {
-    roles = [UserGroup.Default]
   }
 
   // Extract name and email from session
