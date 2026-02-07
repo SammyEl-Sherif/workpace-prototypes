@@ -64,8 +64,7 @@ jobs:
         run: npm ci
 
       - name: Build design system
-        working-directory: ./design-system
-        run: npm run build:production
+        run: npm run build:production --workspace design-system
 
       - name: Bump version (patch)
         working-directory: ./design-system
