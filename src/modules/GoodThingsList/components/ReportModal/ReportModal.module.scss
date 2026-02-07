@@ -1,0 +1,282 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $size-300;
+
+  // Dark overlay background
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+
+  // Ensure overlay is on top of everything
+  pointer-events: auto;
+
+  // Animation
+  animation: fadeIn 0.2s ease-out;
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+.modalContent {
+  background: $color-neutral-white;
+  border-radius: $size-200;
+  box-shadow: 0 $size-400 $size-800 rgba(0, 0, 0, 0.2), 0 $size-200 $size-400 rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+  width: 100%;
+  max-width: 900px;
+  overflow: hidden;
+  position: relative;
+  z-index: 10001;
+
+  // Ensure modal content is clickable
+  pointer-events: auto;
+
+  // Desktop: centered modal with animation
+  animation: slideInDesktop 0.3s ease-out;
+
+  @keyframes slideInDesktop {
+    from {
+      opacity: 0;
+      transform: scale(0.95) translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  // Mobile: slides up from bottom with rounded top corners
+  @media (max-width: 768px) {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-width: 100%;
+    max-height: 90vh;
+    border-radius: $size-500 $size-500 0 0;
+    margin: 0;
+    padding: 0;
+    animation: slideUpMobile 0.3s ease-out;
+
+    @keyframes slideUpMobile {
+      from {
+        transform: translateY(100%);
+      }
+      to {
+        transform: translateY(0);
+      }
+    }
+  }
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: $size-400;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  gap: $size-300;
+  flex-shrink: 0;
+
+  @media (max-width: 768px) {
+    padding: $size-300;
+  }
+}
+
+.headerInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: $size-100;
+}
+
+.metadata {
+  display: flex;
+  flex-direction: column;
+  gap: $size-50;
+
+  @media (max-width: 768px) {
+    gap: $size-75;
+  }
+}
+
+.modalBody {
+  flex: 1;
+  overflow-y: auto;
+  padding: $size-400;
+
+  @media (max-width: 768px) {
+    padding: $size-300;
+  }
+
+  // Custom scrollbar styling
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $color-neutral-50;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $color-neutral-300;
+    border-radius: 4px;
+
+    &:hover {
+      background: $color-neutral-400;
+    }
+  }
+}
+
+.markdownContent {
+  line-height: 1.6;
+  color: $color-neutral-800;
+
+  .paragraph {
+    margin: 0 0 $size-300 0;
+    padding: 0;
+  }
+
+  .heading1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: $size-500 0 $size-300 0;
+    color: $color-neutral-900;
+    line-height: 1.2;
+  }
+
+  .heading2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: $size-400 0 $size-200 0;
+    color: $color-neutral-900;
+    line-height: 1.3;
+  }
+
+  .heading3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: $size-300 0 $size-200 0;
+    color: $color-neutral-800;
+    line-height: 1.4;
+  }
+
+  .inlineCode {
+    background: $color-neutral-100;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 0.9em;
+    color: $color-primary-700;
+  }
+
+  .codeBlock {
+    background: $color-neutral-100;
+    padding: $size-300;
+    border-radius: $size-150;
+    overflow-x: auto;
+    margin: $size-300 0;
+
+    code {
+      font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+      font-size: 0.9em;
+      line-height: 1.5;
+      color: $color-neutral-800;
+    }
+  }
+
+  .list {
+    margin: $size-300 0;
+    padding-left: $size-500;
+
+    @media (max-width: 768px) {
+      padding-left: $size-400;
+    }
+  }
+
+  .listItem {
+    margin: $size-100 0;
+    line-height: 1.6;
+  }
+
+  // Additional markdown elements
+  strong {
+    font-weight: 600;
+    color: $color-neutral-900;
+  }
+
+  em {
+    font-style: italic;
+  }
+
+  a {
+    color: $color-primary-600;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  blockquote {
+    border-left: 4px solid $color-primary-500;
+    padding-left: $size-300;
+    margin: $size-300 0;
+    color: $color-neutral-700;
+    font-style: italic;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid $color-neutral-200;
+    margin: $size-400 0;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: $size-300 0;
+
+    th,
+    td {
+      padding: $size-200;
+      border: 1px solid $color-neutral-200;
+      text-align: left;
+    }
+
+    th {
+      background: $color-neutral-100;
+      font-weight: 600;
+    }
+  }
+}
+
+.preformatted {
+  background: $color-neutral-100;
+  padding: $size-300;
+  border-radius: $size-150;
+  overflow-x: auto;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 0.9em;
+  line-height: 1.5;
+  color: $color-neutral-800;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}

@@ -1,153 +1,370 @@
 @use '@workpace/design-system/dist/design-tokens' as *;
 
 .page {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: $size-400 $size-500;
-  padding-bottom: $size-400;
+  min-height: 100vh;
+  background: white;
+  padding: $size-200;
+  position: relative;
+  overflow-x: hidden;
 }
 
-.header {
-  margin-bottom: $size-600;
-  text-align: center;
-}
+.floatingHeader {
+  position: sticky;
+  top: $size-200;
+  z-index: 100;
+  margin-bottom: 0;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 
-.title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin: 0 0 $size-200 0;
-  color: #1a1a1a;
-}
+  .headerContent {
+    background: transparent;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    position: relative;
+    padding-bottom: $size-300;
 
-.subtitle {
-  font-size: 1.1rem;
-  color: #666;
-  margin: 0;
-}
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: $size-300;
+      text-align: left;
+    }
+  }
 
-.sectionCard {
-  margin-bottom: $size-600;
-  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-  border: 2px solid #cbd5e1;
-}
+  .titleSection {
+    flex: 1;
 
-.cardHeader {
-  display: flex;
-  flex-direction: column;
-  gap: $size-200;
-  margin-bottom: $size-400;
-  padding-bottom: $size-300;
-  border-bottom: 2px solid #e5e5e5;
+    .mainTitle {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin: 0;
+      color: $color-neutral-black;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
 
-  h2 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin: 0;
-    color: #1a1a1a;
+    .subtitle {
+      color: $color-neutral-500;
+      margin: $size-200 0 0 0;
+      font-size: 1.125rem;
+      font-weight: $font-weight-regular;
+      line-height: 1.5;
+    }
   }
 }
 
-.cardSubtitle {
-  font-size: 1rem;
-  color: #666;
-  margin: 0;
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-top: 0;
+}
+
+.section {
+  width: 100%;
+  padding-top: $size-500;
+  margin-top: 0;
+  position: relative;
+  z-index: 1;
+  background: white;
+}
+
+.sectionHeader {
+  margin-bottom: $size-500;
+  padding-bottom: $size-300;
+  border-bottom: 1px solid $color-neutral-100;
+
+  .sectionTitle {
+    font-size: 1.75rem;
+    font-weight: $font-weight-bold;
+    margin: 0 0 $size-200 0;
+    color: $color-neutral-black;
+    letter-spacing: -0.01em;
+  }
+
+  .sectionSubtitle {
+    font-size: 1rem;
+    color: $color-neutral-500;
+    margin: 0;
+    line-height: 1.5;
+
+    code {
+      background: $color-neutral-100;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.875rem;
+      color: $color-neutral-700;
+    }
+  }
 }
 
 // Diagram Container
 .diagramContainer {
-  padding: $size-400;
-  background: white;
-  border-radius: 8px;
-  border: 1px solid #e5e5e5;
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+  border: none;
 }
 
 .diagram {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: $size-300;
+  gap: 0;
 }
 
+// Layer base styles
 .layer {
   width: 100%;
-  background: #f8fafc;
-  border: 2px solid #cbd5e1;
-  border-radius: 8px;
+  background: transparent;
+  border: 1px solid $color-neutral-100;
+  border-radius: 12px;
   padding: $size-400;
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+
+  &:hover {
+    border-color: $color-primary-200;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  }
+}
+
+// Layer color variants
+.deploymentLayer {
+  background: $color-neutral-50;
+  border-left: 3px solid $color-neutral-400;
+  border-color: $color-neutral-200;
+
+  .layerBadge {
+    background: $color-neutral-200;
+    color: $color-neutral-700;
+  }
+}
+
+.frontendLayer {
+  background: $color-primary-50;
+  border-left: 3px solid $color-primary-400;
+  border-color: $color-primary-100;
+
+  .layerBadge {
+    background: $color-primary-100;
+    color: $color-primary-700;
+  }
+}
+
+.apiLayer {
+  background: $color-success-50;
+  border-left: 3px solid $color-success-400;
+  border-color: $color-success-100;
+
+  .layerBadge {
+    background: $color-success-100;
+    color: $color-success-700;
+  }
+}
+
+.dataAccessLayer {
+  background: $color-active-50;
+  border-left: 3px solid $color-active-400;
+  border-color: $color-active-100;
+
+  .layerBadge {
+    background: $color-active-100;
+    color: $color-active-700;
+  }
+}
+
+.databaseLayer {
+  background: $color-accent-50;
+  border-left: 3px solid $color-accent-400;
+  border-color: $color-accent-100;
+
+  .layerBadge {
+    background: $color-accent-100;
+    color: $color-accent-700;
+  }
+}
+
+.externalLayer {
+  background: $color-warning-50;
+  border-left: 3px solid $color-warning-400;
+  border-color: $color-warning-100;
+
+  .layerBadge {
+    background: $color-warning-100;
+    color: $color-warning-700;
+  }
 }
 
 .layerHeader {
   margin-bottom: $size-300;
-  text-align: center;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: $size-200;
 
   h3 {
-    font-size: 1.2rem;
-    font-weight: 600;
+    font-size: 1.25rem;
+    font-weight: $font-weight-bold;
     margin: 0;
-    color: #1a1a1a;
+    color: $color-neutral-black;
+    letter-spacing: -0.01em;
   }
+}
+
+.layerBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px $size-150;
+  border-radius: 100px;
+  font-size: $font-body-xs-font-size;
+  font-weight: $font-weight-medium;
+  letter-spacing: 0.02em;
 }
 
 .layerContent {
   display: flex;
   flex-wrap: wrap;
   gap: $size-300;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .component {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: $size-200;
   padding: $size-300;
   background: white;
-  border: 1px solid #e5e5e5;
-  border-radius: 6px;
+  border: 1px solid $color-neutral-100;
+  border-radius: 8px;
   min-width: 200px;
   flex: 1;
-  max-width: 300px;
+  max-width: 340px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: $color-primary-200;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  }
 }
 
 .componentIcon {
-  font-size: 2rem;
+  font-size: 1.75rem;
   flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $color-neutral-50;
+  border-radius: 8px;
 }
 
 .componentText {
   display: flex;
   flex-direction: column;
-  gap: $size-100;
+  gap: $size-50;
 
   strong {
     font-size: 1rem;
-    font-weight: 600;
-    color: #1a1a1a;
+    font-weight: $font-weight-bold;
+    color: $color-neutral-900;
   }
 
   span {
-    font-size: 0.875rem;
-    color: #666;
+    font-size: $font-body-sm-font-size;
+    color: $color-neutral-500;
   }
 }
 
-.arrow {
-  font-size: 2rem;
-  color: #667eea;
-  font-weight: bold;
-  padding: $size-200 0;
+.techTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $size-50;
+  margin-top: $size-50;
+}
+
+.techTag {
+  display: inline-flex;
+  padding: 1px $size-100;
+  background: $color-neutral-50;
+  border: 1px solid $color-neutral-100;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  color: $color-neutral-600;
+  font-weight: $font-weight-medium;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+// Connection Arrows
+.connectionArrow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: $size-100 0;
+  gap: 2px;
+}
+
+.arrowLine {
+  width: 1px;
+  height: 12px;
+  background: $color-neutral-300;
+}
+
+.arrowLabel {
+  font-size: 0.7rem;
+  color: $color-neutral-400;
+  font-weight: $font-weight-medium;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0 $size-100;
+}
+
+.arrowHead {
+  font-size: 1rem;
+  color: $color-neutral-300;
+  line-height: 1;
+}
+
+// External Services Section
+.externalServicesSection {
+  width: 100%;
+  margin-top: $size-400;
+  padding-top: $size-200;
+}
+
+.branchConnector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: $size-200;
+}
+
+.branchLabel {
+  font-size: $font-body-sm-font-size;
+  color: $color-neutral-400;
+  font-weight: $font-weight-medium;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: $size-100 $size-200;
+  border: 1px dashed $color-neutral-200;
+  border-radius: 100px;
 }
 
 // Flow Diagram
 .flowDiagram {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
   flex-wrap: wrap;
   gap: $size-200;
   padding: $size-400;
-  background: white;
-  border-radius: 8px;
-  border: 1px solid #e5e5e5;
+  background: $color-neutral-100;
+  border-radius: 12px;
+  border: 1px solid $color-neutral-200;
 }
 
 .flowStep {
@@ -155,61 +372,112 @@
   flex-direction: column;
   align-items: center;
   gap: $size-200;
-  padding: $size-400;
-  background: #f8fafc;
-  border: 2px solid #cbd5e1;
+  padding: $size-300 $size-400;
+  background: white;
+  border: 1px solid $color-neutral-200;
   border-radius: 8px;
   min-width: 150px;
   flex: 1;
-  max-width: 200px;
+  max-width: 220px;
+  text-align: center;
 }
 
 .flowNumber {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: $color-neutral-900;
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 700;
-  font-size: 1.2rem;
+  font-weight: $font-weight-bold;
+  font-size: 1rem;
+  flex-shrink: 0;
 }
 
 .flowText {
   display: flex;
   flex-direction: column;
-  gap: $size-100;
-  text-align: center;
+  gap: $size-50;
 
   strong {
-    font-size: 1rem;
-    font-weight: 600;
-    color: #1a1a1a;
+    font-size: $font-body-sm-font-size;
+    font-weight: $font-weight-bold;
+    color: $color-neutral-900;
   }
 
   span {
-    font-size: 0.875rem;
-    color: #666;
+    font-size: $font-body-xs-font-size;
+    color: $color-neutral-500;
+    line-height: 1.4;
   }
 }
 
 .flowArrow {
-  font-size: 2rem;
-  color: #667eea;
-  font-weight: bold;
+  font-size: 1.5rem;
+  color: $color-neutral-300;
+  font-weight: $font-weight-bold;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+// Schema Grid
+.schemaGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: $size-300;
+}
+
+.schemaCard {
+  padding: $size-300;
+  border: 1px solid $color-neutral-200;
+  border-radius: 8px;
+  background: $color-neutral-50;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: $color-primary-200;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  }
+
+  h4 {
+    margin: 0 0 $size-100 0;
+    font-size: 1rem;
+    font-weight: $font-weight-bold;
+    color: $color-neutral-900;
+    font-family: monospace;
+  }
+
+  p {
+    margin: 0 0 $size-100 0;
+    font-size: $font-body-sm-font-size;
+    color: $color-neutral-500;
+    line-height: 1.4;
+  }
+}
+
+.schemaRelation {
+  font-size: $font-body-xs-font-size;
+  color: $color-primary-500;
+  font-weight: $font-weight-medium;
+  font-style: italic;
 }
 
 // Responsive Design
 @media (max-width: 768px) {
   .page {
-    padding: $size-300 $size-200;
+    padding: $size-100 $size-150;
   }
 
-  .title {
-    font-size: 2rem;
+  .floatingHeader {
+    margin-bottom: $size-300;
+  }
+
+  .mainTitle {
+    font-size: 1.75rem !important;
   }
 
   .layerContent {
@@ -222,6 +490,7 @@
 
   .flowDiagram {
     flex-direction: column;
+    align-items: center;
   }
 
   .flowArrow {
@@ -230,5 +499,9 @@
 
   .flowStep {
     max-width: 100%;
+  }
+
+  .schemaGrid {
+    grid-template-columns: 1fr;
   }
 }

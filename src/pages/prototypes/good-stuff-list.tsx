@@ -1,51 +1,19 @@
 import { GetServerSideProps } from 'next'
 
-import { getNotionDatabasesController } from '@/apis/controllers'
-import { NotionDatabase } from '@/interfaces/notion'
-import { DocumentTitle, NotionInsights } from '@/layout'
-import { NotionDatabaseContextProvider } from '@/modules/AccomplishmentReport/contexts'
-import { withNotionClient, withPageRequestWrapper } from '@/server/utils'
+import { DocumentTitle } from '@/layout'
+import { withPageRequestWrapper } from '@/server/utils'
+import { GoodThingsListPage } from '@/modules/GoodThingsList'
 
-export interface GoodStuffListPageProps {
-  databases: NotionDatabase[]
-  defaultFilter: {
-    property: string
-    status: {
-      equals: string
-    }
-  }
-}
-
-export const getServerSideProps: GetServerSideProps = withPageRequestWrapper(async (context) => {
-  const { databases, defaultFilter } = await withNotionClient(async (_, __, client) => {
-    const {
-      data: { databases, defaultFilter },
-    } = await getNotionDatabasesController(client)
-
-    return {
-      databases: databases,
-      defaultFilter: defaultFilter,
-    }
-  })(context.req, context.res)
-
-  // TODO: If a user does not have any databases them, direct them to a resources to duplicate
-
-  return {
-    databases,
-    defaultFilter,
-  }
+export const getServerSideProps: GetServerSideProps = withPageRequestWrapper(async () => {
+  return {}
 })
 
-const HomePage = ({ databases, defaultFilter }: GoodStuffListPageProps) => {
+const HomePage = () => {
   return (
-    <NotionDatabaseContextProvider
-      database_id={databases[0] ? databases[0].id : ''}
-      databases={databases}
-      filters={defaultFilter}
-    >
-      <DocumentTitle title="Home" />
-      <NotionInsights />
-    </NotionDatabaseContextProvider>
+    <>
+      <DocumentTitle title="Good Stuff List" />
+      <GoodThingsListPage />
+    </>
   )
 }
 

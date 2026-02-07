@@ -1,0 +1,1 @@
+export { resendConfirmation } from './resendConfirmation'

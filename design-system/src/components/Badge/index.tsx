@@ -21,9 +21,10 @@ export type BadgeProps<C extends React.ElementType> = PolymorphicComponentPropsW
 
 type BadgeComponent = <C extends React.ElementType = 'span'>(
   props: BadgeProps<C>,
-) => React.ReactElement<BadgeProps<C>> | null;
+) => React.ReactNode;
 
-const Badge: BadgeComponent = forwardRef(function Badge<C extends React.ElementType = 'span'>(
+// @ts-expect-error - Generic forwardRef is not directly supported in TypeScript
+const Badge = forwardRef(function Badge<C extends React.ElementType = 'span'>(
   { as, children, variant = 'default', size = 'md', ...rest }: BadgeProps<C>,
   ref?: PolymorphicRef<C>,
 ) {
@@ -48,5 +49,5 @@ const Badge: BadgeComponent = forwardRef(function Badge<C extends React.ElementT
   );
 });
 
-export default Badge as typeof Badge;
+export default Badge as BadgeComponent;
 

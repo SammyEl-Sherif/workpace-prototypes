@@ -2,7 +2,6 @@ import { useState, useMemo } from 'react'
 import { Doughnut } from 'react-chartjs-2'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale } from 'chart.js'
 
-import { SectionContainer } from '@/components'
 import styles from './BudgetBot.module.scss'
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale)
@@ -205,7 +204,7 @@ export const BudgetBot = () => {
       </div>
 
       {/* Reserves Section */}
-      <SectionContainer className={styles.reservesCard}>
+      <div className={styles.reservesCard}>
         <div className={styles.cardHeader}>
           <h2>🏦 Reserves & Net Worth</h2>
         </div>
@@ -455,11 +454,11 @@ export const BudgetBot = () => {
             </div>
           </div>
         </div>
-      </SectionContainer>
+      </div>
 
       <div className={styles.grid}>
         {/* Income Section */}
-        <SectionContainer className={styles.card}>
+        <div className={styles.card}>
           <div className={styles.cardHeader}>
             <h2>💵 Monthly Income</h2>
           </div>
@@ -479,10 +478,10 @@ export const BudgetBot = () => {
               />
             </div>
           </div>
-        </SectionContainer>
+        </div>
 
         {/* Expenses Section */}
-        <SectionContainer className={styles.card}>
+        <div className={styles.card}>
           <div className={styles.cardHeader}>
             <h2>🏠 Needed Expenses</h2>
             <button onClick={addExpense} className={styles.addButton}>
@@ -540,10 +539,10 @@ export const BudgetBot = () => {
               </div>
             </div>
           )}
-        </SectionContainer>
+        </div>
 
         {/* Savings Section */}
-        <SectionContainer className={styles.card}>
+        <div className={styles.card}>
           <div className={styles.cardHeader}>
             <h2>💎 Savings & Investments</h2>
             <button onClick={addSavings} className={styles.addButton}>
@@ -601,10 +600,10 @@ export const BudgetBot = () => {
               </div>
             </div>
           )}
-        </SectionContainer>
+        </div>
 
         {/* Wants Display Section */}
-        <SectionContainer className={styles.wantsCard}>
+        <div className={styles.wantsCard}>
           <div className={styles.cardHeader}>
             <h2>🎯 Available for Wants</h2>
           </div>
@@ -679,7 +678,7 @@ export const BudgetBot = () => {
               </div>
             )}
           </div>
-        </SectionContainer>
+        </div>
       </div>
     </div>
   )

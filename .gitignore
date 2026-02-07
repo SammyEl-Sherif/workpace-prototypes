@@ -9,7 +9,6 @@ src/out
 design-system/dist
 design-system/storybook-static
 design-system/*.tgz
-
 # IDE Files
 .idea
 .vscode
@@ -54,3 +53,10 @@ src/next-env.d.ts
 design-system/next-env.d.ts
 
 design-system/docs/
+
+# Supabase
+.supabase/
+supabase/.branches/
+supabase/.temp/
+# Note: supabase/migrations/ should be committed to version control
+# Note: supabase/schemas/ should be committed to version control

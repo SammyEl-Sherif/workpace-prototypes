@@ -7,24 +7,39 @@
 
   &Size {
     max-width: 1440px;
-    margin: 5% 10%;
+    margin: 0 auto;
+    padding: 0 10%;
+    // padding-top: 140px; // Add padding for fixed navbar (~72px) + subnavbar (~48px) + spacing
   }
 }
 
 .pageLayout {
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: column nowrap;
+  min-height: 100vh;
 }
 
 .pageContent {
   flex: 1;
   overflow: auto;
-  height: 100vh;
+  width: 100%;
+}
+
+.navbarSpacer {
+  height: 120px; // StandardNavbar (~72px) + SubNavbar (~72px)
+  flex-shrink: 0;
 }
 
 @media #{$mq-sm-only} {
+  .containerSize {
+    padding: 0 5%;
+  }
+
   .pageContent {
-    flex: 1;
-    margin-top: 80px;
+    margin-top: 0;
+  }
+
+  .navbarSpacer {
+    height: 120px; // Same height on mobile
   }
 }

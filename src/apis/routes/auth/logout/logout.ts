@@ -45,8 +45,8 @@ const getBaseUrlFromRequest = (req: NextApiRequest): string => {
 }
 
 /**
- * Logout endpoint that handles Auth0 logout
- * This ensures the user is logged out from Auth0, not just the local app session
+ * Logout endpoint - redirects to signin page
+ * Supabase and NextAuth sessions are cleared by their respective signout endpoints
  *
  * This endpoint should be accessible without authentication (public route)
  */
@@ -59,41 +59,21 @@ export const logout = async (req: NextApiRequest, res: NextApiResponse): Promise
       return
     }
 
-    // Get base URL from current request (dynamically detects localhost, dev, or prod)
-    // This will be just the origin (e.g., http://localhost:3000, https://dev.workpace.io, https://workpace.io)
+    // Get base URL from current request
     const baseUrl = getBaseUrlFromRequest(req)
-    // Ensure no trailing slash
     const returnToUrl = baseUrl.replace(/\/$/, '')
 
-    // Construct Auth0 logout URL
-    const auth0IssuerBaseUrl = process.env.AUTH0_ISSUER_BASE_URL
-    const auth0ClientId = process.env.AUTH0_CLIENT_ID
+    // Get callback URL from query params or default to signin
+    const callbackUrl = (req.query.callbackUrl as string) || '/signin'
+    const signinUrl = `${returnToUrl}${callbackUrl}`
 
-    if (!auth0IssuerBaseUrl || !auth0ClientId) {
-      console.error(
-        'Missing Auth0 configuration for logout - AUTH0_ISSUER_BASE_URL or AUTH0_CLIENT_ID not set'
-      )
-      // Fallback: just redirect to base URL (landing page)
-      res.redirect(returnToUrl)
-      return
-    }
-
-    // Build Auth0 logout URL with returnTo parameter
-    // returnTo is just the base URL (landing page) without any path or trailing slash
-    // This ensures Auth0 session is terminated and user is redirected back to our landing page
-    // Note: NextAuth cookies are already cleared by the client-side signOut call
-    const auth0LogoutUrl = `${auth0IssuerBaseUrl}/v2/logout?client_id=${auth0ClientId}&returnTo=${encodeURIComponent(
-      returnToUrl
-    )}`
-
-    // Redirect directly to Auth0 logout endpoint
-    // Auth0 will clear their session and redirect back to our callbackUrl
-    res.redirect(auth0LogoutUrl)
+    // Redirect to signin page
+    res.redirect(signinUrl)
   } catch (error) {
     console.error('Error in logout endpoint:', error)
-    // On error, redirect to base URL (landing page)
+    // On error, redirect to signin
     const baseUrl = getBaseUrlFromRequest(req)
     const returnToUrl = baseUrl.replace(/\/$/, '')
-    res.redirect(returnToUrl)
+    res.redirect(`${returnToUrl}/signin`)
   }
 }

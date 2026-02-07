@@ -1,34 +1,52 @@
-.hero {
-  position: relative;
-  min-height: 100vh;
+/* ═══════════════════════════════════════════════════════════════════════════
+   HeroSection — fixed hero + scroll spacer + cards section
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Fixed Hero Layer ──
+   Stays in place while the user scrolls.  Contains the hero text
+   (which fades out) and the expanding dark rectangle.
+   ────────────────────────────────────────────────────────────────────────── */
+
+.fixedHero {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #fff;
-  overflow: hidden;
-  padding-top: 80px; /* Account for fixed navbar */
+  padding-top: 80px; /* navbar height */
+  background: var(--page-bg, #fff);
+  pointer-events: none; /* let scroll events pass through */
 }
 
-.container {
-  text-align: center;
+/* ── Hero Content (title / subtitle / CTA) ── */
+
+.heroContent {
+  position: relative;
   z-index: 2;
+  text-align: center;
   max-width: 800px;
   padding: 0 2rem;
+  margin-bottom: 22vh; /* push content above the initial rectangle */
+  opacity: var(--hero-opacity, 1);
+  transform: translateY(var(--hero-push, 0px));
+  will-change: transform, opacity;
+  pointer-events: var(--hero-events, auto);
 }
 
 .title {
   font-size: 6rem;
   font-weight: 900;
-  margin: 0 0 1rem 0;
-  color: #191919;
+  margin: 0 0 1rem;
+  color: var(--page-text, #191919);
 }
 
 .subtitle {
   font-size: 2rem;
-  color: #191919;
-  margin: 0 0 2rem 0;
   font-weight: 400;
   line-height: 1.6;
+  margin: 0 0 2rem;
+  color: var(--page-text, #191919);
 }
 
 .cta {
@@ -38,51 +56,254 @@
   flex-wrap: wrap;
 }
 
-.primaryButton {
-  display: inline-block;
-  padding: 1rem 2.5rem;
-  background: linear-gradient(45deg, #ff4500, #ff6b35);
-  color: white;
-  text-decoration: none;
-  border: none;
-  border-radius: 50px;
-  font-weight: 600;
-  font-size: 1.1rem;
-  transition: all 0.3s ease;
-  box-shadow: 0 8px 25px rgba(255, 69, 0, 0.4);
-  cursor: pointer;
-  font-family: inherit;
+/* ── Dark Rectangle ──
+   Starts as a wide bar near the bottom of the viewport and expands
+   to cover the entire screen as --rect-progress goes from 0 → 1.
+   ────────────────────────────────────────────────────────────────────────── */
 
-  &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 35px rgba(255, 69, 0, 0.6);
-    background: linear-gradient(45deg, #ff5500, #ff7a45);
+.showcaseRectangle {
+  position: absolute;
+  top: calc(76% * (1 - var(--rect-progress, 0)));
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: calc(20px * (1 - var(--rect-progress, 0)))
+    calc(20px * (1 - var(--rect-progress, 0))) 0 0;
+  background: #1a1a1a;
+  z-index: 0;
+  will-change: top, border-radius;
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* ── Company Logos Marquee ──
+   Faded company names displayed inside the dark rectangle.
+   ────────────────────────────────────────────────────────────────────────── */
+
+.companyLogos {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  width: 100%;
+  padding: 0 2rem;
+  overflow: hidden;
+  opacity: calc(1 - var(--rect-progress, 0));
+  will-change: opacity;
+}
+
+.companyTrack {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  animation: marquee 30s linear infinite;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.companyName {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.18);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
   }
 }
 
-.secondaryButton {
-  display: inline-block;
-  padding: 1rem 2.5rem;
-  background: transparent;
-  color: #ff6b35;
-  text-decoration: none;
-  border: 2px solid #ff6b35;
-  border-radius: 50px;
+/* ── Scroll Spacer ──
+   Transparent block in normal document flow that creates the scrollable
+   distance the animation needs.  Nothing renders here visually.
+   ────────────────────────────────────────────────────────────────────────── */
+
+.scrollSpacer {
+  height: 100vh;
+  position: relative;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Cards Section — scrolls up over the fixed hero.  Same dark background
+   as the expanded rectangle so the merge is seamless.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.cardsSection {
+  display: flex;
+  position: relative;
+  z-index: 2;
+  background: #1a1a1a;
+  min-height: 100vh;
+  padding: calc(80px + 3rem) 2rem 8rem; /* 80px accounts for the navbar */
+  align-items: center;
+  // margin-bottom: 20%;
+}
+
+.cardsInner {
+  max-width: 1100px;
+  margin: 0 auto;
+  opacity: var(--card-opacity, 0);
+  transform: translateY(var(--card-translate, 50px)) scale(var(--card-scale, 0.88));
+  will-change: transform, opacity;
+}
+
+.cardsHeading {
+  font-size: 1rem;
   font-weight: 600;
-  font-size: 1.1rem;
-  transition: all 0.3s ease;
+  color: rgba(255, 255, 255, 0.5);
+  text-align: center;
+  margin: 0 0 3rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* ── Cards Grid ── */
+
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+/* ── Individual Card ── */
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  aspect-ratio: 3 / 4.5;
+  border-radius: 20px;
+  overflow: hidden;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
 
   &:hover {
-    background: #ff6b35;
-    color: #0a0a0a;
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+    transform: translateY(-8px);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35);
+
+    .cardImage {
+      transform: scale(1.05);
+    }
+  }
+}
+
+/* Full-bleed placeholder gradient backgrounds */
+
+.cardImage {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  transition: transform 0.5s ease;
+  background: linear-gradient(160deg, #2a2a2a 0%, #3a3a3a 40%, #252525 100%);
+}
+
+.card:nth-child(1) .cardImage {
+  background: linear-gradient(160deg, #1e3a5f 0%, #2d5a3a 50%, #1a2e1a 100%);
+}
+.card:nth-child(2) .cardImage {
+  background: linear-gradient(160deg, #3a1e5f 0%, #5a2d4a 50%, #2e1a2e 100%);
+}
+.card:nth-child(3) .cardImage {
+  background: linear-gradient(160deg, #5f3a1e 0%, #4a5a2d 50%, #1a2e2e 100%);
+}
+
+/* Gradient overlay for text readability */
+
+.cardOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.85) 0%,
+    rgba(0, 0, 0, 0.5) 40%,
+    rgba(0, 0, 0, 0.1) 70%,
+    transparent 100%
+  );
+}
+
+/* Card body — text content pinned to the bottom */
+
+.cardBody {
+  position: relative;
+  z-index: 2;
+  padding: 2rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cardTitle {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #fff;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.cardDesc {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0;
+  line-height: 1.55;
+}
+
+.cardBtn {
+  display: block;
+  margin-top: 1rem;
+  padding: 0.8rem 0;
+  background: #fff;
+  color: #191919;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-align: center;
+  border-radius: 50px;
+  transition: background 0.25s ease;
+
+  .card:hover & {
+    background: #f0f0f0;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Responsive
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 900px) {
+  .cardsGrid {
+    gap: 1rem;
+  }
+
+  .cardTitle {
+    font-size: 1.4rem;
+  }
+
+  .cardBody {
+    padding: 1.5rem 1.25rem;
   }
 }
 
 @media (max-width: 768px) {
-  .hero {
-    padding-top: 70px; /* Adjust for mobile navbar */
+  .fixedHero {
+    padding-top: 70px;
+  }
+
+  .heroContent {
+    margin-bottom: 22vh;
   }
 
   .title {
@@ -98,9 +319,38 @@
     align-items: center;
   }
 
-  .primaryButton,
-  .secondaryButton {
-    width: 100%;
-    max-width: 300px;
+  .cardsSection {
+    padding: calc(70px + 2rem) 1.5rem 6rem;
+  }
+
+  .cardsGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .card:last-child {
+    grid-column: 1 / -1;
+    max-width: 50%;
+    justify-self: center;
+  }
+}
+
+@media (max-width: 520px) {
+  .title {
+    font-size: 3rem;
+  }
+
+  .cardsGrid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .card {
+    aspect-ratio: 3 / 4;
+  }
+
+  .card:last-child {
+    grid-column: auto;
+    max-width: 100%;
   }
 }

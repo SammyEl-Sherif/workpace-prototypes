@@ -1,12 +1,13 @@
-import React, { ReactNode } from 'react'
+import { ReactNode } from 'react'
 
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 
-import { AuthOverlay, Navbar } from '@/components'
+import { AuthOverlay } from '@/components'
+import { PromotionalBanner } from '@/components/PromotionalBanner'
+import { StandardNavbar, SubNavbar } from '@/layout/pages/LandingPage/components'
 
 import styles from './MainLayout.module.scss'
-import { PromotionalBanner } from '@/components/PromotionalBanner'
 
 interface LayoutProps {
   children: ReactNode
@@ -18,10 +19,11 @@ export default function MainLayout({ children }: LayoutProps) {
   const { pathname } = router
 
   // Show overlay for unauthenticated users on protected routes
-  // But allow landing page and other public routes to render normally
+  // But allow landing page, sign-in page, and other public routes to render normally
   const shouldShowOverlay =
     status === 'unauthenticated' &&
     pathname !== '/' &&
+    pathname !== '/signin' &&
     pathname !== '/design-system' &&
     pathname !== '/system-design'
 
@@ -34,7 +36,9 @@ export default function MainLayout({ children }: LayoutProps) {
 
   return (
     <div className={styles.pageLayout}>
-      <Navbar />
+      <StandardNavbar />
+      <SubNavbar />
+      <div className={styles.navbarSpacer} />
       {shouldShowOverlay ? <AuthOverlay>{pageContent}</AuthOverlay> : pageContent}
     </div>
   )

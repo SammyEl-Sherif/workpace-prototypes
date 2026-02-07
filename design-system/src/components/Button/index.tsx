@@ -20,7 +20,7 @@ export type ButtonProps<C extends React.ElementType> = PolymorphicComponentProps
 
 type ButtonComponent = <C extends React.ElementType = 'button'>(
   props: ButtonProps<C>,
-) => React.ReactElement<ButtonProps<C>> | null;
+) => React.ReactNode;
 
 function getVariantClasses(value?: Variant | Breakpoints<Variant>) {
   if (typeof value === 'string') {
@@ -38,7 +38,8 @@ function getVariantClasses(value?: Variant | Breakpoints<Variant>) {
   return undefined;
 }
 
-const Button: ButtonComponent = forwardRef(function Button<C extends React.ElementType = 'button'>(
+// @ts-expect-error - Generic forwardRef is not directly supported in TypeScript
+const Button = forwardRef(function Button<C extends React.ElementType = 'button'>(
   { as, children, variant = 'brand-primary', ...rest }: ButtonProps<C>,
   ref?: PolymorphicRef<C>,
 ) {
@@ -113,4 +114,4 @@ const Button: ButtonComponent = forwardRef(function Button<C extends React.Eleme
   );
 });
 
-export default Button as typeof Button;
+export default Button as ButtonComponent;

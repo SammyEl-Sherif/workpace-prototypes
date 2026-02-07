@@ -19,9 +19,10 @@ export type CardProps<C extends React.ElementType> = PolymorphicComponentPropsWi
 
 type CardComponent = <C extends React.ElementType = 'div'>(
   props: CardProps<C>,
-) => React.ReactElement<CardProps<C>> | null;
+) => React.ReactNode;
 
-const Card: CardComponent = forwardRef(function Card<C extends React.ElementType = 'div'>(
+// @ts-expect-error - Generic forwardRef is not directly supported in TypeScript
+const Card = forwardRef(function Card<C extends React.ElementType = 'div'>(
   { as, children, variant = 'default', ...rest }: CardProps<C>,
   ref?: PolymorphicRef<C>,
 ) {
@@ -113,4 +114,4 @@ export const CardFooter: React.FC<CardFooterProps> = ({ children, ...rest }) => 
   );
 };
 
-export default Card as typeof Card;
+export default Card as CardComponent;

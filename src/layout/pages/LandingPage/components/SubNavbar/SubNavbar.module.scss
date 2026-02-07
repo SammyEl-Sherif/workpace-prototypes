@@ -1,0 +1,92 @@
+.subnavbar {
+  position: fixed;
+  top: 72px; // Below StandardNavbar (approximately 1rem padding top + 40px logo + 1rem padding bottom = ~72px)
+  left: 0;
+  right: 0;
+  z-index: 999;
+  background: #667eea; // Blue color
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 0.75rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+}
+
+.arrowButton {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin: 0;
+  flex-shrink: 0;
+  position: absolute;
+
+  &:first-child {
+    left: 2rem;
+  }
+
+  &:last-child {
+    right: 2rem;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+
+  &:active {
+    background: rgba(255, 255, 255, 0.4);
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.title {
+  flex: 1;
+  text-align: center;
+  color: white;
+  font-size: 1.125rem;
+  font-weight: 600;
+  padding: 0 2rem;
+}
+
+@media (max-width: 768px) {
+  .subnavbar {
+    top: 77px; // Mobile StandardNavbar is taller (16px pad + 44px hamburger + 16px pad + 1px border)
+    padding: 0.5rem 0;
+  }
+
+  .arrowButton {
+    width: 36px;
+    height: 36px;
+
+    &:first-child {
+      left: 1rem;
+    }
+
+    &:last-child {
+      right: 1rem;
+    }
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  .title {
+    font-size: 1rem;
+    padding: 0 1rem;
+  }
+}

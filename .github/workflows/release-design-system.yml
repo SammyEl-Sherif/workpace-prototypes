@@ -13,10 +13,10 @@ on:
           - major
         default: patch
       branch:
-        description: "Branch to release from"
-        required: true
+        description: "Branch to release from (leave empty to use current branch)"
+        required: false
         type: string
-        default: "main"
+        default: ""
 
 jobs:
   release:
@@ -30,7 +30,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          ref: ${{ inputs.branch }}
+          ref: ${{ inputs.branch || github.ref_name }}
           fetch-depth: 0
 
       - name: Setup Node.js
@@ -59,8 +59,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Install dependencies
-        working-directory: ./design-system
-        run: npm ci
+        run: npm install
 
       - name: Build design system
         working-directory: ./design-system
@@ -75,18 +74,17 @@ jobs:
           echo "Bumped version to $NEW_VERSION"
 
       - name: Publish to NPM
-        working-directory: ./design-system
         run: |
           echo "Checking npm configuration..."
           npm config list
           echo "Attempting to publish with OIDC authentication..."
-          npm publish --access public
+          npm publish --workspace design-system --access public
 
       - name: Commit version bump
         run: |
-          git add design-system/package.json design-system/package-lock.json
+          git add design-system/package.json package-lock.json
           git commit -m "chore: bump design-system version to ${{ env.NEW_VERSION }}"
-          git push origin HEAD:${{ inputs.branch }}
+          git push origin HEAD:${{ inputs.branch || github.ref_name }}
 
       - name: Create git tag
         run: |

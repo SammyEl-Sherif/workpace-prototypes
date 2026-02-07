@@ -21,9 +21,10 @@ export type FieldErrorProps<C extends React.ElementType> = PolymorphicComponentP
 
 type FieldErrorComponent = <C extends React.ElementType = 'div'>(
   props: FieldErrorProps<C>,
-) => React.ReactElement<FieldErrorProps<C>> | null;
+) => React.ReactNode;
 
-const FieldError: FieldErrorComponent = forwardRef(function FieldError<
+// @ts-expect-error - Generic forwardRef is not directly supported in TypeScript
+const FieldError = forwardRef(function FieldError<
   C extends React.ElementType = 'div',
 >({ as, children, ...rest }: FieldErrorProps<C>, ref?: PolymorphicRef<C>) {
   const className = clsx(rest.className, styles['field-error']);
@@ -36,7 +37,7 @@ const FieldError: FieldErrorComponent = forwardRef(function FieldError<
     <Text
       as={asComponent}
       {...rest}
-      color="urgent-600"
+      color="error-600"
       className={className}
       ref={ref}
       variant="body-sm"
@@ -53,4 +54,4 @@ const FieldError: FieldErrorComponent = forwardRef(function FieldError<
   );
 });
 
-export default FieldError as typeof FieldError;
+export default FieldError as FieldErrorComponent;

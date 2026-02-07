@@ -1,0 +1,84 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.container {
+  margin-top: $size-200;
+}
+
+.hiddenInput {
+  display: none;
+}
+
+.preview {
+  margin-bottom: $size-200;
+  border-radius: 8px;
+  overflow: hidden;
+  max-width: 200px;
+}
+
+.previewImage {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.error {
+  margin-bottom: $size-100;
+  padding: $size-75 $size-150;
+  background: rgba(220, 53, 69, 0.08);
+  border-radius: 6px;
+}
+
+.uploadButton {
+  display: inline-flex;
+  align-items: center;
+  gap: $size-75;
+  padding: $size-75 $size-150;
+  background: transparent;
+  border: 1px dashed rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  cursor: pointer;
+  color: $color-neutral-600;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+
+  &:hover:not(:disabled) {
+    border-color: #667eea;
+    color: #667eea;
+    background: rgba(102, 126, 234, 0.04);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.uploadText {
+  display: flex;
+  align-items: center;
+  gap: $size-75;
+}
+
+.uploadingText {
+  display: flex;
+  align-items: center;
+  gap: $size-75;
+}
+
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(102, 126, 234, 0.3);
+  border-top-color: #667eea;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

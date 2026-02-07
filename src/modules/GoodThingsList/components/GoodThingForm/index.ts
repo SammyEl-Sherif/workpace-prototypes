@@ -1,0 +1,1 @@
+export { GoodThingForm } from './GoodThingForm'

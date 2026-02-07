@@ -18,9 +18,10 @@ export type DividerProps<C extends React.ElementType> = PolymorphicComponentProp
 
 type DividerComponent = <C extends React.ElementType = 'hr'>(
   props: DividerProps<C>,
-) => React.ReactElement<DividerProps<C>> | null;
+) => React.ReactNode;
 
-const Divider: DividerComponent = forwardRef(function Divider<C extends React.ElementType = 'hr'>(
+// @ts-expect-error - Generic forwardRef is not directly supported in TypeScript
+const Divider = forwardRef(function Divider<C extends React.ElementType = 'hr'>(
   { as, orientation = 'horizontal', size = 'md', color, ...rest }: DividerProps<C>,
   ref?: PolymorphicRef<C>,
 ) {
@@ -47,5 +48,5 @@ const Divider: DividerComponent = forwardRef(function Divider<C extends React.El
   );
 });
 
-export default Divider as typeof Divider;
+export default Divider as DividerComponent;
 

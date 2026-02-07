@@ -15,9 +15,10 @@ type VisuallyHiddenProps<C extends React.ElementType> = PolymorphicComponentProp
 
 type VisuallyHiddenComponent = <C extends React.ElementType = 'span'>(
   props: VisuallyHiddenProps<C>,
-) => React.ReactElement<VisuallyHiddenProps<C>> | null;
+) => React.ReactNode;
 
-const VisuallyHidden: VisuallyHiddenComponent = forwardRef(function VisuallyHidden<
+// @ts-expect-error - Generic forwardRef is not directly supported in TypeScript
+const VisuallyHidden = forwardRef(function VisuallyHidden<
   C extends React.ElementType = 'span',
 >({ as, children, ...rest }: VisuallyHiddenProps<C>, ref?: PolymorphicRef<C>) {
   const asComponent: React.ElementType = as || 'span';
@@ -30,4 +31,4 @@ const VisuallyHidden: VisuallyHiddenComponent = forwardRef(function VisuallyHidd
   );
 });
 
-export default VisuallyHidden as typeof VisuallyHidden;
+export default VisuallyHidden as VisuallyHiddenComponent;

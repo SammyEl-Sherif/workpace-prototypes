@@ -40,8 +40,13 @@ export async function middleware(request: NextRequestWithAuth) {
     return new NextResponse('Not Found', { status: 404 })
   }
 
-  // Allow landing page (root), design-system, and system-design pages without authentication
-  if (pathname === '/' || pathname === '/design-system' || pathname === '/system-design') {
+  // Allow landing page (root), sign-in page, design-system, and system-design pages without authentication
+  if (
+    pathname === '/' ||
+    pathname === '/signin' ||
+    pathname === '/design-system' ||
+    pathname === '/system-design'
+  ) {
     return NextResponse.next()
   }
 

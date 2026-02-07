@@ -61,8 +61,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Install dependencies
-        working-directory: ./design-system
-        run: npm ci
+        run: npm install
 
       - name: Build design system
         working-directory: ./design-system
@@ -77,12 +76,11 @@ jobs:
           echo "Bumped version to $NEW_VERSION"
 
       - name: Publish to NPM
-        working-directory: ./design-system
-        run: npm publish --access public
+        run: npm publish --workspace design-system --access public
 
       - name: Commit version bump
         run: |
-          git add design-system/package.json design-system/package-lock.json
+          git add design-system/package.json package-lock.json
           git commit -m "chore: bump design-system version to ${{ env.NEW_VERSION }} [skip ci]"
           git push origin HEAD:main
 

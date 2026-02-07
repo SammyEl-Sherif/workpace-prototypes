@@ -15,10 +15,10 @@ const getStateColors = ({ disabled, hasError, isFieldFocused }: StateAttibutes) 
     background = 'neutral-100';
     border = 'neutral-200';
   } else if (hasError) {
-    border = 'urgent-600';
+    border = 'error-600';
   } else if (isFieldFocused) {
-    border = 'active-800';
-    text = 'active-800';
+    border = 'primary-600';
+    text = 'primary-600';
   }
 
   return {

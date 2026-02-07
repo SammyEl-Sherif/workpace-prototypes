@@ -1,6 +1,7 @@
 export enum UserGroup {
-  Admin = 'workpace-admin',
-  Premium = 'premium',
+  Admin = 'admin',
+  Vip = 'vip',
+  Default = 'default',
 }
 
 export interface SessionAccount {
@@ -12,6 +13,20 @@ export interface SessionAccount {
   access_token: string
   id_token: string
   scope: string
+}
+
+export interface SupabaseSession {
+  user: {
+    id: string
+    email?: string
+    phone?: string
+    email_verified?: boolean
+    phone_verified?: boolean
+    user_metadata?: Record<string, any>
+    app_metadata?: Record<string, any>
+  }
+  accessToken: string
+  refreshToken?: string
 }
 
 export interface UserProfile {

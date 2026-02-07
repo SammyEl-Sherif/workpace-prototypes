@@ -1,0 +1,122 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: $size-150;
+}
+
+.formContainer {
+  margin-bottom: $size-400;
+}
+
+// --- Desktop: Table view ---
+.tableWrapper {
+  overflow-x: auto;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+.th {
+  padding: $size-200 $size-300;
+  text-align: left;
+  background: #f8f9fa;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: #212529;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.tr {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #f8f9fa;
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.td {
+  padding: $size-200 $size-300;
+  font-size: 0.9375rem;
+  color: #212529;
+  vertical-align: middle;
+}
+
+.actions {
+  display: flex;
+  gap: $size-100;
+  align-items: center;
+}
+
+// --- Mobile: Card view ---
+.cardList {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    gap: $size-300;
+  }
+}
+
+.card {
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  overflow: hidden;
+
+  &:hover {
+    border-color: rgba(102, 126, 234, 0.2);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  }
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: $size-150;
+  padding-top: $size-200;
+}
+
+.cardActions {
+  display: flex;
+  gap: $size-100;
+}
+
+.cardFooter {
+  margin-top: $size-200;
+  padding-top: $size-150;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.loading,
+.error,
+.empty {
+  padding: $size-400;
+  text-align: center;
+}
+
+.error {
+  background: rgba(220, 38, 38, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(220, 38, 38, 0.3);
+}

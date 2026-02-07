@@ -7,6 +7,7 @@
   "scripts": {
     "start": "check-engines && npm run start --workspace src",
     "build": "npm run build:src",
+    "build:design-system": "npm --prefix design-system run build",
     "build:src": "npm run build --workspace src",
     "test": "npm-run-all --parallel test:** --print-label",
     "test:src": "npm run test --workspace src",
@@ -25,7 +26,15 @@
     "precommit:": "lint-staged",
     "precommit:src": "npm run lint --workspace src",
     "clean": "rm -rf node_modules src/node_modules src/.next design-system/node_modules design-system/dist",
-    "dev": "npm run start --workspace src"
+    "dev": "NEXT_IGNORE_INCORRECT_LOCKFILE=1 npm run start --workspace src",
+    "supabase:init": "supabase init",
+    "supabase:link": "supabase link --project-ref $SUPABASE_PROJECT_REF",
+    "supabase:diff": "supabase db diff --linked -f",
+    "supabase:diff:local": "supabase db diff -f",
+    "supabase:update": "npm install -g supabase@latest",
+    "supabase:push": "supabase db push --linked",
+    "supabase:reset": "supabase db reset",
+    "supabase:status": "supabase status"
   },
   "dependencies": {
     "@fontsource/roboto": "^5.1.1",
@@ -36,6 +45,8 @@
     "ignore": "^5.2.4",
     "jwt-decode": "^3.1.2",
     "openai": "^4.57.0",
+    "react": "^18",
+    "react-dom": "^18",
     "react-hook-form": "^7.54.2",
     "react-loading": "^2.0.3",
     "react-markdown": "^9.0.1"

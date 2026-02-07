@@ -1,14 +1,14 @@
 {
   "name": "@workpace/design-system",
-  "version": "1.0.8",
+  "version": "1.0.10",
   "description": "Reusable building blocks",
-  "main": "index.js",
+  "main": "./dist/production/lib.js",
   "scripts": {
     "build": "rollup -c",
     "build:production": "NODE_ENV=production npm run build",
     "build:storybook": "storybook build",
     "build:pages": "storybook build -o ./docs",
-    "prebuild": "tsx ./tokens/transform.ts && npm run svgr",
+    "prebuild": "npx tsx ./tokens/transform.ts && npm run svgr",
     "start": "storybook dev -p 6006",
     "chromatic": "chromatic --exit-zero-on-changes --exit-once-uploaded --only-change --auto-accept-changes main",
     "commit": "node scripts/commit.js",
@@ -66,8 +66,8 @@
     "@svgr/plugin-jsx": "^8.1.0",
     "@svgr/webpack": "^8.1.0",
     "@types/node": "^20.17.30",
-    "@types/react": "^17.0.85",
-    "@types/react-dom": "^17.0.26",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
     "@typescript-eslint/eslint-plugin": "^7.10.0",
     "@typescript-eslint/parser": "^7.10.0",
     "babel-loader": "^9.2.1",
@@ -127,19 +127,22 @@
   "exports": {
     ".": {
       "types": "./dist/production/lib.d.ts",
-      "development": {
-        "require": "./dist/development/lib.cjs",
-        "import": "./dist/development/lib.js"
-      },
       "production": {
         "require": "./dist/production/lib.cjs",
         "import": "./dist/production/lib.js"
       },
-      "require": "./dist/lib-env-wrapper.cjs"
+      "development": {
+        "require": "./dist/development/lib.cjs",
+        "import": "./dist/development/lib.js"
+      },
+      "import": "./dist/production/lib.js",
+      "require": "./dist/lib-env-wrapper.cjs",
+      "default": "./dist/production/lib.js"
     },
     "./styles": {
+      "production": "./dist/production/styles.css",
       "development": "./dist/development/styles.css",
-      "production": "./dist/production/styles.css"
+      "default": "./dist/production/styles.css"
     },
     "./fonts": "./dist/fonts.css",
     "./tokens": {

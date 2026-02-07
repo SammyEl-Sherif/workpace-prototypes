@@ -51,7 +51,7 @@ type TextProps<C extends React.ElementType> = PolymorphicComponentPropsWithRef<C
 
 type TextComponent = <C extends React.ElementType = 'span'>(
   props: TextProps<C>,
-) => React.ReactElement<TextProps<C>> | null;
+) => React.ReactNode;
 
 type BreakpointsPrefix = 'lg-' | 'md-' | 'sm-' | '';
 
@@ -85,7 +85,8 @@ function getVariantClasses(value?: Variant | Breakpoints<Variant>) {
   return undefined;
 }
 
-const Text: TextComponent = forwardRef(function Text<C extends React.ElementType = 'span'>(
+// @ts-expect-error - Generic forwardRef is not directly supported in TypeScript
+const Text = forwardRef(function Text<C extends React.ElementType = 'span'>(
   { as, children, variant, emphasis = false, ...rest }: TextProps<C>,
   ref?: PolymorphicRef<C>,
 ) {
@@ -102,4 +103,4 @@ const Text: TextComponent = forwardRef(function Text<C extends React.ElementType
   );
 });
 
-export default Text as typeof Text;
+export default Text as TextComponent;
