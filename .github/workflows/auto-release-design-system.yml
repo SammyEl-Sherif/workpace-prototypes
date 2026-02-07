@@ -80,7 +80,7 @@ jobs:
 
       - name: Commit version bump
         run: |
-          git add design-system/package.json design-system/package-lock.json
+          git add design-system/package.json package-lock.json
           git commit -m "chore: bump design-system version to ${{ env.NEW_VERSION }} [skip ci]"
           git push origin HEAD:main
 
