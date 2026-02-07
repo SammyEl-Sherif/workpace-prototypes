@@ -76,8 +76,7 @@ jobs:
           echo "Bumped version to $NEW_VERSION"
 
       - name: Publish to NPM
-        working-directory: ./design-system
-        run: npm publish --access public
+        run: npm publish --workspace design-system --access public
 
       - name: Commit version bump
         run: |
