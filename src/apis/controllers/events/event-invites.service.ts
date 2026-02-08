@@ -65,8 +65,8 @@ export async function sendEventInvites(
 
       const res = await sendPingramSms({
         type: 'event_invite',
-        to: { phone: guest.phone_number },
-        sms: { body },
+        to: { id: guest.id, number: guest.phone_number },
+        sms: { message: body },
         metadata: {
           eventId,
           guestId: guest.id,
