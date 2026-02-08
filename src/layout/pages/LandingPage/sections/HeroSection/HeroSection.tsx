@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { Button } from '@workpace/design-system'
 import Link from 'next/link'
@@ -11,11 +11,9 @@ import styles from './HeroSection.module.scss'
 const ButtonComponent = Button as any
 
 const subtitles = [
-  'Change Your Pace.',
-  'A Change of Pace.',
-  'A change of pace in your online workspace.',
-  'Modern Tools for a New Pace.',
-  'Modern Solutions for Age Old Problems.',
+  'Change Your Pace',
+  'A Change of Pace',
+  'A change of pace in your online workspace',
 ]
 
 const COMPANIES = [
