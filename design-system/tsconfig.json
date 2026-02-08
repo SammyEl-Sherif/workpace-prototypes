@@ -32,7 +32,7 @@
         "name": "typescript-plugin-css-modules"
       }
     ],
-    "types": ["typescript-plugin-css-modules", "node"],
+    "types": ["node"],
     "lib": ["dom", "dom.iterable", "esnext"]
   },
   "include": ["./.storybook", "./src", "./tokens"]

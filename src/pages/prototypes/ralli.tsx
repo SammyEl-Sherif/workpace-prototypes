@@ -1,4 +1,3 @@
-import React from 'react'
 
 import { GetServerSideProps } from 'next'
 
@@ -13,7 +12,7 @@ export const getServerSideProps: GetServerSideProps = withPageRequestWrapper(asy
 const RalliPage = () => {
   return (
     <>
-      <DocumentTitle title="Ralli" />
+      <DocumentTitle title="SMS" />
       <Ralli />
     </>
   )
