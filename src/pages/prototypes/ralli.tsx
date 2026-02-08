@@ -13,7 +13,7 @@ export const getServerSideProps: GetServerSideProps = withPageRequestWrapper(asy
 const RalliPage = () => {
   return (
     <>
-      <DocumentTitle title="Ralli" />
+      <DocumentTitle title="SMS" />
       <Ralli />
     </>
   )
