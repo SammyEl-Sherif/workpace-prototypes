@@ -310,7 +310,7 @@ export const FeatureFlags = () => {
                 </div>
 
                 <div className={styles.flagActions}>
-                  <Badge variant={flag.enabled ? 'success' : 'neutral'}>
+                  <Badge variant={flag.enabled ? 'success' : 'default'}>
                     {flag.enabled ? 'Enabled' : 'Disabled'}
                   </Badge>
 

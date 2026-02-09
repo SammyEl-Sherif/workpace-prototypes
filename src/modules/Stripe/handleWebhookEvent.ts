@@ -72,7 +72,7 @@ export const handleWebhookEvent = async (event: Stripe.Event): Promise<void> => 
     case StripeWebhookEvent.INVOICE_PAYMENT_SUCCEEDED: {
       const invoice = event.data.object as Stripe.Invoice
       console.log(
-        `[Stripe Webhook] Invoice payment succeeded — id: ${invoice.id}, subscription: ${invoice.subscription}`
+        `[Stripe Webhook] Invoice payment succeeded — id: ${invoice.id}, subscription: ${invoice.parent?.subscription_details?.subscription}`
       )
       break
     }
@@ -80,7 +80,7 @@ export const handleWebhookEvent = async (event: Stripe.Event): Promise<void> => 
     case StripeWebhookEvent.INVOICE_PAYMENT_FAILED: {
       const invoice = event.data.object as Stripe.Invoice
       console.log(
-        `[Stripe Webhook] Invoice payment failed — id: ${invoice.id}, subscription: ${invoice.subscription}`
+        `[Stripe Webhook] Invoice payment failed — id: ${invoice.id}, subscription: ${invoice.parent?.subscription_details?.subscription}`
       )
       // TODO: Notify user of failed payment, consider grace period
       break

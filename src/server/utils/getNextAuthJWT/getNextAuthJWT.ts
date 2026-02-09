@@ -1,6 +1,6 @@
-import { GetServerSidePropsContext } from 'next/types'
 import { Session } from 'next-auth'
 import { getToken } from 'next-auth/jwt'
+import { GetServerSidePropsContext } from 'next/types'
 
 import { SessionAccount } from '@/interfaces/user'
 
