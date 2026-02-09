@@ -58,7 +58,11 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Install dependencies
+      - name: Install root dependencies
+        run: npm install
+
+      - name: Install design-system dependencies
+        working-directory: ./design-system
         run: npm install
 
       - name: Build design system
