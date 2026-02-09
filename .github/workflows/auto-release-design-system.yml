@@ -80,7 +80,8 @@ jobs:
           echo "Bumped version to $NEW_VERSION"
 
       - name: Publish to NPM
-        run: npm publish --workspace design-system --access public
+        working-directory: ./design-system
+        run: npm publish --access public
 
       - name: Commit version bump
         run: |
