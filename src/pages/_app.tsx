@@ -6,6 +6,7 @@ import type { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 
 import { UserInfoContextProvider } from '@/contexts/UserInfoContextProvider'
+import { APPS } from '@/interfaces/apps'
 import { PageProps } from '@/interfaces/page-props'
 import MainLayout from '@/layout/MainLayout'
 import { AppsContextProvider } from '@/modules'
@@ -28,7 +29,7 @@ export default function App({ Component, pageProps }: AppProps) {
             email: userProfile?.email ?? '',
           }}
         >
-          <AppsContextProvider apps={apps}>
+          <AppsContextProvider apps={apps ?? APPS}>
             <Component {...pageProps} />
           </AppsContextProvider>
         </UserInfoContextProvider>
@@ -63,7 +64,7 @@ export default function App({ Component, pageProps }: AppProps) {
           email: userProfile?.email ?? '',
         }}
       >
-        <AppsContextProvider apps={apps}>
+        <AppsContextProvider apps={apps ?? APPS}>
           <MainLayout>
             <Component {...pageProps} />
           </MainLayout>

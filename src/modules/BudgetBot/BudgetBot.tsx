@@ -1,6 +1,8 @@
-import { useState, useMemo } from 'react'
+import { Breadcrumbs } from '@workpace/design-system'
+import { ArcElement, CategoryScale, Chart as ChartJS, Legend, LinearScale, Tooltip } from 'chart.js'
+import Link from 'next/link'
+import { useMemo, useState } from 'react'
 import { Doughnut } from 'react-chartjs-2'
-import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale } from 'chart.js'
 
 import styles from './BudgetBot.module.scss'
 
@@ -196,6 +198,16 @@ export const BudgetBot = () => {
 
   return (
     <div className={styles.page}>
+      <div className={styles.breadcrumbsWrapper}>
+        <Breadcrumbs
+          linkAs={Link}
+          items={[
+            { label: 'Apps', href: '/apps' },
+            { label: 'Budget Bot' },
+          ]}
+          size="sm"
+        />
+      </div>
       <div className={styles.header}>
         <h1 className={styles.title}>💰 Budget Bot</h1>
         <p className={styles.subtitle}>
@@ -648,17 +660,15 @@ export const BudgetBot = () => {
                 <span className={styles.breakdownLabel}>Remaining for Wants:</span>
                 <div className={styles.breakdownValueGroup}>
                   <span
-                    className={`${styles.breakdownValue} ${
-                      remainingForWants >= 0 ? styles.positive : styles.negative
-                    }`}
+                    className={`${styles.breakdownValue} ${remainingForWants >= 0 ? styles.positive : styles.negative
+                      }`}
                   >
                     ${remainingForWants.toFixed(2)}
                   </span>
                   {monthlyIncome > 0 && (
                     <span
-                      className={`${styles.breakdownPercentage} ${
-                        remainingForWants >= 0 ? styles.positive : styles.negative
-                      }`}
+                      className={`${styles.breakdownPercentage} ${remainingForWants >= 0 ? styles.positive : styles.negative
+                        }`}
                     >
                       ({wantsPercentage.toFixed(1)}%)
                     </span>

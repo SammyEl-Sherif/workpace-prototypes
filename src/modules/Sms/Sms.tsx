@@ -1,4 +1,5 @@
-import { Button, InputField, Text } from '@workpace/design-system'
+import { Breadcrumbs, Button, InputField, Text } from '@workpace/design-system'
+import Link from 'next/link'
 import { useState } from 'react'
 
 import styles from './Sms.module.scss'
@@ -52,6 +53,16 @@ export const Sms = () => {
 
   return (
     <div className={styles.page}>
+      <div className={styles.breadcrumbsWrapper}>
+        <Breadcrumbs
+          linkAs={Link}
+          items={[
+            { label: 'Apps', href: '/apps' },
+            { label: 'SMS' },
+          ]}
+          size="sm"
+        />
+      </div>
       <div className={styles.container}>
         {/* ── SMS Send Section ─────────────────────────────── */}
         <div className={styles.smsSection}>

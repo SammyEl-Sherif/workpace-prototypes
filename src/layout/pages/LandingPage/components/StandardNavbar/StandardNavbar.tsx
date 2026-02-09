@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { Button } from '@workpace/design-system'
 import cn from 'classnames'
@@ -22,6 +22,7 @@ const StandardNavbar = () => {
   const { user: supabaseUser, isAuthenticated: isSupabaseAuthenticated } = useSupabaseSession()
   const router = useRouter()
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
 
   // Check if user is authenticated via either NextAuth or Supabase
   const isAuthenticated = status === 'authenticated' || isSupabaseAuthenticated
@@ -42,9 +43,20 @@ const StandardNavbar = () => {
     setIsMobileNavOpen(false)
   }
 
+  // Scroll shadow effect
+  const handleScroll = useCallback(() => {
+    setIsScrolled(window.scrollY > 10)
+  }, [])
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [handleScroll])
+
   return (
     <>
-      <nav className={styles.navbar}>
+      <nav className={cn(styles.navbar, { [styles.scrolled]: isScrolled })}>
         <div className={styles.container}>
           <div className={styles.brand}>
             <Link href="/" className={styles.brandLink}>

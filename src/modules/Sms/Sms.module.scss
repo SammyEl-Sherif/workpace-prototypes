@@ -3,15 +3,21 @@
 .page {
   min-height: calc(90vh - 120px);
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
   padding: $size-50;
+}
+
+.breadcrumbsWrapper {
+  max-width: 800px;
+  width: 100%;
+  margin: $size-200 auto $size-400;
 }
 
 .container {
   text-align: center;
   max-width: 800px;
   width: 100%;
+  margin: auto;
 }
 
 // ── SMS Send Section ──────────────────────────────────

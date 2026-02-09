@@ -1,0 +1,212 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Services Section — 4 service cards (polished UX)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.section {
+  padding: 6rem 0;
+  background: $color-neutral-50;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 3.5rem;
+}
+
+.title {
+  color: $color-neutral-900;
+  margin: 0 0 $size-200;
+}
+
+.subtitle {
+  color: $color-neutral-600;
+  margin: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $size-300;
+}
+
+/* ── Card Styles ── */
+
+.card {
+  background: $color-neutral-white;
+  border: 1px solid $color-neutral-200;
+  border-radius: $size-200;
+  padding: $size-300;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  transition:
+    box-shadow 0.35s ease,
+    transform 0.35s ease,
+    border-color 0.35s ease;
+  position: relative;
+  overflow: hidden;
+
+  /* subtle top accent line */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: $color-primary-500;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s ease;
+  }
+
+  &:hover {
+    box-shadow:
+      0 8px 24px rgba(0, 0, 0, 0.06),
+      0 2px 8px rgba(0, 0, 0, 0.04);
+    transform: translateY(-6px);
+    border-color: $color-primary-200;
+
+    &::before {
+      transform: scaleX(1);
+    }
+  }
+}
+
+.cardHeader {
+  display: flex;
+  flex-direction: column;
+  gap: $size-150;
+  padding: 0;
+}
+
+.iconWrapper {
+  width: $size-600;
+  height: $size-600;
+  border-radius: $size-150;
+  background: $color-primary-50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: $size-50;
+  transition: background 0.3s ease;
+
+  .card:hover & {
+    background: $color-primary-100;
+  }
+}
+
+.icon {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.cardTitle {
+  color: $color-neutral-900;
+  font-weight: $font-weight-bold;
+  font-size: $font-headline-sm-font-size;
+  margin: 0;
+}
+
+.cardDescription {
+  color: $color-neutral-600;
+  margin: 0;
+  line-height: $font-body-sm-paragraph-line-height;
+}
+
+/* ── Divider between header and features ── */
+
+.cardDivider {
+  margin: $size-200 0;
+  border: none;
+  border-top: 1px solid $color-neutral-100;
+}
+
+/* ── Feature List ── */
+
+.cardContent {
+  padding: 0;
+  flex: 1;
+}
+
+.featureList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $size-100;
+}
+
+.featureItem {
+  display: flex;
+  align-items: center;
+  gap: $size-100;
+}
+
+.featureDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: $color-primary-500;
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Scroll Reveal Animation
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity 0.6s ease-out,
+    transform 0.6s ease-out;
+
+  &.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Responsive
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 1023px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: $size-200;
+  }
+}
+
+@media (max-width: 639px) {
+  .section {
+    padding: 4rem 0;
+  }
+
+  .container {
+    padding: 0 1.25rem;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: $size-200;
+  }
+
+  .header {
+    margin-bottom: 2.5rem;
+  }
+
+  .card {
+    padding: $size-250;
+  }
+}

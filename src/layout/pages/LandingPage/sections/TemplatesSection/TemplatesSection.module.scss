@@ -1,0 +1,246 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Templates / Pricing Section (aligned with Services card UX)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.section {
+  padding: 6rem 0;
+  background: $color-neutral-white;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 3.5rem;
+}
+
+.title {
+  color: $color-neutral-900;
+  margin: 0 0 $size-200;
+}
+
+.subtitle {
+  color: $color-neutral-600;
+  margin: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $size-300;
+}
+
+/* ── Card ── */
+
+.card {
+  position: relative;
+  background: $color-neutral-white;
+  border: 1px solid $color-neutral-200;
+  border-radius: $size-200;
+  padding: $size-400 $size-300;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  transition:
+    box-shadow 0.35s ease,
+    transform 0.35s ease,
+    border-color 0.35s ease;
+
+  /* subtle top accent line */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    border-radius: $size-200 $size-200 0 0;
+    background: $color-neutral-300;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s ease;
+  }
+
+  &:hover {
+    box-shadow:
+      0 8px 24px rgba(0, 0, 0, 0.06),
+      0 2px 8px rgba(0, 0, 0, 0.04);
+    transform: translateY(-6px);
+    border-color: $color-primary-200;
+
+    &::before {
+      transform: scaleX(1);
+    }
+  }
+}
+
+.popularCard {
+  border-color: $color-primary-500;
+  box-shadow: 0 4px 20px rgba($color-primary-600, 0.12);
+
+  &::before {
+    background: $color-primary-500;
+    transform: scaleX(1);
+  }
+}
+
+.popularBadge {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+/* ── Card Header ── */
+
+.cardHeader {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $size-100;
+  margin-bottom: $size-250;
+}
+
+.planName {
+  color: $color-neutral-900;
+  margin: 0;
+}
+
+.price {
+  display: flex;
+  align-items: baseline;
+  gap: $size-25;
+  margin: $size-50 0;
+}
+
+.priceValue {
+  font-size: 3rem;
+  font-weight: $font-weight-bold;
+  color: $color-neutral-900;
+  line-height: 1;
+}
+
+.pricePeriod {
+  font-size: $font-body-lg-font-size;
+  color: $color-neutral-600;
+}
+
+.planDescription {
+  color: $color-neutral-600;
+  margin: 0;
+}
+
+/* ── Divider ── */
+
+.cardDivider {
+  margin: 0 0 $size-250;
+  border: none;
+  border-top: 1px solid $color-neutral-100;
+}
+
+/* ── Card Content ── */
+
+.cardContent {
+  padding: 0;
+  flex: 1;
+}
+
+.featureList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $size-150;
+  text-align: left;
+}
+
+.featureItem {
+  display: flex;
+  align-items: flex-start;
+  gap: $size-150;
+}
+
+.checkIcon {
+  color: $color-success-600;
+  font-weight: $font-weight-bold;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* ── Card Footer ── */
+
+.cardFooter {
+  padding: 0;
+  margin-top: $size-300;
+}
+
+.ctaLink {
+  display: block;
+  text-decoration: none;
+  width: 100%;
+}
+
+.ctaButton {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Scroll Reveal Animation
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity 0.6s ease-out,
+    transform 0.6s ease-out;
+
+  &.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Responsive
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 639px) {
+  .section {
+    padding: 4rem 0;
+  }
+
+  .container {
+    padding: 0 1.25rem;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: $size-300;
+  }
+
+  .card {
+    padding: $size-300 $size-250;
+  }
+
+  .priceValue {
+    font-size: 2.5rem;
+  }
+
+  .header {
+    margin-bottom: 2.5rem;
+  }
+}

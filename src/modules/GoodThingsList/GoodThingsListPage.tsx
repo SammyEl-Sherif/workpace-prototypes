@@ -1,7 +1,8 @@
 import { useGoodThings, useManualFetch, useSavedReports } from '@/hooks'
 import { CreateSavedReportInput } from '@/interfaces/saved-reports'
-import { Box, Text } from '@workpace/design-system'
+import { Box, Breadcrumbs, Text } from '@workpace/design-system'
 import { motion } from 'framer-motion'
+import Link from 'next/link'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { DayGrid, GoodThingsList, ReportModal, SavedReportsTable } from './components'
 import styles from './GoodThingsListPage.module.scss'
@@ -149,6 +150,16 @@ export const GoodThingsListPage = () => {
 
   return (
     <div className={styles.page}>
+      <div className={styles.breadcrumbsWrapper}>
+        <Breadcrumbs
+          linkAs={Link}
+          items={[
+            { label: 'Apps', href: '/apps' },
+            { label: 'Good Stuff List' },
+          ]}
+          size="sm"
+        />
+      </div>
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}

@@ -1,4 +1,4 @@
-import { Badge, Button, Loading, Text } from '@workpace/design-system'
+import { Badge, Breadcrumbs, Button, Loading, Text } from '@workpace/design-system'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -131,6 +131,15 @@ export const TemplateDetail = () => {
   /* ── Main Render ── */
   return (
     <div className={styles.page}>
+      <Breadcrumbs
+        linkAs={Link}
+        items={[
+          { label: 'Templates', href: '/templates' },
+          { label: template.title },
+        ]}
+        size="sm"
+        className={styles.breadcrumbs}
+      />
       {/* ── Hero ── */}
       <section className={styles.hero}>
         <h1 className={styles.title}>{template.title}</h1>

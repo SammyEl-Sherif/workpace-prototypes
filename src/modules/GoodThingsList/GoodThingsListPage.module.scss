@@ -9,6 +9,11 @@
   margin-top: $size-700;
 }
 
+.breadcrumbsWrapper {
+  max-width: 1200px;
+  margin: 0 auto $size-400;
+}
+
 .floatingHeader {
   position: sticky;
   top: $size-200;
