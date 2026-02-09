@@ -1,11 +1,11 @@
 import { Button, InputField, Text } from '@workpace/design-system'
 import { useState } from 'react'
 
-import styles from './Ralli.module.scss'
+import styles from './Sms.module.scss'
 
 type SendStatus = 'idle' | 'sending' | 'sent' | 'error'
 
-export const Ralli = () => {
+export const Sms = () => {
   const [phone, setPhone] = useState('')
   const [message, setMessage] = useState('')
   const [status, setStatus] = useState<SendStatus>('idle')
@@ -44,7 +44,7 @@ export const Ralli = () => {
       // Reset success banner after a few seconds
       setTimeout(() => setStatus('idle'), 4000)
     } catch (err: unknown) {
-      console.error('[Ralli] SMS send error', err)
+      console.error('[Sms] SMS send error', err)
       setErrorText(err instanceof Error ? err.message : 'Something went wrong.')
       setStatus('error')
     }
@@ -53,21 +53,6 @@ export const Ralli = () => {
   return (
     <div className={styles.page}>
       <div className={styles.container}>
-        <Text as="h1" variant="headline-display" className={styles.title}>
-          Ralli
-        </Text>
-        <Text as="p" variant="body-lg" className={styles.subtitle}>
-          Find deals. Invite friends. Your shortcut to good times.
-        </Text>
-
-        <div className={styles.searchContainer}>
-          <InputField
-            label="Search"
-            placeholder="Search for deals, events, or activities..."
-            className={styles.searchInput}
-          />
-        </div>
-
         {/* ── SMS Send Section ─────────────────────────────── */}
         <div className={styles.smsSection}>
           <Text as="h2" variant="headline-sm" className={styles.smsHeading}>

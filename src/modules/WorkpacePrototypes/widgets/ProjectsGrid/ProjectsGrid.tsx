@@ -11,21 +11,6 @@ export const ProjectsGrid = () => {
 
   return (
     <div className={styles.page}>
-      {/* Header */}
-      <motion.div
-        className={styles.header}
-        initial={{ opacity: 0, y: -16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      >
-        <h1 className={styles.title}>Prototypes</h1>
-        <p className={styles.subtitle}>
-          Products designed to bring a change of pace to your online workspace. Explore what
-          we&apos;re building.
-        </p>
-      </motion.div>
-
-      {/* Grid */}
       {prototypes && prototypes.length > 0 ? (
         <div className={styles.grid}>
           {prototypes.map((prototype: Prototype, index) => (

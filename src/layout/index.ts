@@ -1,5 +1,6 @@
 export * from './DocumentTitle'
 export * from './MainLayout'
+export * from './PageHeader'
 export * from './PageTitle'
 export * from './Auth'
 export * from './pages'

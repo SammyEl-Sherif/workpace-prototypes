@@ -14,29 +14,11 @@
   width: 100%;
 }
 
-.title {
-  margin-bottom: $size-300;
-}
-
-.subtitle {
-  margin-bottom: $size-600;
-  color: $color-neutral-700;
-}
-
-.searchContainer {
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.searchInput {
-  width: 100%;
-}
-
 // ── SMS Send Section ──────────────────────────────────
 
 .smsSection {
   max-width: 480px;
-  margin: $size-800 auto 0;
+  margin: 0 auto;
   padding: $size-400;
   border: 1px solid $color-neutral-200;
   border-radius: $size-100;

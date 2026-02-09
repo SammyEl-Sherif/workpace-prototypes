@@ -29,27 +29,6 @@ export const DesignSystem = () => {
   const currentVersion = process.env.NEXT_PUBLIC_WDS_VERSION
   return (
     <div className={styles.page}>
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        className={styles.floatingHeader}
-      >
-        <div className={styles.headerContent}>
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
-            className={styles.titleSection}
-          >
-            <h1 className={styles.mainTitle}>🎨 Design System</h1>
-            <p className={styles.subtitle}>
-              A comprehensive component library built for modern applications
-            </p>
-          </motion.div>
-        </div>
-      </motion.div>
-
       <div className={styles.mainContent}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}

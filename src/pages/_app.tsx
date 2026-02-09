@@ -14,13 +14,10 @@ export default function App({ Component, pageProps }: AppProps) {
   const { userProfile, prototypes } = pageProps as PageProps
   const router = useRouter()
 
-  // Check if current page is the landing page (no auth required)
   const isLandingPage = router.pathname === '/'
   const isSigninPage = router.pathname === '/signin'
-  const isDesignSystemPage = router.pathname === '/design-system'
-  const isSystemDesignPage = router.pathname === '/system-design'
 
-  // For landing page, render without authentication but with context providers
+  // Landing page — has its own StandardNavbar, no MainLayout
   if (isLandingPage) {
     return (
       <Auth>
@@ -39,28 +36,7 @@ export default function App({ Component, pageProps }: AppProps) {
     )
   }
 
-  // For design-system and system-design pages, render with MainLayout (side navigation) but without auth requirement
-  if (isDesignSystemPage || isSystemDesignPage) {
-    return (
-      <Auth>
-        <UserInfoContextProvider
-          userProfile={{
-            ...userProfile,
-            name: userProfile?.name ?? '',
-            email: userProfile?.email ?? '',
-          }}
-        >
-          <PrototypesContextProvider prototypes={prototypes}>
-            <MainLayout>
-              <Component {...pageProps} />
-            </MainLayout>
-          </PrototypesContextProvider>
-        </UserInfoContextProvider>
-      </Auth>
-    )
-  }
-
-  // For signin page, render without layout (no navbar) but with context providers
+  // Sign-in page — no layout (no navbar)
   if (isSigninPage) {
     return (
       <Auth>
@@ -77,7 +53,7 @@ export default function App({ Component, pageProps }: AppProps) {
     )
   }
 
-  // For all other pages, require authentication and full context
+  // All other pages — MainLayout handles navbar, auth overlay, SubNavbar
   return (
     <Auth>
       <UserInfoContextProvider

@@ -1,18 +1,5 @@
 @use '@workpace/design-system/dist/design-tokens' as *;
 
-.container {
-  display: flex;
-  flex-flow: column nowrap;
-  flex: 1;
-
-  &Size {
-    max-width: 1440px;
-    margin: 0 auto;
-    padding: 0 10%;
-    // padding-top: 140px; // Add padding for fixed navbar (~72px) + subnavbar (~48px) + spacing
-  }
-}
-
 .pageLayout {
   display: flex;
   flex-flow: column nowrap;
@@ -21,25 +8,25 @@
 
 .pageContent {
   flex: 1;
-  overflow: auto;
+  display: flex;
+  flex-direction: column;
   width: 100%;
+  // Offset for the fixed StandardNavbar (~72px)
+  padding-top: 72px;
 }
 
-.navbarSpacer {
-  height: 120px; // StandardNavbar (~72px) + SubNavbar (~72px)
-  flex-shrink: 0;
+.withSubNavbar {
+  // Offset for StandardNavbar (~72px) + SubNavbar (~48px)
+  padding-top: 120px;
 }
 
 @media #{$mq-sm-only} {
-  .containerSize {
-    padding: 0 5%;
-  }
-
   .pageContent {
-    margin-top: 0;
+    // Mobile StandardNavbar is slightly taller
+    padding-top: 77px;
   }
 
-  .navbarSpacer {
-    height: 120px; // Same height on mobile
+  .withSubNavbar {
+    padding-top: 125px;
   }
 }

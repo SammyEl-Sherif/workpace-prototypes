@@ -6,4 +6,3 @@ export * from './prototypes'
 export * from './restaurants'
 export * from './saved-reports'
 export * from './users'
-

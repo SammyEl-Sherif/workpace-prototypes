@@ -1,0 +1,219 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Templates Page — Easlo-inspired layout
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.page {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: $size-600 $size-300 $size-900;
+}
+
+/* ── Hero Section ── */
+
+.hero {
+  text-align: center;
+  margin-bottom: $size-400;
+}
+
+.title {
+  font-size: clamp(2.25rem, 5vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: $color-neutral-900;
+  margin: 0 0 $size-150 0;
+}
+
+.subtitle {
+  color: $color-neutral-500;
+  font-size: $font-body-lg-font-size;
+  line-height: $font-body-lg-paragraph-line-height;
+  font-weight: $font-weight-regular;
+  margin: 0 auto;
+  max-width: 540px;
+}
+
+/* ── Search Bar ── */
+
+.searchWrapper {
+  max-width: 480px;
+  margin: $size-500 auto $size-400;
+}
+
+.searchInput {
+  width: 100%;
+}
+
+/* ── Category Filters ── */
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $size-100;
+  justify-content: center;
+  margin-bottom: $size-200;
+}
+
+.filterBadge {
+  cursor: pointer;
+  user-select: none;
+}
+
+/* ── Pricing Toggles ── */
+
+.pricingFilters {
+  display: flex;
+  gap: $size-100;
+  justify-content: center;
+  margin-bottom: $size-500;
+}
+
+/* ── Template Grid ── */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $size-300;
+}
+
+/* ── Template Card ── */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  border-radius: $size-150;
+  overflow: hidden;
+  background: $color-neutral-white;
+  border: 1px solid $color-neutral-200;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.cardImageWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: $color-neutral-100;
+}
+
+.cardImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+
+  .card:hover & {
+    transform: scale(1.04);
+  }
+}
+
+.cardImagePlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, $color-neutral-100, $color-neutral-200);
+  color: $color-neutral-400;
+  font-size: $font-body-sm-font-size;
+  font-weight: $font-weight-medium;
+}
+
+.cardProBadge {
+  position: absolute;
+  top: $size-100;
+  right: $size-100;
+}
+
+.cardBody {
+  padding: $size-200;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: $size-100;
+}
+
+.cardTitle {
+  font-size: $font-body-md-font-size;
+  font-weight: $font-weight-medium;
+  color: $color-neutral-900;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+}
+
+.cardPrice {
+  font-size: $font-body-md-font-size;
+  font-weight: $font-weight-medium;
+  color: $color-neutral-500;
+  white-space: nowrap;
+}
+
+.cardPriceFree {
+  composes: cardPrice;
+  color: $color-neutral-900;
+}
+
+/* ── Loading State ── */
+
+.loadingState {
+  display: flex;
+  justify-content: center;
+  padding: $size-900 0;
+}
+
+/* ── Empty State ── */
+
+.emptyState {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: $size-900 $size-300;
+}
+
+.emptyTitle {
+  color: $color-neutral-500;
+  margin-bottom: $size-100;
+}
+
+.emptySubtitle {
+  color: $color-neutral-400;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Responsive
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@media #{$mq-sm-only} {
+  .page {
+    padding: $size-400 $size-200 $size-600;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: $size-300;
+  }
+
+  .filters {
+    gap: $size-75;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1023px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: $size-300;
+  }
+}

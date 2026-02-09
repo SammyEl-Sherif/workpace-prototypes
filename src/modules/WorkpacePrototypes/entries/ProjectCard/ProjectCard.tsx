@@ -88,13 +88,7 @@ export const ProjectCard = ({ prototype, index }: { prototype: Prototype; index:
         <div className={styles.cardFooter}>
           <span className={styles.cta}>
             Explore
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-              className={styles.ctaArrow}
-            >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className={styles.ctaArrow}>
               <path
                 d="M3 8H13M13 8L9 4M13 8L9 12"
                 stroke="currentColor"

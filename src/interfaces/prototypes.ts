@@ -54,10 +54,10 @@ export const PROTOTYPES: Prototype[] = [
     tech: 'React, TypeScript',
   },
   {
-    name: `🎉 ${routeToName(Routes.RALLI)}`,
-    path: `/${Routes.RALLI}`,
-    description: 'Find deals. Invite friends. Your shortcut to good times.',
-    icon: '🎉',
+    name: `💬 ${routeToName(Routes.SMS)}`,
+    path: `/${Routes.SMS}`,
+    description: 'Send quick SMS notifications to any phone number.',
+    icon: '💬',
     permittedRoles: [UserGroup.Admin],
     stage: PrototypeStage.WIP,
     tech: 'React, TypeScript',
@@ -85,9 +85,9 @@ export const PrototypeMeta = {
     stage: PrototypeStage.WIP,
     tech: 'React, TypeScript',
   },
-  [Routes.RALLI]: {
-    description: 'Find deals. Invite friends. Your shortcut to good times.',
-    icon: '🎉',
+  [Routes.SMS]: {
+    description: 'Send quick SMS notifications to any phone number.',
+    icon: '💬',
     permittedRoles: [UserGroup.Admin],
     stage: PrototypeStage.WIP,
     tech: 'React, TypeScript',

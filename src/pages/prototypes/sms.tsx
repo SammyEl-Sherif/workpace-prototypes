@@ -1,21 +1,20 @@
-
 import { GetServerSideProps } from 'next'
 
 import { DocumentTitle } from '@/layout/DocumentTitle'
-import { Ralli } from '@/modules/Ralli'
+import { Sms } from '@/modules/Sms'
 import { withPageRequestWrapper } from '@/server/utils/withPageRequestWrapper'
 
 export const getServerSideProps: GetServerSideProps = withPageRequestWrapper(async () => {
   return {}
 })
 
-const RalliPage = () => {
+const SmsPage = () => {
   return (
     <>
       <DocumentTitle title="SMS" />
-      <Ralli />
+      <Sms />
     </>
   )
 }
 
-export default RalliPage
+export default SmsPage

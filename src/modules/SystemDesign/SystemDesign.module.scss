@@ -1,9 +1,7 @@
 @use '@workpace/design-system/dist/design-tokens' as *;
 
 .page {
-  min-height: 100vh;
   background: white;
-  padding: $size-200;
   position: relative;
   overflow-x: hidden;
 }
@@ -13,7 +11,8 @@
   top: $size-200;
   z-index: 100;
   margin-bottom: 0;
-  max-width: 1200px;
+  width: 100%;
+  max-width: 1120px;
   margin-left: auto;
   margin-right: auto;
 
@@ -57,9 +56,10 @@
 .mainContent {
   display: flex;
   flex-direction: column;
-  max-width: 1200px;
+  width: 100%;
+  max-width: 1120px;
   margin: 0 auto;
-  margin-top: 0;
+  padding: 0 $size-300;
 }
 
 .section {
@@ -469,7 +469,11 @@
 // Responsive Design
 @media (max-width: 768px) {
   .page {
-    padding: $size-100 $size-150;
+    padding: 0;
+  }
+
+  .mainContent {
+    padding: 0 $size-200;
   }
 
   .floatingHeader {
