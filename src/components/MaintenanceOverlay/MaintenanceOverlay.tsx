@@ -26,15 +26,6 @@ export const MaintenanceOverlay: FC<MaintenanceOverlayProps> = ({ children }) =>
   const router = useRouter()
   const { isEnabled, isAdmin, isLoading } = useFeatureFlagsContext()
 
-  const isAdminRoute = router.pathname.startsWith('/admin')
-  const isSigninPage = router.pathname === '/signin'
-  const maintenanceActive = isEnabled('maintenance-overlay')
-
-  // Don't show overlay on admin routes, signin, for admins, or while flags are loading
-  if (isAdminRoute || isSigninPage || isAdmin || !maintenanceActive || isLoading) {
-    return <>{children}</>
-  }
-
   const handleSignIn = useCallback(async () => {
     // Clear Supabase session cookies
     try {
@@ -62,6 +53,15 @@ export const MaintenanceOverlay: FC<MaintenanceOverlayProps> = ({ children }) =>
       }
     }
   }, [])
+
+  const isAdminRoute = router.pathname.startsWith('/admin')
+  const isSigninPage = router.pathname === '/signin'
+  const maintenanceActive = isEnabled('maintenance-overlay')
+
+  // Don't show overlay on admin routes, signin, for admins, or while flags are loading
+  if (isAdminRoute || isSigninPage || isAdmin || !maintenanceActive || isLoading) {
+    return <>{children}</>
+  }
 
   return (
     <div className={styles.wrapper}>
