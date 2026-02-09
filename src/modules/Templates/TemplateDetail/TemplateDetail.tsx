@@ -136,100 +136,100 @@ export const TemplateDetail = () => {
         <h1 className={styles.title}>{template.title}</h1>
         {template.description && <p className={styles.subtitle}>{template.description}</p>}
       </section>
-        {/* ── Get Template Section ── */}
-        <section className={styles.ctaSection}>
-          <div className={styles.ctaContent}>
-            {/* Template Preview Image */}
-            {template.image_url && (
-              <div className={styles.ctaImageWrapper}>
-                <Image
-                  src={template.image_url}
-                  alt={template.title}
-                  fill
-                  className={styles.ctaImage}
-                  sizes="(max-width: 640px) 100vw, 560px"
-                />
-              </div>
-            )}
-
-            {/* Template Info Card */}
-            <div className={styles.ctaInfo}>
-              <div className={styles.ctaMeta}>
-                <Badge variant="outline" size="md">
-                  {template.category}
-                </Badge>
-                <span className={styles.ctaPrice}>
-                  {formatPrice(template.price_cents)}
-                </span>
-              </div>
-
-              <Text as="p" variant="body-md" className={styles.ctaDescription}>
-                {template.description_long ?? template.description ?? 'A beautifully crafted Notion template to help you stay organized and productive.'}
-              </Text>
-
-              <ButtonComponent
-                as="a"
-                href={template.template_link}
-                target="_blank"
-                rel="noopener noreferrer"
-                variant="default-primary"
-              >
-                Get Template
-              </ButtonComponent>
+      {/* ── Get Template Section ── */}
+      <section className={styles.ctaSection}>
+        <div className={styles.ctaContent}>
+          {/* Template Preview Image */}
+          {template.image_url && (
+            <div className={styles.ctaImageWrapper}>
+              <Image
+                src={template.image_url}
+                alt={template.title}
+                fill
+                className={styles.ctaImage}
+                sizes="(max-width: 640px) 100vw, 560px"
+              />
             </div>
+          )}
+
+          {/* Template Info Card */}
+          <div className={styles.ctaInfo}>
+            <div className={styles.ctaMeta}>
+              <Badge variant="outline" size="md">
+                {template.category}
+              </Badge>
+              <span className={styles.ctaPrice}>{formatPrice(template.price_cents)}</span>
+            </div>
+
+            <Text as="p" variant="body-md" className={styles.ctaDescription}>
+              {template.description_long ??
+                template.description ??
+                'A beautifully crafted Notion template to help you stay organized and productive.'}
+            </Text>
+
+            <ButtonComponent
+              as="a"
+              href={template.template_link}
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="default-primary"
+            >
+              Get Template
+            </ButtonComponent>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* ── FAQ Section ── */}
-        <section className={styles.faqSection}>
-          <Text as="h2" variant="headline-md" className={styles.faqTitle}>
-            Frequently Asked Questions
-          </Text>
-          <Text as="p" variant="body-md" className={styles.faqSubtitle}>
-            Everything you need to know about using Notion templates.
-          </Text>
+      {/* ── FAQ Section ── */}
+      <section className={styles.faqSection}>
+        <Text as="h2" variant="headline-md" className={styles.faqTitle}>
+          Frequently Asked Questions
+        </Text>
+        <Text as="p" variant="body-md" className={styles.faqSubtitle}>
+          Everything you need to know about using Notion templates.
+        </Text>
 
-          <div className={styles.faqList}>
-            {FAQ_ITEMS.map((item, index) => (
-              <div
-                key={index}
-                className={`${styles.faqItem} ${openFaqIndex === index ? styles.faqItemOpen : ''}`}
+        <div className={styles.faqList}>
+          {FAQ_ITEMS.map((item, index) => (
+            <div
+              key={index}
+              className={`${styles.faqItem} ${openFaqIndex === index ? styles.faqItemOpen : ''}`}
+            >
+              <button
+                className={styles.faqQuestion}
+                onClick={() => toggleFaq(index)}
+                type="button"
+                aria-expanded={openFaqIndex === index}
               >
-                <button
-                  className={styles.faqQuestion}
-                  onClick={() => toggleFaq(index)}
-                  type="button"
-                  aria-expanded={openFaqIndex === index}
+                <span>{item.question}</span>
+                <svg
+                  className={styles.faqChevron}
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <span>{item.question}</span>
-                  <svg
-                    className={styles.faqChevron}
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M5 7.5L10 12.5L15 7.5"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </button>
-                {openFaqIndex === index && (
-                  <div className={styles.faqAnswer}>
-                    <Text as="p" variant="body-md">
-                      {item.answer}
-                    </Text>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </section>
+                  <path
+                    d="M5 7.5L10 12.5L15 7.5"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+              {openFaqIndex === index && (
+                <div className={styles.faqAnswer}>
+                  <Text as="p" variant="body-md">
+                    {item.answer}
+                  </Text>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </section>
     </div>
   )
 }

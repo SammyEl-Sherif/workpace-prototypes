@@ -12,7 +12,7 @@ const pingram = PINGRAM_API_KEY
   : null
 
 export type SendSmsPayload = {
-  /** Notification type/slug — defaults to 'workpace_prototypes' */
+  /** Notification type/slug — defaults to 'workpace_apps' */
   type?: string
   to: {
     /** Recipient identifier (email or user id) */
@@ -54,7 +54,7 @@ export async function sendPingramSms(payload: SendSmsPayload): Promise<PingramSe
 
   try {
     const result = await pingram.send({
-      type: payload.type ?? 'workpace_prototypes',
+      type: payload.type ?? 'workpace_apps',
       to: {
         id: payload.to.id,
         number: payload.to.number,

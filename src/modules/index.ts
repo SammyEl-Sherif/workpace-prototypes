@@ -1,5 +1,5 @@
 export * from './AccomplishmentReport'
-export * from './WorkpacePrototypes'
+export * from './WorkpaceApps'
 export * from './BudgetBot'
 export * from './DesignSystem'
 export * from './SystemDesign'

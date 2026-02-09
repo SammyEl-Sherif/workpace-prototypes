@@ -24,10 +24,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    items: [
-      { label: 'Prototypes', href: '/prototypes' },
-      { label: 'Good Stuff List' },
-    ],
+    items: [{ label: 'Apps', href: '/apps' }, { label: 'Good Stuff List' }],
     size: 'md',
   },
 };
@@ -36,7 +33,7 @@ export const ThreeLevels: Story = {
   args: {
     items: [
       { label: 'Home', href: '/' },
-      { label: 'Prototypes', href: '/prototypes' },
+      { label: 'Apps', href: '/apps' },
       { label: 'Good Stuff List' },
     ],
   },
@@ -44,37 +41,28 @@ export const ThreeLevels: Story = {
 
 export const CustomSeparator: Story = {
   args: {
-    items: [
-      { label: 'Prototypes', href: '/prototypes' },
-      { label: 'Ralli' },
-    ],
+    items: [{ label: 'Apps', href: '/apps' }, { label: 'Ralli' }],
     separator: '›',
   },
 };
 
 export const ChevronSeparator: Story = {
   args: {
-    items: [
-      { label: 'Prototypes', href: '/prototypes' },
-      { label: 'Templates' },
-    ],
+    items: [{ label: 'Apps', href: '/apps' }, { label: 'Templates' }],
     separator: '»',
   },
 };
 
 export const SmallSize: Story = {
   args: {
-    items: [
-      { label: 'Prototypes', href: '/prototypes' },
-      { label: 'Good Stuff List' },
-    ],
+    items: [{ label: 'Apps', href: '/apps' }, { label: 'Good Stuff List' }],
     size: 'sm',
   },
 };
 
 export const SingleItem: Story = {
   args: {
-    items: [{ label: 'Prototypes' }],
+    items: [{ label: 'Apps' }],
   },
 };
 
@@ -85,20 +73,14 @@ export const AllSizes: Story = {
         <strong>Small</strong>
         <Breadcrumbs
           size="sm"
-          items={[
-            { label: 'Prototypes', href: '/prototypes' },
-            { label: 'Good Stuff List' },
-          ]}
+          items={[{ label: 'Apps', href: '/apps' }, { label: 'Good Stuff List' }]}
         />
       </div>
       <div>
         <strong>Medium (default)</strong>
         <Breadcrumbs
           size="md"
-          items={[
-            { label: 'Prototypes', href: '/prototypes' },
-            { label: 'Good Stuff List' },
-          ]}
+          items={[{ label: 'Apps', href: '/apps' }, { label: 'Good Stuff List' }]}
         />
       </div>
     </div>
@@ -109,8 +91,8 @@ export const ManyLevels: Story = {
   args: {
     items: [
       { label: 'Home', href: '/' },
-      { label: 'Prototypes', href: '/prototypes' },
-      { label: 'Category', href: '/prototypes/category' },
+      { label: 'Apps', href: '/apps' },
+      { label: 'Category', href: '/apps/category' },
       { label: 'Good Stuff List' },
     ],
   },

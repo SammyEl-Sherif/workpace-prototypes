@@ -43,7 +43,7 @@ file_size_limit = "50MiB"
 # Schema files are applied in lexicographic order by default
 # For custom ordering, specify schema_paths explicitly
 # schema_paths = [
-#   "./schemas/prototypes.sql",
+#   "./schemas/apps.sql",
 #   "./schemas/user_roles.sql",
 #   "./schemas/good_things.sql",
 # ]

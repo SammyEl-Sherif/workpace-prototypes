@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 
 import { AuthOverlay } from '@/components'
 import { PromotionalBanner } from '@/components/PromotionalBanner'
-import { PROTOTYPES } from '@/interfaces/prototypes'
+import { APPS } from '@/interfaces/apps'
 import { StandardNavbar, SubNavbar } from '@/layout/pages/LandingPage/components'
 
 import styles from './MainLayout.module.scss'
@@ -29,8 +29,8 @@ export default function MainLayout({ children }: LayoutProps) {
     pathname !== '/system-design' &&
     !pathname.startsWith('/templates')
 
-  // SubNavbar appears on individual prototype pages (e.g. /prototypes/sms)
-  const hasSubNavbar = useMemo(() => PROTOTYPES.some((p) => pathname === p.path), [pathname])
+  // SubNavbar appears on individual app pages (e.g. /apps/sms)
+  const hasSubNavbar = useMemo(() => APPS.some((p) => pathname === p.path), [pathname])
 
   const contentClass = cn(styles.pageContent, {
     [styles.withSubNavbar]: hasSubNavbar,

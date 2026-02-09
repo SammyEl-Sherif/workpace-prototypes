@@ -18,8 +18,8 @@ export const AboutPage = () => {
         <section className={styles.section}>
           <h1 className={styles.title}>About WorkPace</h1>
           <p className={styles.description}>
-            WorkPace is a comprehensive productivity platform that combines innovative prototypes
-            with a collaborative community environment. Built with modern web technologies, we help
+            WorkPace is a comprehensive productivity platform that combines innovative apps with a
+            collaborative community environment. Built with modern web technologies, we help
             individuals and teams achieve their goals through intelligent automation and
             community-driven insights.
           </p>
@@ -279,7 +279,7 @@ export const AboutPage = () => {
                   <div className={styles.componentDescription}>
                     Primary Database
                     <br />
-                    User Data & Prototypes
+                    User Data & Apps
                     <br />
                     Notion Integration Data
                   </div>
@@ -307,7 +307,7 @@ export const AboutPage = () => {
           <p className={styles.description}>
             <strong>Data Flow:</strong> The frontend application communicates with the WorkPace API,
             which handles business logic and data processing. The API then interacts with the
-            PostgreSQL database to store and retrieve user data, prototype information, and Notion
+            PostgreSQL database to store and retrieve user data, app information, and Notion
             integration data. External services like Notion and OpenAI are integrated through the
             API layer for enhanced functionality.
           </p>

@@ -10,7 +10,7 @@ export const getServerSideProps: GetServerSideProps = withPageRequestWrapper(asy
   return {}
 })
 
-const WorkpacePrototypesPage = () => {
+const WorkpaceAboutPage = () => {
   return (
     <>
       <DocumentTitle title="About" />
@@ -19,4 +19,4 @@ const WorkpacePrototypesPage = () => {
   )
 }
 
-export default WorkpacePrototypesPage
+export default WorkpaceAboutPage

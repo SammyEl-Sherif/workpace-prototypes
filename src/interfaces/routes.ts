@@ -1,9 +1,9 @@
 export enum Routes {
   HOME = '/',
-  PROTOTYPES = '/prototypes',
-  GOOD_STUFF_LIST = 'prototypes/good-stuff-list',
-  BUDGET_BOT = 'prototypes/budget-bot',
-  SMS = 'prototypes/sms',
+  APPS = '/apps',
+  GOOD_STUFF_LIST = 'apps/good-stuff-list',
+  BUDGET_BOT = 'apps/budget-bot',
+  SMS = 'apps/sms',
   SIGNIN = '/signin',
   ABOUT = '/about',
   PROFILE = '/profile',

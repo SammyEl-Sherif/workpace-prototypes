@@ -54,8 +54,8 @@ const StandardNavbar = () => {
           </div>
 
           <div className={styles.navLinks}>
-            <Link href={Routes.PROTOTYPES} className={styles.navLink}>
-              Prototypes
+            <Link href={Routes.APPS} className={styles.navLink}>
+              Apps
             </Link>
             <Link href={Routes.TEMPLATES} className={styles.navLink}>
               Templates
@@ -131,12 +131,8 @@ const StandardNavbar = () => {
 
         <div className={styles.mobileMenuContent}>
           <div className={styles.mobileNavLinks}>
-            <Link
-              href={Routes.PROTOTYPES}
-              className={styles.mobileNavLink}
-              onClick={closeMobileNav}
-            >
-              Prototypes
+            <Link href={Routes.APPS} className={styles.mobileNavLink} onClick={closeMobileNav}>
+              Apps
             </Link>
             <Link href={Routes.TEMPLATES} className={styles.mobileNavLink} onClick={closeMobileNav}>
               Templates

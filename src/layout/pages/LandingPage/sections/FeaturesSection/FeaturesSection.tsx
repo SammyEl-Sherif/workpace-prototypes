@@ -6,10 +6,10 @@ import styles from './FeaturesSection.module.scss'
 
 const FEATURES = [
   {
-    title: 'Prototypes',
+    title: 'Apps',
     description: 'Rapidly built applications that solve real problems and test new ideas.',
-    tag: '🚀 Explore Projects',
-    href: Routes.PROTOTYPES,
+    tag: '🚀 Explore Apps',
+    href: Routes.APPS,
     // Replace with a real image path later
     image: '',
   },

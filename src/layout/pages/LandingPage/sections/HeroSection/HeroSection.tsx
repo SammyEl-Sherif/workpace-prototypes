@@ -33,9 +33,9 @@ const COMPANIES = [
 
 const FEATURES = [
   {
-    title: 'Prototypes',
+    title: 'Apps',
     description: 'Rapidly built applications that solve real problems and test new ideas.',
-    href: Routes.PROTOTYPES,
+    href: Routes.APPS,
   },
   {
     title: 'Notion Templates',
@@ -158,10 +158,7 @@ const HeroSection = () => {
           <h1 className={styles.title}>WorkPace</h1>
           <p className={styles.subtitle}>{subtitle}</p>
           <div className={styles.cta}>
-            <ButtonComponent
-              onClick={() => router.push(Routes.PROTOTYPES)}
-              variant="brand-secondary"
-            >
+            <ButtonComponent onClick={() => router.push(Routes.APPS)} variant="brand-secondary">
               Our Products
             </ButtonComponent>
             <ButtonComponent

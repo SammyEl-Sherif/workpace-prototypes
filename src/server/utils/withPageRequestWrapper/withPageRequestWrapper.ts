@@ -1,6 +1,6 @@
 import { GetServerSideProps, GetServerSidePropsContext, GetServerSidePropsResult } from 'next/types'
 
-import { PROTOTYPES } from '@/interfaces/prototypes'
+import { APPS } from '@/interfaces/apps'
 import { getUser } from '../getUser'
 
 type GetServerSidePropsContextWithQuery = Omit<GetServerSidePropsContext, 'query'> & {
@@ -16,7 +16,7 @@ export const withPageRequestWrapper = <T extends { [key: string]: any } = { [key
       const props = {
         ...(await handler(context as GetServerSidePropsContextWithQuery)),
         userProfile: { ...(await getUser(req)) },
-        prototypes: PROTOTYPES,
+        apps: APPS,
       }
       return {
         props,

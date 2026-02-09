@@ -19,8 +19,8 @@ const FooterSection = () => {
               </div>
               <ul className={styles.linkList}>
                 <li>
-                  <Link href={Routes.PROTOTYPES} className={styles.link}>
-                    Prototypes
+                  <Link href={Routes.APPS} className={styles.link}>
+                    Apps
                   </Link>
                 </li>
                 <li>

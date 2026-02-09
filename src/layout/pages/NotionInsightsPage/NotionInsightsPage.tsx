@@ -3,7 +3,7 @@ import { GenerateReportUserPromptInput } from '@/modules/AccomplishmentReport/wi
 import { GeneratedReport } from '@/modules/AccomplishmentReport/entries'
 import { useGenerateReport, useNotionDatabasePages } from '@/modules/AccomplishmentReport/hooks'
 
-import { PrototypeHeading, SectionContainer } from '@/components'
+import { AppHeading, SectionContainer } from '@/components'
 import { Text } from '@workpace/design-system'
 import ReactLoading from 'react-loading'
 import styles from './NotionInsights.module.scss'

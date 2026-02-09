@@ -8,10 +8,10 @@ import { useRouter } from 'next/router'
 import { UserInfoContextProvider } from '@/contexts/UserInfoContextProvider'
 import { PageProps } from '@/interfaces/page-props'
 import MainLayout from '@/layout/MainLayout'
-import { PrototypesContextProvider } from '@/modules'
+import { AppsContextProvider } from '@/modules'
 
 export default function App({ Component, pageProps }: AppProps) {
-  const { userProfile, prototypes } = pageProps as PageProps
+  const { userProfile, apps } = pageProps as PageProps
   const router = useRouter()
 
   const isLandingPage = router.pathname === '/'
@@ -28,9 +28,9 @@ export default function App({ Component, pageProps }: AppProps) {
             email: userProfile?.email ?? '',
           }}
         >
-          <PrototypesContextProvider prototypes={prototypes}>
+          <AppsContextProvider apps={apps}>
             <Component {...pageProps} />
-          </PrototypesContextProvider>
+          </AppsContextProvider>
         </UserInfoContextProvider>
       </Auth>
     )
@@ -63,11 +63,11 @@ export default function App({ Component, pageProps }: AppProps) {
           email: userProfile?.email ?? '',
         }}
       >
-        <PrototypesContextProvider prototypes={prototypes}>
+        <AppsContextProvider apps={apps}>
           <MainLayout>
             <Component {...pageProps} />
           </MainLayout>
-        </PrototypesContextProvider>
+        </AppsContextProvider>
       </UserInfoContextProvider>
     </Auth>
   )
