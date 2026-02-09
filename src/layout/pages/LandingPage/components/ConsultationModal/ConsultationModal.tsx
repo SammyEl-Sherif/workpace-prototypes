@@ -7,6 +7,8 @@ import styles from './ConsultationModal.module.scss'
 
 const ButtonComponent = Button as any
 
+const BOOKING_URL = 'https://calendar.notion.so/meet/sammyel-sherif/workpace'
+
 interface ConsultationModalProps {
   isOpen: boolean
   onClose: () => void
@@ -44,6 +46,8 @@ const ConsultationModal = ({ isOpen, onClose }: ConsultationModalProps) => {
   const [step, setStep] = useState<FormStep>('details')
   const [form, setForm] = useState<FormData>(INITIAL_FORM)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
   const [isAnimatingOut, setIsAnimatingOut] = useState(false)
   const overlayRef = useRef<HTMLDivElement>(null)
 
@@ -53,6 +57,8 @@ const ConsultationModal = ({ isOpen, onClose }: ConsultationModalProps) => {
       setStep('details')
       setForm(INITIAL_FORM)
       setIsSubmitted(false)
+      setIsSubmitting(false)
+      setSubmitError(null)
       setIsAnimatingOut(false)
       document.body.style.overflow = 'hidden'
     } else {
@@ -103,9 +109,39 @@ const ConsultationModal = ({ isOpen, onClose }: ConsultationModalProps) => {
     else if (step === 'confirm') setStep('project')
   }
 
-  const handleSubmit = () => {
-    // For now, just show success (integration later)
-    setIsSubmitted(true)
+  const handleSubmit = async () => {
+    setIsSubmitting(true)
+    setSubmitError(null)
+
+    try {
+      const response = await fetch('/api/consultation-requests', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          company: form.company || undefined,
+          service: form.service,
+          budget: form.budget || undefined,
+          timeline: form.timeline || undefined,
+          message: form.message || undefined,
+        }),
+      })
+
+      if (!response.ok) {
+        const result = await response.json().catch(() => ({}))
+        throw new Error(result.message || 'Failed to submit request')
+      }
+
+      setIsSubmitted(true)
+    } catch (error) {
+      console.error('[ConsultationModal] Submit error:', error)
+      setSubmitError(
+        error instanceof Error ? error.message : 'Something went wrong. Please try again.'
+      )
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   if (!isOpen) return null
@@ -134,10 +170,30 @@ const ConsultationModal = ({ isOpen, onClose }: ConsultationModalProps) => {
               Request Submitted!
             </Text>
             <Text as="p" variant="body-md-paragraph" className={styles.successDescription}>
-              Thank you, {form.name}! We&apos;ve received your consultation request and will get back
-              to you at <strong>{form.email}</strong> within 1-2 business days.
+              Thank you, {form.name}! We&apos;ve received your consultation request and will review
+              it shortly. We&apos;ll follow up at <strong>{form.email}</strong>.
             </Text>
-            <ButtonComponent variant="brand-secondary" onClick={handleClose}>
+
+            <div className={styles.bookingSection}>
+              <div className={styles.bookingDivider}>
+                <span className={styles.bookingDividerText}>Want to get started sooner?</span>
+              </div>
+              <Text as="p" variant="body-sm-paragraph" className={styles.bookingDescription}>
+                Skip the wait and book a meeting time directly on our calendar.
+              </Text>
+              <a
+                href={BOOKING_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.bookingLink}
+              >
+                <ButtonComponent variant="brand-secondary">
+                  Book a Meeting →
+                </ButtonComponent>
+              </a>
+            </div>
+
+            <ButtonComponent variant="default-secondary" onClick={handleClose}>
               Close
             </ButtonComponent>
           </div>
@@ -150,6 +206,16 @@ const ConsultationModal = ({ isOpen, onClose }: ConsultationModalProps) => {
               </Text>
               <Text as="p" variant="body-sm-paragraph" className={styles.modalSubtitle}>
                 Tell us about your project and we&apos;ll get back to you within 1-2 business days.
+                Or{' '}
+                <a
+                  href={BOOKING_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.inlineBookingLink}
+                >
+                  book a meeting directly
+                </a>
+                .
               </Text>
             </div>
 
@@ -323,6 +389,14 @@ const ConsultationModal = ({ isOpen, onClose }: ConsultationModalProps) => {
                       </div>
                     </div>
                   </div>
+
+                  {submitError && (
+                    <div className={styles.errorBanner}>
+                      <Text as="p" variant="body-sm" className={styles.errorText}>
+                        {submitError}
+                      </Text>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -330,15 +404,19 @@ const ConsultationModal = ({ isOpen, onClose }: ConsultationModalProps) => {
             {/* Footer Buttons */}
             <div className={styles.footer}>
               {step !== 'details' ? (
-                <ButtonComponent variant="default-secondary" onClick={handleBack}>
+                <ButtonComponent variant="default-secondary" onClick={handleBack} disabled={isSubmitting}>
                   Back
                 </ButtonComponent>
               ) : (
                 <div />
               )}
               {step === 'confirm' ? (
-                <ButtonComponent variant="brand-secondary" onClick={handleSubmit}>
-                  Submit Request
+                <ButtonComponent
+                  variant="brand-secondary"
+                  onClick={handleSubmit}
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? 'Submitting…' : 'Submit Request'}
                 </ButtonComponent>
               ) : (
                 <ButtonComponent variant="brand-secondary" onClick={handleNext}>

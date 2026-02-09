@@ -297,6 +297,84 @@
   max-width: 400px;
 }
 
+/* ── Booking Section (shown after submission) ── */
+
+.bookingSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $size-150;
+  width: 100%;
+  max-width: 400px;
+}
+
+.bookingDivider {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: $size-150;
+  margin-top: $size-100;
+
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: $color-neutral-200;
+  }
+}
+
+.bookingDividerText {
+  font-size: $font-body-xs-font-size;
+  color: $color-neutral-500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  font-weight: $font-weight-medium;
+}
+
+.bookingDescription {
+  color: $color-neutral-600;
+  margin: 0;
+  text-align: center;
+}
+
+.bookingLink {
+  text-decoration: none;
+  display: inline-flex;
+}
+
+/* ── Inline Booking Link (in header subtitle) ── */
+
+.inlineBookingLink {
+  color: $color-primary-600;
+  text-decoration: underline;
+  text-decoration-color: rgba($color-primary-600, 0.3);
+  text-underline-offset: 2px;
+  transition:
+    color 0.2s ease,
+    text-decoration-color 0.2s ease;
+
+  &:hover {
+    color: $color-primary-700;
+    text-decoration-color: $color-primary-700;
+  }
+}
+
+/* ── Error Banner ── */
+
+.errorBanner {
+  background: $color-error-50;
+  border: 1px solid $color-error-200;
+  border-radius: $size-100;
+  padding: $size-150;
+}
+
+.errorText {
+  color: $color-error-700;
+  margin: 0;
+}
+
 /* ═══════════════════════════════════════════════════════════════════════════
    Animations
    ═══════════════════════════════════════════════════════════════════════════ */

@@ -1,14 +1,6 @@
 -- Declarative Schema for Good Things List Feature
 -- This file defines the desired final state of the database schema
-
--- Function to update updated_at timestamp
-CREATE OR REPLACE FUNCTION update_updated_at_column()
-RETURNS TRIGGER AS $$
-BEGIN
-  NEW.updated_at = NOW();
-  RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
+-- NOTE: update_updated_at_column() is defined in _functions.sql
 
 -- Goals table
 CREATE TABLE IF NOT EXISTS public.goals (

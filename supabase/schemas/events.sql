@@ -1,15 +1,6 @@
 -- Declarative Schema for Events & Event Guests
 -- This file defines the desired final state of the events tables
-
--- Ensure the shared updated_at trigger function exists
--- (Also defined in good_things.sql; CREATE OR REPLACE keeps it idempotent)
-CREATE OR REPLACE FUNCTION update_updated_at_column()
-RETURNS TRIGGER AS $$
-BEGIN
-  NEW.updated_at = NOW();
-  RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
+-- NOTE: update_updated_at_column() is defined in _functions.sql
 
 -- Create enum type for invite status
 DO $$ BEGIN

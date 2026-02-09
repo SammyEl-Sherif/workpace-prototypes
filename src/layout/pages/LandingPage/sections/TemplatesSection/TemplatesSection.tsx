@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import { Badge, Button, Text } from '@workpace/design-system'
 import cn from 'classnames'
 import Link from 'next/link'
@@ -45,6 +47,35 @@ const pricingPlans = [
 
 const TemplatesSection = () => {
   const { ref, isVisible } = useScrollReveal()
+  const [isCheckoutLoading, setIsCheckoutLoading] = useState(false)
+
+  const handleUpgradeToPro = async () => {
+    setIsCheckoutLoading(true)
+
+    try {
+      const response = await fetch('/api/stripe/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({}),
+      })
+
+      const result = await response.json()
+
+      if (!response.ok || !result.data?.url) {
+        console.error('[TemplatesSection] Checkout error:', result)
+        alert('Unable to start checkout. Please try again.')
+        return
+      }
+
+      // Redirect to Stripe Checkout
+      window.location.href = result.data.url
+    } catch (error) {
+      console.error('[TemplatesSection] Checkout error:', error)
+      alert('Unable to start checkout. Please try again.')
+    } finally {
+      setIsCheckoutLoading(false)
+    }
+  }
 
   return (
     <section id="templates" className={styles.section} ref={ref}>
@@ -108,15 +139,26 @@ const TemplatesSection = () => {
               </div>
 
               <div className={styles.cardFooter}>
-                <Link href={Routes.TEMPLATES} className={styles.ctaLink}>
+                {plan.popular ? (
                   <ButtonComponent
-                    as="span"
-                    variant={plan.popular ? 'brand-secondary' : 'default-secondary'}
+                    variant="brand-secondary"
                     className={styles.ctaButton}
+                    onClick={handleUpgradeToPro}
+                    disabled={isCheckoutLoading}
                   >
-                    {plan.cta}
+                    {isCheckoutLoading ? 'Loading…' : plan.cta}
                   </ButtonComponent>
-                </Link>
+                ) : (
+                  <Link href={Routes.TEMPLATES} className={styles.ctaLink}>
+                    <ButtonComponent
+                      as="span"
+                      variant="default-secondary"
+                      className={styles.ctaButton}
+                    >
+                      {plan.cta}
+                    </ButtonComponent>
+                  </Link>
+                )}
               </div>
             </div>
           ))}

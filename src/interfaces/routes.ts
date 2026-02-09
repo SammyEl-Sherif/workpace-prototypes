@@ -10,4 +10,5 @@ export enum Routes {
   DESIGN_SYSTEM = '/design-system',
   SYSTEM_DESIGN = '/system-design',
   TEMPLATES = '/templates',
+  ADMIN_FEATURES = '/admin/features',
 }

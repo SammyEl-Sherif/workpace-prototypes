@@ -5,6 +5,9 @@ import '../styles/globals.scss'
 import type { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 
+import { AdminGuard } from '@/components/AdminGuard'
+import { MaintenanceOverlay } from '@/components/MaintenanceOverlay'
+import { FeatureFlagsContextProvider } from '@/contexts/FeatureFlagsContextProvider'
 import { UserInfoContextProvider } from '@/contexts/UserInfoContextProvider'
 import { APPS } from '@/interfaces/apps'
 import { PageProps } from '@/interfaces/page-props'
@@ -17,45 +20,10 @@ export default function App({ Component, pageProps }: AppProps) {
 
   const isLandingPage = router.pathname === '/'
   const isSigninPage = router.pathname === '/signin'
+  const isAdminPage = router.pathname.startsWith('/admin')
 
-  // Landing page — has its own StandardNavbar, no MainLayout
-  if (isLandingPage) {
-    return (
-      <Auth>
-        <UserInfoContextProvider
-          userProfile={{
-            ...userProfile,
-            name: userProfile?.name ?? '',
-            email: userProfile?.email ?? '',
-          }}
-        >
-          <AppsContextProvider apps={apps ?? APPS}>
-            <Component {...pageProps} />
-          </AppsContextProvider>
-        </UserInfoContextProvider>
-      </Auth>
-    )
-  }
-
-  // Sign-in page — no layout (no navbar)
-  if (isSigninPage) {
-    return (
-      <Auth>
-        <UserInfoContextProvider
-          userProfile={{
-            ...userProfile,
-            name: userProfile?.name ?? '',
-            email: userProfile?.email ?? '',
-          }}
-        >
-          <Component {...pageProps} />
-        </UserInfoContextProvider>
-      </Auth>
-    )
-  }
-
-  // All other pages — MainLayout handles navbar, auth overlay, SubNavbar
-  return (
+  // Shared provider wrapper — UserInfo + FeatureFlags available everywhere
+  const withProviders = (content: React.ReactNode) => (
     <Auth>
       <UserInfoContextProvider
         userProfile={{
@@ -64,12 +32,46 @@ export default function App({ Component, pageProps }: AppProps) {
           email: userProfile?.email ?? '',
         }}
       >
-        <AppsContextProvider apps={apps ?? APPS}>
-          <MainLayout>
-            <Component {...pageProps} />
-          </MainLayout>
-        </AppsContextProvider>
+        <FeatureFlagsContextProvider>
+          <MaintenanceOverlay>{content}</MaintenanceOverlay>
+        </FeatureFlagsContextProvider>
       </UserInfoContextProvider>
     </Auth>
+  )
+
+  // Landing page — has its own StandardNavbar, no MainLayout
+  if (isLandingPage) {
+    return withProviders(
+      <AppsContextProvider apps={apps ?? APPS}>
+        <Component {...pageProps} />
+      </AppsContextProvider>
+    )
+  }
+
+  // Sign-in page — no layout (no navbar)
+  if (isSigninPage) {
+    return withProviders(<Component {...pageProps} />)
+  }
+
+  // Admin pages — MainLayout + AdminGuard (admin-only access)
+  if (isAdminPage) {
+    return withProviders(
+      <AppsContextProvider apps={apps ?? APPS}>
+        <MainLayout>
+          <AdminGuard>
+            <Component {...pageProps} />
+          </AdminGuard>
+        </MainLayout>
+      </AppsContextProvider>
+    )
+  }
+
+  // All other pages — MainLayout handles navbar, auth overlay, SubNavbar
+  return withProviders(
+    <AppsContextProvider apps={apps ?? APPS}>
+      <MainLayout>
+        <Component {...pageProps} />
+      </MainLayout>
+    </AppsContextProvider>
   )
 }

@@ -1,0 +1,362 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: $size-300 $size-200;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $size-300;
+  gap: $size-200;
+
+  @media #{$mq-sm-only} {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+  gap: $size-50;
+}
+
+.flagCount {
+  color: $color-neutral-500;
+}
+
+// Flags table
+.flagsList {
+  display: flex;
+  flex-direction: column;
+  gap: $size-150;
+}
+
+.flagCard {
+  border: 1px solid $color-neutral-200;
+  border-radius: 8px;
+  padding: $size-200;
+  background: $color-neutral-white;
+  transition: border-color 0.15s ease;
+
+  &:hover {
+    border-color: $color-neutral-300;
+  }
+}
+
+.flagCardEnabled {
+  border-left: 3px solid $color-success-500;
+}
+
+.flagCardDisabled {
+  border-left: 3px solid $color-neutral-300;
+}
+
+.flagRow {
+  display: flex;
+  align-items: center;
+  gap: $size-200;
+
+  @media #{$mq-sm-only} {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.flagInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.flagKey {
+  font-family: monospace;
+  font-size: $font-body-sm-font-size;
+  color: $color-primary-600;
+  background: $color-primary-50;
+  padding: $size-25 $size-75;
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: $size-50;
+}
+
+.flagName {
+  font-weight: $font-weight-medium;
+  margin-bottom: $size-25;
+}
+
+.flagDescription {
+  color: $color-neutral-500;
+  font-size: $font-body-sm-font-size;
+}
+
+.flagActions {
+  display: flex;
+  align-items: center;
+  gap: $size-100;
+  flex-shrink: 0;
+}
+
+.flagMeta {
+  display: flex;
+  gap: $size-200;
+  margin-top: $size-100;
+  padding-top: $size-100;
+  border-top: 1px solid $color-neutral-100;
+  font-size: $font-body-xs-font-size;
+  color: $color-neutral-400;
+}
+
+// Toggle switch
+.toggle {
+  position: relative;
+  width: 48px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.toggleInput {
+  opacity: 0;
+  width: 0;
+  height: 0;
+
+  &:checked + .toggleSlider {
+    background-color: $color-success-500;
+  }
+
+  &:checked + .toggleSlider::before {
+    transform: translateX(22px);
+  }
+
+  &:focus + .toggleSlider {
+    box-shadow: 0 0 0 2px $color-primary-200;
+  }
+}
+
+.toggleSlider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: $color-neutral-300;
+  transition: 0.2s;
+  border-radius: 26px;
+
+  &::before {
+    position: absolute;
+    content: '';
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background-color: $color-neutral-white;
+    transition: 0.2s;
+    border-radius: 50%;
+  }
+}
+
+// Modal / Form
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: $size-200;
+}
+
+.modal {
+  background: $color-neutral-white;
+  border-radius: 12px;
+  padding: $size-300;
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.modalTitle {
+  margin-bottom: $size-300;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: $size-200;
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: $size-50;
+}
+
+.formLabel {
+  font-size: $font-body-sm-font-size;
+  font-weight: $font-weight-medium;
+  color: $color-neutral-700;
+}
+
+.formInput {
+  padding: $size-100 $size-150;
+  border: 1px solid $color-neutral-300;
+  border-radius: 6px;
+  font-size: $font-body-md-font-size;
+  font-family: $font-family;
+  transition: border-color 0.15s ease;
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary-500;
+    box-shadow: 0 0 0 2px $color-primary-100;
+  }
+
+  &::placeholder {
+    color: $color-neutral-400;
+  }
+}
+
+.formTextarea {
+  composes: formInput;
+  min-height: 80px;
+  resize: vertical;
+}
+
+.formHint {
+  font-size: $font-body-xs-font-size;
+  color: $color-neutral-400;
+}
+
+.formToggleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.formActions {
+  display: flex;
+  gap: $size-100;
+  justify-content: flex-end;
+  margin-top: $size-100;
+}
+
+// Empty state
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: $size-800 $size-200;
+  text-align: center;
+  gap: $size-200;
+}
+
+.emptyIcon {
+  font-size: 48px;
+  opacity: 0.5;
+}
+
+.emptyText {
+  color: $color-neutral-500;
+}
+
+// Error / loading states
+.error {
+  padding: $size-200;
+  background: $color-error-50;
+  color: $color-error-700;
+  border-radius: 8px;
+  margin-bottom: $size-200;
+  display: flex;
+  align-items: center;
+  gap: $size-100;
+}
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  padding: $size-600;
+}
+
+// Confirm delete dialog
+.deleteWarning {
+  color: $color-error-600;
+  font-size: $font-body-sm-font-size;
+  margin-bottom: $size-200;
+}
+
+.deleteKeyName {
+  font-family: monospace;
+  background: $color-error-50;
+  padding: $size-25 $size-75;
+  border-radius: 4px;
+}
+
+// Search / Filter bar
+.toolbar {
+  display: flex;
+  gap: $size-100;
+  margin-bottom: $size-200;
+
+  @media #{$mq-sm-only} {
+    flex-direction: column;
+  }
+}
+
+.searchInput {
+  flex: 1;
+  padding: $size-100 $size-150;
+  border: 1px solid $color-neutral-300;
+  border-radius: 6px;
+  font-size: $font-body-md-font-size;
+  font-family: $font-family;
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary-500;
+    box-shadow: 0 0 0 2px $color-primary-100;
+  }
+
+  &::placeholder {
+    color: $color-neutral-400;
+  }
+}
+
+.filterButtons {
+  display: flex;
+  gap: $size-50;
+}
+
+.filterButton {
+  padding: $size-75 $size-150;
+  border: 1px solid $color-neutral-300;
+  border-radius: 6px;
+  background: $color-neutral-white;
+  font-size: $font-body-sm-font-size;
+  font-family: $font-family;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  color: $color-neutral-600;
+
+  &:hover {
+    background: $color-neutral-50;
+  }
+}
+
+.filterButtonActive {
+  composes: filterButton;
+  background: $color-primary-50;
+  border-color: $color-primary-300;
+  color: $color-primary-700;
+}

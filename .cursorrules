@@ -268,6 +268,36 @@ Supabase are:
 - If a migration needs to be repaired, inform the user and let them run the
   repair commands manually.
 
+### Schema File Ordering (CRITICAL)
+
+Supabase applies schema files in **lexicographic (alphabetical) order** when
+running `supabase db diff`. This means if schema file `apps.sql` references a
+function defined in `good_things.sql`, it will **fail** because `a` sorts before
+`g` and the function doesn't exist yet when `apps.sql` runs.
+
+**Rules to prevent ordering bugs:**
+
+1. **Shared functions** (e.g. `update_updated_at_column()`) MUST live in
+   `supabase/schemas/_functions.sql`. The `_` prefix ensures it sorts before all
+   letter-named files, so functions are always available.
+2. **NEVER define shared functions inside individual table schema files.** If a
+   function is used by more than one table, it belongs in `_functions.sql`.
+3. **NEVER duplicate function definitions** across schema files with
+   `CREATE OR REPLACE` as a workaround — this is fragile and error-prone.
+4. **Table dependencies**: If table B has a foreign key to table A, name the
+   files so A sorts before B (e.g. `good_things.sql` before
+   `good_things_media.sql`). If naming alone can't solve it, use the
+   `schema_paths` array in `supabase/config.toml` to set explicit ordering.
+5. **When creating a new schema file**, always check: does this schema reference
+   any function or table defined in another file? If so, verify the alphabetical
+   order is correct.
+
+**Current shared functions in `_functions.sql`:**
+
+- `update_updated_at_column()` — used by: `apps`, `consultation_requests`,
+  `events`, `event_guests`, `goals`, `good_things`, `notion_templates`,
+  `saved_reports`
+
 ## Code Style
 
 - Use TypeScript strictly
