@@ -8,7 +8,7 @@ import { getAuthCookiesOptions } from '../getAuthOptions/getAuthCookiesOptions'
 
 export const getNextAuthJWT = async <T extends GetServerSidePropsContext['req']>(
   req: T
-): Promise<Omit<Session & { account?: SessionAccount }, 'expires'> | null> => {
+): Promise<Omit<Session & { account?: SessionAccount; sub?: string }, 'expires'> | null> => {
   const { sessionToken } = getAuthCookiesOptions()
   const session = (await getToken({
     req,
