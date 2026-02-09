@@ -14,10 +14,10 @@ const FEATURES = [
     image: '',
   },
   {
-    title: 'Design System',
-    description: 'A cohesive component library with tokens and reusable building blocks.',
-    tag: '🎨 Browse Components',
-    href: Routes.DESIGN_SYSTEM,
+    title: 'Notion Templates',
+    description: 'Notion templates to change the pace of how you organize work and life.',
+    tag: '📋 Browse Templates',
+    href: Routes.TEMPLATES,
     image: '',
   },
   {

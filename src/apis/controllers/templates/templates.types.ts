@@ -13,6 +13,7 @@ export interface NotionTemplate {
   id: string
   title: string
   description: string | null
+  description_long: string | null
   image_url: string | null
   category: TemplateCategory
   pricing_type: TemplatePricingType

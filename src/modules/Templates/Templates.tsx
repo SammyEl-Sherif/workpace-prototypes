@@ -1,10 +1,12 @@
-import { Badge, InputField, Loading, Text } from '@workpace/design-system'
+import { Badge, Loading, Text } from '@workpace/design-system'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { NotionTemplate, TemplateCategory } from '@/apis/controllers/templates'
 
 import styles from './Templates.module.scss'
+import { slugify } from './utils'
 
 /* ── Types ── */
 
@@ -180,12 +182,10 @@ export const Templates = () => {
           )}
 
           {filtered.map((template) => (
-            <a
+            <Link
               key={template.id}
-              href={template.template_link}
+              href={`/templates/${slugify(template.title)}`}
               className={styles.card}
-              target="_blank"
-              rel="noopener noreferrer"
             >
               {/* Image */}
               <div className={styles.cardImageWrapper}>
@@ -216,7 +216,7 @@ export const Templates = () => {
                   {formatPrice(template.price_cents)}
                 </span>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
       )}

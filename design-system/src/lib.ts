@@ -15,5 +15,7 @@ export { default as Badge } from './components/Badge';
 export { default as Card, CardHeader, CardTitle, CardContent, CardFooter } from './components/Card';
 export { default as Loading } from './components/Loading';
 export { default as Divider } from './components/Divider';
+export { default as Breadcrumbs } from './components/Breadcrumbs';
+export type { BreadcrumbItem } from './components/Breadcrumbs';
 // eslint-disable-next-line no-restricted-imports
 export * from './components/Icons/_icons/index';

@@ -2,6 +2,7 @@ SELECT
   id,
   title,
   description,
+  description_long,
   image_url,
   category,
   pricing_type,

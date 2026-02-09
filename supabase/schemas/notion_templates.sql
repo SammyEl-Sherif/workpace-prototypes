@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS public.notion_templates (
   id UUID NOT NULL DEFAULT gen_random_uuid(),
   title TEXT NOT NULL,
   description TEXT,
+  description_long TEXT,
   image_url TEXT,
   category public.template_category NOT NULL DEFAULT 'Productivity'::template_category,
   pricing_type public.template_pricing_type NOT NULL DEFAULT 'free'::template_pricing_type,

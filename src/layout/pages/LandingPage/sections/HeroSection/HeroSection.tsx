@@ -38,9 +38,9 @@ const FEATURES = [
     href: Routes.PROTOTYPES,
   },
   {
-    title: 'Design System',
-    description: 'A cohesive component library with tokens and reusable building blocks.',
-    href: Routes.DESIGN_SYSTEM,
+    title: 'Notion Templates',
+    description: 'Notion templates to change the pace of how you organize work and life.',
+    href: Routes.TEMPLATES,
   },
   {
     title: 'System Design',

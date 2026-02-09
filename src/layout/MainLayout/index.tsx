@@ -27,7 +27,7 @@ export default function MainLayout({ children }: LayoutProps) {
     pathname !== '/signin' &&
     pathname !== '/design-system' &&
     pathname !== '/system-design' &&
-    pathname !== '/templates'
+    !pathname.startsWith('/templates')
 
   // SubNavbar appears on individual prototype pages (e.g. /prototypes/sms)
   const hasSubNavbar = useMemo(() => PROTOTYPES.some((p) => pathname === p.path), [pathname])
