@@ -66,10 +66,11 @@ export const MaintenanceOverlay: FC<MaintenanceOverlayProps> = ({ children }) =>
   const maintenanceActive = isEnabled('maintenance-overlay')
 
   // Check if we should hide the sign in button (workpace.io domain in production)
+  // Check if hostname ends with workpace.io (handles both workpace.io and www.workpace.io)
   const shouldHideSignIn =
     typeof window !== 'undefined' &&
     process.env.NODE_ENV === 'production' &&
-    window.location.hostname === 'workpace.io'
+    window.location.hostname.endsWith('workpace.io')
 
   // Always bypass on admin routes and signin
   if (isAdminRoute || isSigninPage || isAdmin) {

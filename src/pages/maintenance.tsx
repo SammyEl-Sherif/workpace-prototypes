@@ -44,6 +44,13 @@ const MaintenancePage: NextPage = () => {
     }
   }, [])
 
+  // Check if we should hide the sign in button (workpace.io domain in production)
+  // Check if hostname ends with workpace.io (handles both workpace.io and www.workpace.io)
+  const shouldHideSignIn =
+    typeof window !== 'undefined' &&
+    process.env.NODE_ENV === 'production' &&
+    window.location.hostname.endsWith('workpace.io')
+
   return (
     <>
       <Head>
@@ -63,11 +70,13 @@ const MaintenancePage: NextPage = () => {
             <Text variant="body-sm" className={styles.subtitle}>
               Please check back soon — we won&apos;t be long!
             </Text>
-            <div className={styles.actions}>
-              <Button variant="brand-secondary" onClick={handleSignIn}>
-                Sign In
-              </Button>
-            </div>
+            {!shouldHideSignIn && (
+              <div className={styles.actions}>
+                <Button variant="brand-secondary" onClick={handleSignIn}>
+                  Sign In
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       </div>
