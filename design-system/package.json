@@ -1,6 +1,6 @@
 {
   "name": "@workpace/design-system",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "Reusable building blocks",
   "main": "./dist/production/lib.js",
   "scripts": {
