@@ -1,7 +1,7 @@
-import { Prototype } from './prototypes'
+import { App } from './apps'
 import { UserProfile } from './user'
 
 export interface PageProps {
   userProfile: UserProfile
-  prototypes: Prototype[]
+  apps: App[]
 }

@@ -1,356 +1,231 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
 /* ═══════════════════════════════════════════════════════════════════════════
-   HeroSection — fixed hero + scroll spacer + cards section
+   Hero Section — split layout with text + image
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* ── Fixed Hero Layer ──
-   Stays in place while the user scrolls.  Contains the hero text
-   (which fades out) and the expanding dark rectangle.
-   ────────────────────────────────────────────────────────────────────────── */
-
-.fixedHero {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-top: 80px; /* navbar height */
-  background: var(--page-bg, #fff);
-  pointer-events: none; /* let scroll events pass through */
+.hero {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, $color-primary-50 0%, $color-neutral-white 100%);
+  padding: 7rem 0 5rem;
 }
 
-/* ── Hero Content (title / subtitle / CTA) ── */
-
-.heroContent {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  max-width: 800px;
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 0 2rem;
-  margin-bottom: 22vh; /* push content above the initial rectangle */
-  opacity: var(--hero-opacity, 1);
-  transform: translateY(var(--hero-push, 0px));
-  will-change: transform, opacity;
-  pointer-events: var(--hero-events, auto);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+/* ── Text Content ── */
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.textGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .title {
-  font-size: 6rem;
-  font-weight: 900;
-  margin: 0 0 1rem;
-  color: var(--page-text, #191919);
+  font-size: $font-headline-display-font-size;
+  line-height: $font-headline-display-line-height;
+  font-weight: $font-weight-bold;
+  color: $color-neutral-900;
+  margin: 0;
+  letter-spacing: -0.02em;
+  opacity: 0;
 }
 
 .subtitle {
-  font-size: 2rem;
-  font-weight: 400;
-  line-height: 1.6;
-  margin: 0 0 2rem;
-  color: var(--page-text, #191919);
+  font-size: $font-body-lg-font-size;
+  line-height: $font-body-lg-paragraph-line-height;
+  color: $color-neutral-600;
+  margin: 0;
+  max-width: 600px;
+  opacity: 0;
 }
 
 .cta {
   display: flex;
-  gap: 1.5rem;
-  justify-content: center;
+  gap: 1rem;
   flex-wrap: wrap;
+  opacity: 0;
 }
 
-/* ── Dark Rectangle ──
-   Starts as a wide bar near the bottom of the viewport and expands
-   to cover the entire screen as --rect-progress goes from 0 → 1.
-   ────────────────────────────────────────────────────────────────────────── */
+/* ── Stats ── */
 
-.showcaseRectangle {
-  position: absolute;
-  top: calc(76% * (1 - var(--rect-progress, 0)));
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border-radius: calc(20px * (1 - var(--rect-progress, 0)))
-    calc(20px * (1 - var(--rect-progress, 0))) 0 0;
-  background: #1a1a1a;
-  z-index: 0;
-  will-change: top, border-radius;
-  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.15);
+.stats {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
+  gap: 2.5rem;
+  padding-top: $size-200;
+  opacity: 0;
 }
 
-/* ── Company Logos Marquee ──
-   Faded company names displayed inside the dark rectangle.
-   ────────────────────────────────────────────────────────────────────────── */
-
-.companyLogos {
+.stat {
   display: flex;
-  align-items: center;
-  gap: 3rem;
-  width: 100%;
-  padding: 0 2rem;
-  overflow: hidden;
-  opacity: calc(1 - var(--rect-progress, 0));
-  will-change: opacity;
+  flex-direction: column;
+  gap: $size-25;
 }
 
-.companyTrack {
-  display: flex;
-  align-items: center;
-  gap: 3rem;
-  animation: marquee 30s linear infinite;
-  white-space: nowrap;
-  flex-shrink: 0;
+.statValue {
+  font-size: $font-headline-md-font-size;
+  font-weight: $font-weight-bold;
+  color: $color-neutral-900;
 }
 
-.companyName {
-  font-size: 1.15rem;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.18);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  user-select: none;
-  flex-shrink: 0;
+.statLabel {
+  font-size: $font-body-sm-font-size;
+  color: $color-neutral-600;
 }
 
-@keyframes marquee {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
+/* ── Hero Image ── */
 
-/* ── Scroll Spacer ──
-   Transparent block in normal document flow that creates the scrollable
-   distance the animation needs.  Nothing renders here visually.
-   ────────────────────────────────────────────────────────────────────────── */
-
-.scrollSpacer {
-  height: 100vh;
+.imageWrapper {
   position: relative;
-  z-index: 0;
+  opacity: 0;
+}
+
+.imageContainer {
+  aspect-ratio: 1;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+.heroImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ── Background decoration ── */
+
+.bgDecoration {
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 60%;
+  height: 140%;
+  background: radial-gradient(ellipse at center, rgba($color-primary-200, 0.3) 0%, transparent 70%);
   pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   Cards Section — scrolls up over the fixed hero.  Same dark background
-   as the expanded rectangle so the merge is seamless.
+   Entrance Animations
    ═══════════════════════════════════════════════════════════════════════════ */
 
-.cardsSection {
-  display: flex;
-  position: relative;
-  z-index: 2;
-  background: #1a1a1a;
-  min-height: 100vh;
-  padding: calc(80px + 3rem) 2rem 8rem; /* 80px accounts for the navbar */
-  align-items: center;
-  // margin-bottom: 20%;
-}
-
-.cardsInner {
-  max-width: 1100px;
-  margin: 0 auto;
-  opacity: var(--card-opacity, 0);
-  transform: translateY(var(--card-translate, 50px)) scale(var(--card-scale, 0.88));
-  will-change: transform, opacity;
-}
-
-.cardsHeading {
-  font-size: 1rem;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.5);
-  text-align: center;
-  margin: 0 0 3rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-/* ── Cards Grid ── */
-
-.cardsGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-}
-
-/* ── Individual Card ── */
-
-.card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  aspect-ratio: 3 / 4.5;
-  border-radius: 20px;
-  overflow: hidden;
-  text-decoration: none;
-  cursor: pointer;
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
-
-  &:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35);
-
-    .cardImage {
-      transform: scale(1.05);
-    }
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-/* Full-bleed placeholder gradient backgrounds */
-
-.cardImage {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  transition: transform 0.5s ease;
-  background: linear-gradient(160deg, #2a2a2a 0%, #3a3a3a 40%, #252525 100%);
-}
-
-.card:nth-child(1) .cardImage {
-  background: linear-gradient(160deg, #1e3a5f 0%, #2d5a3a 50%, #1a2e1a 100%);
-}
-.card:nth-child(2) .cardImage {
-  background: linear-gradient(160deg, #3a1e5f 0%, #5a2d4a 50%, #2e1a2e 100%);
-}
-.card:nth-child(3) .cardImage {
-  background: linear-gradient(160deg, #5f3a1e 0%, #4a5a2d 50%, #1a2e2e 100%);
-}
-
-/* Gradient overlay for text readability */
-
-.cardOverlay {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.85) 0%,
-    rgba(0, 0, 0, 0.5) 40%,
-    rgba(0, 0, 0, 0.1) 70%,
-    transparent 100%
-  );
-}
-
-/* Card body — text content pinned to the bottom */
-
-.cardBody {
-  position: relative;
-  z-index: 2;
-  padding: 2rem 1.75rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.cardTitle {
-  font-size: 1.75rem;
-  font-weight: 800;
-  color: #fff;
-  margin: 0;
-  letter-spacing: -0.01em;
-}
-
-.cardDesc {
-  font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.75);
-  margin: 0;
-  line-height: 1.55;
-}
-
-.cardBtn {
-  display: block;
-  margin-top: 1rem;
-  padding: 0.8rem 0;
-  background: #fff;
-  color: #191919;
-  font-weight: 600;
-  font-size: 0.95rem;
-  text-align: center;
-  border-radius: 50px;
-  transition: background 0.25s ease;
-
-  .card:hover & {
-    background: #f0f0f0;
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
   }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animateIn {
+  animation: fadeInUp 0.7s ease-out forwards;
+}
+
+.animateInRight {
+  animation: fadeInRight 0.8s ease-out forwards;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
    Responsive
    ═══════════════════════════════════════════════════════════════════════════ */
 
-@media (max-width: 900px) {
-  .cardsGrid {
-    gap: 1rem;
-  }
-
-  .cardTitle {
-    font-size: 1.4rem;
-  }
-
-  .cardBody {
-    padding: 1.5rem 1.25rem;
+@media #{$mq-md-up} {
+  .title {
+    font-size: clamp(2.5rem, 5vw, $font-headline-display-font-size);
   }
 }
 
-@media (max-width: 768px) {
-  .fixedHero {
-    padding-top: 70px;
+@media (max-width: 1023px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
   }
 
-  .heroContent {
-    margin-bottom: 22vh;
+  .hero {
+    padding: 5rem 0 3rem;
   }
 
   .title {
-    font-size: 4rem;
+    font-size: 2.5rem;
+  }
+
+  .stats {
+    gap: 2rem;
+  }
+
+  .imageContainer {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 639px) {
+  .hero {
+    padding: 4rem 0 2.5rem;
+  }
+
+  .container {
+    padding: 0 1.25rem;
+  }
+
+  .title {
+    font-size: 2rem;
+    line-height: 1.15;
   }
 
   .subtitle {
-    font-size: 1.5rem;
+    font-size: $font-body-md-font-size;
   }
 
   .cta {
     flex-direction: column;
-    align-items: center;
   }
 
-  .cardsSection {
-    padding: calc(70px + 2rem) 1.5rem 6rem;
+  .stats {
+    flex-wrap: wrap;
+    gap: 1.5rem;
   }
 
-  .cardsGrid {
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-  }
-
-  .card:last-child {
-    grid-column: 1 / -1;
-    max-width: 50%;
-    justify-self: center;
-  }
-}
-
-@media (max-width: 520px) {
-  .title {
-    font-size: 3rem;
-  }
-
-  .cardsGrid {
-    grid-template-columns: 1fr;
-    gap: 1.25rem;
-  }
-
-  .card {
-    aspect-ratio: 3 / 4;
-  }
-
-  .card:last-child {
-    grid-column: auto;
-    max-width: 100%;
+  .statValue {
+    font-size: $font-headline-sm-font-size;
   }
 }

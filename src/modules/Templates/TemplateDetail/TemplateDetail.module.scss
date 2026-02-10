@@ -1,0 +1,229 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Template Detail Page
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.page {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $size-600 2rem $size-900;
+}
+
+/* ── Hero Section (centered, matches /templates) ── */
+
+.hero {
+  text-align: left;
+  margin-top: $size-300;
+}
+
+.title {
+  font-size: clamp(2.25rem, 5vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: $color-neutral-900;
+  margin: 0 0 $size-150 0;
+}
+
+.subtitle {
+  color: $color-neutral-500;
+  font-size: $font-body-lg-font-size;
+  line-height: $font-body-lg-paragraph-line-height;
+  font-weight: $font-weight-regular;
+  max-width: 540px;
+}
+
+/* ── Loading & Error States ── */
+
+.loadingState {
+  display: flex;
+  justify-content: center;
+  padding: $size-900 0;
+}
+
+.errorState {
+  text-align: center;
+  padding: $size-900 $size-300;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.errorTitle {
+  color: $color-neutral-600;
+  margin-bottom: $size-100;
+}
+
+.errorSubtitle {
+  color: $color-neutral-400;
+  margin-bottom: $size-300;
+}
+
+.backLink {
+  display: inline-block;
+  color: $color-primary-500;
+  font-size: $font-body-md-font-size;
+  font-weight: $font-weight-medium;
+  text-decoration: none;
+  transition: color 0.15s ease;
+
+  &:hover {
+    color: $color-primary-700;
+    text-decoration: underline;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Get Template (CTA) Section
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.ctaSection {
+  padding: $size-500 0;
+}
+
+.ctaContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $size-500;
+  align-items: start;
+}
+
+.ctaImageWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: $size-150;
+  overflow: hidden;
+  background: $color-neutral-100;
+  border: 1px solid $color-neutral-200;
+}
+
+.ctaImage {
+  object-fit: cover;
+}
+
+.ctaInfo {
+  display: flex;
+  flex-direction: column;
+  gap: $size-300;
+  padding: $size-200 0;
+}
+
+.ctaMeta {
+  display: flex;
+  align-items: center;
+  gap: $size-200;
+}
+
+.ctaPrice {
+  font-size: $font-headline-sm-font-size;
+  font-weight: $font-weight-bold;
+  color: $color-neutral-900;
+}
+
+.ctaDescription {
+  color: $color-neutral-600;
+  line-height: $font-body-md-paragraph-line-height;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FAQ Section
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.faqSection {
+  padding: $size-600 0 $size-400;
+  border-top: 1px solid $color-neutral-200;
+  margin-top: $size-400;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.faqTitle {
+  color: $color-neutral-900;
+  margin-bottom: $size-100;
+}
+
+.faqSubtitle {
+  color: $color-neutral-500;
+  margin-bottom: $size-400;
+}
+
+.faqList {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 720px;
+}
+
+.faqItem {
+  border-bottom: 1px solid $color-neutral-200;
+  text-align: left;
+}
+
+.faqQuestion {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: $size-250 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: $font-body-lg-font-size;
+  font-weight: $font-weight-medium;
+  color: $color-neutral-900;
+  text-align: left;
+  line-height: $font-body-lg-line-height;
+  font-family: $font-family;
+  gap: $size-200;
+
+  &:hover {
+    color: $color-neutral-700;
+  }
+}
+
+.faqChevron {
+  flex-shrink: 0;
+  color: $color-neutral-400;
+  transition: transform 0.2s ease;
+
+  .faqItemOpen & {
+    transform: rotate(180deg);
+  }
+}
+
+.faqAnswer {
+  padding: 0 0 $size-250;
+  color: $color-neutral-600;
+
+  p {
+    margin: 0;
+    line-height: $font-body-md-paragraph-line-height;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Responsive
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@media #{$mq-sm-only} {
+  .page {
+    padding: $size-400 1rem $size-600;
+  }
+
+  .ctaContent {
+    grid-template-columns: 1fr;
+    gap: $size-300;
+  }
+
+  .ctaImageWrapper {
+    aspect-ratio: 16 / 10;
+  }
+
+  .faqQuestion {
+    font-size: $font-body-md-font-size;
+  }
+}

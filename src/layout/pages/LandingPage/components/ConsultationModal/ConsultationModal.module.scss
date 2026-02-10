@@ -1,0 +1,459 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Consultation Booking Modal
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Overlay ── */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $size-200;
+  animation: fadeIn 0.25s ease-out;
+
+  &.animatingOut {
+    animation: fadeOut 0.25s ease-in forwards;
+  }
+}
+
+/* ── Modal Container ── */
+
+.modal {
+  position: relative;
+  background: $color-neutral-white;
+  border-radius: $size-200;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.16), 0 2px 8px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: $size-400;
+  animation: slideIn 0.3s ease-out;
+
+  &.animatingOut {
+    animation: slideOut 0.25s ease-in forwards;
+  }
+}
+
+/* ── Close Button ── */
+
+.closeButton {
+  position: absolute;
+  top: $size-200;
+  right: $size-200;
+  width: $size-400;
+  height: $size-400;
+  border-radius: 50%;
+  border: none;
+  background: $color-neutral-50;
+  color: $color-neutral-600;
+  font-size: $font-body-md-font-size;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, color 0.2s ease;
+
+  &:hover {
+    background: $color-neutral-100;
+    color: $color-neutral-900;
+  }
+}
+
+/* ── Header ── */
+
+.header {
+  margin-bottom: $size-300;
+}
+
+.modalTitle {
+  color: $color-neutral-900;
+  margin: 0 0 $size-75;
+}
+
+.modalSubtitle {
+  color: $color-neutral-600;
+  margin: 0;
+}
+
+/* ── Stepper ── */
+
+.stepper {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: $size-400;
+  gap: 0;
+}
+
+.stepperItem {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  position: relative;
+}
+
+.stepCircle {
+  width: $size-400;
+  height: $size-400;
+  min-width: $size-400;
+  border-radius: 50%;
+  border: 2px solid $color-neutral-200;
+  background: $color-neutral-white;
+  color: $color-neutral-400;
+  font-size: $font-body-sm-font-size;
+  font-weight: $font-weight-medium;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 1;
+
+  &.active {
+    border-color: $color-primary-600;
+    background: $color-primary-600;
+    color: $color-neutral-white;
+  }
+
+  &.completed {
+    border-color: $color-success-500;
+    background: $color-success-500;
+    color: $color-neutral-white;
+  }
+}
+
+.stepLabel {
+  position: absolute;
+  top: calc(100% + #{$size-50});
+  left: 0;
+  white-space: nowrap;
+  color: $color-neutral-400;
+  transition: color 0.3s ease;
+
+  &.active {
+    color: $color-primary-600;
+    font-weight: $font-weight-medium;
+  }
+
+  &.completed {
+    color: $color-success-600;
+  }
+}
+
+.stepLine {
+  flex: 1;
+  height: 2px;
+  background: $color-neutral-200;
+  margin: 0 $size-100;
+  transition: background 0.3s ease;
+
+  &.completed {
+    background: $color-success-500;
+  }
+}
+
+/* ── Form Body ── */
+
+.formBody {
+  min-height: 240px;
+}
+
+.formStep {
+  display: flex;
+  flex-direction: column;
+  gap: $size-200;
+  animation: fadeInStep 0.3s ease-out;
+}
+
+/* ── Textarea ── */
+
+.textareaWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: $size-75;
+}
+
+.textareaLabel {
+  display: block;
+}
+
+.textareaLabelText {
+  color: $color-neutral-700;
+  font-weight: $font-weight-medium;
+}
+
+.textarea {
+  width: 100%;
+  border: 1.5px solid $color-neutral-200;
+  border-radius: $size-100;
+  padding: $size-150;
+  font-family: $font-family;
+  font-size: $font-body-md-font-size;
+  line-height: $font-body-md-paragraph-line-height;
+  color: $color-neutral-900;
+  background: $color-neutral-white;
+  resize: vertical;
+  min-height: 100px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &::placeholder {
+    color: $color-neutral-400;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary-500;
+    box-shadow: 0 0 0 3px rgba($color-primary-500, 0.15);
+  }
+}
+
+/* ── Summary ── */
+
+.summary {
+  background: $color-neutral-50;
+  border: 1px solid $color-neutral-100;
+  border-radius: $size-150;
+  padding: $size-200;
+}
+
+.summaryTitle {
+  color: $color-neutral-900;
+  margin: 0 0 $size-150;
+}
+
+.summaryGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $size-150;
+}
+
+.summaryItem {
+  display: flex;
+  flex-direction: column;
+  gap: $size-25;
+}
+
+.summaryLabel {
+  color: $color-neutral-500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ── Footer ── */
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: $size-300;
+  padding-top: $size-300;
+  border-top: 1px solid $color-neutral-100;
+}
+
+/* ── Success State ── */
+
+.successState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: $size-200;
+  padding: $size-400 0;
+}
+
+.successIcon {
+  width: $size-800;
+  height: $size-800;
+  border-radius: 50%;
+  background: $color-success-50;
+  color: $color-success-600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: $font-weight-bold;
+}
+
+.successTitle {
+  color: $color-neutral-900;
+  margin: 0;
+}
+
+.successDescription {
+  color: $color-neutral-600;
+  margin: 0;
+  max-width: 400px;
+}
+
+/* ── Booking Section (shown after submission) ── */
+
+.bookingSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $size-150;
+  width: 100%;
+  max-width: 400px;
+}
+
+.bookingDivider {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: $size-150;
+  margin-top: $size-100;
+
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: $color-neutral-200;
+  }
+}
+
+.bookingDividerText {
+  font-size: $font-body-xs-font-size;
+  color: $color-neutral-500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  font-weight: $font-weight-medium;
+}
+
+.bookingDescription {
+  color: $color-neutral-600;
+  margin: 0;
+  text-align: center;
+}
+
+.bookingLink {
+  text-decoration: none;
+  display: inline-flex;
+}
+
+/* ── Inline Booking Link (in header subtitle) ── */
+
+.inlineBookingLink {
+  color: $color-primary-600;
+  text-decoration: underline;
+  text-decoration-color: rgba($color-primary-600, 0.3);
+  text-underline-offset: 2px;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+
+  &:hover {
+    color: $color-primary-700;
+    text-decoration-color: $color-primary-700;
+  }
+}
+
+/* ── Error Banner ── */
+
+.errorBanner {
+  background: $color-error-50;
+  border: 1px solid $color-error-200;
+  border-radius: $size-100;
+  padding: $size-150;
+}
+
+.errorText {
+  color: $color-error-700;
+  margin: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Animations
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+}
+
+@keyframes fadeInStep {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Responsive
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 639px) {
+  .overlay {
+    padding: $size-100;
+    align-items: flex-end;
+  }
+
+  .modal {
+    padding: $size-300;
+    max-height: 85vh;
+    border-radius: $size-200 $size-200 0 0;
+  }
+
+  .summaryGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .stepLabel {
+    display: none;
+  }
+
+  .footer {
+    flex-direction: column-reverse;
+    gap: $size-100;
+
+    & > * {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+  }
+}

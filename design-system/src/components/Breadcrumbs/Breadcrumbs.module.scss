@@ -1,0 +1,84 @@
+@use '../../styles' as *;
+
+.breadcrumbs {
+  display: block;
+
+  &.sm {
+    .link,
+    .current,
+    .separator {
+      font-size: $font-body-xs-font-size;
+      line-height: $font-body-xs-line-height;
+    }
+  }
+
+  &.md {
+    .link,
+    .current,
+    .separator {
+      font-size: $font-body-sm-font-size;
+      line-height: $font-body-sm-line-height;
+    }
+  }
+
+  &.lg {
+    .link,
+    .current,
+    .separator {
+      font-size: $font-body-md-font-size;
+      line-height: $font-body-md-line-height;
+    }
+  }
+}
+
+.list {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: $size-75;
+  flex-wrap: wrap;
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  gap: $size-75;
+}
+
+.link {
+  color: $color-neutral-500;
+  text-decoration: none;
+  font-weight: $font-weight-medium;
+  transition: color 0.15s ease;
+  white-space: nowrap;
+
+  &:hover {
+    color: $color-primary-600;
+    text-decoration: underline;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color-primary-400;
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}
+
+.current {
+  color: $color-neutral-800;
+  font-weight: $font-weight-medium;
+  white-space: nowrap;
+}
+
+.inactive {
+  color: $color-neutral-500;
+}
+
+.separator {
+  color: $color-neutral-300;
+  user-select: none;
+  font-weight: $font-weight-regular;
+  flex-shrink: 0;
+}

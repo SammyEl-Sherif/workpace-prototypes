@@ -1,0 +1,33 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.header {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $size-600 2rem $size-400;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.title {
+  font-size: clamp(2rem, 5vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: $color-neutral-900;
+  margin: 0 0 $size-150 0;
+}
+
+.subtitle {
+  color: $color-neutral-500;
+  font-size: $font-body-lg-font-size;
+  line-height: $font-body-lg-paragraph-line-height;
+  font-weight: $font-weight-regular;
+  margin: 0;
+  max-width: 640px;
+}
+
+@media #{$mq-sm-only} {
+  .header {
+    padding: $size-400 1rem $size-300;
+  }
+}

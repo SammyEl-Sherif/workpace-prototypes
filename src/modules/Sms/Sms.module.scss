@@ -1,0 +1,61 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.page {
+  min-height: calc(90vh - 120px);
+  display: flex;
+  flex-direction: column;
+  padding: $size-50 2rem;
+}
+
+.breadcrumbsWrapper {
+  max-width: 800px;
+  width: 100%;
+  margin: $size-200 auto $size-400;
+}
+
+.container {
+  text-align: center;
+  max-width: 800px;
+  width: 100%;
+  margin: auto;
+}
+
+// ── SMS Send Section ──────────────────────────────────
+
+.smsSection {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: $size-400;
+  border: 1px solid $color-neutral-200;
+  border-radius: $size-100;
+  background-color: $color-neutral-white;
+  text-align: left;
+}
+
+.smsHeading {
+  margin-bottom: $size-300;
+  text-align: center;
+}
+
+.smsForm {
+  display: flex;
+  flex-direction: column;
+  gap: $size-200;
+}
+
+.smsField {
+  width: 100%;
+}
+
+.smsError {
+  color: $color-error-500;
+}
+
+.smsSuccess {
+  color: $color-success-600;
+}
+
+.smsButton {
+  align-self: flex-end;
+  margin-top: $size-100;
+}

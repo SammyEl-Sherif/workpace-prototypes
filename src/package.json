@@ -24,7 +24,7 @@
     "@notionhq/client": "^2.2.15",
     "@supabase/supabase-js": "^2.93.3",
     "@tanstack/react-table": "^8.21.3",
-    "@workpace/design-system": "^1.0.10",
+    "@workpace/design-system": "^1.0.13",
     "axios": "^1.7.2",
     "chart.js": "^4.5.1",
     "classnames": "^2.5.1",
@@ -45,7 +45,8 @@
     "react-dom": "^18",
     "react-loading": "^2.0.3",
     "react-markdown": "^9.0.1",
-    "sass": "^1.44.0"
+    "sass": "^1.44.0",
+    "stripe": "^20.3.1"
   },
   "devDependencies": {
     "@types/node": "^20",

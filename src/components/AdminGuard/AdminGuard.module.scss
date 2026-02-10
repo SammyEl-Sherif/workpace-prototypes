@@ -1,0 +1,35 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: $size-400;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $size-200;
+  text-align: center;
+  max-width: 400px;
+}
+
+.icon {
+  font-size: 48px;
+  line-height: 1;
+  margin-bottom: $size-100;
+}
+
+.title {
+  color: $color-neutral-900;
+  margin: 0;
+}
+
+.message {
+  color: $color-neutral-500;
+  margin: 0;
+  margin-bottom: $size-100;
+}

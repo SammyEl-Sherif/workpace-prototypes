@@ -8,7 +8,7 @@ const TestimonialsSection = () => {
       role: 'Product Designer',
       company: 'Tech Startup',
       content:
-        'The WorkPace prototypes have revolutionized how I approach my design workflow. The automation tools save me hours every week, and the community feedback has been invaluable for improving my work.',
+        'The WorkPace apps have revolutionized how I approach my design workflow. The automation tools save me hours every week, and the community feedback has been invaluable for improving my work.',
       avatar: '👩‍💻',
       rating: 5,
     },
@@ -28,7 +28,7 @@ const TestimonialsSection = () => {
       role: 'Marketing Manager',
       company: 'Creative Agency',
       content:
-        "The prototypes are incredibly intuitive and the community is so supportive. I've learned so much from other members and the tools have streamlined my content creation process significantly.",
+        "The apps are incredibly intuitive and the community is so supportive. I've learned so much from other members and the tools have streamlined my content creation process significantly.",
       avatar: '👩‍🎨',
       rating: 5,
     },
@@ -38,7 +38,7 @@ const TestimonialsSection = () => {
       role: 'Product Manager',
       company: 'SaaS Company',
       content:
-        'WorkPace has created an amazing ecosystem for productivity tools and community learning. The prototypes are cutting-edge and the Notion workspace keeps everything organized perfectly.',
+        'WorkPace has created an amazing ecosystem for productivity tools and community learning. The apps are cutting-edge and the Notion workspace keeps everything organized perfectly.',
       avatar: '👨‍💼',
       rating: 5,
     },
@@ -50,7 +50,7 @@ const TestimonialsSection = () => {
         <div className={styles.header}>
           <h2 className={styles.title}>What Our Community Says</h2>
           <p className={styles.subtitle}>
-            Real feedback from users of our prototypes and community members
+            Real feedback from users of our apps and community members
           </p>
         </div>
 

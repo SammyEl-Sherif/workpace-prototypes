@@ -1,0 +1,181 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.page {
+  background: white;
+  position: relative;
+  overflow-x: hidden;
+  padding-bottom: $size-600;
+}
+
+/* ── Tab Selector ── */
+.tabBar {
+  display: flex;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $size-300 2rem $size-100;
+  gap: $size-200;
+}
+
+.tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $size-100;
+  padding: $size-200 $size-300;
+  font-size: $font-body-lg-font-size;
+  font-weight: $font-weight-medium;
+  color: $color-neutral-500;
+  background: $color-neutral-50;
+  border: 2px solid $color-neutral-200;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+
+  &:hover {
+    color: $color-neutral-800;
+    background: $color-neutral-100;
+    border-color: $color-neutral-300;
+  }
+
+  &.active {
+    color: $color-neutral-900;
+    font-weight: $font-weight-bold;
+    background: $color-neutral-white;
+    border-color: $color-neutral-900;
+  }
+}
+
+/* ── Tab Content ── */
+.tabContent {
+  width: 100%;
+}
+
+/* ── About Developer Section ── */
+.developerSection {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $size-600 2rem 0;
+}
+
+.developerHeader {
+  margin-bottom: $size-400;
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: $font-weight-bold;
+    color: $color-neutral-900;
+    margin: 0 0 $size-100 0;
+  }
+
+  p {
+    font-size: $font-body-md-font-size;
+    color: $color-neutral-500;
+    margin: 0;
+    line-height: $font-body-md-paragraph-line-height;
+    max-width: 640px;
+  }
+}
+
+.developerContent {
+  display: flex;
+  align-items: flex-start;
+  gap: $size-400;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+.developerInfo {
+  flex: 1;
+}
+
+.developerName {
+  font-size: 1.25rem;
+  font-weight: $font-weight-bold;
+  color: $color-neutral-900;
+  margin: 0 0 $size-100 0;
+}
+
+.developerBio {
+  font-size: $font-body-md-font-size;
+  color: $color-neutral-600;
+  line-height: $font-body-md-paragraph-line-height;
+  margin: 0 0 $size-300 0;
+  max-width: 540px;
+}
+
+.socialLinks {
+  display: flex;
+  gap: $size-200;
+  flex-wrap: wrap;
+}
+
+.socialLink {
+  display: inline-flex;
+  align-items: center;
+  gap: $size-100;
+  padding: $size-100 $size-200;
+  border: 1px solid $color-neutral-200;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: $font-body-sm-font-size;
+  font-weight: $font-weight-medium;
+  color: $color-neutral-700;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: $color-neutral-400;
+    background: $color-neutral-50;
+    color: $color-neutral-900;
+  }
+}
+
+.techPills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $size-100;
+
+  @media (max-width: 768px) {
+    justify-content: flex-start;
+  }
+}
+
+.techPill {
+  display: inline-flex;
+  align-items: center;
+  gap: $size-75;
+  padding: $size-75 $size-150;
+  background: $color-neutral-50;
+  border: 1px solid $color-neutral-200;
+  border-radius: 6px;
+  font-size: $font-body-xs-font-size;
+  font-weight: $font-weight-medium;
+  color: $color-neutral-600;
+  white-space: nowrap;
+}
+
+.techPillIcon {
+  font-size: 0.85rem;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .tabBar {
+    padding: $size-200 1rem $size-100;
+    gap: $size-150;
+  }
+
+  .tab {
+    font-size: $font-body-md-font-size;
+    padding: $size-150 $size-200;
+  }
+
+  .developerSection {
+    padding: $size-400 1rem 0;
+  }
+}

@@ -1,10 +1,12 @@
-import { ReactNode } from 'react'
+import { ReactNode, useMemo } from 'react'
 
+import cn from 'classnames'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 
 import { AuthOverlay } from '@/components'
 import { PromotionalBanner } from '@/components/PromotionalBanner'
+import { APPS } from '@/interfaces/apps'
 import { StandardNavbar, SubNavbar } from '@/layout/pages/LandingPage/components'
 
 import styles from './MainLayout.module.scss'
@@ -19,18 +21,24 @@ export default function MainLayout({ children }: LayoutProps) {
   const { pathname } = router
 
   // Show overlay for unauthenticated users on protected routes
-  // But allow landing page, sign-in page, and other public routes to render normally
   const shouldShowOverlay =
     status === 'unauthenticated' &&
     pathname !== '/' &&
     pathname !== '/signin' &&
-    pathname !== '/design-system' &&
-    pathname !== '/system-design'
+    pathname !== '/about' &&
+    !pathname.startsWith('/templates')
 
-  const pageContent = (
-    <div className={styles.pageContent}>
+  // SubNavbar appears on individual app pages (e.g. /apps/sms)
+  const hasSubNavbar = useMemo(() => APPS.some((p) => pathname === p.path), [pathname])
+
+  const contentClass = cn(styles.pageContent, {
+    [styles.withSubNavbar]: hasSubNavbar,
+  })
+
+  const content = (
+    <div className={contentClass}>
       <PromotionalBanner hide={true} />
-      <main className={styles.containerSize}>{children}</main>
+      {children}
     </div>
   )
 
@@ -38,8 +46,7 @@ export default function MainLayout({ children }: LayoutProps) {
     <div className={styles.pageLayout}>
       <StandardNavbar />
       <SubNavbar />
-      <div className={styles.navbarSpacer} />
-      {shouldShowOverlay ? <AuthOverlay>{pageContent}</AuthOverlay> : pageContent}
+      {shouldShowOverlay ? <AuthOverlay>{content}</AuthOverlay> : content}
     </div>
   )
 }

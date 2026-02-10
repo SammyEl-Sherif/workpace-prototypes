@@ -17,7 +17,7 @@ module.exports = () => {
     // See https://nextjs.org/docs/pages/building-your-application/deploying/static-exports#configuration
     // output: 'export', // Feel free to modify/remove this option
 
-    // Rewrite requests from werall.com and weralli.localhost to root
+    // Rewrite requests
     async rewrites() {
       return []
     },
@@ -37,6 +37,18 @@ module.exports = () => {
         'node_modules',
       ]
       return config
+    },
+    images: {
+      remotePatterns: [
+        {
+          protocol: 'https',
+          hostname: 'images.unsplash.com',
+        },
+        {
+          protocol: 'https',
+          hostname: '*.supabase.co',
+        },
+      ],
     },
     sassOptions: {
       includePaths: [

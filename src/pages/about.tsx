@@ -1,22 +1,25 @@
-import React from 'react'
-
 import { GetServerSideProps } from 'next'
 
 import { DocumentTitle } from '@/layout/DocumentTitle'
-import { AboutPage } from '@/layout/pages/AboutPage'
+import { PageHeader } from '@/layout/PageHeader'
+import { About } from '@/modules/About'
 import { withPageRequestWrapper } from '@/server/utils'
 
 export const getServerSideProps: GetServerSideProps = withPageRequestWrapper(async () => {
   return {}
 })
 
-const WorkpacePrototypesPage = () => {
+const AboutPage = () => {
   return (
     <>
       <DocumentTitle title="About" />
-      <AboutPage />
+      <PageHeader
+        title="About"
+        subtitle="Explore the design system, system architecture, and the developer behind WorkPace"
+      />
+      <About />
     </>
   )
 }
 
-export default WorkpacePrototypesPage
+export default AboutPage

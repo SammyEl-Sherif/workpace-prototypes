@@ -7,9 +7,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { useSupabaseSession, useUser } from '@/hooks'
-import { Prototype } from '@/interfaces/prototypes'
+import { App } from '@/interfaces/apps'
 import { Routes } from '@/interfaces/routes'
-import { usePrototypesContext } from '@/modules'
+import { useAppsContext } from '@/modules'
 import Logo from '@/public/favicon.ico'
 import { getAppName } from '@/utils'
 
@@ -27,7 +27,7 @@ export const Navbar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false)
 
-  const { prototypes } = usePrototypesContext()
+  const { apps } = useAppsContext()
 
   // Check if user is authenticated via either NextAuth or Supabase
   const isAuthenticated = status === 'authenticated' || isSupabaseAuthenticated
@@ -70,12 +70,10 @@ export const Navbar = () => {
         <div className={styles.mobileLinkStackWrapper}>
           <div className={styles.mobileLinkStack}>
             <div className={styles.headingAndLinks}>
-              <div className={cn(styles.linksHeading, { [styles.hide]: isCollapsed })}>
-                Prototypes
-              </div>
+              <div className={cn(styles.linksHeading, { [styles.hide]: isCollapsed })}>Apps</div>
               <div className={styles.links}>
-                {prototypes &&
-                  prototypes.map(({ path, name }: Prototype) => {
+                {apps &&
+                  apps.map(({ path, name }: App) => {
                     return (
                       <Link className={styles.links} href={path} key={path}>
                         {name}
@@ -87,11 +85,8 @@ export const Navbar = () => {
             <div className={styles.headingAndLinks}>
               <div className={styles.linksHeading}>Info</div>
               <div className={styles.links}>
-                <Link href={Routes.DESIGN_SYSTEM} className={styles.links}>
-                  🎨 Design System
-                </Link>
-                <Link href={Routes.SYSTEM_DESIGN} className={styles.links}>
-                  🏗️ System Design
+                <Link href={Routes.ABOUT} className={styles.links}>
+                  ℹ️ About
                 </Link>
               </div>
             </div>
@@ -190,31 +185,29 @@ export const Navbar = () => {
           )}
         </div>
         <div className={cn(styles.linkStack)}>
-          {/* Prototypes Section */}
+          {/* Apps Section */}
           <div className={styles.section}>
-            <div className={cn(styles.linksHeading, { [styles.hide]: isCollapsed })}>
-              Prototypes
-            </div>
+            <div className={cn(styles.linksHeading, { [styles.hide]: isCollapsed })}>Apps</div>
             {!isCollapsed &&
-              prototypes &&
-              prototypes.length > 0 &&
-              prototypes.map(({ path, name }: Prototype) => {
+              apps &&
+              apps.length > 0 &&
+              apps.map(({ path, name }: App) => {
                 return (
                   <Link className={styles.links} href={path} key={path}>
                     {name}
                   </Link>
                 )
               })}
-            {!isCollapsed && (!prototypes || prototypes.length === 0) && (
-              <div className={styles.emptyState}>No prototypes available</div>
+            {!isCollapsed && (!apps || apps.length === 0) && (
+              <div className={styles.emptyState}>No apps available</div>
             )}
             {isCollapsed && (
               <div className={styles.iconLinkStack}>
                 <Link className={styles.iconLinks} href={Routes.HOME} title="Home">
                   🏠
                 </Link>
-                {prototypes &&
-                  prototypes.map(({ path, name, icon }: Prototype) => {
+                {apps &&
+                  apps.map(({ path, name, icon }: App) => {
                     return (
                       <Link className={styles.links} href={path} title={name} key={path}>
                         {icon}
@@ -230,24 +223,14 @@ export const Navbar = () => {
             <div className={cn(styles.divider, { [styles.hide]: isCollapsed })} />
             <div className={cn(styles.linksHeading, { [styles.hide]: isCollapsed })}>Info</div>
             {!isCollapsed && (
-              <>
-                <Link className={styles.links} href={Routes.DESIGN_SYSTEM}>
-                  🎨 Design System
-                </Link>
-                <Link className={styles.links} href={Routes.SYSTEM_DESIGN}>
-                  🏗️ System Design
-                </Link>
-              </>
+              <Link className={styles.links} href={Routes.ABOUT}>
+                ℹ️ About
+              </Link>
             )}
             {isCollapsed && (
-              <>
-                <Link className={styles.links} href={Routes.DESIGN_SYSTEM} title="Design System">
-                  🎨
-                </Link>
-                <Link className={styles.links} href={Routes.SYSTEM_DESIGN} title="System Design">
-                  🏗️
-                </Link>
-              </>
+              <Link className={styles.links} href={Routes.ABOUT} title="About">
+                ℹ️
+              </Link>
             )}
           </div>
         </div>

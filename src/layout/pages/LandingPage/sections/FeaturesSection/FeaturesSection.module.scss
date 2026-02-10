@@ -1,183 +1,158 @@
-.features {
-  background: #1a1a1a;
-  padding: 4rem 2rem 8rem;
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Features Section — Built for Modern Teams
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.section {
+  padding: 6rem 0;
+  background: $color-neutral-white;
 }
 
 .container {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
+  padding: 0 2rem;
 }
 
-/* ── Cards Grid ── */
-
-.cards {
+.grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+/* ── Text Content ── */
+
+.textContent {
+  display: flex;
+  flex-direction: column;
+  gap: $size-200;
+}
+
+.title {
+  color: $color-neutral-900;
+  margin: 0;
+}
+
+.subtitle {
+  color: $color-neutral-600;
+  margin: 0;
+}
+
+.featureList {
+  display: flex;
+  flex-direction: column;
   gap: 1.5rem;
+  margin-top: $size-200;
 }
 
-/* ── Individual Card ── */
+.feature {
+  display: flex;
+  gap: $size-200;
+  align-items: flex-start;
+}
 
-.card {
-  position: relative;
+.featureIcon {
+  width: $size-600;
+  height: $size-600;
+  min-width: $size-600;
+  border-radius: $size-100;
+  background: $color-primary-100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+.featureText {
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  aspect-ratio: 3 / 4.5;
-  border-radius: 20px;
+  gap: $size-50;
+}
+
+.featureTitle {
+  color: $color-neutral-900;
+  margin: 0;
+}
+
+.featureDescription {
+  color: $color-neutral-600;
+  margin: 0;
+}
+
+/* ── Image ── */
+
+.imageWrapper {
+  position: relative;
+}
+
+.imageContainer {
+  aspect-ratio: 4 / 3;
+  border-radius: 1rem;
   overflow: hidden;
-  text-decoration: none;
-  cursor: pointer;
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
-
-  &:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35);
-
-    .cardImage {
-      transform: scale(1.05);
-    }
-  }
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05);
 }
 
-/* Full-bleed placeholder background — swap for real images later */
-
-.cardImage {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  transition: transform 0.5s ease;
-
-  /* Placeholder gradients — each card gets a unique tint via nth-child below */
-  background: linear-gradient(160deg, #2a2a2a 0%, #3a3a3a 40%, #252525 100%);
-  background-size: cover;
-  background-position: center;
-}
-
-.card:nth-child(1) .cardImage {
-  background: linear-gradient(160deg, #1e3a5f 0%, #2d5a3a 50%, #1a2e1a 100%);
-}
-
-.card:nth-child(2) .cardImage {
-  background: linear-gradient(160deg, #3a1e5f 0%, #5a2d4a 50%, #2e1a2e 100%);
-}
-
-.card:nth-child(3) .cardImage {
-  background: linear-gradient(160deg, #5f3a1e 0%, #4a5a2d 50%, #1a2e2e 100%);
-}
-
-/* Gradient overlay for text readability */
-
-.cardOverlay {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.85) 0%,
-    rgba(0, 0, 0, 0.5) 40%,
-    rgba(0, 0, 0, 0.1) 70%,
-    transparent 100%
-  );
-}
-
-/* Card content stacked at the bottom */
-
-.cardBody {
-  position: relative;
-  z-index: 2;
-  padding: 2rem 1.75rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.cardTitle {
-  font-size: 1.75rem;
-  font-weight: 800;
-  color: #fff;
-  margin: 0;
-  letter-spacing: -0.01em;
-}
-
-.cardDescription {
-  font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.75);
-  margin: 0;
-  line-height: 1.55;
-}
-
-.cardTag {
-  display: inline-block;
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.7);
-  margin-top: 0.25rem;
-}
-
-.cardButton {
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
-  margin-top: 1rem;
-  padding: 0.8rem 0;
-  background: #fff;
-  color: #191919;
-  font-weight: 600;
-  font-size: 0.95rem;
-  text-align: center;
-  border-radius: 50px;
-  transition: background 0.25s ease, transform 0.25s ease;
+}
 
-  .card:hover & {
-    background: #f0f0f0;
+/* ═══════════════════════════════════════════════════════════════════════════
+   Scroll Reveal Animations
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.revealLeft {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+
+  &.visible {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
-/* ── Responsive ── */
+.revealRight {
+  opacity: 0;
+  transform: translateX(30px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
 
-@media (max-width: 900px) {
-  .cards {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-  }
-
-  .cardTitle {
-    font-size: 1.4rem;
-  }
-
-  .cardBody {
-    padding: 1.5rem 1.25rem;
+  &.visible {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
-@media (max-width: 768px) {
-  .features {
-    padding: 2rem 1.5rem 6rem;
-  }
+/* ═══════════════════════════════════════════════════════════════════════════
+   Responsive
+   ═══════════════════════════════════════════════════════════════════════════ */
 
-  .cards {
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-  }
-
-  .card:last-child {
-    grid-column: 1 / -1;
-    max-width: 50%;
-    justify-self: center;
-  }
-}
-
-@media (max-width: 520px) {
-  .cards {
+@media (max-width: 1023px) {
+  .grid {
     grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .imageContainer {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 639px) {
+  .section {
+    padding: 4rem 0;
+  }
+
+  .container {
+    padding: 0 1.25rem;
+  }
+
+  .featureList {
     gap: 1.25rem;
-  }
-
-  .card {
-    aspect-ratio: 3 / 4;
-  }
-
-  .card:last-child {
-    grid-column: auto;
-    max-width: 100%;
   }
 }

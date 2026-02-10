@@ -5,80 +5,25 @@ import '../styles/globals.scss'
 import type { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 
+import { AdminGuard } from '@/components/AdminGuard'
+import { MaintenanceOverlay } from '@/components/MaintenanceOverlay'
+import { FeatureFlagsContextProvider } from '@/contexts/FeatureFlagsContextProvider'
 import { UserInfoContextProvider } from '@/contexts/UserInfoContextProvider'
+import { APPS } from '@/interfaces/apps'
 import { PageProps } from '@/interfaces/page-props'
 import MainLayout from '@/layout/MainLayout'
-import { PrototypesContextProvider } from '@/modules'
+import { AppsContextProvider } from '@/modules'
 
 export default function App({ Component, pageProps }: AppProps) {
-  const { userProfile, prototypes } = pageProps as PageProps
+  const { userProfile, apps } = pageProps as PageProps
   const router = useRouter()
 
-  // Check if current page is the landing page (no auth required)
   const isLandingPage = router.pathname === '/'
   const isSigninPage = router.pathname === '/signin'
-  const isDesignSystemPage = router.pathname === '/design-system'
-  const isSystemDesignPage = router.pathname === '/system-design'
+  const isAdminPage = router.pathname.startsWith('/admin')
 
-  // For landing page, render without authentication but with context providers
-  if (isLandingPage) {
-    return (
-      <Auth>
-        <UserInfoContextProvider
-          userProfile={{
-            ...userProfile,
-            name: userProfile?.name ?? '',
-            email: userProfile?.email ?? '',
-          }}
-        >
-          <PrototypesContextProvider prototypes={prototypes}>
-            <Component {...pageProps} />
-          </PrototypesContextProvider>
-        </UserInfoContextProvider>
-      </Auth>
-    )
-  }
-
-  // For design-system and system-design pages, render with MainLayout (side navigation) but without auth requirement
-  if (isDesignSystemPage || isSystemDesignPage) {
-    return (
-      <Auth>
-        <UserInfoContextProvider
-          userProfile={{
-            ...userProfile,
-            name: userProfile?.name ?? '',
-            email: userProfile?.email ?? '',
-          }}
-        >
-          <PrototypesContextProvider prototypes={prototypes}>
-            <MainLayout>
-              <Component {...pageProps} />
-            </MainLayout>
-          </PrototypesContextProvider>
-        </UserInfoContextProvider>
-      </Auth>
-    )
-  }
-
-  // For signin page, render without layout (no navbar) but with context providers
-  if (isSigninPage) {
-    return (
-      <Auth>
-        <UserInfoContextProvider
-          userProfile={{
-            ...userProfile,
-            name: userProfile?.name ?? '',
-            email: userProfile?.email ?? '',
-          }}
-        >
-          <Component {...pageProps} />
-        </UserInfoContextProvider>
-      </Auth>
-    )
-  }
-
-  // For all other pages, require authentication and full context
-  return (
+  // Shared provider wrapper — UserInfo + FeatureFlags available everywhere
+  const withProviders = (content: React.ReactNode) => (
     <Auth>
       <UserInfoContextProvider
         userProfile={{
@@ -87,12 +32,46 @@ export default function App({ Component, pageProps }: AppProps) {
           email: userProfile?.email ?? '',
         }}
       >
-        <PrototypesContextProvider prototypes={prototypes}>
-          <MainLayout>
-            <Component {...pageProps} />
-          </MainLayout>
-        </PrototypesContextProvider>
+        <FeatureFlagsContextProvider>
+          <MaintenanceOverlay>{content}</MaintenanceOverlay>
+        </FeatureFlagsContextProvider>
       </UserInfoContextProvider>
     </Auth>
+  )
+
+  // Landing page — has its own StandardNavbar, no MainLayout
+  if (isLandingPage) {
+    return withProviders(
+      <AppsContextProvider apps={apps ?? APPS}>
+        <Component {...pageProps} />
+      </AppsContextProvider>
+    )
+  }
+
+  // Sign-in page — no layout (no navbar)
+  if (isSigninPage) {
+    return withProviders(<Component {...pageProps} />)
+  }
+
+  // Admin pages — MainLayout + AdminGuard (admin-only access)
+  if (isAdminPage) {
+    return withProviders(
+      <AppsContextProvider apps={apps ?? APPS}>
+        <MainLayout>
+          <AdminGuard>
+            <Component {...pageProps} />
+          </AdminGuard>
+        </MainLayout>
+      </AppsContextProvider>
+    )
+  }
+
+  // All other pages — MainLayout handles navbar, auth overlay, SubNavbar
+  return withProviders(
+    <AppsContextProvider apps={apps ?? APPS}>
+      <MainLayout>
+        <Component {...pageProps} />
+      </MainLayout>
+    </AppsContextProvider>
   )
 }

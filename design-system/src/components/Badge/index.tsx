@@ -25,13 +25,13 @@ type BadgeComponent = <C extends React.ElementType = 'span'>(
 
 // @ts-expect-error - Generic forwardRef is not directly supported in TypeScript
 const Badge = forwardRef(function Badge<C extends React.ElementType = 'span'>(
-  { as, children, variant = 'default', size = 'md', ...rest }: BadgeProps<C>,
+  { as, children, variant = 'default', size = 'md', className: userClassName, ...rest }: BadgeProps<C>,
   ref?: PolymorphicRef<C>,
 ) {
   const asComponent: React.ElementType = as || 'span';
 
   const className = clsx(
-    rest.className,
+    userClassName,
     styles.badge,
     styles[variant],
     styles[size],

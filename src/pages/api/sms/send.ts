@@ -29,7 +29,7 @@ const sendSmsController = withApiAuth(
       }
 
       const result = await sendPingramSms({
-        type: 'workpace_prototypes',
+        type: 'workpace_apps',
         to: {
           id: String(userEmail),
           number: phone.trim(),

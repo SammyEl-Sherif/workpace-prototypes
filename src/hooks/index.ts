@@ -1,5 +1,6 @@
 export * from './useFetch'
 export * from './useEvent'
+export * from './useFeatureFlags'
 export * from './useManualFetch'
 export * from './useIsomorphicLayoutEffect'
 export * from './useDebounce'

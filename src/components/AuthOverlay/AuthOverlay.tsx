@@ -26,7 +26,7 @@ const AuthOverlay: FC<AuthOverlayProps> = ({ children }) => {
           <Text variant="headline-md" className={styles.message}>
             You need to sign up to view this page
           </Text>
-          <Button onClick={handleSignIn} variant="brand-primary">
+          <Button onClick={handleSignIn} variant="brand-secondary">
             Sign In
           </Button>
         </div>

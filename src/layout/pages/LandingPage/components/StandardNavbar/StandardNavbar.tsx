@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { Button } from '@workpace/design-system'
 import cn from 'classnames'
@@ -22,6 +22,7 @@ const StandardNavbar = () => {
   const { user: supabaseUser, isAuthenticated: isSupabaseAuthenticated } = useSupabaseSession()
   const router = useRouter()
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
 
   // Check if user is authenticated via either NextAuth or Supabase
   const isAuthenticated = status === 'authenticated' || isSupabaseAuthenticated
@@ -42,9 +43,20 @@ const StandardNavbar = () => {
     setIsMobileNavOpen(false)
   }
 
+  // Scroll shadow effect
+  const handleScroll = useCallback(() => {
+    setIsScrolled(window.scrollY > 10)
+  }, [])
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [handleScroll])
+
   return (
     <>
-      <nav className={styles.navbar}>
+      <nav className={cn(styles.navbar, { [styles.scrolled]: isScrolled })}>
         <div className={styles.container}>
           <div className={styles.brand}>
             <Link href="/" className={styles.brandLink}>
@@ -54,14 +66,14 @@ const StandardNavbar = () => {
           </div>
 
           <div className={styles.navLinks}>
-            <Link href={Routes.PROTOTYPES} className={styles.navLink}>
-              Prototypes
+            <Link href={Routes.APPS} className={styles.navLink}>
+              Apps
             </Link>
-            <Link href={Routes.DESIGN_SYSTEM} className={styles.navLink}>
-              Design System
+            <Link href={Routes.TEMPLATES} className={styles.navLink}>
+              Templates
             </Link>
-            <Link href={Routes.SYSTEM_DESIGN} className={styles.navLink}>
-              System Design
+            <Link href={Routes.ABOUT} className={styles.navLink}>
+              About
             </Link>
           </div>
           <div className={styles.authSection}>
@@ -128,26 +140,14 @@ const StandardNavbar = () => {
 
         <div className={styles.mobileMenuContent}>
           <div className={styles.mobileNavLinks}>
-            <Link
-              href={Routes.PROTOTYPES}
-              className={styles.mobileNavLink}
-              onClick={closeMobileNav}
-            >
-              Prototypes
+            <Link href={Routes.APPS} className={styles.mobileNavLink} onClick={closeMobileNav}>
+              Apps
             </Link>
-            <Link
-              href={Routes.DESIGN_SYSTEM}
-              className={styles.mobileNavLink}
-              onClick={closeMobileNav}
-            >
-              Design System
+            <Link href={Routes.TEMPLATES} className={styles.mobileNavLink} onClick={closeMobileNav}>
+              Templates
             </Link>
-            <Link
-              href={Routes.SYSTEM_DESIGN}
-              className={styles.mobileNavLink}
-              onClick={closeMobileNav}
-            >
-              System Design
+            <Link href={Routes.ABOUT} className={styles.mobileNavLink} onClick={closeMobileNav}>
+              About
             </Link>
           </div>
 

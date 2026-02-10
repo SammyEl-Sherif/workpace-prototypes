@@ -1,0 +1,69 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    $color-neutral-900 0%,
+    $color-accent-800 50%,
+    $color-neutral-900 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $size-200;
+}
+
+.overlayContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $size-200;
+  padding: $size-600 $size-500;
+  background-color: $color-neutral-white;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 480px;
+  width: 100%;
+  text-align: center;
+}
+
+.icon {
+  font-size: 56px;
+  line-height: 1;
+  margin-bottom: $size-100;
+}
+
+.title {
+  color: $color-neutral-900;
+  margin: 0;
+}
+
+.message {
+  color: $color-neutral-600;
+  margin: 0;
+  line-height: $font-body-md-paragraph-line-height;
+}
+
+.subtitle {
+  color: $color-neutral-400;
+  margin: 0;
+}
+
+.actions {
+  margin-top: $size-200;
+}

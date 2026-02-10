@@ -159,6 +159,87 @@ Special neutrals: `$color-neutral-black`, `$color-neutral-white`
 
 `$icons-sm` (16px), `$icons-md` (20px), `$icons-lg` (24px)
 
+## Layout Architecture
+
+### Overview
+
+The app uses a layered layout system managed in `src/layout/`. Pages are
+composed from these layers in `src/pages/_app.tsx`:
+
+| Route Pattern              | Layout                            | PageHeader | Auth Overlay |
+| -------------------------- | --------------------------------- | ---------- | ------------ |
+| `/` (landing)              | Own `StandardNavbar` + custom     | No         | No           |
+| `/signin`                  | No layout (standalone)            | No         | No           |
+| `/about`                   | `MainLayout`                      | Yes        | No           |
+| `/prototypes`              | `MainLayout`                      | Yes        | Yes          |
+| `/prototypes/ralli` (etc.) | `MainLayout` + `SubNavbar` active | No         | Yes          |
+
+### MainLayout (`src/layout/MainLayout/`)
+
+`MainLayout` is the common wrapper for all non-landing, non-signin pages. It
+provides:
+
+- **`StandardNavbar`** — Fixed top navbar (`position: fixed`, ~72px, z-index:
+  1000)
+- **`SubNavbar`** — Fixed sub-navigation (`position: fixed`, top: 72px, ~48px)
+  that only renders on individual prototype pages (e.g. `/prototypes/ralli`).
+  Returns `null` on all other pages.
+- **Content area** — Uses `padding-top` (not a spacer div) to offset below fixed
+  navbars:
+  - `72px` when only StandardNavbar is visible
+  - `120px` when SubNavbar is also active
+- **`AuthOverlay`** — Wraps the content area for unauthenticated users on
+  protected routes. Covers the full viewport below the navbar with no gap.
+
+**CRITICAL: NEVER use a spacer div for navbar offset.** Always use `padding-top`
+on the content container. This ensures overlays and full-height content can
+reach the navbar edge.
+
+```
+pageLayout (flex column, min-height: 100vh)
+  StandardNavbar (fixed)
+  SubNavbar (fixed, conditional)
+  pageContent (padding-top: 72px / 120px, flex: 1)
+    → AuthOverlay wraps here when unauthenticated
+    → children
+```
+
+### PageHeader (`src/layout/PageHeader/`)
+
+A reusable page title component for pages that share a consistent header
+pattern. **Separate from MainLayout** — pages opt in by including it.
+
+```tsx
+import { PageHeader } from "@/layout/PageHeader";
+
+<PageHeader title="Page Title" subtitle="Optional subtitle text" />;
+```
+
+- Used by: `/prototypes`, `/design-system`, `/system-design`
+- NOT used by: `/prototypes/ralli` (has custom layout), landing page, signin
+- Props: `title: string`, `subtitle?: string`
+- Renders a max-width container with consistent typography and a bottom border
+
+### Adding New Pages
+
+1. **Standard page with header**: Add `<PageHeader>` at the top of your page
+   component. MainLayout handles the navbar and spacing automatically.
+2. **Custom layout page** (like `/prototypes/ralli`): Just render your content
+   directly — MainLayout still handles the navbar offset via `padding-top`.
+3. **Public page** (no auth overlay): Add the pathname to `shouldShowOverlay`
+   exclusion list in `MainLayout`.
+4. **Page with SubNavbar**: SubNavbar auto-detects prototype sub-pages from the
+   `PROTOTYPES` array in `src/interfaces/prototypes.ts`. Add your prototype
+   there and the SubNavbar + padding adjustment happens automatically.
+
+### AuthOverlay (`src/components/AuthOverlay/`)
+
+Shows a blurred content preview with a "Sign In" prompt for unauthenticated
+users on protected routes. It wraps the content area inside MainLayout using
+`flex: 1` to fill the remaining viewport. The overlay is absolutely positioned
+within the wrapper, covering the full area. The fixed navbar (z-index: 1000)
+sits above the overlay (z-index: 10).
+
 ## Supabase Database & Migrations
 
 **NEVER use Supabase MCP tools (`apply_migration`, `execute_sql`) to modify the
@@ -185,6 +266,48 @@ Supabase are:
   `mcp_supabase_get_advisors`, and other read-only MCP tools for inspection.
 - If a migration needs to be repaired, inform the user and let them run the
   repair commands manually.
+
+### Schema File Ordering (CRITICAL)
+
+Supabase applies schema files in **lexicographic (alphabetical) order** when
+running `supabase db diff`. This means if schema file `apps.sql` references a
+function defined in `good_things.sql`, it will **fail** because `a` sorts before
+`g` and the function doesn't exist yet when `apps.sql` runs.
+
+**Rules to prevent ordering bugs:**
+
+1. **Shared functions** (e.g. `update_updated_at_column()`) MUST live in
+   `supabase/schemas/_functions.sql`. The `_` prefix ensures it sorts before all
+   letter-named files, so functions are always available.
+2. **NEVER define shared functions inside individual table schema files.** If a
+   function is used by more than one table, it belongs in `_functions.sql`.
+3. **NEVER duplicate function definitions** across schema files with
+   `CREATE OR REPLACE` as a workaround — this is fragile and error-prone.
+4. **Table dependencies**: If table B has a foreign key to table A, name the
+   files so A sorts before B (e.g. `good_things.sql` before
+   `good_things_media.sql`). If naming alone can't solve it, use the
+   `schema_paths` array in `supabase/config.toml` to set explicit ordering.
+5. **When creating a new schema file**, always check: does this schema reference
+   any function or table defined in another file? If so, verify the alphabetical
+   order is correct.
+
+**Current shared functions in `_functions.sql`:**
+
+- `update_updated_at_column()` — used by: `apps`, `consultation_requests`,
+  `events`, `event_guests`, `goals`, `good_things`, `notion_templates`,
+  `saved_reports`
+
+## Storybook Documentation
+
+**After modifying any design-system component** (types, props, variants,
+styles), always check if the corresponding `*.stories.tsx` file needs updating:
+
+- If new props, variants, or sizes are added, update `argTypes` options and add
+  stories demonstrating the new options.
+- If props are renamed or removed, update stories accordingly.
+- If default values change, verify stories still render correctly.
+- Run Storybook (`npm run start` in `design-system/`) to verify changes appear
+  correctly in the controls panel and documentation.
 
 ## Code Style
 

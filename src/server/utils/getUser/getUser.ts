@@ -4,16 +4,33 @@ import { querySupabase } from '@/db'
 import { UserGroup } from '@/interfaces/user'
 
 import { getNextAuthJWT } from '../getNextAuthJWT'
+import { getSupabaseSession } from '../supabase/getSupabaseSession'
 
 interface UserRoleRow {
   role: string
 }
 
 export const getUser = async <T extends GetServerSidePropsContext['req']>(req: T) => {
-  const session = await getNextAuthJWT(req)
+  // First try NextAuth session
+  let session = await getNextAuthJWT(req)
+  let userId: string | undefined
+  let name: string | undefined
+  let email: string | null = null
 
-  // Extract user ID from session - JWT token stores id at top level
-  const userId = (session as any)?.id || (session as any)?.user?.id
+  // If no NextAuth session, try Supabase session from cookies
+  if (!session) {
+    const supabaseSession = await getSupabaseSession(req as any)
+    if (supabaseSession?.user) {
+      userId = supabaseSession.user.id
+      name = supabaseSession.user.user_metadata?.name || supabaseSession.user.email || undefined
+      email = supabaseSession.user.email || null
+    }
+  } else {
+    // Extract from NextAuth session
+    userId = (session as any)?.id || (session as any)?.user?.id
+    name = (session as any)?.name || (session as any)?.user?.name
+    email = (session as any)?.email || (session as any)?.user?.email || null
+  }
 
   let roles: UserGroup[] = []
 
@@ -41,12 +58,8 @@ export const getUser = async <T extends GetServerSidePropsContext['req']>(req: T
     }
   }
 
-  // Extract name and email from session
-  const name = (session as any)?.name || (session as any)?.user?.name || 'placeholder_name'
-  const email = (session as any)?.email || (session as any)?.user?.email || null
-
   const userProfile = {
-    name,
+    name: name || 'placeholder_name',
     email,
     roles,
   }

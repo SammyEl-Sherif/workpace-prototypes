@@ -22,13 +22,13 @@ type DividerComponent = <C extends React.ElementType = 'hr'>(
 
 // @ts-expect-error - Generic forwardRef is not directly supported in TypeScript
 const Divider = forwardRef(function Divider<C extends React.ElementType = 'hr'>(
-  { as, orientation = 'horizontal', size = 'md', color, ...rest }: DividerProps<C>,
+  { as, orientation = 'horizontal', size = 'md', color, className: userClassName, style: userStyle, ...rest }: DividerProps<C>,
   ref?: PolymorphicRef<C>,
 ) {
   const asComponent: React.ElementType = as || 'hr';
 
   const className = clsx(
-    rest.className,
+    userClassName,
     styles.divider,
     styles[orientation],
     styles[size],
@@ -39,7 +39,7 @@ const Divider = forwardRef(function Divider<C extends React.ElementType = 'hr'>(
       as={asComponent}
       className={className}
       style={{
-        ...rest.style,
+        ...userStyle,
         ...(color && { borderColor: color })
       }}
       ref={ref}

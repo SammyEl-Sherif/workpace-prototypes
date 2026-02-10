@@ -1,0 +1,138 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Process Section — How We Work (blue background)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.section {
+  padding: 6rem 0;
+  background: $color-primary-600;
+  color: $color-neutral-white;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 4rem;
+}
+
+.title {
+  color: $color-neutral-white;
+  margin: 0 0 $size-200;
+}
+
+.subtitle {
+  color: $color-primary-100;
+  margin: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+
+/* ── Step Card ── */
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+}
+
+.stepIcon {
+  position: relative;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background: rgba($color-neutral-white, 0.1);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: $size-200;
+}
+
+.icon {
+  font-size: 1.5rem;
+}
+
+.stepNumber {
+  position: absolute;
+  top: -$size-75;
+  right: -$size-75;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: $color-neutral-white;
+  color: $color-primary-600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $font-body-sm-font-size;
+  font-weight: $font-weight-bold;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.stepTitle {
+  color: $color-neutral-white;
+  margin: 0 0 $size-100;
+}
+
+.stepDescription {
+  color: $color-primary-100;
+  margin: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Scroll Reveal Animation
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+
+  &.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Responsive
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 1023px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem;
+  }
+}
+
+@media (max-width: 639px) {
+  .section {
+    padding: 4rem 0;
+  }
+
+  .container {
+    padding: 0 1.25rem;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .header {
+    margin-bottom: 3rem;
+  }
+}

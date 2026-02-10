@@ -254,10 +254,10 @@ const SupabaseAuth: FC<SupabaseAuthProps> = ({ defaultMode = 'signin' }) => {
             <Image src={Logo} alt="WorkPace Logo" className={styles.logo} />
           </Link>
           <Text variant="headline-lg" className={styles.brandTitle}>
-            WorkPace Prototypes
+            WorkPace
           </Text>
           <Text variant="body-md" className={styles.brandSubtitle}>
-            Log in to continue to WorkPace Prototypes.
+            Log in to continue to WorkPace.
           </Text>
         </div>
 

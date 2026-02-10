@@ -5,12 +5,14 @@ This directory contains Supabase CLI configuration and declarative schema files.
 ## Quick Start
 
 1. **Link your project** (first time only):
+
    ```bash
    export SUPABASE_PROJECT_REF=your-project-ref-id
    npm run supabase:link
    ```
 
 2. **Generate migration from schema changes**:
+
    ```bash
    npm run supabase:diff migration_name
    ```
@@ -126,7 +128,7 @@ supabase db diff
 - `config.toml` - Supabase CLI configuration
 - `schemas/` - Declarative schema files (desired final state)
   - `good_things.sql` - Schema for goals and good_things tables
-  - `prototypes.sql` - Schema for prototypes table
+  - `apps.sql` - Schema for apps table
   - `user_roles.sql` - Schema for user_roles table
 - `migrations/` - Generated migration files (auto-generated, do not edit
   manually)
@@ -134,22 +136,26 @@ supabase db diff
 ## Workflow Example
 
 1. **Edit schema file**:
+
    ```bash
    # Edit supabase/schemas/good_things.sql
    # Add or modify table definitions
    ```
 
 2. **Generate migration**:
+
    ```bash
    npm run supabase:diff update_good_things_schema
    ```
 
 3. **Review migration**:
+
    ```bash
    cat supabase/migrations/*_update_good_things_schema.sql
    ```
 
 4. **Commit changes**:
+
    ```bash
    git add supabase/
    git commit -m "Update good things schema"
@@ -193,6 +199,7 @@ your schema file against your remote database.
 **Setup Steps:**
 
 1. **Update Supabase CLI** (recommended - you're on v2.53.6, latest is v2.72.7):
+
    ```bash
    npm run supabase:update
    # or
@@ -200,11 +207,13 @@ your schema file against your remote database.
    ```
 
 2. **Ensure Docker is running**:
+
    ```bash
    docker ps  # Should show running containers
    ```
 
 3. **Clean up any conflicting containers**:
+
    ```bash
    # Stop any existing Supabase instances
    supabase stop
