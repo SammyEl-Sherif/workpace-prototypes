@@ -7,5 +7,6 @@ export enum Routes {
   ABOUT = '/about',
   PROFILE = '/profile',
   TEMPLATES = '/templates',
+  ADMIN = '/admin',
   ADMIN_FEATURES = '/admin/features',
 }

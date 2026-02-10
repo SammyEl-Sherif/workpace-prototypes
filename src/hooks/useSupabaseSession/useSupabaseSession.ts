@@ -66,7 +66,12 @@ export const useSupabaseSession = () => {
             if (response.ok) {
               const data = await response.json()
 
-              if (data.data && data.data.user && data.data.access_token && data.data.refresh_token) {
+              if (
+                data.data &&
+                data.data.user &&
+                data.data.access_token &&
+                data.data.refresh_token
+              ) {
                 // Set session in Supabase client
                 const supabase = getSupabaseClient()
                 const { error: setSessionError } = await supabase.auth.setSession({
@@ -120,10 +125,7 @@ export const useSupabaseSession = () => {
             },
           })
           // Update cookies to ensure they're in sync
-          await updateSessionCookies(
-            currentSession.access_token,
-            currentSession.refresh_token
-          )
+          await updateSessionCookies(currentSession.access_token, currentSession.refresh_token)
         } else {
           setSession(null)
         }

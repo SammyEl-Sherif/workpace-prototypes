@@ -136,9 +136,7 @@ export async function middleware(request: NextRequestWithAuth) {
   //  - /maintenance → the maintenance page itself (avoid infinite rewrite)
   //  - /admin/*     → admin pages are protected separately by AdminGuard
   const isExempt =
-    pathname === '/signin' ||
-    pathname === '/maintenance' ||
-    pathname.startsWith('/admin')
+    pathname === '/signin' || pathname === '/maintenance' || pathname.startsWith('/admin')
 
   if (!isExempt) {
     const maintenanceOn = await isMaintenanceEnabled()

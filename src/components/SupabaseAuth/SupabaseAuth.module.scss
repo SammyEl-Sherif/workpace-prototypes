@@ -7,7 +7,12 @@
   align-items: center;
   min-height: 100vh;
   padding: $size-300;
-  background: #fafafa;
+  background: linear-gradient(
+    135deg,
+    $color-neutral-900 0%,
+    $color-accent-800 50%,
+    $color-neutral-900 100%
+  );
 }
 
 .brandSection {

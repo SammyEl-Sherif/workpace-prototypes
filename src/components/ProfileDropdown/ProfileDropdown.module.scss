@@ -1,0 +1,94 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.dropdownContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.profileButton {
+  position: relative;
+}
+
+.buttonContent {
+  display: flex;
+  align-items: center;
+  gap: $size-75;
+}
+
+.buttonText {
+  display: inline-block;
+}
+
+.arrowIcon {
+  display: inline-block;
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.arrowIconOpen {
+  transform: rotate(180deg);
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: calc(100% + $size-50);
+  right: 0;
+  background: $color-neutral-white;
+  border: 1px solid $color-neutral-200;
+  border-radius: $size-100;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  min-width: 160px;
+  z-index: 1000;
+  overflow: hidden;
+  animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.menuItem {
+  display: block;
+  width: 100%;
+  padding: $size-150 $size-200;
+  text-align: left;
+  background: none;
+  border: none;
+  color: $color-neutral-900;
+  font-size: $font-body-md-font-size;
+  font-weight: $font-weight-regular;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-family: inherit;
+
+  &:hover {
+    background-color: $color-neutral-100;
+  }
+
+  &:active {
+    background-color: $color-neutral-200;
+  }
+
+  &:first-child {
+    border-top-left-radius: $size-100;
+    border-top-right-radius: $size-100;
+  }
+
+  &:last-child {
+    border-bottom-left-radius: $size-100;
+    border-bottom-right-radius: $size-100;
+  }
+}
+
+.divider {
+  height: 1px;
+  background-color: $color-neutral-200;
+  margin: $size-50 0;
+}

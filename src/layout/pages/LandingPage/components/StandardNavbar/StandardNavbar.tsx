@@ -7,10 +7,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import { useSupabaseSession, useUser } from '@/hooks'
+import { useSupabaseSession } from '@/hooks'
 import { Routes } from '@/interfaces/routes'
 import Logo from '@/public/favicon.ico'
 
+import { ProfileDropdown } from '@/components/ProfileDropdown'
 import styles from './StandardNavbar.module.scss'
 
 // Type assertion workaround for Button component type issue
@@ -18,7 +19,6 @@ const ButtonComponent = Button as any
 
 const StandardNavbar = () => {
   const { data, status } = useSession()
-  const { signOut } = useUser()
   const { user: supabaseUser, isAuthenticated: isSupabaseAuthenticated } = useSupabaseSession()
   const router = useRouter()
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false)
@@ -26,10 +26,6 @@ const StandardNavbar = () => {
 
   // Check if user is authenticated via either NextAuth or Supabase
   const isAuthenticated = status === 'authenticated' || isSupabaseAuthenticated
-
-  const handleSignOut = () => {
-    signOut()
-  }
 
   const handleSignIn = () => {
     router.push(Routes.SIGNIN)
@@ -78,9 +74,17 @@ const StandardNavbar = () => {
           </div>
           <div className={styles.authSection}>
             {isAuthenticated ? (
-              <ButtonComponent onClick={handleSignOut} variant="default-secondary">
-                Sign Out
-              </ButtonComponent>
+              <ProfileDropdown
+                userName={
+                  (data?.user && 'name' in data.user ? data.user.name : null) ||
+                  (supabaseUser && 'user_metadata' in supabaseUser
+                    ? supabaseUser.user_metadata?.name
+                    : null) ||
+                  (data?.user && 'email' in data.user ? data.user.email : null) ||
+                  (supabaseUser && 'email' in supabaseUser ? supabaseUser.email : null) ||
+                  'User'
+                }
+              />
             ) : (
               <ButtonComponent onClick={handleSignIn} variant="default-secondary">
                 Sign In
@@ -153,9 +157,17 @@ const StandardNavbar = () => {
 
           <div className={styles.mobileAuthSection}>
             {isAuthenticated ? (
-              <ButtonComponent onClick={handleSignOut} variant="default-secondary">
-                Sign Out
-              </ButtonComponent>
+              <ProfileDropdown
+                userName={
+                  (data?.user && 'name' in data.user ? data.user.name : null) ||
+                  (supabaseUser && 'user_metadata' in supabaseUser
+                    ? supabaseUser.user_metadata?.name
+                    : null) ||
+                  (data?.user && 'email' in data.user ? data.user.email : null) ||
+                  (supabaseUser && 'email' in supabaseUser ? supabaseUser.email : null) ||
+                  'User'
+                }
+              />
             ) : (
               <ButtonComponent onClick={handleSignIn} variant="default-secondary">
                 Sign In

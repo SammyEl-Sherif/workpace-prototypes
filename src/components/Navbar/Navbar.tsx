@@ -14,6 +14,7 @@ import Logo from '@/public/favicon.ico'
 import { getAppName } from '@/utils'
 
 import { EnvironmentIndicator } from '../EnvironmentIndicator'
+import { ProfileDropdown } from '../ProfileDropdown'
 import styles from './Navbar.module.scss'
 
 // Type assertion workaround for Button component type issue
@@ -116,13 +117,7 @@ export const Navbar = () => {
               <>🚫</>
             )}
             {isAuthenticated ? (
-              <ButtonComponent
-                onClick={signOut}
-                variant="default-secondary"
-                className={cn({ [styles.hide]: isCollapsed })}
-              >
-                Sign out
-              </ButtonComponent>
+              <ProfileDropdown userName={userName} className={cn({ [styles.hide]: isCollapsed })} />
             ) : (
               <ButtonComponent
                 onClick={() => (window.location.href = '/signin')}
@@ -251,13 +246,7 @@ export const Navbar = () => {
               <>🚫</>
             )}
             {isAuthenticated ? (
-              <ButtonComponent
-                onClick={signOut}
-                variant="default-secondary"
-                className={cn({ [styles.hide]: isCollapsed })}
-              >
-                Sign out
-              </ButtonComponent>
+              <ProfileDropdown userName={userName} className={cn({ [styles.hide]: isCollapsed })} />
             ) : (
               <ButtonComponent
                 onClick={() => (window.location.href = '/signin')}

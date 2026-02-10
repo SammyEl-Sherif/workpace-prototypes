@@ -62,8 +62,8 @@ export async function query<T extends QueryResultRow = QueryResultRow>(
   const text = loadSql(sqlPath)
   const poolToUse = connectionPool || pool
 
-  // Log which database is being used (only in development)
-  if (process.env.NODE_ENV !== 'production') {
+  // Log which database is being used (only if DEBUG_DB_QUERIES is enabled)
+  if (process.env.DEBUG_DB_QUERIES === 'true') {
     const dbInfo = getDbInfo(poolToUse)
     console.log(`[DB Query] Using ${dbInfo.type} database for: ${sqlPath}`)
   }

@@ -13,7 +13,7 @@ export const getServerSideProps: GetServerSideProps = withPageRequestWrapper(asy
 const Profile = () => {
   return (
     <>
-      <DocumentTitle title="About" />
+      <DocumentTitle title="Profile" />
       <ProfilePage />
     </>
   )
