@@ -2,9 +2,9 @@
 
 .header {
   width: 100%;
-  max-width: 1120px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: $size-600 $size-300 $size-400;
+  padding: $size-600 2rem $size-400;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
 
@@ -28,6 +28,6 @@
 
 @media #{$mq-sm-only} {
   .header {
-    padding: $size-400 $size-200 $size-300;
+    padding: $size-400 1rem $size-300;
   }
 }

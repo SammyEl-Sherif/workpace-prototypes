@@ -12,9 +12,11 @@
   z-index: 100;
   margin-bottom: 0;
   width: 100%;
-  max-width: 1120px;
+  max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
+  padding-left: 2rem;
+  padding-right: 2rem;
 
   .headerContent {
     background: transparent;
@@ -58,9 +60,9 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 1120px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 $size-300;
+  padding: 0 2rem;
 }
 
 .section {
@@ -234,13 +236,13 @@
 .footer {
   margin-top: $size-600;
   margin-bottom: 0;
-  padding: $size-500 $size-300;
+  padding: $size-500 2rem;
   background: transparent;
   border-top: 1px solid rgba(0, 0, 0, 0.08);
   color: #000000;
   text-align: center;
   width: 100%;
-  max-width: 1120px;
+  max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
 }

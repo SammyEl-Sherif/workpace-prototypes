@@ -7,7 +7,8 @@
   right: 0;
   z-index: 1000;
   background: $color-neutral-white;
-  border-bottom: 1px solid transparent;
+  border-bottom: 1px solid $color-neutral-200;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
   padding: 1rem 0;
   transition:
     box-shadow 0.3s ease,
@@ -17,7 +18,6 @@
 
 .scrolled {
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06);
-  border-bottom-color: $color-neutral-200;
   background: rgba($color-neutral-white, 0.95);
   backdrop-filter: blur(12px);
 }
