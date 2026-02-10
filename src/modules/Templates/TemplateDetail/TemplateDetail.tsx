@@ -133,10 +133,7 @@ export const TemplateDetail = () => {
     <div className={styles.page}>
       <Breadcrumbs
         linkAs={Link}
-        items={[
-          { label: 'Templates', href: '/templates' },
-          { label: template.title },
-        ]}
+        items={[{ label: 'Templates', href: '/templates' }, { label: template.title }]}
         size="lg"
       />
       {/* ── Hero ── */}

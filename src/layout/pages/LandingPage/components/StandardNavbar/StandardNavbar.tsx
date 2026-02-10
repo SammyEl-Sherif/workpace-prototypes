@@ -72,11 +72,8 @@ const StandardNavbar = () => {
             <Link href={Routes.TEMPLATES} className={styles.navLink}>
               Templates
             </Link>
-            <Link href={Routes.SYSTEM_DESIGN} className={styles.navLink}>
-              System Design
-            </Link>
-            <Link href={Routes.DESIGN_SYSTEM} className={styles.navLink}>
-              Design System
+            <Link href={Routes.ABOUT} className={styles.navLink}>
+              About
             </Link>
           </div>
           <div className={styles.authSection}>
@@ -149,19 +146,8 @@ const StandardNavbar = () => {
             <Link href={Routes.TEMPLATES} className={styles.mobileNavLink} onClick={closeMobileNav}>
               Templates
             </Link>
-            <Link
-              href={Routes.SYSTEM_DESIGN}
-              className={styles.mobileNavLink}
-              onClick={closeMobileNav}
-            >
-              System Design
-            </Link>
-            <Link
-              href={Routes.DESIGN_SYSTEM}
-              className={styles.mobileNavLink}
-              onClick={closeMobileNav}
-            >
-              Design System
+            <Link href={Routes.ABOUT} className={styles.mobileNavLink} onClick={closeMobileNav}>
+              About
             </Link>
           </div>
 

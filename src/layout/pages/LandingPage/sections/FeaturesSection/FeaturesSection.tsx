@@ -41,7 +41,9 @@ const FeaturesSection = () => {
       <div className={styles.container}>
         <div className={styles.grid}>
           {/* Text content */}
-          <div className={cn(styles.textContent, styles.revealLeft, { [styles.visible]: isVisible })}>
+          <div
+            className={cn(styles.textContent, styles.revealLeft, { [styles.visible]: isVisible })}
+          >
             <Text as="h2" variant="headline-lg" className={styles.title}>
               Built for Modern Teams
             </Text>

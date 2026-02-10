@@ -25,8 +25,7 @@ export default function MainLayout({ children }: LayoutProps) {
     status === 'unauthenticated' &&
     pathname !== '/' &&
     pathname !== '/signin' &&
-    pathname !== '/design-system' &&
-    pathname !== '/system-design' &&
+    pathname !== '/about' &&
     !pathname.startsWith('/templates')
 
   // SubNavbar appears on individual app pages (e.g. /apps/sms)

@@ -1,6 +1,11 @@
 import { querySupabase } from '@/db'
 
-import { CreateFeatureFlagInput, FeatureFlag, FeatureFlagMap, UpdateFeatureFlagInput } from './feature-flags.types'
+import {
+  CreateFeatureFlagInput,
+  FeatureFlag,
+  FeatureFlagMap,
+  UpdateFeatureFlagInput,
+} from './feature-flags.types'
 
 export const FeatureFlagsService = {
   async getAll(): Promise<FeatureFlag[]> {
@@ -35,7 +40,11 @@ export const FeatureFlagsService = {
     return results[0]
   },
 
-  async update(id: string, input: UpdateFeatureFlagInput, userId?: string): Promise<FeatureFlag | null> {
+  async update(
+    id: string,
+    input: UpdateFeatureFlagInput,
+    userId?: string
+  ): Promise<FeatureFlag | null> {
     const results = await querySupabase<FeatureFlag>('feature_flags/update.sql', [
       id,
       input.key ?? null,

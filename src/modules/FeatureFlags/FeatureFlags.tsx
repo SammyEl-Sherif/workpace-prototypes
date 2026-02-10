@@ -130,7 +130,9 @@ export const FeatureFlags = () => {
 
     const keyRegex = /^[a-z][a-z0-9_-]*$/
     if (!keyRegex.test(formData.key)) {
-      setFormError('Key must start with a lowercase letter and contain only lowercase letters, numbers, hyphens, and underscores.')
+      setFormError(
+        'Key must start with a lowercase letter and contain only lowercase letters, numbers, hyphens, and underscores.'
+      )
       setIsSubmitting(false)
       return
     }
@@ -365,7 +367,8 @@ export const FeatureFlags = () => {
                   }
                 />
                 <span className={styles.formHint}>
-                  Lowercase letters, numbers, hyphens, and underscores only. Used in code to reference this flag.
+                  Lowercase letters, numbers, hyphens, and underscores only. Used in code to
+                  reference this flag.
                 </span>
               </div>
 
@@ -408,7 +411,9 @@ export const FeatureFlags = () => {
                   </label>
                 </div>
                 <span className={styles.formHint}>
-                  {formData.enabled ? 'Flag will be enabled immediately' : 'Flag will be created in disabled state'}
+                  {formData.enabled
+                    ? 'Flag will be enabled immediately'
+                    : 'Flag will be created in disabled state'}
                 </span>
               </div>
 

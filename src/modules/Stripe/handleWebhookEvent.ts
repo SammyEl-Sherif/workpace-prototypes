@@ -62,9 +62,7 @@ export const handleWebhookEvent = async (event: Stripe.Event): Promise<void> => 
 
     case StripeWebhookEvent.CUSTOMER_SUBSCRIPTION_DELETED: {
       const subscription = event.data.object as Stripe.Subscription
-      console.log(
-        `[Stripe Webhook] Subscription deleted — id: ${subscription.id}`
-      )
+      console.log(`[Stripe Webhook] Subscription deleted — id: ${subscription.id}`)
       // TODO: Revoke Pro access for the user
       break
     }

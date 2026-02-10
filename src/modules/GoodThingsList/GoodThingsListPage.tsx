@@ -153,10 +153,7 @@ export const GoodThingsListPage = () => {
       <div className={styles.breadcrumbsWrapper}>
         <Breadcrumbs
           linkAs={Link}
-          items={[
-            { label: 'Apps', href: '/apps' },
-            { label: 'Good Stuff List' },
-          ]}
+          items={[{ label: 'Apps', href: '/apps' }, { label: 'Good Stuff List' }]}
           size="lg"
         />
       </div>

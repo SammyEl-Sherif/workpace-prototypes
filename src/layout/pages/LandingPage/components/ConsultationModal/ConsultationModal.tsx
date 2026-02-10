@@ -187,9 +187,7 @@ const ConsultationModal = ({ isOpen, onClose }: ConsultationModalProps) => {
                 rel="noopener noreferrer"
                 className={styles.bookingLink}
               >
-                <ButtonComponent variant="brand-secondary">
-                  Book a Meeting →
-                </ButtonComponent>
+                <ButtonComponent variant="brand-secondary">Book a Meeting →</ButtonComponent>
               </a>
             </div>
 
@@ -241,9 +239,13 @@ const ConsultationModal = ({ isOpen, onClose }: ConsultationModalProps) => {
                   >
                     {s.label}
                   </Text>
-                  {i < STEPS.length - 1 && <div className={cn(styles.stepLine, {
-                    [styles.completed]: i < currentStepIndex,
-                  })} />}
+                  {i < STEPS.length - 1 && (
+                    <div
+                      className={cn(styles.stepLine, {
+                        [styles.completed]: i < currentStepIndex,
+                      })}
+                    />
+                  )}
                 </div>
               ))}
             </div>
@@ -255,20 +257,26 @@ const ConsultationModal = ({ isOpen, onClose }: ConsultationModalProps) => {
                   <InputField
                     label="Full Name"
                     value={form.name}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateField('name', e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      updateField('name', e.target.value)
+                    }
                     required
                   />
                   <InputField
                     label="Email Address"
                     type="email"
                     value={form.email}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateField('email', e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      updateField('email', e.target.value)
+                    }
                     required
                   />
                   <InputField
                     label="Company / Organization"
                     value={form.company}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateField('company', e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      updateField('company', e.target.value)
+                    }
                   />
                 </div>
               )}
@@ -278,7 +286,9 @@ const ConsultationModal = ({ isOpen, onClose }: ConsultationModalProps) => {
                   <Select
                     label="Service Needed"
                     value={form.service}
-                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) => updateField('service', e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                      updateField('service', e.target.value)
+                    }
                     placeholder="Select a service"
                     required
                   >
@@ -291,7 +301,9 @@ const ConsultationModal = ({ isOpen, onClose }: ConsultationModalProps) => {
                   <Select
                     label="Estimated Budget"
                     value={form.budget}
-                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) => updateField('budget', e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                      updateField('budget', e.target.value)
+                    }
                     placeholder="Select a range"
                   >
                     <option value="under-1k">Under $1,000</option>
@@ -304,7 +316,9 @@ const ConsultationModal = ({ isOpen, onClose }: ConsultationModalProps) => {
                   <Select
                     label="Timeline"
                     value={form.timeline}
-                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) => updateField('timeline', e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                      updateField('timeline', e.target.value)
+                    }
                     placeholder="Select a timeline"
                   >
                     <option value="asap">ASAP</option>
@@ -368,7 +382,11 @@ const ConsultationModal = ({ isOpen, onClose }: ConsultationModalProps) => {
                           Service
                         </Text>
                         <Text as="span" variant="body-sm">
-                          {form.service ? form.service.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()) : '—'}
+                          {form.service
+                            ? form.service
+                                .replace(/-/g, ' ')
+                                .replace(/\b\w/g, (c) => c.toUpperCase())
+                            : '—'}
                         </Text>
                       </div>
                       <div className={styles.summaryItem}>
@@ -376,7 +394,11 @@ const ConsultationModal = ({ isOpen, onClose }: ConsultationModalProps) => {
                           Budget
                         </Text>
                         <Text as="span" variant="body-sm">
-                          {form.budget ? form.budget.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()) : '—'}
+                          {form.budget
+                            ? form.budget
+                                .replace(/-/g, ' ')
+                                .replace(/\b\w/g, (c) => c.toUpperCase())
+                            : '—'}
                         </Text>
                       </div>
                       <div className={styles.summaryItem}>
@@ -384,7 +406,11 @@ const ConsultationModal = ({ isOpen, onClose }: ConsultationModalProps) => {
                           Timeline
                         </Text>
                         <Text as="span" variant="body-sm">
-                          {form.timeline ? form.timeline.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()) : '—'}
+                          {form.timeline
+                            ? form.timeline
+                                .replace(/-/g, ' ')
+                                .replace(/\b\w/g, (c) => c.toUpperCase())
+                            : '—'}
                         </Text>
                       </div>
                     </div>
@@ -404,7 +430,11 @@ const ConsultationModal = ({ isOpen, onClose }: ConsultationModalProps) => {
             {/* Footer Buttons */}
             <div className={styles.footer}>
               {step !== 'details' ? (
-                <ButtonComponent variant="default-secondary" onClick={handleBack} disabled={isSubmitting}>
+                <ButtonComponent
+                  variant="default-secondary"
+                  onClick={handleBack}
+                  disabled={isSubmitting}
+                >
                   Back
                 </ButtonComponent>
               ) : (

@@ -56,10 +56,7 @@ export const Sms = () => {
       <div className={styles.breadcrumbsWrapper}>
         <Breadcrumbs
           linkAs={Link}
-          items={[
-            { label: 'Apps', href: '/apps' },
-            { label: 'SMS' },
-          ]}
+          items={[{ label: 'Apps', href: '/apps' }, { label: 'SMS' }]}
           size="lg"
         />
       </div>

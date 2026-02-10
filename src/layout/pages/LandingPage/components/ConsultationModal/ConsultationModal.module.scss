@@ -29,9 +29,7 @@
   position: relative;
   background: $color-neutral-white;
   border-radius: $size-200;
-  box-shadow:
-    0 24px 64px rgba(0, 0, 0, 0.16),
-    0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.16), 0 2px 8px rgba(0, 0, 0, 0.08);
   width: 100%;
   max-width: 560px;
   max-height: 90vh;
@@ -61,9 +59,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition:
-    background 0.2s ease,
-    color 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease;
 
   &:hover {
     background: $color-neutral-100;
@@ -204,9 +200,7 @@
   background: $color-neutral-white;
   resize: vertical;
   min-height: 100px;
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 
   &::placeholder {
     color: $color-neutral-400;
@@ -351,9 +345,7 @@
   text-decoration: underline;
   text-decoration-color: rgba($color-primary-600, 0.3);
   text-underline-offset: 2px;
-  transition:
-    color 0.2s ease,
-    text-decoration-color 0.2s ease;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
 
   &:hover {
     color: $color-primary-700;
@@ -380,13 +372,21 @@
    ═══════════════════════════════════════════════════════════════════════════ */
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes fadeOut {
-  from { opacity: 1; }
-  to { opacity: 0; }
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 
 @keyframes slideIn {

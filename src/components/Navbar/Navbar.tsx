@@ -85,11 +85,8 @@ export const Navbar = () => {
             <div className={styles.headingAndLinks}>
               <div className={styles.linksHeading}>Info</div>
               <div className={styles.links}>
-                <Link href={Routes.DESIGN_SYSTEM} className={styles.links}>
-                  🎨 Design System
-                </Link>
-                <Link href={Routes.SYSTEM_DESIGN} className={styles.links}>
-                  🏗️ System Design
+                <Link href={Routes.ABOUT} className={styles.links}>
+                  ℹ️ About
                 </Link>
               </div>
             </div>
@@ -226,24 +223,14 @@ export const Navbar = () => {
             <div className={cn(styles.divider, { [styles.hide]: isCollapsed })} />
             <div className={cn(styles.linksHeading, { [styles.hide]: isCollapsed })}>Info</div>
             {!isCollapsed && (
-              <>
-                <Link className={styles.links} href={Routes.DESIGN_SYSTEM}>
-                  🎨 Design System
-                </Link>
-                <Link className={styles.links} href={Routes.SYSTEM_DESIGN}>
-                  🏗️ System Design
-                </Link>
-              </>
+              <Link className={styles.links} href={Routes.ABOUT}>
+                ℹ️ About
+              </Link>
             )}
             {isCollapsed && (
-              <>
-                <Link className={styles.links} href={Routes.DESIGN_SYSTEM} title="Design System">
-                  🎨
-                </Link>
-                <Link className={styles.links} href={Routes.SYSTEM_DESIGN} title="System Design">
-                  🏗️
-                </Link>
-              </>
+              <Link className={styles.links} href={Routes.ABOUT} title="About">
+                ℹ️
+              </Link>
             )}
           </div>
         </div>

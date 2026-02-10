@@ -78,9 +78,7 @@ export const FeatureFlagsContextProvider: FC<FeatureFlagsContextProviderProps> =
   )
 
   return (
-    <FeatureFlagsContext.Provider value={contextValue}>
-      {children}
-    </FeatureFlagsContext.Provider>
+    <FeatureFlagsContext.Provider value={contextValue}>{children}</FeatureFlagsContext.Provider>
   )
 }
 

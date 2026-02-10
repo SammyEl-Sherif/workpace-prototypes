@@ -61,16 +61,6 @@ const FooterSection = () => {
             </Text>
             <ul className={styles.linkList}>
               <li>
-                <Link href={Routes.DESIGN_SYSTEM} className={styles.link}>
-                  Design System
-                </Link>
-              </li>
-              <li>
-                <Link href={Routes.SYSTEM_DESIGN} className={styles.link}>
-                  System Design
-                </Link>
-              </li>
-              <li>
                 <Link href={Routes.ABOUT} className={styles.link}>
                   About
                 </Link>

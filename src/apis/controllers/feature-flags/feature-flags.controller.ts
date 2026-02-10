@@ -1,7 +1,12 @@
 import { HttpResponse } from '@/server/types'
 
 import { FeatureFlagsService } from './feature-flags.service'
-import { CreateFeatureFlagInput, FeatureFlag, FeatureFlagMap, UpdateFeatureFlagInput } from './feature-flags.types'
+import {
+  CreateFeatureFlagInput,
+  FeatureFlag,
+  FeatureFlagMap,
+  UpdateFeatureFlagInput,
+} from './feature-flags.types'
 
 export const getFeatureFlagsController = async (): Promise<HttpResponse<FeatureFlag[]>> => {
   try {

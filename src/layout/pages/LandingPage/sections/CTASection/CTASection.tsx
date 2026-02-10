@@ -37,11 +37,7 @@ const CTASection = ({ onBookConsultation }: CTASectionProps) => {
               Schedule a Consultation →
             </ButtonComponent>
             <Link href={Routes.TEMPLATES} className={styles.browseLink}>
-              <ButtonComponent
-                as="span"
-                variant="default-secondary"
-                className={styles.outlineBtn}
-              >
+              <ButtonComponent as="span" variant="default-secondary" className={styles.outlineBtn}>
                 Browse Templates
               </ButtonComponent>
             </Link>

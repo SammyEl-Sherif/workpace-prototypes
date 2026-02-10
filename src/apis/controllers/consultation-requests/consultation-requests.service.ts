@@ -16,18 +16,15 @@ export const ConsultationRequestsService = {
       throw new Error('Service is required')
     }
 
-    const results = await querySupabase<ConsultationRequest>(
-      'consultation_requests/create.sql',
-      [
-        input.name.trim(),
-        input.email.trim(),
-        input.company?.trim() || null,
-        input.service.trim(),
-        input.budget?.trim() || null,
-        input.timeline?.trim() || null,
-        input.message?.trim() || null,
-      ]
-    )
+    const results = await querySupabase<ConsultationRequest>('consultation_requests/create.sql', [
+      input.name.trim(),
+      input.email.trim(),
+      input.company?.trim() || null,
+      input.service.trim(),
+      input.budget?.trim() || null,
+      input.timeline?.trim() || null,
+      input.message?.trim() || null,
+    ])
 
     if (results.length === 0) {
       throw new Error('Failed to create consultation request')

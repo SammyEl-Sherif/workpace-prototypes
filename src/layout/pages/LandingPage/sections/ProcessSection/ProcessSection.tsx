@@ -26,8 +26,7 @@ const steps = [
   {
     icon: '🤝',
     title: 'Support & Iterate',
-    description:
-      'Ongoing support and knowledge transfer ensure your team maximizes the value.',
+    description: 'Ongoing support and knowledge transfer ensure your team maximizes the value.',
   },
 ]
 

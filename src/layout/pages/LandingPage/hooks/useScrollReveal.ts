@@ -18,7 +18,7 @@ export function useScrollReveal(options?: { threshold?: number; rootMargin?: str
       {
         threshold: options?.threshold ?? 0.15,
         rootMargin: options?.rootMargin ?? '0px',
-      },
+      }
     )
 
     observer.observe(element)

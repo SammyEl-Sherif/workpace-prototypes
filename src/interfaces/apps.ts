@@ -43,16 +43,6 @@ export const APPS: App[] = [
     tech: 'Notion API, OpenAI API',
   },
   {
-    name: `💰 ${routeToName(Routes.BUDGET_BOT)}`,
-    path: `/${Routes.BUDGET_BOT}`,
-    description:
-      'A budgeting tool that helps you understand your financial levers by tracking income, expenses, savings, and calculating what you have left for wants.',
-    icon: '💰',
-    permittedRoles: [UserGroup.Admin],
-    stage: AppStage.WIP,
-    tech: 'React, TypeScript',
-  },
-  {
     name: `💬 ${routeToName(Routes.SMS)}`,
     path: `/${Routes.SMS}`,
     description: 'Send quick SMS notifications to any phone number.',
@@ -75,14 +65,6 @@ export const AppMeta = {
     permittedRoles: [UserGroup.Admin],
     stage: AppStage.WIP,
     tech: 'Notion API, OpenAI API',
-  },
-  [Routes.BUDGET_BOT]: {
-    description:
-      'A budgeting tool that helps you understand your financial levers by tracking income, expenses, savings, and calculating what you have left for wants.',
-    icon: '💰',
-    permittedRoles: [UserGroup.Admin],
-    stage: AppStage.WIP,
-    tech: 'React, TypeScript',
   },
   [Routes.SMS]: {
     description: 'Send quick SMS notifications to any phone number.',

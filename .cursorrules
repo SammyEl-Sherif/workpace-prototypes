@@ -170,9 +170,8 @@ composed from these layers in `src/pages/_app.tsx`:
 | -------------------------- | --------------------------------- | ---------- | ------------ |
 | `/` (landing)              | Own `StandardNavbar` + custom     | No         | No           |
 | `/signin`                  | No layout (standalone)            | No         | No           |
+| `/about`                   | `MainLayout`                      | Yes        | No           |
 | `/prototypes`              | `MainLayout`                      | Yes        | Yes          |
-| `/design-system`           | `MainLayout`                      | Yes        | No           |
-| `/system-design`           | `MainLayout`                      | Yes        | No           |
 | `/prototypes/ralli` (etc.) | `MainLayout` + `SubNavbar` active | No         | Yes          |
 
 ### MainLayout (`src/layout/MainLayout/`)
@@ -297,6 +296,18 @@ function defined in `good_things.sql`, it will **fail** because `a` sorts before
 - `update_updated_at_column()` — used by: `apps`, `consultation_requests`,
   `events`, `event_guests`, `goals`, `good_things`, `notion_templates`,
   `saved_reports`
+
+## Storybook Documentation
+
+**After modifying any design-system component** (types, props, variants,
+styles), always check if the corresponding `*.stories.tsx` file needs updating:
+
+- If new props, variants, or sizes are added, update `argTypes` options and add
+  stories demonstrating the new options.
+- If props are renamed or removed, update stories accordingly.
+- If default values change, verify stories still render correctly.
+- Run Storybook (`npm run start` in `design-system/`) to verify changes appear
+  correctly in the controls panel and documentation.
 
 ## Code Style
 

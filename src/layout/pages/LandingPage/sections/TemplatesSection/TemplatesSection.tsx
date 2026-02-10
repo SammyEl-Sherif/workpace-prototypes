@@ -85,8 +85,8 @@ const TemplatesSection = () => {
             Notion Templates
           </Text>
           <Text as="p" variant="body-lg-paragraph" className={styles.subtitle}>
-            Choose the plan that fits your needs. All templates are designed to boost productivity and
-            streamline your workflow.
+            Choose the plan that fits your needs. All templates are designed to boost productivity
+            and streamline your workflow.
           </Text>
         </div>
 
@@ -98,7 +98,7 @@ const TemplatesSection = () => {
                 styles.card,
                 styles.reveal,
                 { [styles.visible]: isVisible },
-                { [styles.popularCard]: plan.popular },
+                { [styles.popularCard]: plan.popular }
               )}
               style={{ transitionDelay: `${200 + index * 150}ms` }}
             >

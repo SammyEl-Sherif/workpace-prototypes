@@ -24,7 +24,9 @@ export const updateFeatureFlagRoute = withApiAuth(
       )
 
       if (status === 400) {
-        response.status(400).json({ error: 'Invalid input. Key must be lowercase with hyphens/underscores only.' })
+        response
+          .status(400)
+          .json({ error: 'Invalid input. Key must be lowercase with hyphens/underscores only.' })
         return
       }
 

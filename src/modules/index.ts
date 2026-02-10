@@ -1,6 +1,6 @@
+export * from './About'
 export * from './AccomplishmentReport'
 export * from './WorkpaceApps'
-export * from './BudgetBot'
 export * from './DesignSystem'
 export * from './FeatureFlags'
 export * from './SystemDesign'

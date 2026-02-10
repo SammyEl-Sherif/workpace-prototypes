@@ -1,6 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import { getFeatureFlagsController, createFeatureFlagController } from '@/apis/controllers/feature-flags'
+import {
+  getFeatureFlagsController,
+  createFeatureFlagController,
+} from '@/apis/controllers/feature-flags'
 import { withApiAuth } from '@/server/utils'
 
 /**
@@ -35,7 +38,9 @@ export const createFeatureFlagRoute = withApiAuth(
       )
 
       if (status === 400) {
-        response.status(400).json({ error: 'Invalid input. Key must be lowercase with hyphens/underscores only.' })
+        response
+          .status(400)
+          .json({ error: 'Invalid input. Key must be lowercase with hyphens/underscores only.' })
         return
       }
 
