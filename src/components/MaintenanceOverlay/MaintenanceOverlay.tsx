@@ -65,6 +65,12 @@ export const MaintenanceOverlay: FC<MaintenanceOverlayProps> = ({ children }) =>
   const isSigninPage = router.pathname === '/signin'
   const maintenanceActive = isEnabled('maintenance-overlay')
 
+  // Check if we should hide the sign in button (workpace.io domain in production)
+  const shouldHideSignIn =
+    typeof window !== 'undefined' &&
+    process.env.NODE_ENV === 'production' &&
+    window.location.hostname === 'workpace.io'
+
   // Always bypass on admin routes and signin
   if (isAdminRoute || isSigninPage || isAdmin) {
     return <>{children}</>
@@ -97,11 +103,13 @@ export const MaintenanceOverlay: FC<MaintenanceOverlayProps> = ({ children }) =>
           <Text variant="body-sm" className={styles.subtitle}>
             Please check back soon — we won&apos;t be long!
           </Text>
-          <div className={styles.actions}>
-            <Button variant="brand-secondary" onClick={handleSignIn}>
-              Sign In
-            </Button>
-          </div>
+          {!shouldHideSignIn && (
+            <div className={styles.actions}>
+              <Button variant="brand-secondary" onClick={handleSignIn}>
+                Sign In
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     </div>

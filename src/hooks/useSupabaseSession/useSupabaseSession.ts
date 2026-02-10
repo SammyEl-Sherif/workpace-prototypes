@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 
 import { getSupabaseClient } from '@/utils/supabase/client'
 
@@ -18,45 +18,87 @@ type SupabaseSession = {
   } | null
 }
 
+/**
+ * Helper function to update cookies when session changes
+ * This ensures cookies stay in sync with Supabase client session
+ */
+const updateSessionCookies = async (accessToken: string, refreshToken: string) => {
+  try {
+    // Call sync endpoint to update httpOnly cookies
+    const response = await fetch('/api/auth/supabase/sync', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include', // Important: include cookies in request
+      body: JSON.stringify({
+        access_token: accessToken,
+        refresh_token: refreshToken,
+      }),
+    })
+
+    if (!response.ok) {
+      console.warn('Failed to update session cookies')
+    }
+  } catch (error) {
+    console.warn('Error updating session cookies:', error)
+  }
+}
+
 export const useSupabaseSession = () => {
   const [session, setSession] = useState<SupabaseSession | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const isInitialMount = useRef(true)
 
   useEffect(() => {
     const checkSession = async () => {
       try {
-        const supabase = getSupabaseClient()
+        // On initial mount, get session from server (reads httpOnly cookies)
+        if (isInitialMount.current) {
+          isInitialMount.current = false
 
-        // First, try to get session from cookies and set it in Supabase client
-        const accessToken =
-          typeof document !== 'undefined'
-            ? document.cookie
-                .split('; ')
-                .find((row) => row.startsWith('sb-access-token='))
-                ?.split('=')[1]
-            : null
-        const refreshToken =
-          typeof document !== 'undefined'
-            ? document.cookie
-                .split('; ')
-                .find((row) => row.startsWith('sb-refresh-token='))
-                ?.split('=')[1]
-            : null
-
-        // If we have tokens in cookies, set them in Supabase client
-        if (accessToken && refreshToken) {
           try {
-            await supabase.auth.setSession({
-              access_token: accessToken,
-              refresh_token: refreshToken,
+            const response = await fetch('/api/auth/supabase/session', {
+              method: 'GET',
+              credentials: 'include', // Important: include cookies in request
             })
+
+            if (response.ok) {
+              const data = await response.json()
+
+              if (data.data && data.data.user && data.data.access_token && data.data.refresh_token) {
+                // Set session in Supabase client
+                const supabase = getSupabaseClient()
+                const { error: setSessionError } = await supabase.auth.setSession({
+                  access_token: data.data.access_token,
+                  refresh_token: data.data.refresh_token,
+                })
+
+                if (setSessionError) {
+                  console.warn('Failed to set session in Supabase client:', setSessionError)
+                } else {
+                  // Session set successfully
+                  setSession({
+                    user: data.data.user,
+                    session: {
+                      access_token: data.data.access_token,
+                      refresh_token: data.data.refresh_token,
+                    },
+                  })
+                  setIsLoading(false)
+                  return
+                }
+              }
+            }
           } catch (error) {
-            // If setting session fails, tokens might be expired
-            console.warn('Failed to set session from cookies:', error)
+            console.warn('Failed to get session from server:', error)
+            // Fall through to try Supabase client directly
           }
         }
 
-        // Get the current session
+        // Fallback: try to get session from Supabase client
+        // (might work if session was persisted in localStorage from previous visit)
+        const supabase = getSupabaseClient()
         const {
           data: { session: currentSession },
           error,
@@ -77,6 +119,11 @@ export const useSupabaseSession = () => {
               refresh_token: currentSession.refresh_token,
             },
           })
+          // Update cookies to ensure they're in sync
+          await updateSessionCookies(
+            currentSession.access_token,
+            currentSession.refresh_token
+          )
         } else {
           setSession(null)
         }
@@ -91,10 +138,11 @@ export const useSupabaseSession = () => {
     checkSession()
 
     // Set up auth state change listener
+    // This will fire when Supabase client session changes (e.g., token refresh)
     const supabase = getSupabaseClient()
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
+    } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (session) {
         setSession({
           user: session.user,
@@ -103,6 +151,11 @@ export const useSupabaseSession = () => {
             refresh_token: session.refresh_token,
           },
         })
+
+        // When session changes (especially on TOKEN_REFRESHED), update cookies
+        if (event === 'TOKEN_REFRESHED' || event === 'SIGNED_IN') {
+          await updateSessionCookies(session.access_token, session.refresh_token)
+        }
       } else {
         setSession(null)
       }
