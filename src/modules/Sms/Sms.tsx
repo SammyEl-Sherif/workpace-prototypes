@@ -60,7 +60,7 @@ export const Sms = () => {
             { label: 'Apps', href: '/apps' },
             { label: 'SMS' },
           ]}
-          size="sm"
+          size="lg"
         />
       </div>
       <div className={styles.container}>

@@ -15,7 +15,7 @@ export interface BreadcrumbItem {
   href?: string;
 }
 
-type Size = 'sm' | 'md';
+type Size = 'sm' | 'md' | 'lg';
 
 export interface Props extends MarginProps {
   /** Ordered list of breadcrumb items from root to current page. */

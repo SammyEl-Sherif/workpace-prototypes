@@ -11,7 +11,7 @@ const meta: Meta<typeof Breadcrumbs> = {
   argTypes: {
     size: {
       control: { type: 'select' },
-      options: ['sm', 'md'],
+      options: ['sm', 'md', 'lg'],
     },
     separator: {
       control: { type: 'text' },
@@ -80,6 +80,13 @@ export const AllSizes: Story = {
         <strong>Medium (default)</strong>
         <Breadcrumbs
           size="md"
+          items={[{ label: 'Apps', href: '/apps' }, { label: 'Good Stuff List' }]}
+        />
+      </div>
+      <div>
+        <strong>Large</strong>
+        <Breadcrumbs
+          size="lg"
           items={[{ label: 'Apps', href: '/apps' }, { label: 'Good Stuff List' }]}
         />
       </div>

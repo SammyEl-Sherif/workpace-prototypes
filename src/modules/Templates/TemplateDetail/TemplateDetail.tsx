@@ -137,8 +137,7 @@ export const TemplateDetail = () => {
           { label: 'Templates', href: '/templates' },
           { label: template.title },
         ]}
-        size="sm"
-        className={styles.breadcrumbs}
+        size="lg"
       />
       {/* ── Hero ── */}
       <section className={styles.hero}>

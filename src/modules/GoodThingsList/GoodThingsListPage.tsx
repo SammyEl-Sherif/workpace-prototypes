@@ -157,7 +157,7 @@ export const GoodThingsListPage = () => {
             { label: 'Apps', href: '/apps' },
             { label: 'Good Stuff List' },
           ]}
-          size="sm"
+          size="lg"
         />
       </div>
       <motion.div

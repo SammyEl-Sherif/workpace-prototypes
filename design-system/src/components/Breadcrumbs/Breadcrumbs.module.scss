@@ -20,6 +20,15 @@
       line-height: $font-body-sm-line-height;
     }
   }
+
+  &.lg {
+    .link,
+    .current,
+    .separator {
+      font-size: $font-body-md-font-size;
+      line-height: $font-body-md-line-height;
+    }
+  }
 }
 
 .list {

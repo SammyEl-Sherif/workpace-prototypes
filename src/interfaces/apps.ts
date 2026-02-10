@@ -38,7 +38,7 @@ export const APPS: App[] = [
     description:
       'This app enables you to create valuable artifacts, such as year-end reviews, resume sections, and LinkedIn experience descriptions, based on your accomplishments (task tracking in Notion).',
     icon: '📝',
-    permittedRoles: [UserGroup.Admin],
+    permittedRoles: [UserGroup.Admin, UserGroup.Default, UserGroup.Vip],
     stage: AppStage.WIP,
     tech: 'Notion API, OpenAI API',
   },

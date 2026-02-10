@@ -11,15 +11,11 @@
   padding: $size-600 2rem $size-900;
 }
 
-.breadcrumbs {
-  margin-bottom: $size-300;
-}
-
 /* ── Hero Section (centered, matches /templates) ── */
 
 .hero {
-  text-align: center;
-  margin-bottom: $size-400;
+  text-align: left;
+  margin-top: $size-300;
 }
 
 .title {
@@ -36,7 +32,6 @@
   font-size: $font-body-lg-font-size;
   line-height: $font-body-lg-paragraph-line-height;
   font-weight: $font-weight-regular;
-  margin: 0 auto;
   max-width: 540px;
 }
 
