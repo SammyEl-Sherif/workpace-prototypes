@@ -57,9 +57,35 @@
   margin-bottom: $size-200;
 }
 
-.filterBadge {
+/* ── Filter Badge Color Overrides (primary blue) ── */
+
+button.filterActive {
+  background: $color-primary-600;
+  color: $color-neutral-white;
+  border-color: $color-primary-600;
+  border-radius: 100px;
   cursor: pointer;
-  user-select: none;
+  box-shadow: 0 2px 8px rgba(0, 82, 204, 0.25);
+
+  &:hover {
+    background: $color-primary-700;
+    border-color: $color-primary-700;
+    box-shadow: 0 4px 12px rgba(0, 82, 204, 0.3);
+  }
+}
+
+button.filterInactive {
+  background: $color-neutral-white;
+  color: $color-neutral-600;
+  border-color: $color-neutral-200;
+  border-radius: 100px;
+  cursor: pointer;
+
+  &:hover {
+    background: $color-primary-50;
+    color: $color-primary-700;
+    border-color: $color-primary-300;
+  }
 }
 
 /* ── Pricing Toggles ── */

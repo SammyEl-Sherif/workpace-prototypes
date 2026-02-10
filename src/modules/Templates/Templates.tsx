@@ -116,6 +116,7 @@ export const Templates = () => {
           as="button"
           variant={activeCategory === null ? 'default' : 'outline'}
           size="md"
+          className={activeCategory === null ? styles.filterActive : styles.filterInactive}
           onClick={() => setActiveCategory(null)}
         >
           All
@@ -126,6 +127,7 @@ export const Templates = () => {
             as="button"
             variant={activeCategory === cat ? 'default' : 'outline'}
             size="md"
+            className={activeCategory === cat ? styles.filterActive : styles.filterInactive}
             onClick={() => setActiveCategory(cat)}
           >
             {cat}
@@ -141,6 +143,7 @@ export const Templates = () => {
             as="button"
             variant={pricingFilter === opt.value ? 'default' : 'outline'}
             size="sm"
+            className={pricingFilter === opt.value ? styles.filterActive : styles.filterInactive}
             onClick={() => setPricingFilter(opt.value)}
           >
             {opt.label}

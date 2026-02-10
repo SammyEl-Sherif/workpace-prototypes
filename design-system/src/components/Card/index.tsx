@@ -23,13 +23,13 @@ type CardComponent = <C extends React.ElementType = 'div'>(
 
 // @ts-expect-error - Generic forwardRef is not directly supported in TypeScript
 const Card = forwardRef(function Card<C extends React.ElementType = 'div'>(
-  { as, children, variant = 'default', ...rest }: CardProps<C>,
+  { as, children, variant = 'default', className: userClassName, ...rest }: CardProps<C>,
   ref?: PolymorphicRef<C>,
 ) {
   const asComponent: React.ElementType = as || 'div';
 
   const className = clsx(
-    rest.className,
+    userClassName,
     styles.card,
     styles[variant],
   );
@@ -53,9 +53,9 @@ export interface CardHeaderProps extends MarginProps {
   className?: string;
 }
 
-export const CardHeader: React.FC<CardHeaderProps> = ({ children, center = false, ...rest }) => {
+export const CardHeader: React.FC<CardHeaderProps> = ({ children, center = false, className: userClassName, ...rest }) => {
   const className = clsx(
-    rest.className,
+    userClassName,
     styles.cardHeader,
     center && styles.center,
   );
@@ -73,11 +73,11 @@ export interface CardTitleProps extends MarginProps {
   className?: string;
 }
 
-export const CardTitle: React.FC<CardTitleProps> = ({ children, ...rest }) => {
+export const CardTitle: React.FC<CardTitleProps> = ({ children, className: userClassName, ...rest }) => {
   return (
     <Text
       as="h4"
-      className={clsx(rest.className, styles.cardTitle)}
+      className={clsx(userClassName, styles.cardTitle)}
       variant="headline-sm"
       {...rest}
     >
@@ -92,9 +92,9 @@ export interface CardContentProps extends MarginProps {
   className?: string;
 }
 
-export const CardContent: React.FC<CardContentProps> = ({ children, ...rest }) => {
+export const CardContent: React.FC<CardContentProps> = ({ children, className: userClassName, ...rest }) => {
   return (
-    <div className={clsx(rest.className, styles.cardContent)} {...rest}>
+    <div className={clsx(userClassName, styles.cardContent)} {...rest}>
       {children}
     </div>
   );
@@ -106,9 +106,9 @@ export interface CardFooterProps extends MarginProps {
   className?: string;
 }
 
-export const CardFooter: React.FC<CardFooterProps> = ({ children, ...rest }) => {
+export const CardFooter: React.FC<CardFooterProps> = ({ children, className: userClassName, ...rest }) => {
   return (
-    <div className={clsx(rest.className, styles.cardFooter)} {...rest}>
+    <div className={clsx(userClassName, styles.cardFooter)} {...rest}>
       {children}
     </div>
   );

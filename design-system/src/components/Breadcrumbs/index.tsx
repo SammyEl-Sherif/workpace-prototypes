@@ -45,6 +45,7 @@ const Breadcrumbs = forwardRef(function Breadcrumbs<
     separator = '/',
     linkAs,
     size = 'md',
+    className: userClassName,
     ...rest
   }: BreadcrumbsProps<C>,
   ref?: PolymorphicRef<C>,
@@ -52,7 +53,7 @@ const Breadcrumbs = forwardRef(function Breadcrumbs<
   const asComponent: React.ElementType = as || 'nav';
   const LinkComponent: React.ElementType = linkAs || 'a';
 
-  const className = clsx(rest.className, styles.breadcrumbs, styles[size]);
+  const className = clsx(userClassName, styles.breadcrumbs, styles[size]);
 
   return (
     <Text

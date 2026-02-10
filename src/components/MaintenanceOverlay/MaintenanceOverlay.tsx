@@ -13,12 +13,19 @@ interface MaintenanceOverlayProps {
 }
 
 /**
- * Maintenance overlay that covers the entire app when the `maintenance-overlay`
- * feature flag is enabled. Admin users bypass the overlay.
+ * Client-side maintenance fallback.
  *
+ * The *primary* maintenance gate lives in `middleware.ts` — it rewrites
+ * non-admin users to `/maintenance` before any page JS is sent, so there
+ * is zero flicker. This component exists only as a safety-net for
+ * client-side navigations that bypass middleware (e.g. `router.push`
+ * within an already-loaded SPA session).
+ *
+ * Behaviour:
  * - Flag OFF → renders children normally for everyone
  * - Flag ON + admin user → renders children normally (admin bypass)
  * - Flag ON + non-admin/unauthenticated → shows maintenance overlay
+ * - While flags are still loading → renders **nothing** (prevents flicker)
  * - /admin routes are never covered (protected separately by AdminGuard)
  * - /signin is never covered (users need to be able to sign in as admin)
  */
@@ -58,8 +65,20 @@ export const MaintenanceOverlay: FC<MaintenanceOverlayProps> = ({ children }) =>
   const isSigninPage = router.pathname === '/signin'
   const maintenanceActive = isEnabled('maintenance-overlay')
 
-  // Don't show overlay on admin routes, signin, for admins, or while flags are loading
-  if (isAdminRoute || isSigninPage || isAdmin || !maintenanceActive || isLoading) {
+  // Always bypass on admin routes and signin
+  if (isAdminRoute || isSigninPage || isAdmin) {
+    return <>{children}</>
+  }
+
+  // While flags are loading, render nothing instead of flashing children.
+  // Middleware already handles the initial page load so this branch is
+  // only hit during client-side navigations.
+  if (isLoading) {
+    return null
+  }
+
+  // Flag is off → render children normally
+  if (!maintenanceActive) {
     return <>{children}</>
   }
 

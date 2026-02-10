@@ -22,13 +22,13 @@ type LoadingComponent = <C extends React.ElementType = 'div'>(
 
 // @ts-expect-error - Generic forwardRef is not directly supported in TypeScript
 const Loading = forwardRef(function Loading<C extends React.ElementType = 'div'>(
-  { as, fullscreen = false, size = 'md', color = '#2563eb', ...rest }: LoadingProps<C>,
+  { as, fullscreen = false, size = 'md', color = '#2563eb', className: userClassName, ...rest }: LoadingProps<C>,
   ref?: PolymorphicRef<C>,
 ) {
   const asComponent: React.ElementType = as || 'div';
 
   const className = clsx(
-    rest.className,
+    userClassName,
     styles.loading,
     fullscreen && styles.fullscreen,
     styles[size],

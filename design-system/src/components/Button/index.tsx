@@ -40,13 +40,13 @@ function getVariantClasses(value?: Variant | Breakpoints<Variant>) {
 
 // @ts-expect-error - Generic forwardRef is not directly supported in TypeScript
 const Button = forwardRef(function Button<C extends React.ElementType = 'button'>(
-  { as, children, variant = 'brand-primary', ...rest }: ButtonProps<C>,
+  { as, children, variant = 'brand-primary', className: userClassName, ...rest }: ButtonProps<C>,
   ref?: PolymorphicRef<C>,
 ) {
   const asComponent: React.ElementType = as || 'button';
 
   const className = clsx(
-    rest.className,
+    userClassName,
     styles.button,
     styles.inheritfont,
     getVariantClasses(variant),
