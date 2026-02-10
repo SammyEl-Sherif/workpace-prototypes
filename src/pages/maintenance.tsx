@@ -45,11 +45,12 @@ const MaintenancePage: NextPage = () => {
   }, [])
 
   // Check if we should hide the sign in button (workpace.io domain in production)
-  // Check if hostname ends with workpace.io (handles both workpace.io and www.workpace.io)
+  // Only hide on exact production domains: workpace.io or www.workpace.io
+  // Do NOT hide on subdomains like dev.workpace.io
   const shouldHideSignIn =
     typeof window !== 'undefined' &&
     process.env.NODE_ENV === 'production' &&
-    window.location.hostname.endsWith('workpace.io')
+    (window.location.hostname === 'workpace.io' || window.location.hostname === 'www.workpace.io')
 
   return (
     <>
