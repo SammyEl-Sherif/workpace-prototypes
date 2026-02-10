@@ -21,6 +21,11 @@ export const getProfileRoute = withSupabaseAuth(
       const supabase = createClient(supabaseUrl, supabaseServiceRoleKey)
 
       // Get user from auth.users
+      if (!session.user) {
+        response.status(401).json({ error: 'User not found in session' })
+        return
+      }
+
       const { data: user, error } = await supabase.auth.admin.getUserById(session.user.id)
 
       if (error || !user) {
@@ -68,6 +73,11 @@ export const updateProfileRoute = withSupabaseAuth(
       const supabase = createClient(supabaseUrl, supabaseServiceRoleKey)
 
       // Update user metadata
+      if (!session.user) {
+        response.status(401).json({ error: 'User not found in session' })
+        return
+      }
+
       const { data: user, error } = await supabase.auth.admin.updateUserById(session.user.id, {
         email: email,
         user_metadata: {

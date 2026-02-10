@@ -23,7 +23,7 @@ const ButtonComponent = Button as any
 
 export const Navbar = () => {
   const { data, status } = useSession()
-  const { user, signOut } = useUser()
+  const { user } = useUser()
   const { user: supabaseUser, isAuthenticated: isSupabaseAuthenticated } = useSupabaseSession()
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false)
@@ -117,7 +117,7 @@ export const Navbar = () => {
               <>🚫</>
             )}
             {isAuthenticated ? (
-              <ProfileDropdown userName={userName} className={cn({ [styles.hide]: isCollapsed })} />
+              <ProfileDropdown className={cn({ [styles.hide]: isCollapsed })} />
             ) : (
               <ButtonComponent
                 onClick={() => (window.location.href = '/signin')}
@@ -246,7 +246,7 @@ export const Navbar = () => {
               <>🚫</>
             )}
             {isAuthenticated ? (
-              <ProfileDropdown userName={userName} className={cn({ [styles.hide]: isCollapsed })} />
+              <ProfileDropdown className={cn({ [styles.hide]: isCollapsed })} />
             ) : (
               <ButtonComponent
                 onClick={() => (window.location.href = '/signin')}

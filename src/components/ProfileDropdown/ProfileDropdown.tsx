@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from 'react'
 
 import { Button } from '@workpace/design-system'
 import cn from 'classnames'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import { useUser } from '@/hooks'
@@ -16,11 +15,10 @@ import styles from './ProfileDropdown.module.scss'
 const ButtonComponent = Button as any
 
 interface ProfileDropdownProps {
-  userName: string
   className?: string
 }
 
-export const ProfileDropdown = ({ userName, className }: ProfileDropdownProps) => {
+export const ProfileDropdown = ({ className }: ProfileDropdownProps) => {
   const { user, signOut } = useUser()
   const router = useRouter()
   const [isOpen, setIsOpen] = useState(false)

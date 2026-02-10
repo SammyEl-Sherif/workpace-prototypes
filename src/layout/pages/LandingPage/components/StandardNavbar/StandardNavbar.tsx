@@ -74,17 +74,7 @@ const StandardNavbar = () => {
           </div>
           <div className={styles.authSection}>
             {isAuthenticated ? (
-              <ProfileDropdown
-                userName={
-                  (data?.user && 'name' in data.user ? data.user.name : null) ||
-                  (supabaseUser && 'user_metadata' in supabaseUser
-                    ? supabaseUser.user_metadata?.name
-                    : null) ||
-                  (data?.user && 'email' in data.user ? data.user.email : null) ||
-                  (supabaseUser && 'email' in supabaseUser ? supabaseUser.email : null) ||
-                  'User'
-                }
-              />
+              <ProfileDropdown />
             ) : (
               <ButtonComponent onClick={handleSignIn} variant="default-secondary">
                 Sign In
@@ -157,17 +147,7 @@ const StandardNavbar = () => {
 
           <div className={styles.mobileAuthSection}>
             {isAuthenticated ? (
-              <ProfileDropdown
-                userName={
-                  (data?.user && 'name' in data.user ? data.user.name : null) ||
-                  (supabaseUser && 'user_metadata' in supabaseUser
-                    ? supabaseUser.user_metadata?.name
-                    : null) ||
-                  (data?.user && 'email' in data.user ? data.user.email : null) ||
-                  (supabaseUser && 'email' in supabaseUser ? supabaseUser.email : null) ||
-                  'User'
-                }
-              />
+              <ProfileDropdown />
             ) : (
               <ButtonComponent onClick={handleSignIn} variant="default-secondary">
                 Sign In

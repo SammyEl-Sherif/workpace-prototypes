@@ -33,6 +33,7 @@ export default function App({ Component, pageProps }: AppProps) {
           userProfile={{
             name: userProfile?.name ?? '',
             email: userProfile?.email ?? '',
+            roles: userProfile?.roles ?? [],
           }}
         >
           <Component {...pageProps} />
@@ -49,6 +50,7 @@ export default function App({ Component, pageProps }: AppProps) {
           ...userProfile,
           name: userProfile?.name ?? '',
           email: userProfile?.email ?? '',
+          roles: userProfile?.roles ?? [],
         }}
       >
         <FeatureFlagsContextProvider>
