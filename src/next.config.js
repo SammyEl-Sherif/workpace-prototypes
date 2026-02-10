@@ -11,6 +11,12 @@ module.exports = () => {
     reactStrictMode: true,
     skipTrailingSlashRedirect: true,
     transpilePackages: ['@workpace/design-system'],
+    // Reduce console logging in development
+    logging: {
+      fetches: {
+        fullUrl: false,
+      },
+    },
     // Only use standalone for Docker builds
     ...(isDockerBuild && { output: 'standalone' }),
     // (Optional) Export as a static site
@@ -56,6 +62,8 @@ module.exports = () => {
         path.join(__dirname, '..', 'design-system', 'src', 'styles'),
         path.join(__dirname, '..', 'design-system', 'dist'),
       ],
+      // Silence deprecation warnings about legacy JS API
+      silenceDeprecations: ['legacy-js-api'],
       importer: [
         function (url) {
           const fs = require('fs')

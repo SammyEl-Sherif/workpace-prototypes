@@ -1,49 +1,103 @@
 @use '@workpace/design-system/dist/design-tokens' as *;
 
-.title {
-  display: flex;
-  font-size: $font-headline-display-font-size;
-  justify-content: left;
-  align-items: center;
-  margin-bottom: 16px;
-  font-weight: bold;
+.wrapper {
+  position: relative;
+  min-height: calc(100vh - 72px);
+  margin: -72px -2rem 0 -2rem; // Offset MainLayout padding
+  padding: 72px 2rem 0 2rem; // Restore padding for content
 }
 
-.subtitle {
+.container {
   display: flex;
-  font-size: 18px;
-  margin-bottom: 16px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 72px);
+  padding: $size-300;
+  background: linear-gradient(
+    135deg,
+    $color-neutral-900 0%,
+    $color-accent-800 50%,
+    $color-neutral-900 100%
+  );
+}
+
+.card {
+  width: 100%;
+  max-width: 800px;
+  padding: $size-500;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  margin-bottom: $size-400;
+  gap: $size-50;
+}
+
+.title {
+  margin: 0;
+  color: $color-neutral-900;
+  font-weight: $font-weight-bold;
+}
+
+.profileForm {
+  display: flex;
+  flex-direction: column;
+  gap: $size-250;
+}
+
+.actions {
+  display: flex;
+  gap: $size-200;
+  margin-top: $size-300;
+}
+
+.submitButton {
+  flex: 1;
+}
+
+.errorMessage {
+  padding: $size-150;
+  background: $color-error-100;
+  border-radius: 6px;
+  color: $color-error-700;
+  border: 1px solid $color-error-200;
+  margin-top: $size-100;
 }
 
 .role {
-  color: white;
-  background-color: black;
+  color: $color-neutral-white;
+  background-color: $color-neutral-900;
   border-radius: $size-100;
   padding: $size-100 $size-200;
+  font-size: $font-body-sm-font-size;
+  font-weight: $font-weight-medium;
+}
 
-  &Heading {
-    font-size: $font-headline-sm-font-size;
-    font-weight: bold;
-  }
+.roleHeading {
+  font-size: $font-headline-sm-font-size;
+  font-weight: bold;
+  margin-bottom: $size-200;
 }
 
 .roles {
   display: flex;
+  flex-flow: column nowrap;
+  gap: $size-200;
+  margin-top: $size-400;
+  padding-top: $size-400;
+  border-top: 1px solid $color-neutral-200;
+}
+
+.rolesList {
+  display: flex;
   flex-flow: row wrap;
   gap: $size-100;
   align-items: center;
-}
-
-.userInfo {
-  display: flex;
-  flex-flow: column nowrap;
-  gap: $size-100;
-}
-
-.username {
-  font-weight: bold;
-  font-size: $font-headline-lg-font-size;
-}
-.email {
-  font-size: $font-headline-sm-font-size;
 }

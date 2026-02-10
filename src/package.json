@@ -1,11 +1,11 @@
 {
   "scripts": {
     "start": "by-node-env",
-    "start:development": "next dev",
-    "start:production": "next start",
+    "start:development": "NODE_OPTIONS=--no-deprecation next dev",
+    "start:production": "NODE_OPTIONS=--no-deprecation next start",
     "build": "by-node-env",
-    "build:development": "NODE_ENV=development next dev",
-    "build:production": "next build",
+    "build:development": "NODE_ENV=development NODE_OPTIONS=--no-deprecation next dev",
+    "build:production": "NODE_OPTIONS=--no-deprecation next build",
     "check": "next lint & tsc",
     "format": "by-node-env",
     "format:development": "prettier --write . && stylelint **/*.scss --fix",

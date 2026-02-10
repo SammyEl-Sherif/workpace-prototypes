@@ -1,0 +1,25 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $size-300 $size-200;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: $size-300;
+  justify-items: flex-start;
+}
+
+.cardLink {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}

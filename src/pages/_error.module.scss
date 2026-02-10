@@ -1,0 +1,79 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.pageLayout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(
+    135deg,
+    $color-neutral-900 0%,
+    $color-accent-800 50%,
+    $color-neutral-900 100%
+  );
+}
+
+.container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $size-200;
+  padding-top: calc(72px + $size-200);
+}
+
+.content {
+  text-align: center;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logoContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $size-300;
+  margin-bottom: $size-400;
+}
+
+.logo {
+  width: 200px;
+  height: 200px;
+}
+
+.brandName {
+  color: $color-neutral-white;
+}
+
+.statusCode {
+  margin-bottom: $size-200;
+  color: $color-neutral-white;
+}
+
+.message {
+  margin-bottom: $size-300;
+  color: $color-neutral-200;
+}
+
+.supportText {
+  margin-bottom: $size-400;
+  color: $color-neutral-300;
+}
+
+.supportLink {
+  color: $color-neutral-white;
+  text-decoration: underline;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.actions {
+  display: flex;
+  gap: $size-150;
+  justify-content: center;
+  flex-wrap: wrap;
+}

@@ -88,7 +88,8 @@ export function loadSql(relativePath: string): string {
   // Cache and return
   sqlCache.set(relativePath, sqlContent)
 
-  if (process.env.NODE_ENV !== 'production') {
+  // Only log SQL loading if DEBUG_SQL_LOADING is enabled (very verbose)
+  if (process.env.DEBUG_SQL_LOADING === 'true') {
     console.log(`[SQL] Loaded: ${relativePath} from ${foundPath}`)
   }
 

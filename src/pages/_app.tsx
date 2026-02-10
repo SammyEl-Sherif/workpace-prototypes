@@ -21,6 +21,26 @@ export default function App({ Component, pageProps }: AppProps) {
   const isLandingPage = router.pathname === '/'
   const isSigninPage = router.pathname === '/signin'
   const isAdminPage = router.pathname.startsWith('/admin')
+  // Check if this is an error page (statusCode is set by _error.tsx)
+  const isErrorPage = 'statusCode' in pageProps
+
+  // Error pages need SessionProvider and UserInfoContextProvider for StandardNavbar
+  // but skip MaintenanceOverlay and other providers
+  if (isErrorPage) {
+    return (
+      <Auth>
+        <UserInfoContextProvider
+          userProfile={{
+            name: userProfile?.name ?? '',
+            email: userProfile?.email ?? '',
+            roles: userProfile?.roles ?? [],
+          }}
+        >
+          <Component {...pageProps} />
+        </UserInfoContextProvider>
+      </Auth>
+    )
+  }
 
   // Shared provider wrapper — UserInfo + FeatureFlags available everywhere
   const withProviders = (content: React.ReactNode) => (
@@ -30,6 +50,7 @@ export default function App({ Component, pageProps }: AppProps) {
           ...userProfile,
           name: userProfile?.name ?? '',
           email: userProfile?.email ?? '',
+          roles: userProfile?.roles ?? [],
         }}
       >
         <FeatureFlagsContextProvider>
