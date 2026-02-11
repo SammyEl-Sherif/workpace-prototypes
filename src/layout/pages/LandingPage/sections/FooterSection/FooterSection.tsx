@@ -102,7 +102,9 @@ const FooterSection = () => {
               </a>
             </div>
             <Text as="p" variant="body-sm" className={styles.email}>
-              hello@workpace.io
+              <a href="mailto:support@workpace.io" className={styles.emailLink}>
+                support@workpace.io
+              </a>
             </Text>
           </div>
         </div>

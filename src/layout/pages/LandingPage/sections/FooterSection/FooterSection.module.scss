@@ -123,6 +123,16 @@
   margin: 0;
 }
 
+.emailLink {
+  color: $color-neutral-300;
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: $color-neutral-white;
+  }
+}
+
 /* ── Bottom ── */
 
 .divider {

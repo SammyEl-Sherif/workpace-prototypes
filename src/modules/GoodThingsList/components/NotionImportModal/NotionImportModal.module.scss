@@ -138,13 +138,50 @@
 }
 
 .connectionInfo {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: $size-200;
-  background: $color-success-50;
-  border-radius: $size-150;
   margin-bottom: $size-300;
+}
+
+.connectionStatus {
+  display: flex;
+  align-items: center;
+  gap: $size-100;
+  font-size: $font-body-sm-font-size;
+}
+
+.statusDot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+
+  &[data-status='connected'] {
+    background-color: $color-success-500;
+  }
+
+  &[data-status='disconnected'] {
+    background-color: $color-error-500;
+  }
+}
+
+.disconnectLink {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: $color-error-600;
+  font-size: $font-body-sm-font-size;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: $color-error-700;
+  }
+
+  &:active {
+    color: $color-error-800;
+  }
 }
 
 .searchSection {

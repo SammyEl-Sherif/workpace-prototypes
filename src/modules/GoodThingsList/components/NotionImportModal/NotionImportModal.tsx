@@ -280,16 +280,26 @@ export const NotionImportModal = ({ isOpen, onClose, onImport }: NotionImportMod
 
           {step === 'select-database' && (
             <div className={styles.stepContent}>
-              {connectionStatus?.connection && (
-                <div className={styles.connectionInfo}>
-                  <Text variant="body-sm" color="primary-600" marginBottom={200}>
-                    ✓ Connected to Notion
-                  </Text>
-                  <Button variant="default-secondary" onClick={handleDisconnect}>
-                    Disconnect
-                  </Button>
-                </div>
-              )}
+              <div className={styles.connectionInfo}>
+                {connectionStatus?.connection ? (
+                  <div className={styles.connectionStatus}>
+                    <span className={styles.statusDot} data-status="connected"></span>
+                    <Text variant="body-sm" color="neutral-600">
+                      Connected to Notion
+                    </Text>
+                    <button className={styles.disconnectLink} onClick={handleDisconnect}>
+                      Disconnect
+                    </button>
+                  </div>
+                ) : (
+                  <div className={styles.connectionStatus}>
+                    <span className={styles.statusDot} data-status="disconnected"></span>
+                    <Text variant="body-sm" color="neutral-600">
+                      Not connected to Notion
+                    </Text>
+                  </div>
+                )}
+              </div>
               <Text variant="body-md" marginBottom={200}>
                 Select a database to import tasks from:
               </Text>

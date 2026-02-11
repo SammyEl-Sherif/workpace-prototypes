@@ -53,6 +53,11 @@
 
   &.clickable {
     cursor: pointer;
+    user-select: none;
+
+    > * {
+      pointer-events: none;
+    }
   }
 
   /* subtle top accent line */

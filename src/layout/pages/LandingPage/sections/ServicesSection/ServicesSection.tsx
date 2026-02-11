@@ -64,13 +64,21 @@ const ServicesSection = ({ onBookConsultation }: ServicesSectionProps) => {
   const { ref, isVisible } = useScrollReveal()
   const router = useRouter()
 
-  const handleCardClick = (service: Service) => {
+  const handleCardClick = (e: React.MouseEvent, service: Service) => {
+    if (service.action === null) return
+
+    e.preventDefault()
+    e.stopPropagation()
+
     if (service.action === 'navigate' && service.path) {
-      router.push(service.path)
+      router.push(service.path).catch((err) => {
+        console.error('Navigation error:', err)
+        // Fallback to window.location if router.push fails
+        window.location.href = service.path!
+      })
     } else if (service.action === 'consultation') {
       onBookConsultation()
     }
-    // If action is null, do nothing (Notion Consulting not built yet)
   }
 
   return (
@@ -97,13 +105,18 @@ const ServicesSection = ({ onBookConsultation }: ServicesSectionProps) => {
                 { [styles.clickable]: service.action !== null }
               )}
               style={{ transitionDelay: `${150 + index * 100}ms` }}
-              onClick={() => handleCardClick(service)}
+              onClick={(e) => handleCardClick(e, service)}
               role={service.action !== null ? 'button' : undefined}
               tabIndex={service.action !== null ? 0 : undefined}
               onKeyDown={(e) => {
                 if (service.action !== null && (e.key === 'Enter' || e.key === ' ')) {
                   e.preventDefault()
-                  handleCardClick(service)
+                  e.stopPropagation()
+                  if (service.action === 'navigate' && service.path) {
+                    router.push(service.path)
+                  } else if (service.action === 'consultation') {
+                    onBookConsultation()
+                  }
                 }
               }}
             >
