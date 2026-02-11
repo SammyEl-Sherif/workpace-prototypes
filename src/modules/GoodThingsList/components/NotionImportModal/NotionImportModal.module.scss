@@ -127,7 +127,7 @@
 .stepContent {
   display: flex;
   flex-direction: column;
-  gap: $size-300;
+  gap: $size-200;
 }
 
 .error {
@@ -138,7 +138,7 @@
 }
 
 .connectionInfo {
-  margin-bottom: $size-300;
+  margin-bottom: $size-200;
 }
 
 .connectionStatus {

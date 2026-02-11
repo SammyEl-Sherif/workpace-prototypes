@@ -1,11 +1,11 @@
+import { useManualFetch } from '@/hooks'
+import { CreateGoodThingInput } from '@/interfaces/good-things'
+import { NotionDatabase, PageSummary } from '@/interfaces/notion'
+import { HttpResponse } from '@/server/types'
+import { Button, InputField, Loading, Select, Text } from '@workpace/design-system'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { useRouter } from 'next/router'
-import { Button, InputField, Select, Text, Loading } from '@workpace/design-system'
-import { useManualFetch } from '@/hooks'
-import { NotionDatabase, PageSummary } from '@/interfaces/notion'
-import { CreateGoodThingInput } from '@/interfaces/good-things'
-import { HttpResponse } from '@/server/types'
 import styles from './NotionImportModal.module.scss'
 
 interface NotionImportModalProps {
@@ -300,8 +300,8 @@ export const NotionImportModal = ({ isOpen, onClose, onImport }: NotionImportMod
                   </div>
                 )}
               </div>
-              <Text variant="body-md" marginBottom={200}>
-                Select a database to import tasks from:
+              <Text variant="body-md-emphasis" marginBottom={100}>
+                Select a Database to Import
               </Text>
               {isLoading ? (
                 <Loading />
