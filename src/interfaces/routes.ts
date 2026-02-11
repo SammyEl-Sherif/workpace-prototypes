@@ -6,6 +6,7 @@ export enum Routes {
   SIGNIN = '/signin',
   ABOUT = '/about',
   PROFILE = '/profile',
+  FRIENDS = '/friends',
   TEMPLATES = '/templates',
   ADMIN = '/admin',
   ADMIN_FEATURES = '/admin/features',

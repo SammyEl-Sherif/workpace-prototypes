@@ -48,6 +48,11 @@ export const ProfileDropdown = ({ className }: ProfileDropdownProps) => {
     setIsOpen(false)
   }
 
+  const handleFriendsClick = () => {
+    router.push(Routes.FRIENDS)
+    setIsOpen(false)
+  }
+
   const handleAdminClick = () => {
     router.push(Routes.ADMIN)
     setIsOpen(false)
@@ -83,6 +88,9 @@ export const ProfileDropdown = ({ className }: ProfileDropdownProps) => {
         <div className={styles.dropdownMenu}>
           <button onClick={handleProfileClick} className={styles.menuItem}>
             Profile
+          </button>
+          <button onClick={handleFriendsClick} className={styles.menuItem}>
+            Friends
           </button>
           {isAdmin && (
             <button onClick={handleAdminClick} className={styles.menuItem}>

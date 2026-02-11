@@ -119,21 +119,23 @@
 
 .importButton {
   white-space: nowrap;
-  // Match historyButton styles
   appearance: none;
-  background: white;
-  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: rgba(102, 126, 234, 0.08);
+  border: 1px solid rgba(102, 126, 234, 0.3);
   border-radius: 8px;
   padding: $size-100 $size-200;
   font-size: 0.875rem;
   font-weight: 500;
-  color: $color-neutral-800;
+  color: #667eea;
   cursor: pointer;
   transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(102, 126, 234, 0.15);
 
   &:hover {
-    border-color: rgba(0, 0, 0, 0.24);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    background: rgba(102, 126, 234, 0.12);
+    border-color: rgba(102, 126, 234, 0.5);
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.25);
+    transform: translateY(-1px);
   }
 
   @media (max-width: 600px) {

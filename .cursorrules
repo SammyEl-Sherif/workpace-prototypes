@@ -290,12 +290,26 @@ function defined in `good_things.sql`, it will **fail** because `a` sorts before
 5. **When creating a new schema file**, always check: does this schema reference
    any function or table defined in another file? If so, verify the alphabetical
    order is correct.
+6. **⚠️ CRITICAL: When creating a new schema file**, you MUST add it to the
+   `schema_paths` array in `supabase/config.toml`. The schema file will NOT be
+   applied during migrations unless it's listed in `config.toml`. Add the new
+   schema file path (e.g. `"./schemas/friends.sql"`) in the appropriate
+   alphabetical position within the `schema_paths` array.
+7. **⚠️ CRITICAL: Dependency ordering**: When adding a schema file, check if it
+   references other tables (e.g., in RLS policies, foreign keys, or queries).
+   The referenced table's schema file MUST come BEFORE the referencing schema
+   file in `schema_paths`. For example:
+   - `user_roles.sql` MUST come before `feature_flags.sql` because
+     `feature_flags.sql` RLS policies reference `public.user_roles`
+   - Always verify dependencies when reordering or adding new schema files
+   - If alphabetical order conflicts with dependency order, use explicit
+     ordering in `schema_paths` to resolve it
 
 **Current shared functions in `_functions.sql`:**
 
 - `update_updated_at_column()` — used by: `apps`, `consultation_requests`,
-  `events`, `event_guests`, `goals`, `good_things`, `notion_templates`,
-  `saved_reports`
+  `events`, `event_guests`, `friends`, `goals`, `good_things`,
+  `notion_templates`, `saved_reports`
 
 ## Storybook Documentation
 

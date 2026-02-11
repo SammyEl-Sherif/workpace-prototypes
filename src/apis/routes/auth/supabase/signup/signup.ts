@@ -64,9 +64,20 @@ export const signup = async (req: NextApiRequest, res: NextApiResponse): Promise
     }
 
     if (signUpResponse.error) {
+      // Log the full error for debugging
+      console.error('Supabase signup error:', signUpResponse.error)
+
+      // Check if it's a database error related to user creation
+      const errorMessage = signUpResponse.error.message || 'Unknown error'
+      const isDatabaseError =
+        errorMessage.toLowerCase().includes('database error') ||
+        errorMessage.toLowerCase().includes('saving new user')
+
       res.status(400).json({
         message: 'Signup failed',
-        error: signUpResponse.error.message,
+        error: isDatabaseError
+          ? 'There was an issue creating your account. This may be due to a misconfigured database hook. Please contact support.'
+          : errorMessage,
       })
       return
     }
