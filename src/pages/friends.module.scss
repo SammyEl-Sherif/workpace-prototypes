@@ -192,6 +192,83 @@
   margin-left: $size-200;
 }
 
+// --- Mobile: Contacts List View ---
+.mobileFriendsList {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: block;
+    width: 100%;
+  }
+}
+
+.friendsSection {
+  margin-bottom: $size-200;
+}
+
+.sectionHeader {
+  padding: $size-100 $size-200;
+  background: $color-neutral-50;
+  font-size: $font-body-sm-font-size;
+  font-weight: $font-weight-medium;
+  color: $color-neutral-600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid $color-neutral-100;
+}
+
+.friendItem {
+  display: flex;
+  align-items: center;
+  padding: $size-200 $size-200;
+  border-bottom: 1px solid $color-neutral-100;
+  gap: $size-200;
+  background: $color-neutral-white;
+  transition: background-color 0.2s ease;
+
+  &:active {
+    background-color: $color-neutral-50;
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.friendAvatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, $color-primary-500 0%, $color-primary-600 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.avatarText {
+  color: $color-neutral-white;
+  font-size: $font-body-md-font-size;
+  font-weight: $font-weight-medium;
+  line-height: 1;
+}
+
+.friendInfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $size-25;
+}
+
+.friendAction {
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
 // --- Mobile: Card view ---
 @media (max-width: 768px) {
   .container {

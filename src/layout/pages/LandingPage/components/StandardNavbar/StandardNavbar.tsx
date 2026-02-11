@@ -7,8 +7,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import { useSupabaseSession } from '@/hooks'
+import { useSupabaseSession, useUser } from '@/hooks'
 import { Routes } from '@/interfaces/routes'
+import { UserGroup } from '@/interfaces/user'
 import Logo from '@/public/favicon.ico'
 
 import { ProfileDropdown } from '@/components/ProfileDropdown'
@@ -20,12 +21,14 @@ const ButtonComponent = Button as any
 const StandardNavbar = () => {
   const { data, status } = useSession()
   const { user: supabaseUser, isAuthenticated: isSupabaseAuthenticated } = useSupabaseSession()
+  const { user, signOut } = useUser()
   const router = useRouter()
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
 
   // Check if user is authenticated via either NextAuth or Supabase
   const isAuthenticated = status === 'authenticated' || isSupabaseAuthenticated
+  const isAdmin = user?.roles?.includes(UserGroup.Admin) ?? false
 
   const handleSignIn = () => {
     router.push(Routes.SIGNIN)
@@ -37,6 +40,26 @@ const StandardNavbar = () => {
 
   const closeMobileNav = () => {
     setIsMobileNavOpen(false)
+  }
+
+  const handleProfileClick = () => {
+    router.push(Routes.PROFILE)
+    closeMobileNav()
+  }
+
+  const handleFriendsClick = () => {
+    router.push(Routes.FRIENDS)
+    closeMobileNav()
+  }
+
+  const handleAdminClick = () => {
+    router.push(Routes.ADMIN)
+    closeMobileNav()
+  }
+
+  const handleSignOut = () => {
+    signOut()
+    closeMobileNav()
   }
 
   // Scroll shadow effect
@@ -143,11 +166,32 @@ const StandardNavbar = () => {
             <Link href={Routes.ABOUT} className={styles.mobileNavLink} onClick={closeMobileNav}>
               About
             </Link>
+            {isAuthenticated && (
+              <>
+                <button onClick={handleProfileClick} className={styles.mobileNavLink}>
+                  Profile
+                </button>
+                <button onClick={handleFriendsClick} className={styles.mobileNavLink}>
+                  Friends
+                </button>
+                {isAdmin && (
+                  <button onClick={handleAdminClick} className={styles.mobileNavLink}>
+                    Admin
+                  </button>
+                )}
+                <div className={styles.mobileDivider} />
+                <button onClick={handleSignOut} className={styles.mobileNavLink}>
+                  Sign Out
+                </button>
+              </>
+            )}
           </div>
 
           <div className={styles.mobileAuthSection}>
             {isAuthenticated ? (
-              <ProfileDropdown />
+              <ButtonComponent variant="default-secondary" className={styles.accountButton}>
+                Account
+              </ButtonComponent>
             ) : (
               <ButtonComponent onClick={handleSignIn} variant="default-secondary">
                 Sign In

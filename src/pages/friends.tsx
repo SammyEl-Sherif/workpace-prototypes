@@ -209,6 +209,52 @@ const FriendsPage = () => {
     )
   }
 
+  // Group friends alphabetically for mobile contacts-style list
+  const getInitials = (name: string | null | undefined, email: string | null | undefined) => {
+    if (name) {
+      const parts = name.trim().split(/\s+/)
+      if (parts.length >= 2) {
+        return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+      }
+      return name[0]?.toUpperCase() || '?'
+    }
+    if (email) {
+      return email[0]?.toUpperCase() || '?'
+    }
+    return '?'
+  }
+
+  const getDisplayName = (friend: any) => {
+    const friendUser = friend.friend
+    return friendUser?.name || friendUser?.email || 'Unknown User'
+  }
+
+  const getDisplayEmail = (friend: any) => {
+    return friend.friend?.email || null
+  }
+
+  const groupedFriends = friends.reduce((acc, friend) => {
+    const displayName = getDisplayName(friend)
+    const firstLetter = displayName[0]?.toUpperCase() || '#'
+    const letter = /[A-Z]/.test(firstLetter) ? firstLetter : '#'
+
+    if (!acc[letter]) {
+      acc[letter] = []
+    }
+    acc[letter].push(friend)
+    return acc
+  }, {} as Record<string, typeof friends>)
+
+  // Sort each group and get sorted letters
+  const sortedLetters = Object.keys(groupedFriends).sort()
+  sortedLetters.forEach((letter) => {
+    groupedFriends[letter].sort((a: typeof friends[0], b: typeof friends[0]) => {
+      const nameA = getDisplayName(a).toLowerCase()
+      const nameB = getDisplayName(b).toLowerCase()
+      return nameA.localeCompare(nameB)
+    })
+  })
+
   return (
     <>
       <DocumentTitle title="Friends" />
@@ -358,7 +404,7 @@ const FriendsPage = () => {
           </Card>
         )}
 
-        {/* Friends Table */}
+        {/* Friends List - Mobile Contacts Style */}
         {isLoadingFriends ? (
           <div className={styles.loading}>
             <Loading />
@@ -381,41 +427,35 @@ const FriendsPage = () => {
             </Text>
           </div>
         ) : (
-          <div className={styles.tableWrapper}>
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th className={styles.th}>Name</th>
-                  <th className={styles.th}>Email</th>
-                  <th className={styles.th}>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {friends.map((friend) => {
-                  const isRemovingThis = isRemoving === friend.friend_id
-                  const friendUser = friend.friend
+          <>
+            {/* Mobile Contacts List */}
+            <div className={styles.mobileFriendsList}>
+              {sortedLetters.map((letter) => (
+                <div key={letter} className={styles.friendsSection}>
+                  <div className={styles.sectionHeader}>{letter}</div>
+                  {groupedFriends[letter].map((friend: typeof friends[0]) => {
+                    const isRemovingThis = isRemoving === friend.friend_id
+                    const displayName = getDisplayName(friend)
+                    const displayEmail = getDisplayEmail(friend)
+                    const initials = getInitials(
+                      friend.friend?.name,
+                      friend.friend?.email
+                    )
 
-                  return (
-                    <tr key={friend.id} className={styles.tr}>
-                      <td className={styles.td}>
-                        <Text variant="body-md-emphasis">
-                          {friendUser?.name || friendUser?.email || 'Unknown User'}
-                        </Text>
-                        {(friendUser?.given_name || friendUser?.family_name) && (
-                          <Text variant="body-sm" color="neutral-600" marginTop={50}>
-                            {[friendUser.given_name, friendUser.family_name]
-                              .filter(Boolean)
-                              .join(' ')}
-                          </Text>
-                        )}
-                      </td>
-                      <td className={styles.td}>
-                        <Text variant="body-sm" color="neutral-600">
-                          {friendUser?.email || '—'}
-                        </Text>
-                      </td>
-                      <td className={styles.td}>
-                        <div className={styles.actions}>
+                    return (
+                      <div key={friend.id} className={styles.friendItem}>
+                        <div className={styles.friendAvatar}>
+                          <span className={styles.avatarText}>{initials}</span>
+                        </div>
+                        <div className={styles.friendInfo}>
+                          <Text variant="body-md-emphasis">{displayName}</Text>
+                          {displayEmail && (
+                            <Text variant="body-sm" color="neutral-600" marginTop={50}>
+                              {displayEmail}
+                            </Text>
+                          )}
+                        </div>
+                        <div className={styles.friendAction}>
                           <Button
                             variant="default-secondary"
                             onClick={() => handleRemoveFriend(friend.friend_id)}
@@ -424,13 +464,65 @@ const FriendsPage = () => {
                             {isRemovingThis ? 'Removing...' : 'Remove'}
                           </Button>
                         </div>
-                      </td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
-          </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              ))}
+            </div>
+
+            {/* Desktop Table View */}
+            <div className={styles.tableWrapper}>
+              <table className={styles.table}>
+                <thead>
+                  <tr>
+                    <th className={styles.th}>Name</th>
+                    <th className={styles.th}>Email</th>
+                    <th className={styles.th}>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {friends.map((friend) => {
+                    const isRemovingThis = isRemoving === friend.friend_id
+                    const friendUser = friend.friend
+
+                    return (
+                      <tr key={friend.id} className={styles.tr}>
+                        <td className={styles.td}>
+                          <Text variant="body-md-emphasis">
+                            {friendUser?.name || friendUser?.email || 'Unknown User'}
+                          </Text>
+                          {(friendUser?.given_name || friendUser?.family_name) && (
+                            <Text variant="body-sm" color="neutral-600" marginTop={50}>
+                              {[friendUser.given_name, friendUser.family_name]
+                                .filter(Boolean)
+                                .join(' ')}
+                            </Text>
+                          )}
+                        </td>
+                        <td className={styles.td}>
+                          <Text variant="body-sm" color="neutral-600">
+                            {friendUser?.email || '—'}
+                          </Text>
+                        </td>
+                        <td className={styles.td}>
+                          <div className={styles.actions}>
+                            <Button
+                              variant="default-secondary"
+                              onClick={() => handleRemoveFriend(friend.friend_id)}
+                              disabled={isRemovingThis}
+                            >
+                              {isRemovingThis ? 'Removing...' : 'Remove'}
+                            </Button>
+                          </div>
+                        </td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </>
         )}
       </div>
     </>

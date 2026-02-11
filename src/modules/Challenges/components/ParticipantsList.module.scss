@@ -1,5 +1,9 @@
 @use '@workpace/design-system/dist/design-tokens' as *;
 
+.participantsLabel {
+  margin-bottom: $size-100;
+}
+
 .participantsList {
   display: flex;
   flex-wrap: wrap;

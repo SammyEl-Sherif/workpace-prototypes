@@ -1,4 +1,4 @@
-import { useGoodThings, useManualFetch, useSavedReports } from '@/hooks'
+import { useChallenges, useGoodThings, useManualFetch, useSavedReports } from '@/hooks'
 import { GoodThing, GoodThingMedia } from '@/interfaces/good-things'
 import { CreateSavedReportInput } from '@/interfaces/saved-reports'
 import { Box, Breadcrumbs, Button, Text } from '@workpace/design-system'
@@ -38,10 +38,21 @@ export const GoodThingsListPage = ({
 }: GoodThingsListPageProps = {}) => {
   const router = useRouter()
   const { goodThings: fetchedGoodThings, isLoading, refetch } = useGoodThings()
+  const { challenges, refetch: refetchChallenges } = useChallenges()
 
   // Use initial data from server-side props if available, otherwise fall back to client fetch
   const goodThings = initialGoodThings ?? fetchedGoodThings
   const { savedReports, refetch: refetchSavedReports } = useSavedReports()
+
+  // Filter active challenges (not ended yet)
+  const activeChallenges = useMemo(() => {
+    return challenges.filter((challenge) => {
+      const endDate = new Date(challenge.end_date)
+      const today = new Date()
+      today.setHours(0, 0, 0, 0)
+      return endDate >= today
+    })
+  }, [challenges])
   const [activeView, setActiveView] = useState<ViewType>('good-things')
   const [userPrompt, setUserPrompt] = useState<string>()
   const [selectedPreset, setSelectedPreset] = useState<string>('')
@@ -87,6 +98,7 @@ export const GoodThingsListPage = ({
   useEffect(() => {
     refetch()
     refetchSavedReports()
+    refetchChallenges()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -192,11 +204,6 @@ export const GoodThingsListPage = ({
           items={[{ label: 'Apps', href: '/apps' }, { label: 'Good Stuff List' }]}
           size="lg"
         />
-        <div style={{ marginTop: '12px' }}>
-          <Link href="/apps/good-stuff-list/challenges">
-            <Button variant="brand-secondary">View Challenges</Button>
-          </Link>
-        </div>
       </div>
       <motion.div
         initial={{ opacity: 0, y: -20 }}
@@ -359,6 +366,66 @@ export const GoodThingsListPage = ({
           </motion.div>
         </div>
       )}
+
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.3 }}
+        className={styles.challengesSection}
+      >
+        <div className={styles.challengesHeader}>
+          <div className={styles.challengesHeaderTop}>
+            <div className={styles.challengesHeaderText}>
+              <Text variant="headline-md-emphasis">Challenges</Text>
+              <Text variant="body-md" color="neutral-600">
+                Track your progress and stay accountable with challenges
+              </Text>
+            </div>
+            <div className={styles.challengesHeaderControls}>
+              <Link href="/apps/good-stuff-list/challenges">
+                <Button variant="brand-secondary">View All Challenges</Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+        {activeChallenges.length > 0 && (
+          <div className={styles.challengesList}>
+            {activeChallenges.map((challenge) => {
+              const endDate = new Date(challenge.end_date)
+              const today = new Date()
+              today.setHours(0, 0, 0, 0)
+              const daysLeft = Math.max(
+                0,
+                Math.floor((endDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
+              )
+              return (
+                <Link
+                  key={challenge.id}
+                  href={`/apps/good-stuff-list/challenges/${challenge.id}`}
+                  className={styles.challengeItem}
+                >
+                  <Text variant="body-md-emphasis" className={styles.challengeName}>
+                    {challenge.name}
+                  </Text>
+                  {challenge.task_description && (
+                    <Text variant="body-sm" color="neutral-700" className={styles.challengeTask}>
+                      <Text as="span" variant="body-sm-emphasis">
+                        Daily Task:{' '}
+                      </Text>
+                      {challenge.task_description}
+                    </Text>
+                  )}
+                  {daysLeft > 0 && (
+                    <Text variant="body-sm" color="neutral-600">
+                      {daysLeft} days left
+                    </Text>
+                  )}
+                </Link>
+              )
+            })}
+          </div>
+        )}
+      </motion.div>
 
       <ReportModal isOpen={isModalOpen} onClose={handleCloseModal} report={selectedReport} />
       <NotionImportModal

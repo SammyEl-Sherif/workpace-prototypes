@@ -9,7 +9,7 @@ interface ParticipantsListProps {
   maxDisplay?: number
 }
 
-export const ParticipantsList = ({ challengeId, maxDisplay = 3 }: ParticipantsListProps) => {
+export const ParticipantsList = ({ challengeId, maxDisplay = 4 }: ParticipantsListProps) => {
   const [participants, setParticipants] = useState<ChallengeParticipant[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const fetchParticipants = useManualFetch<{ data: { participants: ChallengeParticipant[] } }>(
@@ -52,7 +52,7 @@ export const ParticipantsList = ({ challengeId, maxDisplay = 3 }: ParticipantsLi
 
   return (
     <Box marginTop={150}>
-      <Text variant="body-xs" color="neutral-600" marginBottom={100}>
+      <Text variant="body-sm" color="neutral-600" className={styles.participantsLabel}>
         Participants ({participants.length}):
       </Text>
       <div className={styles.participantsList}>
@@ -60,7 +60,7 @@ export const ParticipantsList = ({ challengeId, maxDisplay = 3 }: ParticipantsLi
           const displayName = participant.user_name || participant.user_email || 'Unknown'
           return (
             <div key={participant.id} className={styles.participant}>
-              <Text variant="body-xs" color="neutral-700">
+              <Text variant="body-sm" color="neutral-700">
                 {displayName}
               </Text>
             </div>
@@ -68,8 +68,8 @@ export const ParticipantsList = ({ challengeId, maxDisplay = 3 }: ParticipantsLi
         })}
         {remainingCount > 0 && (
           <div className={styles.moreBadge}>
-            <Text variant="body-xs" color="neutral-600">
-              +{remainingCount} more
+            <Text variant="body-sm" color="neutral-600">
+              +{remainingCount}
             </Text>
           </div>
         )}

@@ -71,10 +71,10 @@ export const ChallengeCard = ({ challenge, onUpdate }: ChallengeCardProps) => {
         )}
 
         <Box marginTop={200}>
-          <Text variant="body-sm-emphasis" marginBottom={100}>
-            Daily Task:
-          </Text>
-          <Text variant="body-sm" color="neutral-700">
+          <Text variant="body-md" color="neutral-700">
+            <Text as="span" variant="body-md-emphasis">
+              Daily Task:{' '}
+            </Text>
             {challenge.task_description}
           </Text>
         </Box>
@@ -84,25 +84,19 @@ export const ChallengeCard = ({ challenge, onUpdate }: ChallengeCardProps) => {
             <div className={styles.progressBar}>
               <div className={styles.progressFill} style={{ width: `${progress}%` }} />
             </div>
-            <Text variant="body-xs" color="neutral-600" marginTop={100}>
+            <Text variant="body-sm" color="neutral-600" marginTop={100}>
               {Math.round(progress)}% complete
             </Text>
           </Box>
         )}
 
         <Box marginTop={200} className={styles.metaInfo}>
-          <Text variant="body-xs" color="neutral-600">
+          <Text variant="body-sm" color="neutral-600">
             Duration: {challenge.duration_days} days
           </Text>
-          {challenge.participant_count !== undefined && (
-            <Text variant="body-xs" color="neutral-600">
-              {challenge.participant_count} participant
-              {challenge.participant_count !== 1 ? 's' : ''}
-            </Text>
-          )}
         </Box>
 
-        <ParticipantsList challengeId={challenge.id} maxDisplay={3} />
+        <ParticipantsList challengeId={challenge.id} maxDisplay={4} />
 
         <div className={styles.actions}>
           <Button variant="default-secondary" onClick={handleViewDetails}>

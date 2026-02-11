@@ -200,7 +200,7 @@
 
 @media (max-width: 639px) {
   .hero {
-    padding: 4rem 0 2.5rem;
+    padding: calc(4rem + 77px) 0 2.5rem; // Add navbar height (77px on mobile) to top padding
   }
 
   .container {
