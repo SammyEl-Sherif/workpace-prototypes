@@ -1,7 +1,7 @@
 import { useGoodThings, useManualFetch, useSavedReports } from '@/hooks'
 import { GoodThing, GoodThingMedia } from '@/interfaces/good-things'
 import { CreateSavedReportInput } from '@/interfaces/saved-reports'
-import { Box, Breadcrumbs, Text } from '@workpace/design-system'
+import { Box, Breadcrumbs, Button, Text } from '@workpace/design-system'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -192,6 +192,11 @@ export const GoodThingsListPage = ({
           items={[{ label: 'Apps', href: '/apps' }, { label: 'Good Stuff List' }]}
           size="lg"
         />
+        <div style={{ marginTop: '12px' }}>
+          <Link href="/apps/good-stuff-list/challenges">
+            <Button variant="brand-secondary">View Challenges</Button>
+          </Link>
+        </div>
       </div>
       <motion.div
         initial={{ opacity: 0, y: -20 }}

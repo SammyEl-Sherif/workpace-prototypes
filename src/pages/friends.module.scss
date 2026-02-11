@@ -162,6 +162,36 @@
   text-align: center;
 }
 
+.invitationsList {
+  display: flex;
+  flex-direction: column;
+  gap: $size-200;
+}
+
+.invitationItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $size-200 0;
+  border-bottom: 1px solid $color-neutral-100;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.invitationInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.invitationActions {
+  display: flex;
+  gap: $size-100;
+  flex-shrink: 0;
+  margin-left: $size-200;
+}
+
 // --- Mobile: Card view ---
 @media (max-width: 768px) {
   .container {

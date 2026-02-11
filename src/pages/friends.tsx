@@ -1,15 +1,18 @@
 import { GetServerSideProps } from 'next'
 
 import {
-  useAddFriend,
+  useFriendInvitations,
   useFriends,
   useRemoveFriend,
   useSearchUsers,
+  useSendFriendRequest,
+  useUpdateFriendInvitation,
 } from '@/hooks/useFriends/useFriends'
+import { useSupabaseSession } from '@/hooks/useSupabaseSession'
 import { DocumentTitle } from '@/layout/DocumentTitle'
 import { PageHeader } from '@/layout/PageHeader'
 import { withPageRequestWrapper } from '@/server/utils/withPageRequestWrapper'
-import { Box, Button, InputField, Loading, Text } from '@workpace/design-system'
+import { Box, Button, Card, InputField, Loading, Text } from '@workpace/design-system'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import styles from './friends.module.scss'
 
@@ -18,9 +21,18 @@ export const getServerSideProps: GetServerSideProps = withPageRequestWrapper(asy
 })
 
 const FriendsPage = () => {
+  const { user } = useSupabaseSession()
+  const currentUserId = user?.id
   const { friends, isLoading: isLoadingFriends, error: friendsError, refetch } = useFriends()
+  const {
+    invitations,
+    isLoading: isLoadingInvitations,
+    error: invitationsError,
+    refetch: refetchInvitations,
+  } = useFriendInvitations()
   const searchUsers = useSearchUsers()
-  const addFriend = useAddFriend()
+  const sendFriendRequest = useSendFriendRequest()
+  const updateFriendInvitation = useUpdateFriendInvitation()
   const removeFriend = useRemoveFriend()
 
   const [searchQuery, setSearchQuery] = useState('')
@@ -32,10 +44,11 @@ const FriendsPage = () => {
   const [showDropdown, setShowDropdown] = useState(false)
   const searchRef = useRef<HTMLDivElement>(null)
 
-  // Load friends on mount
+  // Load friends and invitations on mount
   useEffect(() => {
     refetch()
-  }, [refetch])
+    refetchInvitations()
+  }, [refetch, refetchInvitations])
 
   // Debounced search
   useEffect(() => {
@@ -90,34 +103,35 @@ const FriendsPage = () => {
     }
   }, [showDropdown])
 
-  const handleAddFriend = useCallback(
+  const handleSendFriendRequest = useCallback(
     async (friendId: string) => {
       setIsAdding(friendId)
       setSearchError(null)
 
       try {
-        const [response, error] = await addFriend({
+        const [response, error] = await sendFriendRequest({
           method: 'post',
-          data: { friend_id: friendId },
+          data: { invitee_user_id: friendId },
         })
 
         if (error) {
-          const errorMessage = error instanceof Error ? error.message : 'Failed to add friend'
+          const errorMessage =
+            error instanceof Error ? error.message : 'Failed to send friend request'
           setSearchError(errorMessage)
         } else {
-          // Clear search and refresh friends list
+          // Clear search and refresh invitations list
           setSearchQuery('')
           setSearchResults([])
           setShowDropdown(false)
-          await refetch()
+          await refetchInvitations()
         }
       } catch (err) {
-        setSearchError('Failed to add friend')
+        setSearchError('Failed to send friend request')
       } finally {
         setIsAdding(null)
       }
     },
-    [addFriend, refetch]
+    [sendFriendRequest, refetchInvitations]
   )
 
   const handleRemoveFriend = useCallback(
@@ -142,9 +156,57 @@ const FriendsPage = () => {
     [removeFriend, refetch]
   )
 
+  const handleAcceptInvitation = useCallback(
+    async (invitationId: string) => {
+      try {
+        const [response, error] = await updateFriendInvitation({
+          method: 'patch',
+          url: `friends/invitations/${invitationId}`,
+          data: { status: 'accepted' },
+        })
+
+        if (!error) {
+          await refetchInvitations()
+          await refetch()
+        }
+      } catch (err) {
+        // Error handling
+      }
+    },
+    [updateFriendInvitation, refetchInvitations, refetch]
+  )
+
+  const handleDeclineInvitation = useCallback(
+    async (invitationId: string) => {
+      try {
+        const [response, error] = await updateFriendInvitation({
+          method: 'patch',
+          url: `friends/invitations/${invitationId}`,
+          data: { status: 'declined' },
+        })
+
+        if (!error) {
+          await refetchInvitations()
+        }
+      } catch (err) {
+        // Error handling
+      }
+    },
+    [updateFriendInvitation, refetchInvitations]
+  )
+
   // Check if a user is already a friend
   const isAlreadyFriend = (userId: string) => {
     return friends.some((f) => f.friend_id === userId)
+  }
+
+  // Check if there's a pending invitation (either sent or received)
+  const hasPendingInvitation = (userId: string) => {
+    return invitations.some(
+      (inv) =>
+        (inv.inviter_user_id === userId || inv.invitee_user_id === userId) &&
+        inv.status === 'pending'
+    )
   }
 
   return (
@@ -211,13 +273,17 @@ const FriendsPage = () => {
                             <Text variant="body-sm" color="neutral-400">
                               Already friends
                             </Text>
+                          ) : hasPendingInvitation(user.id) ? (
+                            <Text variant="body-sm" color="neutral-400">
+                              Request pending
+                            </Text>
                           ) : (
                             <Button
                               variant="brand-primary"
-                              onClick={() => handleAddFriend(user.id)}
+                              onClick={() => handleSendFriendRequest(user.id)}
                               disabled={isAddingThis}
                             >
-                              {isAddingThis ? 'Adding...' : 'Add'}
+                              {isAddingThis ? 'Sending...' : 'Send Request'}
                             </Button>
                           )}
                         </div>
@@ -235,6 +301,62 @@ const FriendsPage = () => {
             </div>
           )}
         </div>
+
+        {/* Pending Invitations */}
+        {invitations.length > 0 && (
+          <Card marginBottom={300}>
+            <Box padding={300}>
+              <Text variant="headline-md-emphasis" marginBottom={200}>
+                Pending Friend Requests
+              </Text>
+              <div className={styles.invitationsList}>
+                {invitations.map((invitation) => {
+                  const isInviter = currentUserId === invitation.inviter_user_id
+                  const otherUserName = isInviter
+                    ? invitation.invitee_name || invitation.invitee_email || 'Unknown User'
+                    : invitation.inviter_name || invitation.inviter_email || 'Unknown User'
+                  const otherUserEmail = isInviter
+                    ? invitation.invitee_email
+                    : invitation.inviter_email
+
+                  return (
+                    <div key={invitation.id} className={styles.invitationItem}>
+                      <div className={styles.invitationInfo}>
+                        <Text variant="body-md-emphasis">{otherUserName}</Text>
+                        {otherUserEmail && (
+                          <Text variant="body-sm" color="neutral-600" marginTop={50}>
+                            {otherUserEmail}
+                          </Text>
+                        )}
+                        {isInviter && (
+                          <Text variant="body-sm" color="neutral-600" marginTop={50}>
+                            Request sent
+                          </Text>
+                        )}
+                      </div>
+                      {!isInviter && (
+                        <div className={styles.invitationActions}>
+                          <Button
+                            variant="brand-primary"
+                            onClick={() => handleAcceptInvitation(invitation.id)}
+                          >
+                            Accept
+                          </Button>
+                          <Button
+                            variant="default-secondary"
+                            onClick={() => handleDeclineInvitation(invitation.id)}
+                          >
+                            Decline
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  )
+                })}
+              </div>
+            </Box>
+          </Card>
+        )}
 
         {/* Friends Table */}
         {isLoadingFriends ? (

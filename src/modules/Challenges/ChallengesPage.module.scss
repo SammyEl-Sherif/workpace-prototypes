@@ -1,0 +1,85 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.page {
+  min-height: 100vh;
+  background: white;
+  padding: $size-200 2rem;
+  position: relative;
+  overflow-x: hidden;
+  margin-top: $size-700;
+}
+
+.breadcrumbsWrapper {
+  max-width: 1200px;
+  margin: 0 auto $size-400;
+}
+
+.floatingHeader {
+  position: sticky;
+  top: $size-200;
+  z-index: 100;
+  margin-bottom: $size-400;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+
+  .headerContent {
+    background: transparent;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    padding-bottom: $size-300;
+    position: relative;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: $size-300;
+      text-align: left;
+    }
+  }
+
+  .titleSection {
+    flex: 1;
+
+    .mainTitle {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin: 0;
+      color: #000000;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+
+    .subtitle {
+      color: #6c757d;
+      margin: $size-200 0 0 0;
+      font-size: 1.125rem;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+  }
+
+  .actionsSection {
+    display: flex;
+    align-items: center;
+    gap: $size-200;
+  }
+}
+
+.invitationsSection {
+  max-width: 1200px;
+  margin: 0 auto $size-400;
+}
+
+.challengesGrid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: $size-300;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}

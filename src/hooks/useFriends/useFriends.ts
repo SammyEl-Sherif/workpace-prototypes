@@ -10,6 +10,11 @@ type SearchUsersResponse = {
   status: number
 }
 
+type FriendInvitationsResponse = {
+  data: { invitations: any[] }
+  status: number
+}
+
 export const useFriends = () => {
   const [response, isLoading, error, , makeRequest] = useFetch<FriendsResponse, null>(
     'friends',
@@ -25,12 +30,35 @@ export const useFriends = () => {
   }
 }
 
+export const useFriendInvitations = () => {
+  const [response, isLoading, error, , makeRequest] = useFetch<FriendInvitationsResponse, null>(
+    'friends/invitations',
+    { method: 'get', manual: true },
+    null
+  )
+
+  return {
+    invitations: (response as FriendInvitationsResponse)?.data?.invitations ?? [],
+    isLoading,
+    error,
+    refetch: makeRequest,
+  }
+}
+
 export const useSearchUsers = () => {
   return useManualFetch<SearchUsersResponse>('friends/search')
 }
 
 export const useAddFriend = () => {
   return useManualFetch<{ data: { friend: any }; status: number }>('friends')
+}
+
+export const useSendFriendRequest = () => {
+  return useManualFetch<{ data: { invitation: any }; status: number }>('friends/invitations')
+}
+
+export const useUpdateFriendInvitation = () => {
+  return useManualFetch<{ data: { invitation: any }; status: number }>('friends/invitations')
 }
 
 export const useRemoveFriend = () => {

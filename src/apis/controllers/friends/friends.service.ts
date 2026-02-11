@@ -1,6 +1,14 @@
 import { querySupabase } from '@/db'
 import { createClient } from '@supabase/supabase-js'
-import { Friend, FriendWithUser, CreateFriendInput, SearchUserResult } from './friends.types'
+import {
+  Friend,
+  FriendWithUser,
+  CreateFriendInput,
+  SearchUserResult,
+  FriendInvitation,
+  CreateFriendInvitationInput,
+  UpdateFriendInvitationInput,
+} from './friends.types'
 
 export const FriendsService = {
   async getAll(userId: string): Promise<FriendWithUser[]> {
@@ -60,6 +68,20 @@ export const FriendsService = {
     ])
     if (existing.length > 0) {
       throw new Error('Friend already added')
+    }
+
+    // Check if there's already a pending invitation
+    const existingInvitation = await querySupabase<FriendInvitation>(
+      'friend_invitations/get_by_invitee.sql',
+      [input.friend_id]
+    )
+    const hasPendingInvitation = existingInvitation.some(
+      (inv) =>
+        (inv.inviter_user_id === userId && inv.invitee_user_id === input.friend_id) ||
+        (inv.inviter_user_id === input.friend_id && inv.invitee_user_id === userId)
+    )
+    if (hasPendingInvitation) {
+      throw new Error('Friend request already sent or pending')
     }
 
     const results = await querySupabase<Friend>('friends/create.sql', [userId, input.friend_id])
@@ -130,5 +152,154 @@ export const FriendsService = {
       }))
 
     return matchingUsers
+  },
+
+  async getPendingInvitations(userId: string): Promise<FriendInvitation[]> {
+    // Get invitations where user is the invitee (received)
+    const receivedInvitations = await querySupabase<FriendInvitation>(
+      'friend_invitations/get_by_invitee.sql',
+      [userId]
+    )
+    // Get invitations where user is the inviter (sent)
+    const sentInvitations = await querySupabase<FriendInvitation>(
+      'friend_invitations/get_by_inviter.sql',
+      [userId]
+    )
+    // Combine and filter to only pending
+    const invitations = [...receivedInvitations, ...sentInvitations].filter(
+      (inv) => inv.status === 'pending'
+    )
+
+    // Fetch user details for each invitation
+    const supabaseUrl = process.env.NEXT_PUBLIC_WORKPACE_SUPABASE_URL
+    const supabaseServiceRoleKey = process.env.WORKPACE_SUPABASE_SERVICE_ROLE_KEY?.trim()
+
+    if (!supabaseUrl || !supabaseServiceRoleKey) {
+      return invitations
+    }
+
+    const { createClient } = await import('@supabase/supabase-js')
+    const supabase = createClient(supabaseUrl, supabaseServiceRoleKey)
+
+    const invitationsWithUsers: FriendInvitation[] = []
+
+    for (const invitation of invitations) {
+      try {
+        const [inviterData, inviteeData] = await Promise.all([
+          supabase.auth.admin.getUserById(invitation.inviter_user_id),
+          supabase.auth.admin.getUserById(invitation.invitee_user_id),
+        ])
+
+        invitationsWithUsers.push({
+          ...invitation,
+          inviter_email: inviterData.data?.user?.email || invitation.inviter_email || null,
+          inviter_name:
+            inviterData.data?.user?.user_metadata?.name ||
+            inviterData.data?.user?.email ||
+            invitation.inviter_email ||
+            null,
+          invitee_email: inviteeData.data?.user?.email || invitation.invitee_email || null,
+          invitee_name:
+            inviteeData.data?.user?.user_metadata?.name ||
+            inviteeData.data?.user?.email ||
+            invitation.invitee_email ||
+            null,
+        })
+      } catch (error) {
+        console.error(`Error fetching user details for invitation ${invitation.id}:`, error)
+        invitationsWithUsers.push(invitation)
+      }
+    }
+
+    return invitationsWithUsers
+  },
+
+  async createInvitation(
+    userId: string,
+    input: CreateFriendInvitationInput
+  ): Promise<FriendInvitation> {
+    if (!input.invitee_user_id || input.invitee_user_id.trim() === '') {
+      throw new Error('Invitee user ID is required')
+    }
+
+    if (userId === input.invitee_user_id) {
+      throw new Error('Cannot send friend request to yourself')
+    }
+
+    // Check if friendship already exists
+    const existingFriendship = await querySupabase<Friend>('friends/get_by_friend_id.sql', [
+      userId,
+      input.invitee_user_id,
+    ])
+    if (existingFriendship.length > 0) {
+      throw new Error('Already friends with this user')
+    }
+
+    // Check if there's already a pending invitation (either direction)
+    // Check invitations sent by current user
+    const sentInvitations = await querySupabase<FriendInvitation>(
+      'friend_invitations/get_by_inviter.sql',
+      [userId]
+    )
+    // Check invitations received by current user
+    const receivedInvitations = await querySupabase<FriendInvitation>(
+      'friend_invitations/get_by_invitee.sql',
+      [userId]
+    )
+    const allInvitations = [...sentInvitations, ...receivedInvitations]
+    const hasExistingInvitation = allInvitations.some(
+      (inv) =>
+        inv.status === 'pending' &&
+        ((inv.inviter_user_id === userId && inv.invitee_user_id === input.invitee_user_id) ||
+          (inv.inviter_user_id === input.invitee_user_id && inv.invitee_user_id === userId))
+    )
+    if (hasExistingInvitation) {
+      throw new Error('Friend request already sent or pending')
+    }
+
+    const results = await querySupabase<FriendInvitation>('friend_invitations/create.sql', [
+      userId,
+      input.invitee_user_id,
+    ])
+
+    if (results.length === 0) {
+      throw new Error('Failed to create friend invitation')
+    }
+
+    return results[0]
+  },
+
+  async updateInvitationStatus(
+    invitationId: string,
+    userId: string,
+    input: UpdateFriendInvitationInput
+  ): Promise<FriendInvitation> {
+    const results = await querySupabase<FriendInvitation>('friend_invitations/update_status.sql', [
+      invitationId,
+      input.status,
+      userId,
+    ])
+
+    if (results.length === 0) {
+      throw new Error('Invitation not found or you do not have permission to update it')
+    }
+
+    const invitation = results[0]
+
+    // If accepted, create the friendship (bidirectional)
+    if (input.status === 'accepted') {
+      // Create friendship from inviter to invitee
+      await querySupabase<Friend>('friends/create.sql', [
+        invitation.inviter_user_id,
+        invitation.invitee_user_id,
+      ])
+      // Create friendship from invitee to inviter (bidirectional)
+      await querySupabase<Friend>('friends/create.sql', [
+        invitation.invitee_user_id,
+        invitation.inviter_user_id,
+      ])
+    }
+
+    return invitation
   },
 }

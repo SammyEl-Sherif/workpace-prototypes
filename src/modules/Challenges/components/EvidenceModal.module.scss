@@ -1,0 +1,106 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $size-300;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.2s ease-out;
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+.modalContent {
+  background: $color-neutral-white;
+  border-radius: $size-200;
+  box-shadow: 0 $size-400 $size-800 rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+  width: 100%;
+  max-width: 800px;
+  overflow: hidden;
+  position: relative;
+  animation: slideIn 0.3s ease-out;
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95) translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: $size-400;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+  gap: $size-300;
+}
+
+.headerInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: $size-75;
+}
+
+.modalBody {
+  padding: $size-400;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.evidenceList {
+  display: flex;
+  flex-direction: column;
+  gap: $size-200;
+}
+
+.evidenceCard {
+  width: 100%;
+}
+
+.evidenceHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $size-150;
+}
+
+.evidenceImage {
+  width: 100%;
+  max-height: 400px;
+  object-fit: contain;
+  border-radius: $size-100;
+  margin-top: $size-150;
+}
+
+.evidenceVideo {
+  width: 100%;
+  max-height: 400px;
+  border-radius: $size-100;
+  margin-top: $size-150;
+}

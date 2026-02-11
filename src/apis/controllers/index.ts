@@ -1,4 +1,5 @@
 export * from './apps'
+export * from './challenges'
 export * from './events'
 export * from './feature-flags'
 export * from './friends'

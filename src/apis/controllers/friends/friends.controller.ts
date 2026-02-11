@@ -1,7 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import { FriendsService } from './friends.service'
-import { CreateFriendInput } from './friends.types'
+import {
+  CreateFriendInput,
+  CreateFriendInvitationInput,
+  UpdateFriendInvitationInput,
+} from './friends.types'
 import { HttpResponse } from '@/server/types'
 import { withSupabaseAuth } from '@/server/utils'
 
@@ -180,6 +184,154 @@ export const searchUsersController = withSupabaseAuth(
       res.status(500).json({
         data: { users: [] },
         status: 500,
+      })
+    }
+  }
+)
+
+export const getFriendInvitationsController = withSupabaseAuth(
+  async (
+    req: NextApiRequest,
+    res: NextApiResponse<HttpResponse<{ invitations: any[] }>>,
+    session
+  ) => {
+    try {
+      if (!session.user) {
+        res.status(401).json({
+          data: { invitations: [] },
+          status: 401,
+        })
+        return
+      }
+
+      const userId = session.user.id
+      const invitations = await FriendsService.getPendingInvitations(userId)
+
+      res.status(200).json({
+        data: { invitations },
+        status: 200,
+      })
+    } catch (error: unknown) {
+      console.error('[getFriendInvitationsController] Error:', error)
+      res.status(500).json({
+        data: { invitations: [] },
+        status: 500,
+      })
+    }
+  }
+)
+
+export const createFriendInvitationController = withSupabaseAuth(
+  async (req: NextApiRequest, res: NextApiResponse<HttpResponse<{ invitation: any }>>, session) => {
+    try {
+      if (req.method !== 'POST') {
+        res.status(405).json({
+          data: { invitation: null as any },
+          status: 405,
+        })
+        return
+      }
+
+      if (!session.user) {
+        res.status(401).json({
+          data: { invitation: null as any },
+          status: 401,
+        })
+        return
+      }
+
+      const userId = session.user.id
+      const input: CreateFriendInvitationInput = req.body
+
+      if (!input.invitee_user_id) {
+        res.status(400).json({
+          data: { invitation: null as any },
+          status: 400,
+        })
+        return
+      }
+
+      const invitation = await FriendsService.createInvitation(userId, input)
+
+      res.status(201).json({
+        data: { invitation },
+        status: 201,
+      })
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+      const status =
+        errorMessage.includes('already') || errorMessage.includes('yourself')
+          ? 400
+          : errorMessage.includes('required')
+          ? 400
+          : 500
+
+      res.status(status).json({
+        data: { invitation: null as any },
+        status,
+      })
+    }
+  }
+)
+
+export const updateFriendInvitationController = withSupabaseAuth(
+  async (req: NextApiRequest, res: NextApiResponse<HttpResponse<{ invitation: any }>>, session) => {
+    try {
+      if (req.method !== 'PATCH') {
+        res.status(405).json({
+          data: { invitation: null as any },
+          status: 405,
+        })
+        return
+      }
+
+      if (!session.user) {
+        res.status(401).json({
+          data: { invitation: null as any },
+          status: 401,
+        })
+        return
+      }
+
+      const { id } = req.query
+      const userId = session.user.id
+
+      if (!id || typeof id !== 'string') {
+        res.status(400).json({
+          data: { invitation: null as any },
+          status: 400,
+        })
+        return
+      }
+
+      const input: UpdateFriendInvitationInput = req.body
+
+      if (!input.status || !['accepted', 'declined'].includes(input.status)) {
+        res.status(400).json({
+          data: { invitation: null as any },
+          status: 400,
+        })
+        return
+      }
+
+      const invitation = await FriendsService.updateInvitationStatus(id, userId, input)
+
+      res.status(200).json({
+        data: { invitation },
+        status: 200,
+      })
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+      const status =
+        errorMessage.includes('not found') || errorMessage.includes('permission')
+          ? 404
+          : errorMessage.includes('required')
+          ? 400
+          : 500
+
+      res.status(status).json({
+        data: { invitation: null as any },
+        status,
       })
     }
   }
