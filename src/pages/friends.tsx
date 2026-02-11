@@ -248,7 +248,7 @@ const FriendsPage = () => {
   // Sort each group and get sorted letters
   const sortedLetters = Object.keys(groupedFriends).sort()
   sortedLetters.forEach((letter) => {
-    groupedFriends[letter].sort((a: typeof friends[0], b: typeof friends[0]) => {
+    groupedFriends[letter].sort((a: (typeof friends)[0], b: (typeof friends)[0]) => {
       const nameA = getDisplayName(a).toLowerCase()
       const nameB = getDisplayName(b).toLowerCase()
       return nameA.localeCompare(nameB)
@@ -433,14 +433,11 @@ const FriendsPage = () => {
               {sortedLetters.map((letter) => (
                 <div key={letter} className={styles.friendsSection}>
                   <div className={styles.sectionHeader}>{letter}</div>
-                  {groupedFriends[letter].map((friend: typeof friends[0]) => {
+                  {groupedFriends[letter].map((friend: (typeof friends)[0]) => {
                     const isRemovingThis = isRemoving === friend.friend_id
                     const displayName = getDisplayName(friend)
                     const displayEmail = getDisplayEmail(friend)
-                    const initials = getInitials(
-                      friend.friend?.name,
-                      friend.friend?.email
-                    )
+                    const initials = getInitials(friend.friend?.name, friend.friend?.email)
 
                     return (
                       <div key={friend.id} className={styles.friendItem}>

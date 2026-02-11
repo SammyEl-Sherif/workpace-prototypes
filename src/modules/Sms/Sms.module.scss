@@ -59,3 +59,71 @@
   align-self: flex-end;
   margin-top: $size-100;
 }
+
+// ── Inbound Messages Section ──────────────────────────────────
+
+.messagesSection {
+  max-width: 800px;
+  width: 100%;
+  margin: $size-600 auto 0;
+  text-align: left;
+}
+
+.messagesHeading {
+  margin-bottom: $size-300;
+  text-align: center;
+}
+
+.messagesLoading,
+.messagesEmpty {
+  text-align: center;
+  color: $color-neutral-500;
+  padding: $size-400;
+}
+
+.messagesList {
+  display: flex;
+  flex-direction: column;
+  gap: $size-200;
+}
+
+.messageCard {
+  width: 100%;
+}
+
+.messageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  gap: $size-200;
+}
+
+.messageSender {
+  margin-bottom: $size-50;
+}
+
+.messageMeta {
+  color: $color-neutral-600;
+  display: flex;
+  align-items: center;
+  gap: $size-50;
+}
+
+.messagePhone,
+.messageEmail {
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+.messageTime {
+  color: $color-neutral-500;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.messageBody {
+  color: $color-neutral-800;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
