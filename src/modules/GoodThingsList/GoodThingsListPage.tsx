@@ -1,10 +1,18 @@
 import { useGoodThings, useManualFetch, useSavedReports } from '@/hooks'
+import { GoodThing, GoodThingMedia } from '@/interfaces/good-things'
 import { CreateSavedReportInput } from '@/interfaces/saved-reports'
 import { Box, Breadcrumbs, Text } from '@workpace/design-system'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { DayGrid, GoodThingsList, ReportModal, SavedReportsTable } from './components'
+import {
+  DayGrid,
+  GoodThingsList,
+  NotionImportModal,
+  ReportModal,
+  SavedReportsTable,
+} from './components'
 import styles from './GoodThingsListPage.module.scss'
 import { useGenerateReportFromGoodThings } from './hooks/useGenerateReportFromGoodThings'
 
@@ -19,8 +27,20 @@ const PRESET_PROMPTS = {
 
 type ViewType = 'good-things' | 'reports'
 
-export const GoodThingsListPage = () => {
-  const { goodThings, isLoading, refetch } = useGoodThings()
+interface GoodThingsListPageProps {
+  initialGoodThings?: GoodThing[]
+  initialMediaByGoodThingId?: Record<string, GoodThingMedia[]>
+}
+
+export const GoodThingsListPage = ({
+  initialGoodThings,
+  initialMediaByGoodThingId,
+}: GoodThingsListPageProps = {}) => {
+  const router = useRouter()
+  const { goodThings: fetchedGoodThings, isLoading, refetch } = useGoodThings()
+
+  // Use initial data from server-side props if available, otherwise fall back to client fetch
+  const goodThings = initialGoodThings ?? fetchedGoodThings
   const { savedReports, refetch: refetchSavedReports } = useSavedReports()
   const [activeView, setActiveView] = useState<ViewType>('good-things')
   const [userPrompt, setUserPrompt] = useState<string>()
@@ -44,9 +64,25 @@ export const GoodThingsListPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [showHistory, setShowHistory] = useState(false)
   const [addFormOpen, setAddFormOpen] = useState(false)
+  const [isNotionImportOpen, setIsNotionImportOpen] = useState(false)
   const createSavedReport = useManualFetch<{ data: { saved_report: any } }>(
     'good-stuff-list/saved-reports'
   )
+
+  // Handle OAuth callback errors/success from URL params
+  useEffect(() => {
+    const { error, notion_connected } = router.query
+
+    if (notion_connected === 'true') {
+      setIsNotionImportOpen(true)
+      // Clean up URL
+      router.replace('/apps/good-stuff-list', undefined, { shallow: true })
+    } else if (error) {
+      setIsNotionImportOpen(true)
+      // Clean up URL
+      router.replace('/apps/good-stuff-list', undefined, { shallow: true })
+    }
+  }, [router.query, router])
 
   useEffect(() => {
     refetch()
@@ -202,24 +238,28 @@ export const GoodThingsListPage = () => {
       </motion.div>
 
       {activeView === 'good-things' ? (
-        <DayGrid
-          goodThings={goodThings}
-          onRefetch={refetch}
-          showHistory={showHistory}
-          onToggleHistory={() => setShowHistory((prev) => !prev)}
-          onAddGoodThing={() => setAddFormOpen(true)}
-          selectedGoalId={selectedGoalId}
-          onGoalChange={setSelectedGoalId}
-        >
-          {/* History content — rendered inside DayGrid when showHistory is true */}
-          <div className={styles.mainGrid}>
-            <GoodThingsList
-              addFormOpen={addFormOpen}
-              onAddFormClose={() => setAddFormOpen(false)}
-              goodThings={filteredGoodThings}
-            />
-          </div>
-        </DayGrid>
+        <>
+          <DayGrid
+            goodThings={goodThings}
+            onRefetch={refetch}
+            showHistory={showHistory}
+            onToggleHistory={() => setShowHistory((prev) => !prev)}
+            onAddGoodThing={() => setAddFormOpen(true)}
+            selectedGoalId={selectedGoalId}
+            onGoalChange={setSelectedGoalId}
+            initialMediaByGoodThingId={initialMediaByGoodThingId}
+            onImportFromNotion={() => setIsNotionImportOpen(true)}
+          >
+            {/* History content — rendered inside DayGrid when showHistory is true */}
+            <div className={styles.mainGrid}>
+              <GoodThingsList
+                addFormOpen={addFormOpen}
+                onAddFormClose={() => setAddFormOpen(false)}
+                goodThings={filteredGoodThings}
+              />
+            </div>
+          </DayGrid>
+        </>
       ) : (
         <div className={styles.mainGrid}>
           <motion.div
@@ -316,6 +356,14 @@ export const GoodThingsListPage = () => {
       )}
 
       <ReportModal isOpen={isModalOpen} onClose={handleCloseModal} report={selectedReport} />
+      <NotionImportModal
+        isOpen={isNotionImportOpen}
+        onClose={() => setIsNotionImportOpen(false)}
+        onImport={() => {
+          refetch()
+          setIsNotionImportOpen(false)
+        }}
+      />
     </div>
   )
 }

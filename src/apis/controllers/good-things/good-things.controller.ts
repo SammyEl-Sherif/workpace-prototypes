@@ -251,3 +251,73 @@ export const deleteGoodThingController = withSupabaseAuth(
     }
   }
 )
+
+export const bulkCreateGoodThingsController = withSupabaseAuth(
+  async (
+    req: NextApiRequest,
+    res: NextApiResponse<HttpResponse<{ good_things: any[] }>>,
+    session
+  ) => {
+    try {
+      if (req.method !== 'POST') {
+        res.status(405).json({
+          data: { good_things: [] },
+          status: 405,
+        })
+        return
+      }
+
+      if (!session.user) {
+        res.status(401).json({
+          data: { good_things: [] },
+          status: 401,
+        })
+        return
+      }
+
+      const userId = session.user.id
+
+      // Handle both direct array and wrapped in data property
+      let inputs: CreateGoodThingInput[]
+      if (Array.isArray(req.body)) {
+        inputs = req.body
+      } else if (req.body && Array.isArray(req.body.data)) {
+        inputs = req.body.data
+      } else {
+        console.error('[Bulk Create] Invalid request body format:', {
+          body: req.body,
+          bodyType: typeof req.body,
+          isArray: Array.isArray(req.body),
+        })
+        res.status(400).json({
+          data: { good_things: [] },
+          status: 400,
+        })
+        return
+      }
+
+      if (inputs.length === 0) {
+        res.status(400).json({
+          data: { good_things: [] },
+          status: 400,
+        })
+        return
+      }
+
+      console.log('[Bulk Create] Creating', inputs.length, 'good things for user', userId)
+
+      const goodThings = await GoodThingsService.bulkCreate(userId, inputs)
+
+      res.status(201).json({
+        data: { good_things: goodThings },
+        status: 201,
+      })
+    } catch (error: unknown) {
+      console.error('Bulk create error:', error)
+      res.status(500).json({
+        data: { good_things: [] },
+        status: 500,
+      })
+    }
+  }
+)

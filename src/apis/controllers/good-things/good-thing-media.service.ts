@@ -56,4 +56,14 @@ export const GoodThingMediaService = {
       endDate,
     ])
   },
+
+  async getByGoodThingIds(goodThingIds: string[], userId: string): Promise<GoodThingMedia[]> {
+    if (goodThingIds.length === 0) {
+      return []
+    }
+    return querySupabase<GoodThingMedia>('good_thing_media/get_by_good_thing_ids.sql', [
+      goodThingIds,
+      userId,
+    ])
+  },
 }

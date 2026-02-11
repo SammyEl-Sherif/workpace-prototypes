@@ -9,4 +9,6 @@ export enum Routes {
   TEMPLATES = '/templates',
   ADMIN = '/admin',
   ADMIN_FEATURES = '/admin/features',
+  PRIVACY = '/privacy',
+  TERMS = '/terms',
 }

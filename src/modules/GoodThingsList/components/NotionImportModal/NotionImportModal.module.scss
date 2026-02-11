@@ -1,0 +1,242 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $size-300;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  pointer-events: auto;
+  animation: fadeIn 0.2s ease-out;
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+.modalContent {
+  background: $color-neutral-white;
+  border-radius: $size-200;
+  box-shadow: 0 $size-400 $size-800 rgba(0, 0, 0, 0.2), 0 $size-200 $size-400 rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+  width: 100%;
+  max-width: 800px;
+  overflow: hidden;
+  position: relative;
+  z-index: 10001;
+  pointer-events: auto;
+  animation: slideInDesktop 0.3s ease-out;
+
+  @keyframes slideInDesktop {
+    from {
+      opacity: 0;
+      transform: scale(0.95) translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  @media (max-width: 768px) {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-width: 100%;
+    max-height: 90vh;
+    border-radius: $size-500 $size-500 0 0;
+    margin: 0;
+    padding: 0;
+    animation: slideUpMobile 0.3s ease-out;
+
+    @keyframes slideUpMobile {
+      from {
+        transform: translateY(100%);
+      }
+      to {
+        transform: translateY(0);
+      }
+    }
+  }
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: $size-400;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  gap: $size-300;
+  flex-shrink: 0;
+
+  @media (max-width: 768px) {
+    padding: $size-300;
+    align-items: center;
+  }
+}
+
+.headerInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: $size-100;
+}
+
+.modalBody {
+  flex: 1;
+  overflow-y: auto;
+  padding: $size-400;
+
+  @media (max-width: 768px) {
+    padding: $size-300;
+  }
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $color-neutral-50;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $color-neutral-300;
+    border-radius: 4px;
+
+    &:hover {
+      background: $color-neutral-400;
+    }
+  }
+}
+
+.stepContent {
+  display: flex;
+  flex-direction: column;
+  gap: $size-300;
+}
+
+.error {
+  padding: $size-200;
+  background: $color-error-50;
+  border-radius: $size-150;
+  margin-bottom: $size-300;
+}
+
+.connectionInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $size-200;
+  background: $color-success-50;
+  border-radius: $size-150;
+  margin-bottom: $size-300;
+}
+
+.searchSection {
+  display: flex;
+  gap: $size-200;
+  align-items: center;
+  margin-bottom: $size-300;
+
+  // Make the input field take up more space
+  > :first-child {
+    flex: 1;
+    min-width: 0; // Allow flex item to shrink below content size
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.tasksList {
+  display: flex;
+  flex-direction: column;
+  gap: $size-150;
+  max-height: 400px;
+  overflow-y: auto;
+  margin-bottom: $size-300;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $color-neutral-50;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $color-neutral-300;
+    border-radius: 4px;
+
+    &:hover {
+      background: $color-neutral-400;
+    }
+  }
+}
+
+.taskItem {
+  display: flex;
+  gap: $size-200;
+  padding: $size-200;
+  border: 1px solid $color-neutral-200;
+  border-radius: $size-150;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: $color-neutral-50;
+    border-color: $color-primary-300;
+  }
+
+  &.selected {
+    background: $color-primary-50;
+    border-color: $color-primary-500;
+  }
+}
+
+.checkbox {
+  margin-top: $size-50;
+  cursor: pointer;
+}
+
+.taskInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: $size-75;
+}
+
+.importSection {
+  padding-top: $size-300;
+  border-top: 1px solid $color-neutral-200;
+  display: flex;
+  flex-direction: column;
+  gap: $size-200;
+}
+
+.importActions {
+  display: flex;
+  gap: $size-200;
+  justify-content: flex-end;
+
+  @media (max-width: 768px) {
+    flex-direction: column-reverse;
+  }
+}

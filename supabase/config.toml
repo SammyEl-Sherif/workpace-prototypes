@@ -50,6 +50,7 @@ schema_paths = [
   "./schemas/events.sql",
   "./schemas/good_things.sql",
   "./schemas/good_things_media.sql",
+  "./schemas/notion_connections.sql",
   "./schemas/notion_templates.sql",
   "./schemas/saved_reports.sql",
   "./schemas/user_roles.sql",

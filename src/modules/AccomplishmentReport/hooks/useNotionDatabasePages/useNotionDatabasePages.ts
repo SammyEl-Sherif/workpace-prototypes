@@ -24,6 +24,8 @@ export const useNotionDatabasePages = (): UseNotionDatabaseInfoReturnProps => {
           equals: 'Accomplishment',
         },
       },
+      // Don't pass filter_by_creator - let it auto-enable when user ID is stored
+      // This ensures regular views show only user's pages
     }
   }, [database_id, JSON.stringify(filters)])
 

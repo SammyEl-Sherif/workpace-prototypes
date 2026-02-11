@@ -94,4 +94,20 @@ export const GoodThingsService = {
       endDate,
     ])
   },
+
+  async bulkCreate(userId: string, inputs: CreateGoodThingInput[]): Promise<GoodThing[]> {
+    const created: GoodThing[] = []
+
+    for (const input of inputs) {
+      try {
+        const goodThing = await this.create(userId, input)
+        created.push(goodThing)
+      } catch (error) {
+        // Log error but continue with other items
+        console.error(`Failed to create good thing: ${input.title}`, error)
+      }
+    }
+
+    return created
+  },
 }

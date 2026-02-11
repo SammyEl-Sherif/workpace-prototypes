@@ -25,6 +25,8 @@ interface DayGridProps {
   selectedGoalId: string
   onGoalChange: (goalId: string) => void
   children?: React.ReactNode
+  initialMediaByGoodThingId?: Record<string, GoodThingMedia[]>
+  onImportFromNotion?: () => void
 }
 
 export const DayGrid = ({
@@ -36,6 +38,8 @@ export const DayGrid = ({
   selectedGoalId,
   onGoalChange,
   children,
+  initialMediaByGoodThingId,
+  onImportFromNotion,
 }: DayGridProps) => {
   const [selectedDay, setSelectedDay] = useState<DayData | null>(null)
   const [showForm, setShowForm] = useState(false)
@@ -58,6 +62,30 @@ export const DayGrid = ({
     if (selectedGoalId === 'all') return goodThings
     return goodThings.filter((gt) => gt.goal_id === selectedGoalId)
   }, [goodThings, selectedGoalId])
+
+  // Build mediaMap from initialMediaByGoodThingId, filtered by current goodThings
+  const buildMediaMapFromInitial = useCallback(() => {
+    if (!initialMediaByGoodThingId) return {}
+
+    const map: Record<string, GoodThingMedia[]> = {}
+
+    // Only include media for good things that are in the current filtered list
+    for (const goodThing of filteredGoodThings) {
+      const media = initialMediaByGoodThingId[goodThing.id]
+      if (!media || media.length === 0) continue
+
+      const dateKey = goodThing.completion_date
+        ? new Date(goodThing.completion_date).toISOString().split('T')[0]
+        : new Date(goodThing.created_at).toISOString().split('T')[0]
+
+      if (!map[dateKey]) {
+        map[dateKey] = []
+      }
+      map[dateKey].push(...media)
+    }
+
+    return map
+  }, [initialMediaByGoodThingId, filteredGoodThings])
 
   // Generate 32 days (today going back)
   const days = useMemo(() => {
@@ -88,8 +116,21 @@ export const DayGrid = ({
     return result
   }, [filteredGoodThings, mediaMap])
 
-  // Fetch media for filtered good things
+  // Update mediaMap when we have initial data
   useEffect(() => {
+    if (initialMediaByGoodThingId) {
+      const newMap = buildMediaMapFromInitial()
+      setMediaMap(newMap)
+    }
+  }, [buildMediaMapFromInitial, initialMediaByGoodThingId])
+
+  // Only fetch media client-side if we don't have initial data and filtered good things change
+  useEffect(() => {
+    // Skip client-side fetching if we have initial data
+    if (initialMediaByGoodThingId) {
+      return
+    }
+
     const fetchAllMedia = async () => {
       const newMediaMap: Record<string, GoodThingMedia[]> = {}
 
@@ -125,7 +166,7 @@ export const DayGrid = ({
       setMediaMap({})
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filteredGoodThings])
+  }, [filteredGoodThings, initialMediaByGoodThingId])
 
   const handleDayClick = useCallback(
     (day: DayData) => {
@@ -489,13 +530,22 @@ export const DayGrid = ({
                 + Add Good Thing
               </button>
             )}
-            <button
-              type="button"
-              className={`${styles.historyButton} ${showHistory ? styles.historyButtonActive : ''}`}
-              onClick={onToggleHistory}
-            >
-              {showHistory ? '← Back to Grid' : 'View All History'}
-            </button>
+            <div className={styles.actionButtons}>
+              {onImportFromNotion && (
+                <button type="button" className={styles.importButton} onClick={onImportFromNotion}>
+                  📥 Import from Notion
+                </button>
+              )}
+              <button
+                type="button"
+                className={`${styles.historyButton} ${
+                  showHistory ? styles.historyButtonActive : ''
+                }`}
+                onClick={onToggleHistory}
+              >
+                {showHistory ? '← Back to Grid' : 'View All History'}
+              </button>
+            </div>
           </div>
         </div>
       </div>

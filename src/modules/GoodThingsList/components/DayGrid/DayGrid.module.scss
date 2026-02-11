@@ -40,6 +40,24 @@
   }
 }
 
+.actionButtons {
+  display: flex;
+  align-items: center;
+  gap: $size-100;
+  flex-shrink: 0;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    gap: $size-100;
+
+    button,
+    :global(button) {
+      flex: 1;
+      width: 100%;
+    }
+  }
+}
+
 .addButton {
   appearance: none;
   background: #667eea;
@@ -92,6 +110,30 @@
       border-color: #5a6fd6;
       box-shadow: 0 2px 6px rgba(102, 126, 234, 0.3);
     }
+  }
+
+  @media (max-width: 600px) {
+    width: 100%;
+  }
+}
+
+.importButton {
+  white-space: nowrap;
+  // Match historyButton styles
+  appearance: none;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  padding: $size-100 $size-200;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: $color-neutral-800;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: rgba(0, 0, 0, 0.24);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   }
 
   @media (max-width: 600px) {

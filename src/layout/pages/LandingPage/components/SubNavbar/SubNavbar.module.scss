@@ -1,10 +1,17 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
 .subnavbar {
   position: fixed;
   top: 72px; // Below StandardNavbar (approximately 1rem padding top + 40px logo + 1rem padding bottom = ~72px)
   left: 0;
   right: 0;
   z-index: 999;
-  background: #667eea; // Blue color
+  background: linear-gradient(
+    135deg,
+    $color-accent-600 0%,
+    $color-accent-500 50%,
+    $color-accent-600 100%
+  );
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   padding: 0.75rem 0;
   display: flex;

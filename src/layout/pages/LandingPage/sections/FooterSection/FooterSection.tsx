@@ -114,12 +114,12 @@ const FooterSection = () => {
             © {new Date().getFullYear()} WorkPace Technology. All rights reserved.
           </Text>
           <div className={styles.legalLinks}>
-            <a href="#" className={styles.legalLink}>
+            <Link href={Routes.PRIVACY} className={styles.legalLink}>
               Privacy Policy
-            </a>
-            <a href="#" className={styles.legalLink}>
+            </Link>
+            <Link href={Routes.TERMS} className={styles.legalLink}>
               Terms of Service
-            </a>
+            </Link>
           </div>
         </div>
       </div>

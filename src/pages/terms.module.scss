@@ -1,0 +1,56 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $size-400 2rem;
+}
+
+.section {
+  margin-bottom: $size-500;
+}
+
+.heading {
+  margin: 0 0 $size-200;
+  color: $color-neutral-900;
+}
+
+.paragraph {
+  margin: 0 0 $size-200;
+  color: $color-neutral-700;
+  line-height: $font-body-md-paragraph-line-height;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 $size-200;
+  padding-left: $size-300;
+
+  li {
+    margin-bottom: $size-100;
+    position: relative;
+
+    &::before {
+      content: '•';
+      position: absolute;
+      left: -$size-300;
+      color: $color-primary-500;
+      font-weight: $font-weight-bold;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+@media #{$mq-sm-only} {
+  .content {
+    padding: $size-300 1rem;
+  }
+}

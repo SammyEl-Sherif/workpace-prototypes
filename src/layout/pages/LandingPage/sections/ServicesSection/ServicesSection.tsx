@@ -1,17 +1,33 @@
 import { Text } from '@workpace/design-system'
 import cn from 'classnames'
+import { useRouter } from 'next/router'
+
+import { Routes } from '@/interfaces/routes'
 
 import { useScrollReveal } from '../../hooks'
 
 import styles from './ServicesSection.module.scss'
 
-const services = [
+type ServiceAction = 'navigate' | 'consultation' | null
+
+interface Service {
+  icon: string
+  title: string
+  description: string
+  features: string[]
+  action: ServiceAction
+  path?: string
+}
+
+const services: Service[] = [
   {
     icon: '📋',
     title: 'Notion Templates',
     description:
       'Access our library of free and premium templates. Upgrade to Pro for $10/mo and unlock unlimited access to all templates.',
     features: ['Free templates available', 'Pro plan: $10/mo', 'All-inclusive access'],
+    action: 'navigate',
+    path: Routes.TEMPLATES,
   },
   {
     icon: '👥',
@@ -19,6 +35,7 @@ const services = [
     description:
       "We'll create and onboard your company to Notion with comprehensive resources and recurring knowledge transfer sessions.",
     features: ['Custom workspace design', 'Team onboarding', 'Ongoing support'],
+    action: null, // Not built yet
   },
   {
     icon: '💻',
@@ -26,6 +43,8 @@ const services = [
     description:
       'Access our suite of web applications with account creation, Notion integrations, and powerful productivity tools.',
     features: ['Web-based tools', 'Notion integration', 'User accounts'],
+    action: 'navigate',
+    path: Routes.APPS,
   },
   {
     icon: '✨',
@@ -33,11 +52,26 @@ const services = [
     description:
       'Full-stack engineering expertise to build MVPs, solve complex problems, and create any technical architecture you need.',
     features: ['MVP development', 'Custom solutions', 'Full-stack expertise'],
+    action: 'consultation',
   },
 ]
 
-const ServicesSection = () => {
+interface ServicesSectionProps {
+  onBookConsultation: () => void
+}
+
+const ServicesSection = ({ onBookConsultation }: ServicesSectionProps) => {
   const { ref, isVisible } = useScrollReveal()
+  const router = useRouter()
+
+  const handleCardClick = (service: Service) => {
+    if (service.action === 'navigate' && service.path) {
+      router.push(service.path)
+    } else if (service.action === 'consultation') {
+      onBookConsultation()
+    }
+    // If action is null, do nothing (Notion Consulting not built yet)
+  }
 
   return (
     <section id="services" className={styles.section}>
@@ -56,8 +90,22 @@ const ServicesSection = () => {
           {services.map((service, index) => (
             <div
               key={service.title}
-              className={cn(styles.card, styles.reveal, { [styles.visible]: isVisible })}
+              className={cn(
+                styles.card,
+                styles.reveal,
+                { [styles.visible]: isVisible },
+                { [styles.clickable]: service.action !== null }
+              )}
               style={{ transitionDelay: `${150 + index * 100}ms` }}
+              onClick={() => handleCardClick(service)}
+              role={service.action !== null ? 'button' : undefined}
+              tabIndex={service.action !== null ? 0 : undefined}
+              onKeyDown={(e) => {
+                if (service.action !== null && (e.key === 'Enter' || e.key === ' ')) {
+                  e.preventDefault()
+                  handleCardClick(service)
+                }
+              }}
             >
               <div className={styles.cardHeader}>
                 <div className={styles.iconWrapper}>
