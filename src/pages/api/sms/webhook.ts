@@ -200,7 +200,55 @@ const webhookController = async (req: NextApiRequest, res: NextApiResponse) => {
       messageBody.toLowerCase().includes('outlook')
     ) {
       try {
-        // First, check if we've already sent a reply for this message
+        // CRITICAL: Check if we've already sent a reply for an "outlook" message from this phone number
+        // within the last 2 minutes. This catches duplicate webhook calls even if they have different message IDs.
+        const twoMinutesAgo = new Date(Date.now() - 2 * 60 * 1000).toISOString()
+        const { data: recentOutlookReplies } = await supabase
+          .from('inbound_messages')
+          .select('id, raw_payload, received_at')
+          .eq('sender_phone_number', finalSenderPhone)
+          .eq('type', 'text')
+          .ilike('message_body', '%outlook%')
+          .gte('received_at', twoMinutesAgo)
+          .order('received_at', { ascending: false })
+
+        // Check if any of these recent messages already have a reply sent
+        if (recentOutlookReplies && recentOutlookReplies.length > 0) {
+          const hasReplySent = recentOutlookReplies.some(
+            (msg) => msg.raw_payload?.chief_of_staff_reply_sent
+          )
+
+          if (hasReplySent) {
+            console.log(
+              `[SMS Webhook] Already sent reply for recent "outlook" message from ${finalSenderPhone} (found ${recentOutlookReplies.length} recent messages), skipping duplicate`
+            )
+            res.status(200).json({ received: true, message_id: data.id, duplicate: true })
+            return
+          }
+
+          // Check if any are currently being processed (within last 60 seconds)
+          const isProcessing = recentOutlookReplies.some((msg) => {
+            if (msg.raw_payload?.chief_of_staff_processing) {
+              const processingAt = msg.raw_payload.chief_of_staff_processing_at
+              if (processingAt) {
+                const processingTime = new Date(processingAt).getTime()
+                const now = Date.now()
+                return now - processingTime < 60000
+              }
+            }
+            return false
+          })
+
+          if (isProcessing) {
+            console.log(
+              `[SMS Webhook] Another "outlook" message from ${finalSenderPhone} is already being processed, skipping duplicate`
+            )
+            res.status(200).json({ received: true, message_id: data.id, duplicate: true })
+            return
+          }
+        }
+
+        // First, check if we've already sent a reply for this specific message
         const { data: currentMessage } = await supabase
           .from('inbound_messages')
           .select('raw_payload')
@@ -211,38 +259,6 @@ const webhookController = async (req: NextApiRequest, res: NextApiResponse) => {
           console.log(`[SMS Webhook] Message ${data.id} already has reply sent, skipping`)
           res.status(200).json({ received: true, message_id: data.id, duplicate: true })
           return
-        }
-
-        // Check if currently being processed (within last 30 seconds)
-        if (currentMessage?.raw_payload?.chief_of_staff_processing) {
-          const processingAt = currentMessage.raw_payload.chief_of_staff_processing_at
-          if (processingAt) {
-            const processingTime = new Date(processingAt).getTime()
-            const now = Date.now()
-            if (now - processingTime < 30000) {
-              console.log(`[SMS Webhook] Message ${data.id} is already being processed, skipping`)
-              res.status(200).json({ received: true, message_id: data.id, duplicate: true })
-              return
-            }
-          }
-        }
-
-        // Also check by pingram_message_id if available (in case of duplicate webhook calls)
-        if (messageId) {
-          const { data: existingByMessageId } = await supabase
-            .from('inbound_messages')
-            .select('id, raw_payload')
-            .eq('pingram_message_id', messageId)
-            .neq('id', data.id) // Exclude current message
-            .maybeSingle()
-
-          if (existingByMessageId?.raw_payload?.chief_of_staff_reply_sent) {
-            console.log(
-              `[SMS Webhook] Another message with pingram_message_id ${messageId} already processed, skipping`
-            )
-            res.status(200).json({ received: true, message_id: data.id, duplicate: true })
-            return
-          }
         }
 
         // Mark as processing BEFORE calling the handler
