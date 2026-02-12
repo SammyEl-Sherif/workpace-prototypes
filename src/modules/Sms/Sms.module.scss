@@ -1,5 +1,41 @@
 @use '@workpace/design-system/dist/design-tokens' as *;
 
+.titleSection {
+  .title {
+    font-size: clamp(2rem, 5vw, 2.5rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    color: $color-neutral-900;
+    margin: 0 0 $size-150 0;
+  }
+
+  .subtitle {
+    color: $color-neutral-500;
+    font-size: $font-body-lg-font-size;
+    line-height: $font-body-lg-paragraph-line-height;
+    font-weight: $font-weight-regular;
+    margin: 0;
+    max-width: 640px;
+  }
+
+  .phoneLink {
+    color: $color-primary-600;
+    text-decoration: none;
+    font-weight: $font-weight-medium;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: $color-primary-700;
+      text-decoration: underline;
+    }
+
+    &:active {
+      color: $color-primary-800;
+    }
+  }
+}
+
 .chiefOfStaffSection {
   margin-bottom: $size-400;
   text-align: left;

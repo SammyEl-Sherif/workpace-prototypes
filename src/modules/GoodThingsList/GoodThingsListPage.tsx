@@ -227,9 +227,8 @@ export const GoodThingsListPage = ({
             >
               <button
                 type="button"
-                className={`${styles.statTile} ${
-                  activeView === 'good-things' ? styles.active : ''
-                }`}
+                className={`${styles.statTile} ${activeView === 'good-things' ? styles.active : ''
+                  }`}
                 onClick={() => setActiveView('good-things')}
               >
                 <span className={styles.statNumber}>{goodThings.length}</span>
