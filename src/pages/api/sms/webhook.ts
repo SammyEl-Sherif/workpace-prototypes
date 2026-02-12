@@ -56,6 +56,22 @@ const webhookController = async (req: NextApiRequest, res: NextApiResponse) => {
     // Create Supabase client with service role for unauthenticated webhook
     const supabase = createSupabaseServerClient()
 
+    // Check if we've already processed this message (deduplication)
+    // This prevents duplicate processing if Pingram retries the webhook
+    if (messageId) {
+      const { data: existingMessage } = await supabase
+        .from('inbound_messages')
+        .select('id')
+        .eq('pingram_message_id', messageId)
+        .single()
+
+      if (existingMessage) {
+        console.log(`[SMS Webhook] Message ${messageId} already processed, skipping duplicate`)
+        res.status(200).json({ received: true, message_id: existingMessage.id, duplicate: true })
+        return
+      }
+    }
+
     // Insert message into database
     const { data, error } = await supabase
       .from('inbound_messages')
