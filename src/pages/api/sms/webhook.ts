@@ -108,7 +108,71 @@ const webhookController = async (req: NextApiRequest, res: NextApiResponse) => {
       messageBody.toLowerCase().includes('outlook')
     ) {
       try {
-        await handleChiefOfStaffTaskSummary(finalSenderPhone, messageBody)
+        // Check if we've already processed this exact message (by messageId) to prevent duplicate replies
+        // This handles the case where the webhook is called multiple times for the same message
+        if (messageId) {
+          const { data: existingProcessed } = await supabase
+            .from('inbound_messages')
+            .select('id, raw_payload')
+            .eq('pingram_message_id', messageId)
+            .maybeSingle()
+
+          // If we found an existing message with this ID, check if it's already been processed
+          if (existingProcessed) {
+            // If reply already sent, skip
+            if (existingProcessed.raw_payload?.chief_of_staff_reply_sent) {
+              console.log(
+                `[SMS Webhook] Message ${messageId} already processed with reply sent, skipping`
+              )
+              res.status(200).json({ received: true, message_id: data.id, duplicate: true })
+              return
+            }
+
+            // If currently being processed (within last 30 seconds), skip
+            if (existingProcessed.raw_payload?.chief_of_staff_processing) {
+              const processingAt = existingProcessed.raw_payload.chief_of_staff_processing_at
+              if (processingAt) {
+                const processingTime = new Date(processingAt).getTime()
+                const now = Date.now()
+                if (now - processingTime < 30000) {
+                  console.log(
+                    `[SMS Webhook] Message ${messageId} is already being processed, skipping`
+                  )
+                  res.status(200).json({ received: true, message_id: data.id, duplicate: true })
+                  return
+                }
+              }
+            }
+
+            // Use the existing message ID instead of the new one
+            await handleChiefOfStaffTaskSummary(
+              finalSenderPhone,
+              messageBody,
+              existingProcessed.id,
+              messageId
+            )
+            return
+          }
+        }
+
+        // Mark this message as being processed by updating raw_payload
+        // Use an atomic update to prevent race conditions
+        const { error: updateError } = await supabase
+          .from('inbound_messages')
+          .update({
+            raw_payload: {
+              ...(data.raw_payload || {}),
+              chief_of_staff_processing: true,
+              chief_of_staff_processing_at: new Date().toISOString(),
+            },
+          })
+          .eq('id', data.id)
+
+        if (updateError) {
+          console.error('[SMS Webhook] Error marking message as processing:', updateError)
+        }
+
+        await handleChiefOfStaffTaskSummary(finalSenderPhone, messageBody, data.id, messageId)
       } catch (error) {
         console.error('[SMS Webhook] Error handling Chief of Staff request:', error)
         // Don't fail the webhook if Chief of Staff handling fails
@@ -129,9 +193,42 @@ const webhookController = async (req: NextApiRequest, res: NextApiResponse) => {
  */
 async function handleChiefOfStaffTaskSummary(
   senderPhone: string,
-  messageBody: string
+  messageBody: string,
+  messageDbId: string,
+  pingramMessageId: string | null
 ): Promise<void> {
   const supabase = createSupabaseServerClient()
+
+  // Additional deduplication: Check if another process is already handling this message
+  // by checking if the message is marked as processing
+  if (pingramMessageId) {
+    const { data: existingMessage } = await supabase
+      .from('inbound_messages')
+      .select('id, raw_payload')
+      .eq('pingram_message_id', pingramMessageId)
+      .single()
+
+    if (existingMessage?.raw_payload?.chief_of_staff_reply_sent) {
+      console.log(`[Chief of Staff] Reply already sent for message ${pingramMessageId}, skipping`)
+      return
+    }
+
+    // Check if another instance is currently processing (within last 30 seconds)
+    if (existingMessage?.raw_payload?.chief_of_staff_processing) {
+      const processingAt = existingMessage.raw_payload.chief_of_staff_processing_at
+      if (processingAt) {
+        const processingTime = new Date(processingAt).getTime()
+        const now = Date.now()
+        // If processing started less than 30 seconds ago, another instance is handling it
+        if (now - processingTime < 30000) {
+          console.log(
+            `[Chief of Staff] Another instance is processing message ${pingramMessageId}, skipping`
+          )
+          return
+        }
+      }
+    }
+  }
 
   // Find user by phone number using admin API
   // Note: We need to query auth.users which requires admin access
@@ -397,8 +494,47 @@ async function handleChiefOfStaffTaskSummary(
       },
     })
     console.log(`[Chief of Staff] Sent task summary to ${senderPhone}`)
+
+    // Mark message as having reply sent to prevent duplicate processing
+    if (messageDbId) {
+      const { data: currentMessage } = await supabase
+        .from('inbound_messages')
+        .select('raw_payload')
+        .eq('id', messageDbId)
+        .single()
+
+      await supabase
+        .from('inbound_messages')
+        .update({
+          raw_payload: {
+            ...(currentMessage?.raw_payload || {}),
+            chief_of_staff_reply_sent: true,
+            chief_of_staff_reply_sent_at: new Date().toISOString(),
+            chief_of_staff_processing: false,
+          },
+        })
+        .eq('id', messageDbId)
+    }
   } catch (smsError) {
     console.error('[Chief of Staff] Error sending SMS reply:', smsError)
+    // Clear processing flag on error so it can be retried
+    if (messageDbId) {
+      await supabase
+        .from('inbound_messages')
+        .update({
+          raw_payload: {
+            ...((
+              await supabase
+                .from('inbound_messages')
+                .select('raw_payload')
+                .eq('id', messageDbId)
+                .single()
+            ).data?.raw_payload || {}),
+            chief_of_staff_processing: false,
+          },
+        })
+        .eq('id', messageDbId)
+    }
   }
 }
 
