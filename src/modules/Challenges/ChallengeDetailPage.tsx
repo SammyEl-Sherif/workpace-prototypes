@@ -44,12 +44,13 @@ export const ChallengeDetailPage = ({
   }
 
   const handleEvidenceUpdate = async () => {
-    // Refetch evidence when new evidence is uploaded
+    // Refetch evidence when new evidence is uploaded (all participants)
     try {
       const [result, error] = await fetchEvidence({
         method: 'get',
         url: `good-stuff-list/challenges/evidence`,
         params: { challenge_id: challenge.id },
+        // Don't pass user_id to get all participants' evidence
       })
       if (!error && result?.data?.evidence) {
         setEvidence(result.data.evidence)

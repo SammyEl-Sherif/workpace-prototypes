@@ -234,6 +234,12 @@ export const ChallengesService = {
       throw new Error('You must be a participant in this challenge to upload evidence')
     }
 
+    // Get challenge details to extract goal_id
+    const challenge = await this.getById(input.challenge_id, userId)
+    if (!challenge) {
+      throw new Error('Challenge not found')
+    }
+
     const results = await querySupabase<ChallengeEvidence>('challenge_evidence/create.sql', [
       input.challenge_id,
       userId,
@@ -250,6 +256,25 @@ export const ChallengesService = {
 
     if (results.length === 0) {
       throw new Error('Failed to create evidence')
+    }
+
+    // Create a corresponding good_thing record
+    try {
+      const { GoodThingsService } = await import(
+        '@/apis/controllers/good-things/good-things.service'
+      )
+      const goodThingTitle =
+        input.notes?.trim() || challenge.task_description || 'Challenge achievement'
+      await GoodThingsService.create(userId, {
+        goal_id: challenge.goal_id,
+        challenge_id: input.challenge_id,
+        title: goodThingTitle,
+        description: `Completed challenge task: ${challenge.task_description}`,
+        completion_date: input.evidence_date,
+      })
+    } catch (error) {
+      // Log error but don't fail the evidence creation
+      console.error('Failed to create good_thing for challenge evidence:', error)
     }
 
     return results[0]

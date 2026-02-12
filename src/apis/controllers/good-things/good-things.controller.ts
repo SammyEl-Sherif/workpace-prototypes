@@ -96,6 +96,7 @@ export const createGoodThingController = withSupabaseAuth(
       const userId = session.user.id
       const input: CreateGoodThingInput = req.body
 
+      console.log('[Create Good Thing] Input:', JSON.stringify(input, null, 2))
       const goodThing = await GoodThingsService.create(userId, input)
 
       res.status(201).json({
@@ -103,6 +104,7 @@ export const createGoodThingController = withSupabaseAuth(
         status: 201,
       })
     } catch (error: unknown) {
+      console.error('Error creating good thing:', error)
       const status = error instanceof Error && error.message.includes('required') ? 400 : 500
       res.status(status).json({
         data: { good_thing: null as any },

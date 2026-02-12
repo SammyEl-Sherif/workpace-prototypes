@@ -3,6 +3,9 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { createSupabaseServerClient } from '@/server/utils/supabase/createSupabaseClient'
 import { HttpMethod } from '@/interfaces/httpMethod'
 import { apiRequestWrapper } from '@/server/apiRequestWrapper'
+import { sendPingramSms } from '@/server/utils/pingram'
+import { createNotionClient } from '@/server/utils/createHttpClient/createNotionClient/createNotionClient'
+import { getNotionPagesController } from '@/apis/controllers/notion/pages/pages'
 
 /**
  * POST /api/sms/webhook
@@ -82,12 +85,219 @@ const webhookController = async (req: NextApiRequest, res: NextApiResponse) => {
       }: ${messageBody.substring(0, 50)}...`
     )
 
+    // Check if message contains "outlook" (case-insensitive) and handle task summary request
+    if (
+      messageType === 'text' &&
+      finalSenderPhone &&
+      messageBody.toLowerCase().includes('outlook')
+    ) {
+      try {
+        await handleOutlookTaskSummary(finalSenderPhone, messageBody)
+      } catch (error) {
+        console.error('[SMS Webhook] Error handling outlook request:', error)
+        // Don't fail the webhook if outlook handling fails
+      }
+    }
+
     res.status(200).json({ received: true, message_id: data.id })
   } catch (error: unknown) {
     console.error('[SMS Webhook] Error:', error)
 
     const message = error instanceof Error ? error.message : 'Webhook handler failed'
     res.status(500).json({ error: message })
+  }
+}
+
+/**
+ * Handles "outlook" SMS requests by fetching in-progress tasks and sending a summary
+ */
+async function handleOutlookTaskSummary(senderPhone: string, messageBody: string): Promise<void> {
+  const supabase = createSupabaseServerClient()
+
+  // Find user by phone number using admin API
+  // Note: We need to query auth.users which requires admin access
+  const { data: users, error: userError } = await supabase.auth.admin.listUsers()
+
+  if (userError || !users) {
+    console.error('[Outlook Handler] Error fetching users:', userError)
+    return
+  }
+
+  // Normalize phone number for comparison (remove formatting, handle E.164)
+  const normalizePhone = (phone: string) => {
+    // Remove all non-digit characters
+    const digits = phone.replace(/\D/g, '')
+    // If it starts with 1 and is 11 digits, it's likely US format, keep as is
+    // Otherwise, ensure we're comparing consistently
+    return digits
+  }
+  const normalizedSenderPhone = normalizePhone(senderPhone)
+
+  // Find user with matching phone number
+  const user = users.users.find((u) => {
+    if (!u.phone) return false
+    const normalizedUserPhone = normalizePhone(u.phone)
+    // Try exact match first
+    if (normalizedUserPhone === normalizedSenderPhone) return true
+    // Try matching last 10 digits (for US numbers with/without country code)
+    if (
+      normalizedUserPhone.length >= 10 &&
+      normalizedSenderPhone.length >= 10 &&
+      normalizedUserPhone.slice(-10) === normalizedSenderPhone.slice(-10)
+    ) {
+      return true
+    }
+    return false
+  })
+
+  if (!user) {
+    console.log(`[Outlook Handler] No user found for phone: ${senderPhone}`)
+    return
+  }
+
+  // Get user's Notion connection
+  const { data: connection, error: connectionError } = await supabase
+    .from('notion_connections')
+    .select('*')
+    .eq('user_id', user.id)
+    .single()
+
+  if (connectionError || !connection) {
+    console.log(`[Outlook Handler] No Notion connection found for user: ${user.id}`)
+    return
+  }
+
+  // Get default database ID
+  const databaseId = process.env.NOTION_DEFAULT_DB_ID
+  if (!databaseId) {
+    console.error('[Outlook Handler] NOTION_DEFAULT_DB_ID not set')
+    return
+  }
+
+  // Create Notion client with user's token
+  const notionClient = await createNotionClient(user.id)
+
+  // Query for in-progress tasks
+  // Try common status property names and values
+  const statusFilters = [
+    {
+      property: 'Status',
+      status: {
+        equals: 'In Progress',
+      },
+    },
+    {
+      property: 'Status',
+      status: {
+        equals: 'In progress',
+      },
+    },
+    {
+      property: 'Status',
+      status: {
+        equals: 'in progress',
+      },
+    },
+    {
+      property: 'Status',
+      status: {
+        equals: 'Doing',
+      },
+    },
+    {
+      property: 'Status',
+      status: {
+        equals: 'Active',
+      },
+    },
+  ]
+
+  let tasks: any[] = []
+  for (const filter of statusFilters) {
+    try {
+      const result = await getNotionPagesController(
+        notionClient,
+        databaseId,
+        filter as any,
+        undefined,
+        true, // filter by creator
+        user.id
+      )
+      if (result.data && result.data.length > 0) {
+        tasks = result.data
+        break // Use first successful filter
+      }
+    } catch (err) {
+      // Try next filter
+      continue
+    }
+  }
+
+  // If no tasks found with status filters, try getting all tasks and filter manually
+  if (tasks.length === 0) {
+    try {
+      const result = await getNotionPagesController(
+        notionClient,
+        databaseId,
+        undefined,
+        undefined,
+        true,
+        user.id
+      )
+      if (result.data) {
+        // Filter for tasks that might be in progress (check status property)
+        tasks = result.data.filter((task: any) => {
+          const status = task.accomplishmentType?.toLowerCase() || ''
+          return (
+            status.includes('progress') ||
+            status.includes('doing') ||
+            status.includes('active') ||
+            status.includes('wip')
+          )
+        })
+      }
+    } catch (err) {
+      console.error('[Outlook Handler] Error fetching all tasks:', err)
+    }
+  }
+
+  // Format task summary
+  let summaryMessage = ''
+  if (tasks.length === 0) {
+    summaryMessage = "You don't have any tasks in progress right now. Great job! 🎉"
+  } else {
+    summaryMessage = `📋 You have ${tasks.length} task${
+      tasks.length === 1 ? '' : 's'
+    } in progress:\n\n`
+    tasks.slice(0, 10).forEach((task, index) => {
+      const title = task.title || 'Untitled Task'
+      summaryMessage += `${index + 1}. ${title}\n`
+    })
+    if (tasks.length > 10) {
+      summaryMessage += `\n...and ${tasks.length - 10} more task${
+        tasks.length - 10 === 1 ? '' : 's'
+      }`
+    }
+  }
+
+  // Send SMS reply
+  try {
+    await sendPingramSms({
+      type: 'workpace_apps',
+      to: {
+        id: user.email || user.id,
+        number: senderPhone,
+      },
+      sms: { message: summaryMessage },
+      metadata: {
+        type: 'outlook_task_summary',
+        user_id: user.id,
+        task_count: tasks.length,
+      },
+    })
+    console.log(`[Outlook Handler] Sent task summary to ${senderPhone}`)
+  } catch (smsError) {
+    console.error('[Outlook Handler] Error sending SMS reply:', smsError)
   }
 }
 

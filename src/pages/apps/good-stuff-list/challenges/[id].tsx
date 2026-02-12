@@ -52,10 +52,11 @@ export const getServerSideProps: GetServerSideProps = withPageRequestWrapper(asy
       }
     }
 
-    // Fetch evidence for this challenge
+    // Fetch evidence for this challenge (all participants)
     let evidence: ChallengeEvidence[] = []
     try {
-      evidence = await ChallengesService.getEvidence(challengeId, userId)
+      // Don't pass userId to get all participants' evidence
+      evidence = await ChallengesService.getEvidence(challengeId)
     } catch (evidenceError) {
       console.error('Error fetching evidence:', evidenceError)
       // Continue with empty evidence array if fetch fails

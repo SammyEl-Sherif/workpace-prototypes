@@ -29,20 +29,83 @@ export const GoodThingsService = {
       }
     }
 
-    const results = await querySupabase<GoodThing>('good_things/create.sql', [
-      userId,
-      input.goal_id || null,
-      input.title.trim(),
-      input.description?.trim() || null,
-      input.completion_date || null,
-    ])
+    // Validate challenge_id if provided
+    if (input.challenge_id) {
+      try {
+        const { ChallengesService } = await import(
+          '@/apis/controllers/challenges/challenges.service'
+        )
+        // Verify user is a participant in the challenge
+        const participants = await ChallengesService.getParticipants(input.challenge_id)
+        const isParticipant = participants.some((p) => p.user_id === userId)
+        if (!isParticipant) {
+          throw new Error(
+            'You must be a participant in this challenge to create achievements for it'
+          )
+        }
+      } catch (error) {
+        if (error instanceof Error && error.message.includes('participant')) {
+          throw error
+        }
+        // If challenge doesn't exist or other error, log but don't fail
+        console.error('Error validating challenge_id:', error)
+        throw new Error('Challenge not found or you do not have permission to use it')
+      }
+    }
 
-    if (results.length === 0) {
-      throw new Error('Failed to create good thing')
+    let results: GoodThing[]
+    try {
+      results = await querySupabase<GoodThing>('good_things/create.sql', [
+        userId,
+        input.goal_id || null,
+        input.challenge_id || null,
+        input.title.trim(),
+        input.description?.trim() || null,
+        input.completion_date || null,
+      ])
+
+      if (results.length === 0) {
+        throw new Error('Failed to create good thing')
+      }
+    } catch (error: any) {
+      console.error('[GoodThingsService.create] SQL Error:', error)
+      // Check if it's a column doesn't exist error
+      if (error?.message?.includes('challenge_id') || error?.message?.includes('column')) {
+        throw new Error(
+          'Database schema is out of date. Please run migrations: npm run supabase:push'
+        )
+      }
+      throw error
+    }
+
+    const goodThing = results[0]
+
+    // If challenge_id is present, create challenge_evidence records for any media
+    // Note: Media is created separately via good-thing-media API, so we'll handle
+    // challenge_evidence creation in the media service or via a trigger
+    // For now, we'll create a basic evidence record if completion_date is set
+    if (input.challenge_id && input.completion_date) {
+      try {
+        const { ChallengesService } = await import(
+          '@/apis/controllers/challenges/challenges.service'
+        )
+        // Verify user is a participant
+        const participants = await ChallengesService.getParticipants(input.challenge_id)
+        const isParticipant = participants.some((p) => p.user_id === userId)
+
+        if (isParticipant) {
+          // Create a challenge_evidence record (media will be linked separately)
+          // We'll create a placeholder evidence record that can be updated when media is added
+          // For now, skip creating evidence here - it will be created when media is uploaded
+        }
+      } catch (error) {
+        // Log but don't fail good_thing creation
+        console.error('Failed to create challenge evidence for good_thing:', error)
+      }
     }
 
     // Fetch with goal name
-    return this.getById(results[0].id, userId) as Promise<GoodThing>
+    return this.getById(goodThing.id, userId) as Promise<GoodThing>
   },
 
   async update(id: string, userId: string, input: UpdateGoodThingInput): Promise<GoodThing> {
