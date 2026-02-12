@@ -1,8 +1,8 @@
 import { useChallenges, useManualFetch } from '@/hooks'
 import { Challenge, ChallengeEvidence } from '@/interfaces/challenges'
-import { Badge, Box, Breadcrumbs, Text } from '@workpace/design-system'
+import { AppPageLayout } from '@/layout'
+import { Badge, Box, Text } from '@workpace/design-system'
 import { motion } from 'framer-motion'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
 import styles from './ChallengeDetailPage.module.scss'
@@ -77,21 +77,14 @@ export const ChallengeDetailPage = ({
     : []
 
   return (
-    <div className={styles.page}>
-      <div className={styles.container}>
-        <div className={styles.breadcrumbsWrapper}>
-          <Breadcrumbs
-            linkAs={Link}
-            items={[
-              { label: 'Apps', href: '/apps' },
-              { label: 'Good Stuff List', href: '/apps/good-stuff-list' },
-              { label: 'Challenges', href: '/apps/good-stuff-list/challenges' },
-              { label: challenge.name },
-            ]}
-            size="lg"
-          />
-        </div>
-
+    <AppPageLayout
+      breadcrumbs={[
+        { label: 'Apps', href: '/apps' },
+        { label: 'Good Stuff List', href: '/apps/good-stuff-list' },
+        { label: 'Challenges', href: '/apps/good-stuff-list/challenges' },
+        { label: challenge.name },
+      ]}
+      titleContent={
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -138,7 +131,9 @@ export const ChallengeDetailPage = ({
             </motion.div>
           </div>
         </motion.div>
-
+      }
+    >
+      <div className={styles.container}>
         <Box marginTop={300} marginBottom={200}>
           <Text variant="body-sm-emphasis" marginBottom={150}>
             Daily Task:
@@ -170,6 +165,6 @@ export const ChallengeDetailPage = ({
           onEvidenceUpdate={handleEvidenceUpdate}
         />
       )}
-    </div>
+    </AppPageLayout>
   )
 }

@@ -1,7 +1,8 @@
 import { useChallenges, useGoodThings, useManualFetch, useSavedReports } from '@/hooks'
 import { GoodThing, GoodThingMedia } from '@/interfaces/good-things'
 import { CreateSavedReportInput } from '@/interfaces/saved-reports'
-import { Box, Breadcrumbs, Button, Text } from '@workpace/design-system'
+import { AppPageLayout } from '@/layout'
+import { Box, Button, Text } from '@workpace/design-system'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -197,58 +198,56 @@ export const GoodThingsListPage = ({
   }
 
   return (
-    <div className={styles.page}>
-      <div className={styles.breadcrumbsWrapper}>
-        <Breadcrumbs
-          linkAs={Link}
-          items={[{ label: 'Apps', href: '/apps' }, { label: 'Good Stuff List' }]}
-          size="lg"
-        />
-      </div>
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        className={styles.floatingHeader}
-      >
-        <div className={styles.headerContent}>
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
-            className={styles.titleSection}
-          >
-            <h1 className={styles.mainTitle}>🥇 The Good Stuff List</h1>
-            <p className={styles.subtitle}>
-              Transform your accomplishments into compelling narratives
-            </p>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4, delay: 0.2 }}
-            className={styles.statsCard}
-          >
-            <button
-              type="button"
-              className={`${styles.statTile} ${activeView === 'good-things' ? styles.active : ''}`}
-              onClick={() => setActiveView('good-things')}
+    <AppPageLayout
+      breadcrumbs={[{ label: 'Apps', href: '/apps' }, { label: 'Good Stuff List' }]}
+      titleContent={
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          className={styles.floatingHeader}
+        >
+          <div className={styles.headerContent}>
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
+              className={styles.titleSection}
             >
-              <span className={styles.statNumber}>{goodThings.length}</span>
-              <span className={styles.statLabel}>Good Things</span>
-            </button>
-            <button
-              type="button"
-              className={`${styles.statTile} ${activeView === 'reports' ? styles.active : ''}`}
-              onClick={() => setActiveView('reports')}
+              <h1 className={styles.mainTitle}>🥇 The Good Stuff List</h1>
+              <p className={styles.subtitle}>
+                Transform your accomplishments into compelling narratives
+              </p>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+              className={styles.statsCard}
             >
-              <span className={styles.statNumber}>{savedReports.length}</span>
-              <span className={styles.statLabel}>Reports</span>
-            </button>
-          </motion.div>
-        </div>
-      </motion.div>
-
+              <button
+                type="button"
+                className={`${styles.statTile} ${
+                  activeView === 'good-things' ? styles.active : ''
+                }`}
+                onClick={() => setActiveView('good-things')}
+              >
+                <span className={styles.statNumber}>{goodThings.length}</span>
+                <span className={styles.statLabel}>Good Things</span>
+              </button>
+              <button
+                type="button"
+                className={`${styles.statTile} ${activeView === 'reports' ? styles.active : ''}`}
+                onClick={() => setActiveView('reports')}
+              >
+                <span className={styles.statNumber}>{savedReports.length}</span>
+                <span className={styles.statLabel}>Reports</span>
+              </button>
+            </motion.div>
+          </div>
+        </motion.div>
+      }
+    >
       {activeView === 'good-things' ? (
         <>
           <DayGrid
@@ -436,6 +435,6 @@ export const GoodThingsListPage = ({
           setIsNotionImportOpen(false)
         }}
       />
-    </div>
+    </AppPageLayout>
   )
 }

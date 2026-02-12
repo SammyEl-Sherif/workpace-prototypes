@@ -1,23 +1,12 @@
 @use '@workpace/design-system/dist/design-tokens' as *;
 
-.page {
-  min-height: 100vh;
-  background: white;
-  padding: $size-400 0;
-}
-
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 2rem;
-}
-
-.breadcrumbsWrapper {
-  margin-bottom: $size-400;
+  width: 100%;
 }
 
 .header {
   margin-bottom: $size-400;
+  width: 100%;
 
   .headerContent {
     display: flex;

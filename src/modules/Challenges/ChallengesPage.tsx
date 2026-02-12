@@ -1,8 +1,8 @@
 import { useChallengeInvitations, useChallenges } from '@/hooks'
 import { Challenge } from '@/interfaces/challenges'
-import { Box, Breadcrumbs, Button, Card, Text } from '@workpace/design-system'
+import { AppPageLayout } from '@/layout'
+import { Box, Button, Card, Text } from '@workpace/design-system'
 import { motion } from 'framer-motion'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import styles from './ChallengesPage.module.scss'
@@ -45,59 +45,54 @@ export const ChallengesPage = ({ initialChallenges = [] }: ChallengesPageProps) 
   const pendingInvitations = invitations.filter((inv) => inv.status === 'pending')
 
   return (
-    <div className={styles.page}>
-      <div className={styles.breadcrumbsWrapper}>
-        <Breadcrumbs
-          linkAs={Link}
-          items={[
-            { label: 'Apps', href: '/apps' },
-            { label: 'Good Stuff List', href: '/apps/good-stuff-list' },
-            { label: 'Challenges' },
-          ]}
-          size="lg"
-        />
-      </div>
-
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        className={styles.floatingHeader}
-      >
-        <div className={styles.headerContent}>
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
-            className={styles.titleSection}
-          >
-            <h1 className={styles.mainTitle}>🏆 Challenges</h1>
-            <p className={styles.subtitle}>
-              Create and join challenges with friends to stay accountable and achieve your goals
-            </p>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4, delay: 0.2 }}
-            className={styles.actionsSection}
-          >
-            {pendingInvitations.length > 0 && (
-              <Button
-                variant="default-secondary"
-                onClick={() => setShowInvitations(!showInvitations)}
-                style={{ marginRight: '12px' }}
-              >
-                Invitations ({pendingInvitations.length})
+    <AppPageLayout
+      breadcrumbs={[
+        { label: 'Apps', href: '/apps' },
+        { label: 'Good Stuff List', href: '/apps/good-stuff-list' },
+        { label: 'Challenges' },
+      ]}
+      titleContent={
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          className={styles.floatingHeader}
+        >
+          <div className={styles.headerContent}>
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
+              className={styles.titleSection}
+            >
+              <h1 className={styles.mainTitle}>🏆 Challenges</h1>
+              <p className={styles.subtitle}>
+                Create and join challenges with friends to stay accountable and achieve your goals
+              </p>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+              className={styles.actionsSection}
+            >
+              {pendingInvitations.length > 0 && (
+                <Button
+                  variant="default-secondary"
+                  onClick={() => setShowInvitations(!showInvitations)}
+                  style={{ marginRight: '12px' }}
+                >
+                  Invitations ({pendingInvitations.length})
+                </Button>
+              )}
+              <Button variant="brand-primary" onClick={() => setIsCreateModalOpen(true)}>
+                Create Challenge
               </Button>
-            )}
-            <Button variant="brand-primary" onClick={() => setIsCreateModalOpen(true)}>
-              Create Challenge
-            </Button>
-          </motion.div>
-        </div>
-      </motion.div>
-
+            </motion.div>
+          </div>
+        </motion.div>
+      }
+    >
       {showInvitations && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -146,6 +141,6 @@ export const ChallengesPage = ({ initialChallenges = [] }: ChallengesPageProps) 
           setIsCreateModalOpen(false)
         }}
       />
-    </div>
+    </AppPageLayout>
   )
 }

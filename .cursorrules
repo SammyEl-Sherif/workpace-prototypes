@@ -220,15 +220,125 @@ import { PageHeader } from "@/layout/PageHeader";
 - Props: `title: string`, `subtitle?: string`
 - Renders a max-width container with consistent typography and a bottom border
 
+### AppPageLayout (`src/layout/AppPageLayout/`)
+
+**ALWAYS use `AppPageLayout` for app pages** (routes under `/apps/*`). This
+component provides consistent side gutters, max-width containers, breadcrumbs,
+and page titles across all app pages.
+
+#### When to Use
+
+- **All app pages** (`/apps/*` routes) should use `AppPageLayout`
+- Provides consistent spacing: `$size-600 20rem` on desktop, `$size-400 2rem` on
+  mobile
+- Max-width container: `1200px` for content
+- Handles breadcrumbs and page title styling automatically
+
+#### Basic Usage (Simple Title)
+
+For pages with a simple title and optional subtitle:
+
+```tsx
+import { AppPageLayout } from "@/layout";
+
+export const MyAppPage = () => {
+   return (
+      <AppPageLayout
+         breadcrumbs={[
+            { label: "Apps", href: "/apps" },
+            { label: "My App" },
+         ]}
+         title="My App"
+         subtitle="Optional subtitle text"
+      >
+         {/* Your page content */}
+      </AppPageLayout>
+   );
+};
+```
+
+#### Custom Title Content
+
+For pages that need custom title sections with tabs, buttons, badges, or other
+interactive elements, use the `titleContent` prop:
+
+```tsx
+import { AppPageLayout } from "@/layout";
+import { motion } from "framer-motion";
+
+export const MyAppPage = () => {
+   return (
+      <AppPageLayout
+         breadcrumbs={[
+            { label: "Apps", href: "/apps" },
+            { label: "My App" },
+         ]}
+         titleContent={
+            <motion.div className={styles.customHeader}>
+               <div className={styles.headerContent}>
+                  <div className={styles.titleSection}>
+                     <h1>My App</h1>
+                     <p>Subtitle</p>
+                  </div>
+                  <div className={styles.actions}>
+                     {/* Custom buttons, tabs, badges, etc. */}
+                  </div>
+               </div>
+            </motion.div>
+         }
+      >
+         {/* Your page content */}
+      </AppPageLayout>
+   );
+};
+```
+
+#### Props
+
+- `breadcrumbs?: BreadcrumbItem[]` — Breadcrumb navigation items
+- `title?: string` — Simple page title (string)
+- `subtitle?: string` — Optional subtitle below title
+- `titleContent?: ReactNode` — Custom title content (overrides
+  `title`/`subtitle`)
+- `children: ReactNode` — Page content
+- `contentClassName?: string` — Optional custom className for content wrapper
+
+#### Important Notes
+
+- **NEVER** create custom page layouts with manual padding/margins for app pages
+- **NEVER** duplicate breadcrumb or title styling — use `AppPageLayout`
+- If `titleContent` is provided, it completely replaces the simple
+  `title`/`subtitle`
+- The layout handles all spacing, so page content should focus on its own
+  structure
+- Examples: `/apps/sms`, `/apps/good-stuff-list`,
+  `/apps/good-stuff-list/challenges`
+
 ### Adding New Pages
 
-1. **Standard page with header**: Add `<PageHeader>` at the top of your page
+1. **App page** (`/apps/*`): **ALWAYS use `AppPageLayout`**:
+   ```tsx
+   import { AppPageLayout } from "@/layout";
+
+   export const MyAppPage = () => (
+      <AppPageLayout
+         breadcrumbs={[{ label: "Apps", href: "/apps" }, { label: "My App" }]}
+         title="My App"
+      >
+         {/* Content */}
+      </AppPageLayout>
+   );
+   ```
+   - Use `titleContent` prop for custom headers with tabs, buttons, etc.
+   - MainLayout handles navbar and auth overlay automatically
+
+2. **Standard page with header**: Add `<PageHeader>` at the top of your page
    component. MainLayout handles the navbar and spacing automatically.
-2. **Custom layout page** (like `/prototypes/ralli`): Just render your content
+3. **Custom layout page** (like `/prototypes/ralli`): Just render your content
    directly — MainLayout still handles the navbar offset via `padding-top`.
-3. **Public page** (no auth overlay): Add the pathname to `shouldShowOverlay`
+4. **Public page** (no auth overlay): Add the pathname to `shouldShowOverlay`
    exclusion list in `MainLayout`.
-4. **Page with SubNavbar**: SubNavbar auto-detects prototype sub-pages from the
+5. **Page with SubNavbar**: SubNavbar auto-detects prototype sub-pages from the
    `PROTOTYPES` array in `src/interfaces/prototypes.ts`. Add your prototype
    there and the SubNavbar + padding adjustment happens automatically.
 

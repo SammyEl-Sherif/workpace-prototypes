@@ -1,27 +1,11 @@
 @use '@workpace/design-system/dist/design-tokens' as *;
 
-.page {
-  min-height: 100vh;
-  background: white;
-  padding: $size-200 2rem;
-  position: relative;
-  overflow-x: hidden;
-  margin-top: $size-700;
-}
-
-.breadcrumbsWrapper {
-  max-width: 1200px;
-  margin: 0 auto $size-400;
-}
-
 .floatingHeader {
   position: sticky;
   top: $size-200;
   z-index: 100;
   margin-bottom: 0;
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
 
   .headerContent {
     background: transparent;

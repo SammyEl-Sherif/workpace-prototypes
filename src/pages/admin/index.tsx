@@ -21,7 +21,11 @@ const AdminPage = () => {
       description: 'Manage boolean feature flags to control feature visibility',
       href: Routes.ADMIN_FEATURES,
     },
-    // Add more admin pages here as they are created
+    {
+      title: 'SMS',
+      description: 'View inbound messages and send SMS notifications',
+      href: Routes.ADMIN_SMS,
+    },
   ]
 
   return (

@@ -10,6 +10,7 @@ export enum Routes {
   TEMPLATES = '/templates',
   ADMIN = '/admin',
   ADMIN_FEATURES = '/admin/features',
+  ADMIN_SMS = '/admin/sms',
   PRIVACY = '/privacy',
   TERMS = '/terms',
 }
