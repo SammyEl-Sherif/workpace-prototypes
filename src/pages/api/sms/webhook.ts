@@ -61,38 +61,130 @@ const webhookController = async (req: NextApiRequest, res: NextApiResponse) => {
     if (messageId) {
       const { data: existingMessage } = await supabase
         .from('inbound_messages')
-        .select('id')
+        .select('id, raw_payload')
         .eq('pingram_message_id', messageId)
-        .single()
+        .maybeSingle()
 
       if (existingMessage) {
-        console.log(`[SMS Webhook] Message ${messageId} already processed, skipping duplicate`)
-        res.status(200).json({ received: true, message_id: existingMessage.id, duplicate: true })
-        return
+        // Check if we've already sent a reply for this message
+        if (existingMessage.raw_payload?.chief_of_staff_reply_sent) {
+          console.log(
+            `[SMS Webhook] Message ${messageId} already processed with reply sent, skipping duplicate`
+          )
+          res.status(200).json({ received: true, message_id: existingMessage.id, duplicate: true })
+          return
+        }
+
+        // Check if currently being processed
+        if (existingMessage.raw_payload?.chief_of_staff_processing) {
+          const processingAt = existingMessage.raw_payload.chief_of_staff_processing_at
+          if (processingAt) {
+            const processingTime = new Date(processingAt).getTime()
+            const now = Date.now()
+            // If processing started less than 60 seconds ago, skip
+            if (now - processingTime < 60000) {
+              console.log(
+                `[SMS Webhook] Message ${messageId} is already being processed (started ${Math.round(
+                  (now - processingTime) / 1000
+                )}s ago), skipping duplicate`
+              )
+              res
+                .status(200)
+                .json({ received: true, message_id: existingMessage.id, duplicate: true })
+              return
+            }
+          }
+        }
+
+        // Message exists but hasn't been processed yet - use existing message ID
+        console.log(
+          `[SMS Webhook] Message ${messageId} already exists in database, using existing record`
+        )
+        // Continue with existing message - we'll handle the outlook processing below
       }
     }
 
-    // Insert message into database
-    const { data, error } = await supabase
-      .from('inbound_messages')
-      .insert({
-        type: messageType,
-        sender_phone_number: finalSenderPhone,
-        sender_email: senderEmail,
-        sender_name: senderName || null,
-        message_body: messageBody.trim(),
-        subject: subject || null,
-        received_at: receivedAt,
-        pingram_message_id: messageId || null,
-        raw_payload: body, // Store full payload for debugging
-      })
-      .select()
-      .single()
+    // Insert message into database (only if it doesn't already exist)
+    let data
+    if (messageId) {
+      // Check again if message exists (race condition protection)
+      const { data: existingCheck } = await supabase
+        .from('inbound_messages')
+        .select('*')
+        .eq('pingram_message_id', messageId)
+        .maybeSingle()
 
-    if (error) {
-      console.error('[SMS Webhook] Database insert error:', error)
-      res.status(500).json({ error: 'Failed to store message', details: error.message })
-      return
+      if (existingCheck) {
+        // Use existing message
+        data = existingCheck
+        console.log(`[SMS Webhook] Using existing message record for ${messageId}`)
+      } else {
+        // Insert new message
+        const { data: inserted, error } = await supabase
+          .from('inbound_messages')
+          .insert({
+            type: messageType,
+            sender_phone_number: finalSenderPhone,
+            sender_email: senderEmail,
+            sender_name: senderName || null,
+            message_body: messageBody.trim(),
+            subject: subject || null,
+            received_at: receivedAt,
+            pingram_message_id: messageId || null,
+            raw_payload: body, // Store full payload for debugging
+          })
+          .select()
+          .single()
+
+        if (error) {
+          // If it's a duplicate key error, try to fetch the existing record
+          if (error.code === '23505' || error.message?.includes('duplicate')) {
+            const { data: existing } = await supabase
+              .from('inbound_messages')
+              .select('*')
+              .eq('pingram_message_id', messageId)
+              .maybeSingle()
+            if (existing) {
+              data = existing
+              console.log(`[SMS Webhook] Duplicate insert prevented, using existing message`)
+            } else {
+              console.error('[SMS Webhook] Database insert error:', error)
+              res.status(500).json({ error: 'Failed to store message', details: error.message })
+              return
+            }
+          } else {
+            console.error('[SMS Webhook] Database insert error:', error)
+            res.status(500).json({ error: 'Failed to store message', details: error.message })
+            return
+          }
+        } else {
+          data = inserted
+        }
+      }
+    } else {
+      // No messageId, just insert
+      const { data: inserted, error } = await supabase
+        .from('inbound_messages')
+        .insert({
+          type: messageType,
+          sender_phone_number: finalSenderPhone,
+          sender_email: senderEmail,
+          sender_name: senderName || null,
+          message_body: messageBody.trim(),
+          subject: subject || null,
+          received_at: receivedAt,
+          pingram_message_id: messageId || null,
+          raw_payload: body, // Store full payload for debugging
+        })
+        .select()
+        .single()
+
+      if (error) {
+        console.error('[SMS Webhook] Database insert error:', error)
+        res.status(500).json({ error: 'Failed to store message', details: error.message })
+        return
+      }
+      data = inserted
     }
 
     console.log(
@@ -108,62 +200,60 @@ const webhookController = async (req: NextApiRequest, res: NextApiResponse) => {
       messageBody.toLowerCase().includes('outlook')
     ) {
       try {
-        // Check if we've already processed this exact message (by messageId) to prevent duplicate replies
-        // This handles the case where the webhook is called multiple times for the same message
-        if (messageId) {
-          const { data: existingProcessed } = await supabase
-            .from('inbound_messages')
-            .select('id, raw_payload')
-            .eq('pingram_message_id', messageId)
-            .maybeSingle()
+        // First, check if we've already sent a reply for this message
+        const { data: currentMessage } = await supabase
+          .from('inbound_messages')
+          .select('raw_payload')
+          .eq('id', data.id)
+          .single()
 
-          // If we found an existing message with this ID, check if it's already been processed
-          if (existingProcessed) {
-            // If reply already sent, skip
-            if (existingProcessed.raw_payload?.chief_of_staff_reply_sent) {
-              console.log(
-                `[SMS Webhook] Message ${messageId} already processed with reply sent, skipping`
-              )
+        if (currentMessage?.raw_payload?.chief_of_staff_reply_sent) {
+          console.log(`[SMS Webhook] Message ${data.id} already has reply sent, skipping`)
+          res.status(200).json({ received: true, message_id: data.id, duplicate: true })
+          return
+        }
+
+        // Check if currently being processed (within last 30 seconds)
+        if (currentMessage?.raw_payload?.chief_of_staff_processing) {
+          const processingAt = currentMessage.raw_payload.chief_of_staff_processing_at
+          if (processingAt) {
+            const processingTime = new Date(processingAt).getTime()
+            const now = Date.now()
+            if (now - processingTime < 30000) {
+              console.log(`[SMS Webhook] Message ${data.id} is already being processed, skipping`)
               res.status(200).json({ received: true, message_id: data.id, duplicate: true })
               return
             }
+          }
+        }
 
-            // If currently being processed (within last 30 seconds), skip
-            if (existingProcessed.raw_payload?.chief_of_staff_processing) {
-              const processingAt = existingProcessed.raw_payload.chief_of_staff_processing_at
-              if (processingAt) {
-                const processingTime = new Date(processingAt).getTime()
-                const now = Date.now()
-                if (now - processingTime < 30000) {
-                  console.log(
-                    `[SMS Webhook] Message ${messageId} is already being processed, skipping`
-                  )
-                  res.status(200).json({ received: true, message_id: data.id, duplicate: true })
-                  return
-                }
-              }
-            }
+        // Also check by pingram_message_id if available (in case of duplicate webhook calls)
+        if (messageId) {
+          const { data: existingByMessageId } = await supabase
+            .from('inbound_messages')
+            .select('id, raw_payload')
+            .eq('pingram_message_id', messageId)
+            .neq('id', data.id) // Exclude current message
+            .maybeSingle()
 
-            // Use the existing message ID instead of the new one
-            await handleChiefOfStaffTaskSummary(
-              finalSenderPhone,
-              messageBody,
-              existingProcessed.id,
-              messageId
+          if (existingByMessageId?.raw_payload?.chief_of_staff_reply_sent) {
+            console.log(
+              `[SMS Webhook] Another message with pingram_message_id ${messageId} already processed, skipping`
             )
+            res.status(200).json({ received: true, message_id: data.id, duplicate: true })
             return
           }
         }
 
-        // Mark this message as being processed by updating raw_payload
-        // Use an atomic update to prevent race conditions
+        // Mark as processing BEFORE calling the handler
+        const processingTimestamp = new Date().toISOString()
         const { error: updateError } = await supabase
           .from('inbound_messages')
           .update({
             raw_payload: {
-              ...(data.raw_payload || {}),
+              ...(currentMessage?.raw_payload || data.raw_payload || {}),
               chief_of_staff_processing: true,
-              chief_of_staff_processing_at: new Date().toISOString(),
+              chief_of_staff_processing_at: processingTimestamp,
             },
           })
           .eq('id', data.id)
@@ -175,6 +265,22 @@ const webhookController = async (req: NextApiRequest, res: NextApiResponse) => {
         await handleChiefOfStaffTaskSummary(finalSenderPhone, messageBody, data.id, messageId)
       } catch (error) {
         console.error('[SMS Webhook] Error handling Chief of Staff request:', error)
+        // Clear processing flag on error
+        await supabase
+          .from('inbound_messages')
+          .update({
+            raw_payload: {
+              ...((
+                await supabase
+                  .from('inbound_messages')
+                  .select('raw_payload')
+                  .eq('id', data.id)
+                  .single()
+              ).data?.raw_payload || {}),
+              chief_of_staff_processing: false,
+            },
+          })
+          .eq('id', data.id)
         // Don't fail the webhook if Chief of Staff handling fails
       }
     }
@@ -478,8 +584,26 @@ async function handleChiefOfStaffTaskSummary(
     }
   }
 
+  // Final check before sending: verify we haven't already sent a reply
+  // This is a last-ditch check to prevent duplicate sends
+  if (messageDbId) {
+    const { data: finalCheck } = await supabase
+      .from('inbound_messages')
+      .select('raw_payload')
+      .eq('id', messageDbId)
+      .single()
+
+    if (finalCheck?.raw_payload?.chief_of_staff_reply_sent) {
+      console.log(`[Chief of Staff] Reply already sent for message ${messageDbId}, skipping send`)
+      return
+    }
+  }
+
   // Send SMS reply
   try {
+    console.log(
+      `[Chief of Staff] Sending task summary to ${senderPhone} for message ${messageDbId}`
+    )
     await sendPingramSms({
       type: 'workpace_apps',
       to: {
@@ -493,9 +617,10 @@ async function handleChiefOfStaffTaskSummary(
         task_count: tasks.length,
       },
     })
-    console.log(`[Chief of Staff] Sent task summary to ${senderPhone}`)
+    console.log(`[Chief of Staff] Successfully sent task summary to ${senderPhone}`)
 
     // Mark message as having reply sent to prevent duplicate processing
+    // Use atomic update with check to ensure only one instance marks it as sent
     if (messageDbId) {
       const { data: currentMessage } = await supabase
         .from('inbound_messages')
@@ -503,17 +628,25 @@ async function handleChiefOfStaffTaskSummary(
         .eq('id', messageDbId)
         .single()
 
-      await supabase
-        .from('inbound_messages')
-        .update({
-          raw_payload: {
-            ...(currentMessage?.raw_payload || {}),
-            chief_of_staff_reply_sent: true,
-            chief_of_staff_reply_sent_at: new Date().toISOString(),
-            chief_of_staff_processing: false,
-          },
-        })
-        .eq('id', messageDbId)
+      // Only update if reply hasn't been sent yet (double-check)
+      if (!currentMessage?.raw_payload?.chief_of_staff_reply_sent) {
+        await supabase
+          .from('inbound_messages')
+          .update({
+            raw_payload: {
+              ...(currentMessage?.raw_payload || {}),
+              chief_of_staff_reply_sent: true,
+              chief_of_staff_reply_sent_at: new Date().toISOString(),
+              chief_of_staff_processing: false,
+            },
+          })
+          .eq('id', messageDbId)
+        console.log(`[Chief of Staff] Marked message ${messageDbId} as reply sent`)
+      } else {
+        console.log(
+          `[Chief of Staff] WARNING: Message ${messageDbId} was already marked as reply sent, but we just sent again!`
+        )
+      }
     }
   } catch (smsError) {
     console.error('[Chief of Staff] Error sending SMS reply:', smsError)
