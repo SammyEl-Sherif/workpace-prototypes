@@ -12,6 +12,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
 import type { InboundMessage } from '@/pages/api/sms/messages'
+import { ChiefOfStaffDatabaseSelector } from './components/ChiefOfStaffDatabaseSelector'
 import styles from './Sms.module.scss'
 
 type SendStatus = 'idle' | 'sending' | 'sent' | 'error'
@@ -113,11 +114,16 @@ export const Sms = () => {
       <div className={styles.breadcrumbsWrapper}>
         <Breadcrumbs
           linkAs={Link}
-          items={[{ label: 'Apps', href: '/apps' }, { label: 'SMS' }]}
+          items={[{ label: 'Apps', href: '/apps' }, { label: 'Chief of Staff' }]}
           size="lg"
         />
       </div>
       <div className={styles.container}>
+        {/* ── Chief of Staff Database Selection ─────────────────────────────── */}
+        <div className={styles.chiefOfStaffSection}>
+          <ChiefOfStaffDatabaseSelector />
+        </div>
+
         {/* ── SMS Send Section ─────────────────────────────── */}
         <div className={styles.smsSection}>
           <Text as="h2" variant="headline-sm" className={styles.smsHeading}>

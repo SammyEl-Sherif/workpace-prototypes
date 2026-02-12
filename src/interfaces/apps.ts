@@ -43,13 +43,14 @@ export const APPS: App[] = [
     tech: 'Notion API, OpenAI API',
   },
   {
-    name: `💬 ${routeToName(Routes.SMS)}`,
+    name: `📋 Chief of Staff`,
     path: `/${Routes.SMS}`,
-    description: 'Send quick SMS notifications to any phone number.',
-    icon: '💬',
+    description:
+      'Get your morning task summary via SMS. Connect your Notion databases and text "outlook" to receive a summary of all your in-progress tasks.',
+    icon: '📋',
     permittedRoles: [UserGroup.Admin],
     stage: AppStage.WIP,
-    tech: 'React, TypeScript',
+    tech: 'Notion API, SMS, React, TypeScript',
   },
 ]
 
@@ -67,10 +68,11 @@ export const AppMeta = {
     tech: 'Notion API, OpenAI API',
   },
   [Routes.SMS]: {
-    description: 'Send quick SMS notifications to any phone number.',
-    icon: '💬',
+    description:
+      'Get your morning task summary via SMS. Connect your Notion databases and text "outlook" to receive a summary of all your in-progress tasks.',
+    icon: '📋',
     permittedRoles: [UserGroup.Admin],
     stage: AppStage.WIP,
-    tech: 'React, TypeScript',
+    tech: 'Notion API, SMS, React, TypeScript',
   },
 }

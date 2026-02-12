@@ -85,17 +85,17 @@ const webhookController = async (req: NextApiRequest, res: NextApiResponse) => {
       }: ${messageBody.substring(0, 50)}...`
     )
 
-    // Check if message contains "outlook" (case-insensitive) and handle task summary request
+    // Check if message contains "outlook" (case-insensitive) and handle Chief of Staff task summary request
     if (
       messageType === 'text' &&
       finalSenderPhone &&
       messageBody.toLowerCase().includes('outlook')
     ) {
       try {
-        await handleOutlookTaskSummary(finalSenderPhone, messageBody)
+        await handleChiefOfStaffTaskSummary(finalSenderPhone, messageBody)
       } catch (error) {
-        console.error('[SMS Webhook] Error handling outlook request:', error)
-        // Don't fail the webhook if outlook handling fails
+        console.error('[SMS Webhook] Error handling Chief of Staff request:', error)
+        // Don't fail the webhook if Chief of Staff handling fails
       }
     }
 
@@ -109,9 +109,12 @@ const webhookController = async (req: NextApiRequest, res: NextApiResponse) => {
 }
 
 /**
- * Handles "outlook" SMS requests by fetching in-progress tasks and sending a summary
+ * Handles "outlook" SMS requests by fetching in-progress tasks from selected databases and sending a summary
  */
-async function handleOutlookTaskSummary(senderPhone: string, messageBody: string): Promise<void> {
+async function handleChiefOfStaffTaskSummary(
+  senderPhone: string,
+  messageBody: string
+): Promise<void> {
   const supabase = createSupabaseServerClient()
 
   // Find user by phone number using admin API
@@ -119,7 +122,7 @@ async function handleOutlookTaskSummary(senderPhone: string, messageBody: string
   const { data: users, error: userError } = await supabase.auth.admin.listUsers()
 
   if (userError || !users) {
-    console.error('[Outlook Handler] Error fetching users:', userError)
+    console.error('[Chief of Staff] Error fetching users:', userError)
     return
   }
 
@@ -151,7 +154,7 @@ async function handleOutlookTaskSummary(senderPhone: string, messageBody: string
   })
 
   if (!user) {
-    console.log(`[Outlook Handler] No user found for phone: ${senderPhone}`)
+    console.log(`[Chief of Staff] No user found for phone: ${senderPhone}`)
     return
   }
 
@@ -163,21 +166,50 @@ async function handleOutlookTaskSummary(senderPhone: string, messageBody: string
     .single()
 
   if (connectionError || !connection) {
-    console.log(`[Outlook Handler] No Notion connection found for user: ${user.id}`)
+    console.log(`[Chief of Staff] No Notion connection found for user: ${user.id}`)
     return
   }
 
-  // Get default database ID
-  const databaseId = process.env.NOTION_DEFAULT_DB_ID
-  if (!databaseId) {
-    console.error('[Outlook Handler] NOTION_DEFAULT_DB_ID not set')
+  // Get user's selected databases for Chief of Staff
+  const { data: selectedDatabases, error: databasesError } = await supabase
+    .from('chief_of_staff_databases')
+    .select('*')
+    .eq('user_id', user.id)
+
+  if (databasesError) {
+    console.error('[Chief of Staff] Error fetching selected databases:', databasesError)
+    return
+  }
+
+  if (!selectedDatabases || selectedDatabases.length === 0) {
+    console.log(`[Chief of Staff] No databases selected for user: ${user.id}`)
+    // Send a helpful message
+    try {
+      await sendPingramSms({
+        type: 'workpace_apps',
+        to: {
+          id: user.email || user.id,
+          number: senderPhone,
+        },
+        sms: {
+          message:
+            "You haven't selected any Notion databases for your morning outlook yet. Visit the SMS app to configure your databases.",
+        },
+        metadata: {
+          type: 'chief_of_staff_no_databases',
+          user_id: user.id,
+        },
+      })
+    } catch (smsError) {
+      console.error('[Chief of Staff] Error sending SMS reply:', smsError)
+    }
     return
   }
 
   // Create Notion client with user's token
   const notionClient = await createNotionClient(user.id)
 
-  // Query for in-progress tasks
+  // Query for in-progress tasks across all selected databases
   // Try common status property names and values
   const statusFilters = [
     {
@@ -212,71 +244,124 @@ async function handleOutlookTaskSummary(senderPhone: string, messageBody: string
     },
   ]
 
-  let tasks: any[] = []
-  for (const filter of statusFilters) {
-    try {
-      const result = await getNotionPagesController(
-        notionClient,
-        databaseId,
-        filter as any,
-        undefined,
-        true, // filter by creator
-        user.id
-      )
-      if (result.data && result.data.length > 0) {
-        tasks = result.data
-        break // Use first successful filter
+  let allTasks: any[] = []
+
+  // Query each selected database
+  for (const selectedDb of selectedDatabases) {
+    let databaseTasks: any[] = []
+
+    // Try each status filter
+    for (const filter of statusFilters) {
+      try {
+        const result = await getNotionPagesController(
+          notionClient,
+          selectedDb.database_id,
+          filter as any,
+          undefined,
+          true, // filter by creator
+          user.id
+        )
+        if (result.data && result.data.length > 0) {
+          databaseTasks = result.data
+          break // Use first successful filter
+        }
+      } catch (err) {
+        // Try next filter
+        continue
       }
-    } catch (err) {
-      // Try next filter
-      continue
     }
+
+    // If no tasks found with status filters, try getting all tasks and filter manually
+    if (databaseTasks.length === 0) {
+      try {
+        const result = await getNotionPagesController(
+          notionClient,
+          selectedDb.database_id,
+          undefined,
+          undefined,
+          true,
+          user.id
+        )
+        if (result.data) {
+          // Filter for tasks that might be in progress (check status property)
+          databaseTasks = result.data.filter((task: any) => {
+            const status = task.accomplishmentType?.toLowerCase() || ''
+            return (
+              status.includes('progress') ||
+              status.includes('doing') ||
+              status.includes('active') ||
+              status.includes('wip')
+            )
+          })
+        }
+      } catch (err) {
+        console.error(
+          `[Chief of Staff] Error fetching tasks from database ${selectedDb.database_id}:`,
+          err
+        )
+        // Continue to next database
+        continue
+      }
+    }
+
+    // Add database title to tasks for context
+    databaseTasks = databaseTasks.map((task) => ({
+      ...task,
+      database_title: selectedDb.database_title || 'Untitled Database',
+    }))
+
+    allTasks = allTasks.concat(databaseTasks)
   }
 
-  // If no tasks found with status filters, try getting all tasks and filter manually
-  if (tasks.length === 0) {
-    try {
-      const result = await getNotionPagesController(
-        notionClient,
-        databaseId,
-        undefined,
-        undefined,
-        true,
-        user.id
-      )
-      if (result.data) {
-        // Filter for tasks that might be in progress (check status property)
-        tasks = result.data.filter((task: any) => {
-          const status = task.accomplishmentType?.toLowerCase() || ''
-          return (
-            status.includes('progress') ||
-            status.includes('doing') ||
-            status.includes('active') ||
-            status.includes('wip')
-          )
-        })
-      }
-    } catch (err) {
-      console.error('[Outlook Handler] Error fetching all tasks:', err)
-    }
-  }
+  const tasks = allTasks
 
   // Format task summary
   let summaryMessage = ''
   if (tasks.length === 0) {
     summaryMessage = "You don't have any tasks in progress right now. Great job! 🎉"
   } else {
-    summaryMessage = `📋 You have ${tasks.length} task${
+    summaryMessage = `📋 Chief of Staff - Morning Outlook\n\nYou have ${tasks.length} task${
       tasks.length === 1 ? '' : 's'
     } in progress:\n\n`
-    tasks.slice(0, 10).forEach((task, index) => {
-      const title = task.title || 'Untitled Task'
-      summaryMessage += `${index + 1}. ${title}\n`
-    })
-    if (tasks.length > 10) {
-      summaryMessage += `\n...and ${tasks.length - 10} more task${
-        tasks.length - 10 === 1 ? '' : 's'
-      }`
+
+    // Group tasks by database if multiple databases
+    const databasesCount = new Set(tasks.map((t) => t.database_title)).size
+    if (databasesCount > 1) {
+      // Group by database
+      const tasksByDatabase = tasks.reduce((acc, task) => {
+        const dbTitle = task.database_title || 'Untitled Database'
+        if (!acc[dbTitle]) {
+          acc[dbTitle] = []
+        }
+        acc[dbTitle].push(task)
+        return acc
+      }, {} as Record<string, typeof tasks>)
+
+      let taskIndex = 1
+      for (const [dbTitle, dbTasks] of Object.entries(tasksByDatabase)) {
+        summaryMessage += `${dbTitle}:\n`
+        const typedDbTasks = dbTasks as typeof tasks
+        typedDbTasks.slice(0, 10).forEach((task) => {
+          const title = task.title || 'Untitled Task'
+          summaryMessage += `  ${taskIndex}. ${title}\n`
+          taskIndex++
+        })
+        if (typedDbTasks.length > 10) {
+          summaryMessage += `  ...and ${typedDbTasks.length - 10} more\n`
+        }
+        summaryMessage += '\n'
+      }
+    } else {
+      // Single database or no database info - simple list
+      tasks.slice(0, 10).forEach((task, index) => {
+        const title = task.title || 'Untitled Task'
+        summaryMessage += `${index + 1}. ${title}\n`
+      })
+      if (tasks.length > 10) {
+        summaryMessage += `\n...and ${tasks.length - 10} more task${
+          tasks.length - 10 === 1 ? '' : 's'
+        }`
+      }
     }
   }
 
@@ -290,14 +375,14 @@ async function handleOutlookTaskSummary(senderPhone: string, messageBody: string
       },
       sms: { message: summaryMessage },
       metadata: {
-        type: 'outlook_task_summary',
+        type: 'chief_of_staff_task_summary',
         user_id: user.id,
         task_count: tasks.length,
       },
     })
-    console.log(`[Outlook Handler] Sent task summary to ${senderPhone}`)
+    console.log(`[Chief of Staff] Sent task summary to ${senderPhone}`)
   } catch (smsError) {
-    console.error('[Outlook Handler] Error sending SMS reply:', smsError)
+    console.error('[Chief of Staff] Error sending SMS reply:', smsError)
   }
 }
 

@@ -1,0 +1,97 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.selector {
+  padding: $size-300;
+  background: $color-neutral-white;
+  border-radius: $size-100;
+  border: 1px solid $color-neutral-200;
+}
+
+.header {
+  margin-bottom: $size-300;
+}
+
+.error {
+  padding: $size-150;
+  margin-bottom: $size-200;
+  background: $color-error-50;
+  border-radius: $size-75;
+  border: 1px solid $color-error-200;
+}
+
+.connectSection {
+  display: flex;
+  flex-direction: column;
+  gap: $size-200;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: $size-300;
+}
+
+.connectionInfo {
+  margin-bottom: $size-200;
+}
+
+.connectionStatus {
+  display: flex;
+  align-items: center;
+  gap: $size-100;
+}
+
+.statusDot {
+  width: $size-100;
+  height: $size-100;
+  border-radius: 50%;
+  flex-shrink: 0;
+
+  &[data-status='connected'] {
+    background: $color-success-500;
+  }
+
+  &[data-status='disconnected'] {
+    background: $color-neutral-400;
+  }
+}
+
+.disconnectLink {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: $color-primary-600;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: $font-body-sm-font-size;
+  padding: 0;
+
+  &:hover {
+    color: $color-primary-700;
+  }
+}
+
+.addSection {
+  margin-bottom: $size-200;
+}
+
+.selectedSection {
+  margin-top: $size-200;
+}
+
+.selectedList {
+  display: flex;
+  flex-direction: column;
+  gap: $size-150;
+  margin-top: $size-150;
+}
+
+.selectedItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $size-150;
+  background: $color-neutral-50;
+  border-radius: $size-75;
+  border: 1px solid $color-neutral-200;
+}

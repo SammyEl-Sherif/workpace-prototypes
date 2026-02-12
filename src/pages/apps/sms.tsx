@@ -11,7 +11,7 @@ export const getServerSideProps: GetServerSideProps = withPageRequestWrapper(asy
 const SmsPage = () => {
   return (
     <>
-      <DocumentTitle title="SMS" />
+      <DocumentTitle title="Chief of Staff" />
       <Sms />
     </>
   )
