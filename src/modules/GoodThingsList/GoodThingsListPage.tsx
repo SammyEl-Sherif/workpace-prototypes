@@ -2,7 +2,7 @@ import { useChallenges, useGoodThings, useManualFetch, useSavedReports } from '@
 import { GoodThing, GoodThingMedia } from '@/interfaces/good-things'
 import { CreateSavedReportInput } from '@/interfaces/saved-reports'
 import { AppPageLayout } from '@/layout'
-import { Box, Button, Text } from '@workpace/design-system'
+import { Badge, Box, Button, Select, Text } from '@workpace/design-system'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -214,7 +214,7 @@ export const GoodThingsListPage = ({
               transition={{ duration: 0.4, delay: 0.1 }}
               className={styles.titleSection}
             >
-              <h1 className={styles.mainTitle}>🥇 The Good Stuff List</h1>
+              <h1 className={styles.mainTitle}>The Good Stuff List</h1>
               <p className={styles.subtitle}>
                 Transform your accomplishments into compelling narratives
               </p>
@@ -223,25 +223,23 @@ export const GoodThingsListPage = ({
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.4, delay: 0.2 }}
-              className={styles.statsCard}
+              className={styles.tabNav}
             >
               <button
                 type="button"
-                className={`${styles.statTile} ${
-                  activeView === 'good-things' ? styles.active : ''
-                }`}
+                className={`${styles.tab} ${activeView === 'good-things' ? styles.active : ''}`}
                 onClick={() => setActiveView('good-things')}
               >
-                <span className={styles.statNumber}>{goodThings.length}</span>
-                <span className={styles.statLabel}>Good Things</span>
+                Good Things
+                <span className={styles.tabCount}>{goodThings.length}</span>
               </button>
               <button
                 type="button"
-                className={`${styles.statTile} ${activeView === 'reports' ? styles.active : ''}`}
+                className={`${styles.tab} ${activeView === 'reports' ? styles.active : ''}`}
                 onClick={() => setActiveView('reports')}
               >
-                <span className={styles.statNumber}>{savedReports.length}</span>
-                <span className={styles.statLabel}>Reports</span>
+                Reports
+                <span className={styles.tabCount}>{savedReports.length}</span>
               </button>
             </motion.div>
           </div>
@@ -280,76 +278,69 @@ export const GoodThingsListPage = ({
             transition={{ duration: 0.4, delay: 0.1 }}
             className={`${styles.viewContainer} ${styles.reportsView}`}
           >
-            <div className={styles.reportsViewHeader}>
-              <Text variant="headline-md-emphasis">Generate a Report</Text>
-              <div className={styles.statusBadge}>
+            <div className={styles.promptCard}>
+              <div className={styles.reportsViewHeader}>
+                <Text variant="headline-md-emphasis">Generate a Report</Text>
                 {isLoadingReport ? (
-                  <span className={styles.statusLoading}>Generating...</span>
+                  <Badge variant="warning" size="sm">
+                    Generating...
+                  </Badge>
                 ) : response ? (
-                  <span className={styles.statusReady}>Ready</span>
+                  <Badge variant="success" size="sm">
+                    Ready
+                  </Badge>
                 ) : (
-                  <span className={styles.statusIdle}>Waiting</span>
+                  <Badge variant="default" size="sm">
+                    Waiting
+                  </Badge>
                 )}
               </div>
-            </div>
-            <div className={styles.promptInputContainer}>
-              <textarea
-                className={styles.promptTextarea}
-                onChange={(e) => {
-                  handlePromptChange(e.target.value)
-                  setSelectedPreset('')
-                  e.target.style.height = 'auto'
-                  e.target.style.height = `${e.target.scrollHeight}px`
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault()
-                    if (userPrompt?.trim() && !isLoadingReport) {
-                      handleGenerateReport()
-                    }
-                  }
-                }}
-                placeholder="Describe how you'd like to showcase your accomplishments..."
-                value={userPrompt || ''}
-                rows={1}
-              />
-              <div className={styles.promptControls}>
-                <div className={styles.templateDropdown}>
-                  <select
-                    className={styles.templateSelect}
-                    value={selectedPreset}
-                    onChange={(e) => handlePresetChange(e.target.value)}
-                  >
-                    <option value="">Template</option>
-                    <option value="year-end-review">Year End Review</option>
-                    <option value="linkedin-experience">LinkedIn Experience</option>
-                    <option value="job-application">Job Application</option>
-                  </select>
-                </div>
-                <button
-                  type="button"
-                  className={styles.generateArrowButton}
-                  onClick={handleGenerateReport}
-                  disabled={!userPrompt?.trim() || isLoadingReport}
+              <Text variant="body-md" color="neutral-600" className={styles.promptDescription}>
+                Choose a template or write a custom prompt to generate a report from your
+                accomplishments.
+              </Text>
+              <div className={styles.templateRow}>
+                <Select
+                  label="Template"
+                  value={selectedPreset}
+                  onChange={(e) => handlePresetChange(e.target.value)}
                 >
-                  {isLoadingReport ? (
-                    <div className={styles.loadingSpinner}></div>
-                  ) : (
-                    <svg
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <line x1="5" y1="12" x2="19" y2="12"></line>
-                      <polyline points="12 5 19 12 12 19"></polyline>
-                    </svg>
-                  )}
-                </button>
+                  <option value="">Select a template...</option>
+                  <option value="year-end-review">Year End Review</option>
+                  <option value="linkedin-experience">LinkedIn Experience</option>
+                  <option value="job-application">Job Application</option>
+                </Select>
+              </div>
+              <div className={styles.promptInputContainer}>
+                <textarea
+                  className={styles.promptTextarea}
+                  onChange={(e) => {
+                    handlePromptChange(e.target.value)
+                    setSelectedPreset('')
+                    e.target.style.height = 'auto'
+                    e.target.style.height = `${e.target.scrollHeight}px`
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault()
+                      if (userPrompt?.trim() && !isLoadingReport) {
+                        handleGenerateReport()
+                      }
+                    }
+                  }}
+                  placeholder="Describe how you'd like to showcase your accomplishments..."
+                  value={userPrompt || ''}
+                  rows={1}
+                />
+                <div className={styles.promptActions}>
+                  <Button
+                    variant="brand-primary"
+                    onClick={handleGenerateReport}
+                    disabled={!userPrompt?.trim() || isLoadingReport}
+                  >
+                    {isLoadingReport ? 'Generating...' : 'Generate Report'}
+                  </Button>
+                </div>
               </div>
             </div>
 
@@ -387,7 +378,7 @@ export const GoodThingsListPage = ({
             </div>
           </div>
         </div>
-        {activeChallenges.length > 0 && (
+        {activeChallenges.length > 0 ? (
           <div className={styles.challengesList}>
             {activeChallenges.map((challenge) => {
               const endDate = new Date(challenge.end_date)
@@ -415,13 +406,19 @@ export const GoodThingsListPage = ({
                     </Text>
                   )}
                   {daysLeft > 0 && (
-                    <Text variant="body-sm" color="neutral-600">
+                    <Badge variant="info" size="sm">
                       {daysLeft} days left
-                    </Text>
+                    </Badge>
                   )}
                 </Link>
               )
             })}
+          </div>
+        ) : (
+          <div className={styles.challengesEmpty}>
+            <Text variant="body-md" color="neutral-600">
+              No active challenges — start one to build momentum
+            </Text>
           </div>
         )}
       </motion.div>

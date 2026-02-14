@@ -1,5 +1,6 @@
 import { useManualFetch, useSavedReports } from '@/hooks'
 import { SavedReport } from '@/interfaces/saved-reports'
+import { formatDateTime } from '@/utils'
 import {
   ColumnFiltersState,
   createColumnHelper,
@@ -10,7 +11,7 @@ import {
   SortingState,
   useReactTable,
 } from '@tanstack/react-table'
-import { Button, Text } from '@workpace/design-system'
+import { Badge, Button, Loading, Text } from '@workpace/design-system'
 import { useEffect, useMemo, useState } from 'react'
 import { ReportModal } from '../ReportModal'
 import styles from './SavedReportsTable.module.scss'
@@ -36,16 +37,6 @@ export const SavedReportsTable = ({
   useEffect(() => {
     refetch()
   }, [])
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    })
-  }
 
   const handleViewReport = (report: SavedReport) => {
     setSelectedReport(report)
@@ -85,16 +76,16 @@ export const SavedReportsTable = ({
       columnHelper.accessor('format', {
         header: 'Format',
         cell: (info) => (
-          <Text variant="body-sm" color="neutral-600">
+          <Badge variant="default" size="sm">
             {info.getValue()}
-          </Text>
+          </Badge>
         ),
       }),
       columnHelper.accessor('created_at', {
         header: 'Created',
         cell: (info) => (
           <Text variant="body-sm" color="neutral-600">
-            {formatDate(info.getValue())}
+            {formatDateTime(info.getValue())}
           </Text>
         ),
       }),
@@ -180,7 +171,7 @@ export const SavedReportsTable = ({
   if (isLoading && !isLoadingReport) {
     return (
       <div className={styles.loading}>
-        <Text>Loading saved reports...</Text>
+        <Loading size="md" />
       </div>
     )
   }
@@ -227,7 +218,10 @@ export const SavedReportsTable = ({
               {!hasRows && !isLoadingReport ? (
                 <tr>
                   <td colSpan={columns.length} className={styles.empty}>
-                    <Text>No saved reports yet. Generate a report to see it here.</Text>
+                    <Text variant="headline-sm-emphasis">No reports yet</Text>
+                    <Text variant="body-md" color="neutral-600">
+                      Generate your first report using the form above.
+                    </Text>
                   </td>
                 </tr>
               ) : (
@@ -238,11 +232,7 @@ export const SavedReportsTable = ({
                       {isGenerating ? (
                         <td colSpan={columns.length} className={styles.loadingRow}>
                           <div className={styles.loadingState}>
-                            <div className={styles.loadingAnimation}>
-                              <div className={styles.loadingDot}></div>
-                              <div className={styles.loadingDot}></div>
-                              <div className={styles.loadingDot}></div>
-                            </div>
+                            <Loading size="sm" />
                             <Text>AI is crafting your report...</Text>
                           </div>
                         </td>
@@ -266,19 +256,16 @@ export const SavedReportsTable = ({
           {isLoadingReport && generatingReportId && (
             <div className={styles.reportCard}>
               <div className={styles.loadingState}>
-                <div className={styles.loadingAnimation}>
-                  <div className={styles.loadingDot}></div>
-                  <div className={styles.loadingDot}></div>
-                  <div className={styles.loadingDot}></div>
-                </div>
+                <Loading size="sm" />
                 <Text>AI is crafting your report...</Text>
               </div>
             </div>
           )}
           {tableData.filter((r) => !(r as any).isGenerating).length === 0 && !isLoadingReport ? (
             <div className={styles.emptyCard}>
+              <Text variant="headline-sm-emphasis">No reports yet</Text>
               <Text color="neutral-600">
-                No saved reports yet. Generate a report to see it here.
+                Generate your first report using the form above.
               </Text>
             </div>
           ) : (
@@ -289,7 +276,7 @@ export const SavedReportsTable = ({
                   <div className={styles.reportCardHeader}>
                     <Text variant="headline-sm-emphasis">{report.title}</Text>
                     <Text variant="body-sm" color="neutral-400">
-                      {formatDate(report.created_at)}
+                      {formatDateTime(report.created_at)}
                     </Text>
                   </div>
                   {report.prompt_used && (

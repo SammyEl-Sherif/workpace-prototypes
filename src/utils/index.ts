@@ -1,3 +1,4 @@
+export * from './formatDate'
 export * from './getAppName'
 export * from './getBaseUrl'
 export * from './getBrowserWindow'

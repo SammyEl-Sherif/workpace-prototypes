@@ -1,7 +1,8 @@
-import { useGoals, useGoodThings, useManualFetch } from '@/hooks'
+import { useGoals, useGoodThings, useManualFetch, useModal } from '@/hooks'
 import { GoodThing, GoodThingMedia } from '@/interfaces/good-things'
-import { Button, Text } from '@workpace/design-system'
-import { motion, AnimatePresence } from 'framer-motion'
+import { formatDateFull } from '@/utils'
+import { Badge, Button, Select, Text } from '@workpace/design-system'
+import { AnimatePresence, motion } from 'framer-motion'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { GoodThingForm } from '../GoodThingForm'
@@ -237,15 +238,6 @@ export const DayGrid = ({
     })
   }
 
-  const formatDateFull = (date: Date) => {
-    return date.toLocaleDateString('en-US', {
-      weekday: 'long',
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric',
-    })
-  }
-
   const isToday = (date: Date) => {
     const today = new Date()
     return (
@@ -290,36 +282,13 @@ export const DayGrid = ({
     return selectedDay.media.filter((m) => m.good_thing_id === goodThingId)
   }
 
-  // Prevent body scroll when modal is open
-  useEffect(() => {
-    if (selectedDay) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
-    }
-    return () => {
-      document.body.style.overflow = ''
-    }
-  }, [selectedDay])
-
-  // Close on escape key
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && selectedDay) {
-        setSelectedDay(null)
-        setShowForm(false)
-        setEditingGoodThingId(null)
-      }
-    }
-    window.addEventListener('keydown', handleEscape)
-    return () => window.removeEventListener('keydown', handleEscape)
-  }, [selectedDay])
-
-  const handleCloseModal = () => {
+  const handleCloseModal = useCallback(() => {
     setSelectedDay(null)
     setShowForm(false)
     setEditingGoodThingId(null)
-  }
+  }, [])
+
+  useModal({ isOpen: !!selectedDay, onClose: handleCloseModal })
 
   // Day detail modal content
   const dayDetailModal =
@@ -398,7 +367,9 @@ export const DayGrid = ({
                                   </Text>
                                 )}
                                 {gt.goal_name && (
-                                  <span className={styles.goalBadge}>{gt.goal_name}</span>
+                                  <Badge variant="info" size="sm">
+                                    {gt.goal_name}
+                                  </Badge>
                                 )}
                               </div>
                               <div className={styles.achievementActions}>
@@ -478,8 +449,10 @@ export const DayGrid = ({
 
                 {selectedDay.goodThings.length === 0 && !showForm && (
                   <div className={styles.emptyDay}>
+                    <span className={styles.emptyDayIcon}>✨</span>
+                    <Text variant="headline-sm-emphasis">Nothing here yet</Text>
                     <Text variant="body-md" color="neutral-400">
-                      Nothing logged for this day yet.
+                      Log your first achievement for this day — every win counts!
                     </Text>
                     <Button variant="brand-primary" onClick={() => setShowForm(true)}>
                       + Log an Achievement
@@ -509,8 +482,8 @@ export const DayGrid = ({
             </Text>
           </div>
           <div className={styles.headerControls}>
-            <select
-              className={styles.goalSelect}
+            <Select
+              label="Filter by Goal"
               value={selectedGoalId}
               onChange={(e) => {
                 onGoalChange(e.target.value)
@@ -524,27 +497,24 @@ export const DayGrid = ({
                   {goal.name}
                 </option>
               ))}
-            </select>
+            </Select>
             {showHistory && onAddGoodThing && (
-              <button type="button" className={styles.addButton} onClick={onAddGoodThing}>
+              <Button variant="brand-primary" onClick={onAddGoodThing}>
                 + Add Good Thing
-              </button>
+              </Button>
             )}
             <div className={styles.actionButtons}>
               {onImportFromNotion && (
-                <button type="button" className={styles.importButton} onClick={onImportFromNotion}>
-                  📥 Import from Notion
-                </button>
+                <Button variant="brand-secondary" onClick={onImportFromNotion}>
+                  Import from Notion
+                </Button>
               )}
-              <button
-                type="button"
-                className={`${styles.historyButton} ${
-                  showHistory ? styles.historyButtonActive : ''
-                }`}
+              <Button
+                variant={showHistory ? 'brand-primary' : 'default-secondary'}
                 onClick={onToggleHistory}
               >
-                {showHistory ? '← Back to Grid' : 'View All History'}
-              </button>
+                {showHistory ? 'Back to Grid' : 'View All History'}
+              </Button>
             </div>
           </div>
         </div>

@@ -105,6 +105,13 @@
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
+.error {
+  padding: $size-200;
+  background: $color-error-50;
+  border-radius: 8px;
+  margin-bottom: $size-200;
+}
+
 .modalActions {
   display: flex;
   justify-content: flex-end;

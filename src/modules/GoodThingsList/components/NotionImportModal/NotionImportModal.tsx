@@ -1,4 +1,4 @@
-import { useManualFetch } from '@/hooks'
+import { useManualFetch, useModal } from '@/hooks'
 import { CreateGoodThingInput } from '@/interfaces/good-things'
 import { NotionDatabase, PageSummary } from '@/interfaces/notion'
 import { HttpResponse } from '@/server/types'
@@ -219,28 +219,7 @@ export const NotionImportModal = ({ isOpen, onClose, onImport }: NotionImportMod
     }
   }
 
-  // Prevent body scroll when modal is open
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
-    }
-    return () => {
-      document.body.style.overflow = ''
-    }
-  }, [isOpen])
-
-  // Close on escape key
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen && step !== 'importing') {
-        onClose()
-      }
-    }
-    window.addEventListener('keydown', handleEscape)
-    return () => window.removeEventListener('keydown', handleEscape)
-  }, [isOpen, onClose, step])
+  useModal({ isOpen, onClose, preventClose: step === 'importing' })
 
   if (!isOpen) return null
 

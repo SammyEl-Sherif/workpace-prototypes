@@ -58,123 +58,6 @@
   }
 }
 
-.addButton {
-  appearance: none;
-  background: #667eea;
-  border: 1px solid #667eea;
-  border-radius: 8px;
-  padding: $size-100 $size-200;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: white;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-
-  &:hover {
-    background: #5a6fd6;
-    border-color: #5a6fd6;
-    box-shadow: 0 2px 6px rgba(102, 126, 234, 0.3);
-  }
-
-  @media (max-width: 600px) {
-    width: 100%;
-  }
-}
-
-.historyButton {
-  appearance: none;
-  background: white;
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  border-radius: 8px;
-  padding: $size-100 $size-200;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: $color-neutral-800;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-
-  &:hover {
-    border-color: rgba(0, 0, 0, 0.24);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-  }
-
-  &Active {
-    background: #667eea;
-    color: white;
-    border-color: #667eea;
-
-    &:hover {
-      background: #5a6fd6;
-      border-color: #5a6fd6;
-      box-shadow: 0 2px 6px rgba(102, 126, 234, 0.3);
-    }
-  }
-
-  @media (max-width: 600px) {
-    width: 100%;
-  }
-}
-
-.importButton {
-  white-space: nowrap;
-  appearance: none;
-  background: rgba(102, 126, 234, 0.08);
-  border: 1px solid rgba(102, 126, 234, 0.3);
-  border-radius: 8px;
-  padding: $size-100 $size-200;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #667eea;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 1px 3px rgba(102, 126, 234, 0.15);
-
-  &:hover {
-    background: rgba(102, 126, 234, 0.12);
-    border-color: rgba(102, 126, 234, 0.5);
-    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.25);
-    transform: translateY(-1px);
-  }
-
-  @media (max-width: 600px) {
-    width: 100%;
-  }
-}
-
-.goalSelect {
-  appearance: none;
-  background: white;
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  border-radius: 8px;
-  padding: $size-100 $size-400 $size-100 $size-200;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: $color-neutral-800;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right $size-150 center;
-  min-width: 160px;
-
-  &:hover {
-    border-color: rgba(0, 0, 0, 0.24);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-  }
-
-  &:focus {
-    outline: none;
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
-  }
-
-  @media (max-width: 600px) {
-    width: 100%;
-  }
-}
-
 .grid {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
@@ -199,40 +82,40 @@
   outline-offset: -2px;
 
   &.level0 {
-    background: #ebedf0;
+    background: $color-neutral-100;
     outline-color: rgba(27, 31, 35, 0.06);
   }
 
   &.level1 {
-    background: #9be9a8;
+    background: $color-success-200;
     outline-color: rgba(27, 31, 35, 0.06);
   }
 
   &.level2 {
-    background: #40c463;
+    background: $color-success-400;
     outline-color: rgba(27, 31, 35, 0.06);
   }
 
   &.level3 {
-    background: #30a14e;
+    background: $color-success-600;
     outline-color: rgba(27, 31, 35, 0.06);
   }
 
   &.level4 {
-    background: #216e39;
+    background: $color-success-800;
     outline-color: rgba(27, 31, 35, 0.06);
   }
 
   &.today {
-    outline: 2px solid #667eea;
+    outline: 2px solid $color-primary-500;
     outline-offset: -2px;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+    box-shadow: 0 0 0 3px rgba($color-primary-500, 0.2);
   }
 
   &.selected {
-    outline: 3px solid #667eea;
+    outline: 3px solid $color-primary-500;
     outline-offset: -3px;
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 4px 12px rgba($color-primary-500, 0.3);
   }
 
   &.hasMedia {
@@ -267,7 +150,7 @@
 .todayDot {
   width: 8px;
   height: 8px;
-  background: #667eea;
+  background: $color-primary-500;
   border-radius: 50%;
 }
 
@@ -297,23 +180,23 @@
   outline: 1px solid rgba(27, 31, 35, 0.06);
 
   &.level0 {
-    background: #ebedf0;
+    background: $color-neutral-100;
   }
 
   &.level1 {
-    background: #9be9a8;
+    background: $color-success-200;
   }
 
   &.level2 {
-    background: #40c463;
+    background: $color-success-400;
   }
 
   &.level3 {
-    background: #30a14e;
+    background: $color-success-600;
   }
 
   &.level4 {
-    background: #216e39;
+    background: $color-success-800;
   }
 }
 
@@ -345,7 +228,7 @@
 }
 
 .modalContent {
-  background: white;
+  background: $color-neutral-white;
   border-radius: $size-200;
   box-shadow: 0 $size-400 $size-800 rgba(0, 0, 0, 0.2), 0 $size-200 $size-400 rgba(0, 0, 0, 0.1);
   display: flex;
@@ -398,7 +281,7 @@
   justify-content: space-between;
   align-items: flex-start;
   padding: $size-400;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid $color-neutral-200;
   gap: $size-200;
   flex-shrink: 0;
 
@@ -433,13 +316,13 @@
     width: 8px;
   }
   &::-webkit-scrollbar-track {
-    background: #f8f9fa;
+    background: $color-neutral-50;
   }
   &::-webkit-scrollbar-thumb {
-    background: #ccc;
+    background: $color-neutral-300;
     border-radius: 4px;
     &:hover {
-      background: #aaa;
+      background: $color-neutral-400;
     }
   }
 }
@@ -447,9 +330,9 @@
 .formContainer {
   margin-bottom: $size-400;
   padding: $size-300;
-  background: #f8f9fa;
+  background: $color-neutral-50;
   border-radius: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border: 1px solid $color-neutral-200;
 }
 
 .inlineFormContainer {
@@ -463,10 +346,10 @@
 }
 
 .achievementCard {
-  background: #f8f9fa;
+  background: $color-neutral-50;
   border-radius: 10px;
   padding: $size-300;
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border: 1px solid $color-neutral-200;
   transition: all 0.2s ease;
 
   &:hover {
@@ -503,8 +386,8 @@
 
 .actionButton {
   appearance: none;
-  background: white;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: $color-neutral-white;
+  border: 1px solid $color-neutral-200;
   border-radius: 6px;
   padding: $size-50;
   width: 28px;
@@ -517,30 +400,18 @@
   transition: all 0.15s ease;
 
   &:hover {
-    background: rgba(102, 126, 234, 0.08);
-    border-color: rgba(102, 126, 234, 0.3);
-    color: #667eea;
+    background: rgba($color-primary-500, 0.08);
+    border-color: rgba($color-primary-500, 0.3);
+    color: $color-primary-500;
   }
 
   &Danger {
     &:hover {
-      background: rgba(220, 53, 69, 0.08);
-      border-color: rgba(220, 53, 69, 0.3);
-      color: #dc3545;
+      background: rgba($color-error-500, 0.08);
+      border-color: rgba($color-error-500, 0.3);
+      color: $color-error-500;
     }
   }
-}
-
-.goalBadge {
-  display: inline-block;
-  background: rgba(102, 126, 234, 0.1);
-  color: #667eea;
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: $size-25 $size-100;
-  border-radius: 12px;
-  width: fit-content;
-  margin-top: $size-50;
 }
 
 .mediaGallery {
@@ -564,7 +435,7 @@
   max-height: 400px;
   object-fit: cover;
   border-radius: 8px;
-  background: #f0f0f0;
+  background: $color-neutral-100;
 }
 
 .emptyDay {
@@ -572,9 +443,14 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: $size-300;
+  gap: $size-200;
   padding: $size-600 $size-300;
   text-align: center;
+
+  .emptyDayIcon {
+    font-size: 2.5rem;
+    line-height: 1;
+  }
 }
 
 @media (max-width: 768px) {

@@ -1,6 +1,7 @@
 import { useGoodThings, useManualFetch } from '@/hooks'
 import { GoodThing, GoodThingMedia } from '@/interfaces/good-things'
-import { Badge, Button, Card, CardContent, Text } from '@workpace/design-system'
+import { formatDate } from '@/utils'
+import { Badge, Button, Card, CardContent, Loading, Text } from '@workpace/design-system'
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { GoodThingForm } from '../GoodThingForm'
@@ -89,19 +90,10 @@ export const GoodThingsList = ({
     }
   }
 
-  const formatDate = (dateString: string | null) => {
-    if (!dateString) return 'No date'
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    })
-  }
-
   if (isLoading && !goodThingsProp) {
     return (
       <div className={styles.loading}>
-        <Text>Loading...</Text>
+        <Loading size="md" />
       </div>
     )
   }
@@ -146,7 +138,20 @@ export const GoodThingsList = ({
 
       {goodThings.length === 0 ? (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className={styles.empty}>
-          <Text>No good things yet. Add your first one!</Text>
+          <span className={styles.emptyIcon}>🌟</span>
+          <Text variant="headline-sm-emphasis">No good things yet</Text>
+          <Text variant="body-md" color="neutral-600">
+            Start logging your wins — even the small ones add up!
+          </Text>
+          <Button
+            variant="brand-primary"
+            onClick={() => {
+              setEditingId(null)
+              setShowForm(true)
+            }}
+          >
+            + Add Your First Good Thing
+          </Button>
         </motion.div>
       ) : (
         <>

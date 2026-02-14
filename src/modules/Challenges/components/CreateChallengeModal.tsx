@@ -1,4 +1,4 @@
-import { useFriends, useGoals, useManualFetch } from '@/hooks'
+import { useFriends, useGoals, useManualFetch, useModal } from '@/hooks'
 import { CreateChallengeInput, CreateChallengeInvitationInput } from '@/interfaces/challenges'
 import { Box, Button, InputField, Select, Text } from '@workpace/design-system'
 import { useEffect, useState } from 'react'
@@ -58,26 +58,7 @@ export const CreateChallengeModal = ({ isOpen, onClose, onSuccess }: CreateChall
     }
   }, [isOpen, refetchGoals, refetchFriends])
 
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
-    }
-    return () => {
-      document.body.style.overflow = ''
-    }
-  }, [isOpen])
-
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) {
-        onClose()
-      }
-    }
-    window.addEventListener('keydown', handleEscape)
-    return () => window.removeEventListener('keydown', handleEscape)
-  }, [isOpen, onClose])
+  useModal({ isOpen, onClose })
 
   const calculateEndDate = (start: string, days: number): string => {
     const date = new Date(start)
@@ -227,15 +208,11 @@ export const CreateChallengeModal = ({ isOpen, onClose, onSuccess }: CreateChall
 
         <form onSubmit={handleSubmit} className={styles.modalBody}>
           {error && (
-            <Box
-              marginBottom={200}
-              padding={200}
-              style={{ background: '#fee', borderRadius: '8px' }}
-            >
+            <div className={styles.error}>
               <Text variant="body-md" color="error-700">
                 {error}
               </Text>
-            </Box>
+            </div>
           )}
 
           <InputField
@@ -465,7 +442,7 @@ export const CreateChallengeModal = ({ isOpen, onClose, onSuccess }: CreateChall
                   return friendEmail.includes(searchLower) || friendName.includes(searchLower)
                 }).length === 0 &&
                   friendSearchQuery.trim() && (
-                    <Text variant="body-sm" color="neutral-600" style={{ padding: '12px' }}>
+                    <Text variant="body-sm" color="neutral-600" marginTop={150}>
                       No friends found matching &quot;{friendSearchQuery}&quot;
                     </Text>
                   )}
@@ -474,7 +451,7 @@ export const CreateChallengeModal = ({ isOpen, onClose, onSuccess }: CreateChall
                     const friendId = f.friend_id || f.id
                     return !selectedFriends.has(friendId)
                   }).length === 0 && (
-                    <Text variant="body-sm" color="neutral-600" style={{ padding: '12px' }}>
+                    <Text variant="body-sm" color="neutral-600" marginTop={150}>
                       All friends have been added
                     </Text>
                   )}

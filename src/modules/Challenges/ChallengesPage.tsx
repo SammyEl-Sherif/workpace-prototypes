@@ -80,7 +80,6 @@ export const ChallengesPage = ({ initialChallenges = [] }: ChallengesPageProps) 
                 <Button
                   variant="default-secondary"
                   onClick={() => setShowInvitations(!showInvitations)}
-                  style={{ marginRight: '12px' }}
                 >
                   Invitations ({pendingInvitations.length})
                 </Button>
