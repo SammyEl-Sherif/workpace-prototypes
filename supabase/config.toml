@@ -61,5 +61,7 @@ schema_paths = [
   "./schemas/saved_reports.sql",
   "./schemas/user_roles.sql",
   "./schemas/feature_flags.sql",
+  "./schemas/organizations.sql",
+  "./schemas/portal_users.sql",
 ]
 

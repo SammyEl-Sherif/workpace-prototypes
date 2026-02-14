@@ -26,6 +26,11 @@ const AdminPage = () => {
       description: 'View inbound messages and send SMS notifications',
       href: Routes.ADMIN_SMS,
     },
+    {
+      title: 'Portal Users',
+      description: 'Manage portal user access requests and approvals',
+      href: Routes.ADMIN_PORTAL,
+    },
   ]
 
   return (

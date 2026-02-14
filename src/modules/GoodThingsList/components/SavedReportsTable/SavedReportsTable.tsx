@@ -264,9 +264,7 @@ export const SavedReportsTable = ({
           {tableData.filter((r) => !(r as any).isGenerating).length === 0 && !isLoadingReport ? (
             <div className={styles.emptyCard}>
               <Text variant="headline-sm-emphasis">No reports yet</Text>
-              <Text color="neutral-600">
-                Generate your first report using the form above.
-              </Text>
+              <Text color="neutral-600">Generate your first report using the form above.</Text>
             </div>
           ) : (
             tableData
