@@ -4,6 +4,7 @@ export type NotionDatabase = {
 }
 
 export type PageSummary = {
+  id?: string | null
   title?: string | null
   summary?: string | null
   completionDate?: string | null

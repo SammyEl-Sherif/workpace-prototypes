@@ -2,6 +2,7 @@ SELECT
   gt.id,
   gt.user_id,
   gt.goal_id,
+  gt.challenge_id,
   gt.title,
   gt.description,
   gt.completion_date,

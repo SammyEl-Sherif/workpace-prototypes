@@ -1,0 +1,34 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.invitationsList {
+  display: flex;
+  flex-direction: column;
+  gap: $size-200;
+}
+
+.invitationItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $size-200;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: $size-100;
+  gap: $size-300;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.invitationInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: $size-75;
+}
+
+.invitationActions {
+  display: flex;
+  gap: $size-150;
+}

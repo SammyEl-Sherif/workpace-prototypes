@@ -1,0 +1,61 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.page {
+  min-height: calc(100vh - 120px);
+  display: flex;
+  flex-direction: column;
+  padding: $size-600 20rem;
+}
+
+.header {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.breadcrumbsWrapper {
+  margin-bottom: $size-200;
+}
+
+.titleSection {
+  margin-bottom: $size-400;
+}
+
+.title {
+  font-size: clamp(2rem, 5vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: $color-neutral-900;
+  margin: 0 0 $size-150 0;
+}
+
+.subtitle {
+  color: $color-neutral-500;
+  font-size: $font-body-lg-font-size;
+  line-height: $font-body-lg-paragraph-line-height;
+  font-weight: $font-weight-regular;
+  margin: 0;
+  max-width: 640px;
+}
+
+.content {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  flex: 1;
+}
+
+@media #{$mq-sm-only} {
+  .page {
+    padding: $size-400 2rem;
+  }
+
+  .header {
+    margin-bottom: $size-300;
+  }
+
+  .title {
+    font-size: clamp(1.5rem, 6vw, 2rem);
+  }
+}

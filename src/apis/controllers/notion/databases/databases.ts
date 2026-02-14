@@ -65,18 +65,17 @@ export const getNotionDatabasesController = async (
 
 const formatNotionDatabases = (dbs: DatabaseObjectResponse[]): NotionDatabase[] => {
   const databases: NotionDatabase[] = []
-  for (const db of dbs as (DatabaseObjectResponse & {
-    properties: {
-      title: {
-        rich_text: {
-          plain_text: string | null
-        }[]
-      }
-      id: string
+  for (const db of dbs) {
+    // Notion databases have title as an array of rich text objects
+    let title = 'Untitled Database'
+    if (Array.isArray(db.title) && db.title.length > 0) {
+      title = db.title[0].plain_text || 'Untitled Database'
+    } else if (typeof db.title === 'string') {
+      title = db.title
     }
-  })[]) {
+
     databases.push({
-      title: db.title[0].plain_text,
+      title,
       id: db.id,
     })
   }

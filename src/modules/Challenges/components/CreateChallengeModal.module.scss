@@ -1,0 +1,132 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $size-300;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.2s ease-out;
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+.modalContent {
+  background: $color-neutral-white;
+  border-radius: $size-200;
+  box-shadow: 0 $size-400 $size-800 rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+  width: 100%;
+  max-width: 600px;
+  overflow: hidden;
+  position: relative;
+  animation: slideIn 0.3s ease-out;
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95) translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $size-400;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+.modalBody {
+  padding: $size-400;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.friendsList {
+  display: flex;
+  flex-direction: column;
+  gap: $size-150;
+  max-height: 200px;
+  overflow-y: auto;
+  padding: $size-200;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: $size-100;
+}
+
+.friendItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $size-150;
+  border-radius: $size-75;
+
+  &:hover {
+    background: $color-neutral-50;
+  }
+}
+
+.addedFriendsList {
+  display: flex;
+  flex-direction: column;
+  gap: $size-100;
+  margin-bottom: $size-200;
+}
+
+.addedFriendItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $size-150;
+  background: $color-neutral-50;
+  border-radius: $size-100;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.error {
+  padding: $size-200;
+  background: $color-error-50;
+  border-radius: 8px;
+  margin-bottom: $size-200;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: $size-200;
+  margin-top: $size-400;
+  padding-top: $size-300;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.newGoalInputRow {
+  display: flex;
+  gap: $size-100;
+  align-items: flex-end;
+}
+
+.newGoalInputField {
+  flex: 1;
+}

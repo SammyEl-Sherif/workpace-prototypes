@@ -1,0 +1,42 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.container {
+  width: 100%;
+}
+
+.header {
+  margin-bottom: $size-400;
+  width: 100%;
+
+  .headerContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    padding-bottom: $size-300;
+    gap: $size-300;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
+  }
+
+  .titleSection {
+    flex: 1;
+
+    .mainTitle {
+      font-size: 2rem;
+      font-weight: 800;
+      margin: 0;
+      color: $color-neutral-black;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+  }
+
+  .statusSection {
+    display: flex;
+    align-items: center;
+    gap: $size-150;
+  }
+}

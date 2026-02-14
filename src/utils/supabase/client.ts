@@ -1,4 +1,7 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient, SupabaseClient } from '@supabase/supabase-js'
+
+// Singleton instance to prevent multiple GoTrueClient instances
+let supabaseClient: SupabaseClient | null = null
 
 /**
  * Client-side Supabase client
@@ -6,8 +9,17 @@ import { createClient } from '@supabase/supabase-js'
  *
  * Note: Sessions are stored in cookies by the server (sb-access-token, sb-refresh-token)
  * The client will read from these cookies via the useSupabaseSession hook
+ *
+ * This function implements a singleton pattern to ensure only one Supabase client
+ * instance is created per browser context, preventing the "Multiple GoTrueClient
+ * instances detected" warning.
  */
-export const getSupabaseClient = () => {
+export const getSupabaseClient = (): SupabaseClient => {
+  // Return cached instance if it exists
+  if (supabaseClient) {
+    return supabaseClient
+  }
+
   const supabaseUrl = process.env.NEXT_PUBLIC_WORKPACE_SUPABASE_URL
   // Client-side code needs NEXT_PUBLIC_ prefix to access env vars in the browser
   // Use the anon/publishable key (safe to expose), not the service role key
@@ -19,11 +31,14 @@ export const getSupabaseClient = () => {
     )
   }
 
-  return createClient(supabaseUrl, supabaseAnonKey, {
+  // Create and cache the client instance
+  supabaseClient = createClient(supabaseUrl, supabaseAnonKey, {
     auth: {
       autoRefreshToken: true,
       persistSession: true,
       detectSessionInUrl: false,
     },
   })
+
+  return supabaseClient
 }

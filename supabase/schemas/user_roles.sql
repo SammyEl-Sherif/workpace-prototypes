@@ -21,7 +21,7 @@ $$ LANGUAGE plpgsql;
 CREATE TABLE IF NOT EXISTS public.user_roles (
   id UUID NOT NULL DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL,
-  role public.user_role NOT NULL DEFAULT 'default'::user_role,
+  role public.user_role NOT NULL DEFAULT 'default'::public.user_role,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   CONSTRAINT user_roles_pkey PRIMARY KEY (id),
@@ -53,6 +53,15 @@ CREATE POLICY "Users can manage their own roles"
   USING (auth.uid() = user_id)
   WITH CHECK (auth.uid() = user_id);
 
+-- Allow system to assign default roles during signup
+-- This policy allows the assign_default_role function to insert default roles
+-- It's restricted to only 'default' role assignments for security
+DROP POLICY IF EXISTS "System can assign default roles" ON public.user_roles;
+CREATE POLICY "System can assign default roles"
+  ON public.user_roles
+  FOR INSERT
+  WITH CHECK (role = 'default'::public.user_role);
+
 -- Create trigger function for user_roles if it doesn't exist
 CREATE OR REPLACE FUNCTION update_user_roles_updated_at()
 RETURNS TRIGGER AS $$
@@ -70,15 +79,22 @@ CREATE TRIGGER update_user_roles_updated_at
   EXECUTE FUNCTION update_user_roles_updated_at();
 
 -- Automatically assign 'default' role when a new user signs up
+-- This function runs as SECURITY DEFINER (postgres) and should be able to bypass RLS
+-- The "System can assign default roles" policy also allows this insert
+-- Uses fully qualified type name to avoid search_path issues
 CREATE OR REPLACE FUNCTION public.assign_default_role()
 RETURNS TRIGGER AS $$
 BEGIN
   INSERT INTO public.user_roles (user_id, role)
-  VALUES (NEW.id, 'default'::user_role)
+  VALUES (NEW.id, 'default'::public.user_role)
   ON CONFLICT (user_id, role) DO NOTHING;
   RETURN NEW;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
+
+-- Grant the function owner explicit INSERT permission to bypass RLS
+-- This ensures the function can insert even when auth.uid() is NULL during signup
+GRANT INSERT ON public.user_roles TO postgres;
 
 DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
 CREATE TRIGGER on_auth_user_created

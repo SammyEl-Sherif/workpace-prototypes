@@ -1,113 +1,35 @@
-import { Breadcrumbs, Button, InputField, Text } from '@workpace/design-system'
-import Link from 'next/link'
-import { useState } from 'react'
+import { AppPageLayout } from '@/layout'
+import { Text } from '@workpace/design-system'
 
+import { ChiefOfStaffDatabaseSelector } from './components/ChiefOfStaffDatabaseSelector'
 import styles from './Sms.module.scss'
 
-type SendStatus = 'idle' | 'sending' | 'sent' | 'error'
-
 export const Sms = () => {
-  const [phone, setPhone] = useState('')
-  const [message, setMessage] = useState('')
-  const [status, setStatus] = useState<SendStatus>('idle')
-  const [errorText, setErrorText] = useState('')
-
-  const handleSend = async () => {
-    setErrorText('')
-
-    if (!phone.trim() || phone.trim().length < 8) {
-      setErrorText('Please enter a valid phone number.')
-      return
-    }
-    if (!message.trim()) {
-      setErrorText('Please enter a message.')
-      return
-    }
-
-    setStatus('sending')
-
-    try {
-      const res = await fetch('/api/sms/send', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone: phone.trim(), message: message.trim() }),
-      })
-
-      if (!res.ok) {
-        const body = await res.json().catch(() => null)
-        throw new Error(body?.message || `Request failed (${res.status})`)
-      }
-
-      setStatus('sent')
-      setPhone('')
-      setMessage('')
-
-      // Reset success banner after a few seconds
-      setTimeout(() => setStatus('idle'), 4000)
-    } catch (err: unknown) {
-      console.error('[Sms] SMS send error', err)
-      setErrorText(err instanceof Error ? err.message : 'Something went wrong.')
-      setStatus('error')
-    }
-  }
+  const phoneNumber = '+16505093842'
+  const displayPhoneNumber = '+1 (650) 509-3842'
+  const messageBody = 'outlook'
+  const smsLink = `sms:${phoneNumber}?body=${encodeURIComponent(messageBody)}`
 
   return (
-    <div className={styles.page}>
-      <div className={styles.breadcrumbsWrapper}>
-        <Breadcrumbs
-          linkAs={Link}
-          items={[{ label: 'Apps', href: '/apps' }, { label: 'SMS' }]}
-          size="lg"
-        />
-      </div>
-      <div className={styles.container}>
-        {/* ── SMS Send Section ─────────────────────────────── */}
-        <div className={styles.smsSection}>
-          <Text as="h2" variant="headline-sm" className={styles.smsHeading}>
-            Send a Quick Text
+    <AppPageLayout
+      breadcrumbs={[{ label: 'Apps', href: '/apps' }, { label: 'Chief of Staff' }]}
+      title="Chief of Staff"
+      titleContent={
+        <div className={styles.titleSection}>
+          <h1 className={styles.title}>Chief of Staff</h1>
+          <Text as="p" variant="body-lg" color="neutral-600" className={styles.subtitle}>
+            Text &quot;outlook&quot; to{' '}
+            <a href={smsLink} className={styles.phoneLink}>
+              {displayPhoneNumber}
+            </a>{' '}
+            to receive your morning task summary from your selected Notion databases.
           </Text>
-
-          <div className={styles.smsForm}>
-            <InputField
-              label="Phone number"
-              placeholder="+1 555 123 4567"
-              type="tel"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              className={styles.smsField}
-            />
-
-            <InputField
-              label="Message"
-              placeholder="Hey, check this out!"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              className={styles.smsField}
-            />
-
-            {errorText && (
-              <Text as="p" variant="body-sm" className={styles.smsError}>
-                {errorText}
-              </Text>
-            )}
-
-            {status === 'sent' && (
-              <Text as="p" variant="body-sm" className={styles.smsSuccess}>
-                Message sent!
-              </Text>
-            )}
-
-            <Button
-              variant="brand-primary"
-              onClick={handleSend}
-              disabled={status === 'sending'}
-              className={styles.smsButton}
-            >
-              {status === 'sending' ? 'Sending…' : 'Send SMS'}
-            </Button>
-          </div>
         </div>
+      }
+    >
+      <div className={styles.chiefOfStaffSection}>
+        <ChiefOfStaffDatabaseSelector />
       </div>
-    </div>
+    </AppPageLayout>
   )
 }

@@ -1,7 +1,8 @@
-import { useGoals, useGoodThings, useManualFetch } from '@/hooks'
+import { useGoals, useGoodThings, useManualFetch, useModal } from '@/hooks'
 import { GoodThing, GoodThingMedia } from '@/interfaces/good-things'
-import { Button, Text } from '@workpace/design-system'
-import { motion, AnimatePresence } from 'framer-motion'
+import { formatDateFull } from '@/utils'
+import { Badge, Button, Select, Text } from '@workpace/design-system'
+import { AnimatePresence, motion } from 'framer-motion'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { GoodThingForm } from '../GoodThingForm'
@@ -25,6 +26,8 @@ interface DayGridProps {
   selectedGoalId: string
   onGoalChange: (goalId: string) => void
   children?: React.ReactNode
+  initialMediaByGoodThingId?: Record<string, GoodThingMedia[]>
+  onImportFromNotion?: () => void
 }
 
 export const DayGrid = ({
@@ -36,6 +39,8 @@ export const DayGrid = ({
   selectedGoalId,
   onGoalChange,
   children,
+  initialMediaByGoodThingId,
+  onImportFromNotion,
 }: DayGridProps) => {
   const [selectedDay, setSelectedDay] = useState<DayData | null>(null)
   const [showForm, setShowForm] = useState(false)
@@ -58,6 +63,30 @@ export const DayGrid = ({
     if (selectedGoalId === 'all') return goodThings
     return goodThings.filter((gt) => gt.goal_id === selectedGoalId)
   }, [goodThings, selectedGoalId])
+
+  // Build mediaMap from initialMediaByGoodThingId, filtered by current goodThings
+  const buildMediaMapFromInitial = useCallback(() => {
+    if (!initialMediaByGoodThingId) return {}
+
+    const map: Record<string, GoodThingMedia[]> = {}
+
+    // Only include media for good things that are in the current filtered list
+    for (const goodThing of filteredGoodThings) {
+      const media = initialMediaByGoodThingId[goodThing.id]
+      if (!media || media.length === 0) continue
+
+      const dateKey = goodThing.completion_date
+        ? new Date(goodThing.completion_date).toISOString().split('T')[0]
+        : new Date(goodThing.created_at).toISOString().split('T')[0]
+
+      if (!map[dateKey]) {
+        map[dateKey] = []
+      }
+      map[dateKey].push(...media)
+    }
+
+    return map
+  }, [initialMediaByGoodThingId, filteredGoodThings])
 
   // Generate 32 days (today going back)
   const days = useMemo(() => {
@@ -88,8 +117,21 @@ export const DayGrid = ({
     return result
   }, [filteredGoodThings, mediaMap])
 
-  // Fetch media for filtered good things
+  // Update mediaMap when we have initial data
   useEffect(() => {
+    if (initialMediaByGoodThingId) {
+      const newMap = buildMediaMapFromInitial()
+      setMediaMap(newMap)
+    }
+  }, [buildMediaMapFromInitial, initialMediaByGoodThingId])
+
+  // Only fetch media client-side if we don't have initial data and filtered good things change
+  useEffect(() => {
+    // Skip client-side fetching if we have initial data
+    if (initialMediaByGoodThingId) {
+      return
+    }
+
     const fetchAllMedia = async () => {
       const newMediaMap: Record<string, GoodThingMedia[]> = {}
 
@@ -125,7 +167,7 @@ export const DayGrid = ({
       setMediaMap({})
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filteredGoodThings])
+  }, [filteredGoodThings, initialMediaByGoodThingId])
 
   const handleDayClick = useCallback(
     (day: DayData) => {
@@ -196,15 +238,6 @@ export const DayGrid = ({
     })
   }
 
-  const formatDateFull = (date: Date) => {
-    return date.toLocaleDateString('en-US', {
-      weekday: 'long',
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric',
-    })
-  }
-
   const isToday = (date: Date) => {
     const today = new Date()
     return (
@@ -249,36 +282,13 @@ export const DayGrid = ({
     return selectedDay.media.filter((m) => m.good_thing_id === goodThingId)
   }
 
-  // Prevent body scroll when modal is open
-  useEffect(() => {
-    if (selectedDay) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
-    }
-    return () => {
-      document.body.style.overflow = ''
-    }
-  }, [selectedDay])
-
-  // Close on escape key
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && selectedDay) {
-        setSelectedDay(null)
-        setShowForm(false)
-        setEditingGoodThingId(null)
-      }
-    }
-    window.addEventListener('keydown', handleEscape)
-    return () => window.removeEventListener('keydown', handleEscape)
-  }, [selectedDay])
-
-  const handleCloseModal = () => {
+  const handleCloseModal = useCallback(() => {
     setSelectedDay(null)
     setShowForm(false)
     setEditingGoodThingId(null)
-  }
+  }, [])
+
+  useModal({ isOpen: !!selectedDay, onClose: handleCloseModal })
 
   // Day detail modal content
   const dayDetailModal =
@@ -357,7 +367,9 @@ export const DayGrid = ({
                                   </Text>
                                 )}
                                 {gt.goal_name && (
-                                  <span className={styles.goalBadge}>{gt.goal_name}</span>
+                                  <Badge variant="info" size="sm">
+                                    {gt.goal_name}
+                                  </Badge>
                                 )}
                               </div>
                               <div className={styles.achievementActions}>
@@ -437,8 +449,10 @@ export const DayGrid = ({
 
                 {selectedDay.goodThings.length === 0 && !showForm && (
                   <div className={styles.emptyDay}>
+                    <span className={styles.emptyDayIcon}>✨</span>
+                    <Text variant="headline-sm-emphasis">Nothing here yet</Text>
                     <Text variant="body-md" color="neutral-400">
-                      Nothing logged for this day yet.
+                      Log your first achievement for this day — every win counts!
                     </Text>
                     <Button variant="brand-primary" onClick={() => setShowForm(true)}>
                       + Log an Achievement
@@ -468,8 +482,8 @@ export const DayGrid = ({
             </Text>
           </div>
           <div className={styles.headerControls}>
-            <select
-              className={styles.goalSelect}
+            <Select
+              label="Filter by Goal"
               value={selectedGoalId}
               onChange={(e) => {
                 onGoalChange(e.target.value)
@@ -483,19 +497,25 @@ export const DayGrid = ({
                   {goal.name}
                 </option>
               ))}
-            </select>
+            </Select>
             {showHistory && onAddGoodThing && (
-              <button type="button" className={styles.addButton} onClick={onAddGoodThing}>
+              <Button variant="brand-primary" onClick={onAddGoodThing}>
                 + Add Good Thing
-              </button>
+              </Button>
             )}
-            <button
-              type="button"
-              className={`${styles.historyButton} ${showHistory ? styles.historyButtonActive : ''}`}
-              onClick={onToggleHistory}
-            >
-              {showHistory ? '← Back to Grid' : 'View All History'}
-            </button>
+            <div className={styles.actionButtons}>
+              {onImportFromNotion && (
+                <Button variant="brand-secondary" onClick={onImportFromNotion}>
+                  Import from Notion
+                </Button>
+              )}
+              <Button
+                variant={showHistory ? 'brand-primary' : 'default-secondary'}
+                onClick={onToggleHistory}
+              >
+                {showHistory ? 'Back to Grid' : 'View All History'}
+              </Button>
+            </div>
           </div>
         </div>
       </div>

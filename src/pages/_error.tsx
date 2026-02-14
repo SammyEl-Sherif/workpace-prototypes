@@ -41,8 +41,8 @@ function Error({ statusCode }: ErrorProps) {
             {statusCode === 404
               ? 'Page not found'
               : statusCode === 500
-                ? 'Something went wrong'
-                : 'An error occurred'}
+              ? 'Something went wrong'
+              : 'An error occurred'}
           </Text>
           <Text variant="body-md" className={styles.supportText}>
             Reach out to{' '}

@@ -36,6 +36,7 @@ export const getProfileRoute = withSupabaseAuth(
       response.status(200).json({
         id: user.user.id,
         email: user.user.email,
+        phone: user.user.phone || null,
         name: user.user.user_metadata?.name || user.user.email,
         given_name: user.user.user_metadata?.given_name || null,
         family_name: user.user.user_metadata?.family_name || null,
@@ -55,7 +56,7 @@ export const getProfileRoute = withSupabaseAuth(
 export const updateProfileRoute = withSupabaseAuth(
   async (request: NextApiRequest, response: NextApiResponse, session): Promise<void> => {
     try {
-      const { name, email, given_name, family_name } = request.body
+      const { name, email, phone, given_name, family_name } = request.body
 
       if (!name || !email) {
         response.status(400).json({ error: 'Name and email are required' })
@@ -78,7 +79,11 @@ export const updateProfileRoute = withSupabaseAuth(
         return
       }
 
-      const { data: user, error } = await supabase.auth.admin.updateUserById(session.user.id, {
+      const updateData: {
+        email: string
+        phone?: string
+        user_metadata: Record<string, any>
+      } = {
         email: email,
         user_metadata: {
           name: name,
@@ -86,7 +91,17 @@ export const updateProfileRoute = withSupabaseAuth(
           family_name: family_name || null,
           ...session.user.user_metadata,
         },
-      })
+      }
+
+      // Only update phone if provided (allows clearing phone by sending empty string)
+      if (phone !== undefined) {
+        updateData.phone = phone || null
+      }
+
+      const { data: user, error } = await supabase.auth.admin.updateUserById(
+        session.user.id,
+        updateData
+      )
 
       if (error || !user) {
         console.error('[updateProfileRoute] Error updating user:', error)
@@ -97,6 +112,7 @@ export const updateProfileRoute = withSupabaseAuth(
       response.status(200).json({
         id: user.user.id,
         email: user.user.email,
+        phone: user.user.phone || null,
         name: user.user.user_metadata?.name || user.user.email,
         given_name: user.user.user_metadata?.given_name || null,
         family_name: user.user.user_metadata?.family_name || null,

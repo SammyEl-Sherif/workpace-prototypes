@@ -57,21 +57,21 @@
   margin-bottom: $size-200;
 }
 
-/* ── Filter Badge Color Overrides (landing-page blue #667eea) ── */
+/* ── Filter Badge Color Overrides (brand-secondary blue) ── */
 /* Need !important to override design-system .badge.default specificity */
 
 button.filterActive {
-  background: #667eea !important;
+  background: $color-accent-500 !important;
   color: $color-neutral-white !important;
-  border-color: #667eea !important;
+  border-color: $color-accent-500 !important;
   border-radius: 100px;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.25);
+  box-shadow: 0 1px 2px rgba(0, 82, 204, 0.15);
 
   &:hover {
-    background: #5a6fd6 !important;
-    border-color: #5a6fd6 !important;
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    background: $color-accent-600 !important;
+    border-color: $color-accent-600 !important;
+    box-shadow: 0 2px 4px rgba(0, 82, 204, 0.25);
   }
 }
 
@@ -83,9 +83,9 @@ button.filterInactive {
   cursor: pointer;
 
   &:hover {
-    background: rgba(102, 126, 234, 0.06) !important;
-    color: #667eea !important;
-    border-color: rgba(102, 126, 234, 0.4) !important;
+    background: $color-neutral-50 !important;
+    color: $color-accent-600 !important;
+    border-color: $color-accent-500 !important;
   }
 }
 

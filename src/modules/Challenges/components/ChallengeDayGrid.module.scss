@@ -1,0 +1,196 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: $size-200 auto 0;
+  padding: $size-200 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: $size-200;
+  width: 100%;
+}
+
+.square {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+  // Challenge-specific: subtle border to indicate it's a challenge grid
+  border: 1px solid rgba(102, 126, 234, 0.1);
+
+  &.level0 {
+    background: #ebedf0;
+    outline-color: rgba(27, 31, 35, 0.06);
+  }
+
+  &.level1 {
+    background: #9be9a8;
+    outline-color: rgba(27, 31, 35, 0.06);
+  }
+
+  &.level2 {
+    background: #40c463;
+    outline-color: rgba(27, 31, 35, 0.06);
+  }
+
+  &.level3 {
+    background: #30a14e;
+    outline-color: rgba(27, 31, 35, 0.06);
+  }
+
+  &.level4 {
+    background: #216e39;
+    outline-color: rgba(27, 31, 35, 0.06);
+  }
+
+  &.today {
+    outline: 2px solid #667eea;
+    outline-offset: -2px;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+    // Challenge-specific: stronger border for today
+    border-color: rgba(102, 126, 234, 0.4);
+  }
+
+  &.past {
+    // Past days can have different styling if needed
+  }
+
+  &.future {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &.hasEvidence {
+    outline-color: transparent;
+  }
+
+  &.clickable {
+    cursor: pointer;
+  }
+}
+
+.evidenceThumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.countBadge {
+  position: absolute;
+  z-index: 2;
+  font-size: 1rem;
+  font-weight: 700;
+  color: white;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.35);
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.todayDot {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #667eea;
+  border-radius: 50%;
+}
+
+.uploadButton {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  z-index: 3;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+
+  label {
+    cursor: pointer;
+    margin: 0;
+  }
+}
+
+.square:hover .uploadButton {
+  opacity: 1;
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  gap: $size-100;
+  margin-top: $size-300;
+  font-size: 0.75rem;
+  color: $color-neutral-600;
+}
+
+.legendLabel {
+  font-size: 0.75rem;
+}
+
+.legendSquares {
+  display: flex;
+  gap: $size-50;
+  align-items: center;
+}
+
+.legendSquare {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  outline: 1px solid rgba(27, 31, 35, 0.06);
+
+  &.level0 {
+    background: #ebedf0;
+  }
+
+  &.level1 {
+    background: #9be9a8;
+  }
+
+  &.level2 {
+    background: #40c463;
+  }
+
+  &.level3 {
+    background: #30a14e;
+  }
+
+  &.level4 {
+    background: #216e39;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: $size-300 0;
+    margin-top: $size-400;
+  }
+
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: $size-150;
+  }
+
+  .square {
+    border-radius: 8px;
+  }
+}

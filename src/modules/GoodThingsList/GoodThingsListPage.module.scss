@@ -1,40 +1,25 @@
 @use '@workpace/design-system/dist/design-tokens' as *;
 
-.page {
-  min-height: 100vh;
-  background: white;
-  padding: $size-200 2rem;
-  position: relative;
-  overflow-x: hidden;
-  margin-top: $size-700;
-}
-
-.breadcrumbsWrapper {
-  max-width: 1200px;
-  margin: 0 auto $size-400;
-}
-
 .floatingHeader {
   position: sticky;
   top: $size-200;
   z-index: 100;
   margin-bottom: 0;
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
 
   .headerContent {
     background: transparent;
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    align-items: flex-end;
+    border-bottom: 1px solid $color-neutral-200;
     position: relative;
 
     @media (max-width: 768px) {
       flex-direction: column;
       gap: $size-300;
       text-align: left;
+      align-items: flex-start;
     }
   }
 
@@ -45,13 +30,13 @@
       font-size: 2.5rem;
       font-weight: 800;
       margin: 0;
-      color: #000000;
+      color: $color-neutral-black;
       letter-spacing: -0.02em;
       line-height: 1.1;
     }
 
     .subtitle {
-      color: #6c757d;
+      color: $color-neutral-500;
       margin: $size-200 0 0 0;
       font-size: 1.125rem;
       font-weight: 400;
@@ -59,87 +44,161 @@
     }
   }
 
-  .statsCard {
+  .tabNav {
     display: flex;
-    // gap: $size-200;
-    padding-left: $size-400;
+    gap: 0;
 
     @media (max-width: 768px) {
-      padding-left: 0;
       width: 100%;
-      justify-content: flex-start;
-
-      .statTile {
-        flex: 1;
-        min-width: 0;
-        text-align: center;
-      }
     }
 
-    .statTile {
-      background: white;
-      border: 1px solid rgba(0, 0, 0, 0.08);
-      border-bottom: none;
-      // border-radius: 8px 8px 0 0;
-      padding: $size-300 $size-400;
+    .tab {
+      appearance: none;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      padding: $size-150 $size-300;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-      text-align: left;
-      position: relative;
-      min-width: 120px;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: $size-100;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: $color-neutral-500;
+      white-space: nowrap;
 
       &:hover {
-        background: #f8f9fa;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        color: $color-neutral-700;
+        border-bottom-color: $color-neutral-300;
       }
 
       &.active {
-        background: white;
-        border-color: #667eea;
-        border-width: 2px;
-        border-bottom: none;
-        z-index: 10;
-        box-shadow: 0 -4px 12px rgba(102, 126, 234, 0.15);
-
-        .statNumber {
-          color: #667eea;
-        }
-
-        // Extend border down through header padding to connect with view container
-        &::after {
-          content: '';
-          position: absolute;
-          bottom: calc(
-            1px - 1px
-          ); // Extend through header padding, border, and 1px more to overlap viewContainer border
-          left: -2px;
-          right: -2px;
-          height: 2px;
-          background: #667eea;
-          z-index: 12;
-        }
+        color: $color-primary-500;
+        border-bottom-color: $color-primary-500;
+        font-weight: 600;
       }
 
-      .statNumber {
-        display: block;
-        font-size: 1.75rem;
-        font-weight: 700;
-        color: #667eea;
-        line-height: 1.2;
-        transition: color 0.2s ease;
+      .tabCount {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 20px;
+        height: 20px;
+        padding: 0 $size-75;
+        border-radius: 10px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        background: $color-neutral-100;
+        color: $color-neutral-600;
       }
 
-      .statLabel {
-        font-size: 0.875rem;
-        color: #6c757d;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        margin-top: $size-50;
-        font-weight: 500;
+      &.active .tabCount {
+        background: rgba($color-primary-500, 0.1);
+        color: $color-primary-500;
+      }
+
+      @media (max-width: 768px) {
+        flex: 1;
+        justify-content: center;
       }
     }
   }
+}
+
+.challengesSection {
+  width: 100%;
+  max-width: 1200px;
+  margin: $size-200 auto 0;
+  padding: $size-200 0;
+
+  @media (max-width: 768px) {
+    padding: $size-500 $size-200;
+  }
+}
+
+.challengesHeader {
+  margin-bottom: $size-400;
+}
+
+.challengesHeaderTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: $size-300;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
+}
+
+.challengesHeaderText {
+  display: flex;
+  flex-direction: column;
+  gap: $size-100;
+}
+
+.challengesHeaderControls {
+  display: flex;
+  align-items: center;
+  gap: $size-150;
+  flex-shrink: 0;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    flex-direction: column;
+  }
+}
+
+.challengesList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $size-200;
+  align-items: stretch;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+}
+
+.challengeItem {
+  display: flex;
+  flex-direction: column;
+  gap: $size-100;
+  padding: $size-250 $size-300;
+  background: $color-neutral-white;
+  border: 1px solid $color-neutral-200;
+  border-radius: $size-150;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  min-width: 240px;
+  max-width: 300px;
+  flex: 0 1 auto;
+
+  &:hover {
+    background: $color-neutral-50;
+    border-color: $color-primary-300;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .challengeName {
+    color: $color-neutral-900;
+  }
+
+  .challengeTask {
+    margin-top: $size-50;
+    line-height: 1.5;
+    word-wrap: break-word;
+  }
+}
+
+.challengesEmpty {
+  padding: $size-500 $size-300;
+  text-align: center;
+  background: $color-neutral-50;
+  border: 1px dashed $color-neutral-200;
+  border-radius: $size-150;
 }
 
 .mainGrid {
@@ -147,7 +206,6 @@
   flex-direction: column;
   max-width: 1200px;
   margin: 0 auto;
-  margin-top: 0;
 }
 
 .viewContainer {
@@ -155,9 +213,13 @@
   margin-top: $size-600;
   position: relative;
   z-index: 1;
-  background: white;
+  background: $color-neutral-white;
   border-radius: 0 0 8px 8px;
   min-height: 400px;
+}
+
+.reportsView {
+  padding: $size-400;
 }
 
 .reportsViewHeader {
@@ -165,58 +227,43 @@
   align-items: center;
   gap: $size-200;
   margin-bottom: $size-150;
+}
 
-  .statusBadge {
-    flex-shrink: 0;
+.promptCard {
+  background: $color-neutral-white;
+  border: 1px solid $color-neutral-200;
+  border-radius: $size-200;
+  padding: $size-400;
+  margin-bottom: $size-500;
+  max-width: 800px;
 
-    .statusLoading {
-      color: #ffc107;
-      background: rgba(255, 193, 7, 0.1);
-      padding: $size-25 $size-75;
-      border-radius: 15px;
-      font-size: 0.875rem;
-      font-weight: 500;
-    }
+  .promptDescription {
+    margin-bottom: $size-300;
+  }
 
-    .statusReady {
-      color: #28a745;
-      background: rgba(40, 167, 69, 0.1);
-      padding: $size-25 $size-75;
-      border-radius: 15px;
-      font-size: 0.875rem;
-      font-weight: 500;
-    }
-
-    .statusIdle {
-      color: #6c757d;
-      background: rgba(108, 117, 125, 0.1);
-      padding: $size-25 $size-75;
-      border-radius: 15px;
-      font-size: 0.875rem;
-      font-weight: 500;
-    }
+  .templateRow {
+    margin-bottom: $size-200;
   }
 }
 
 .promptInputContainer {
   position: relative;
   width: 100%;
-  margin-bottom: $size-500;
-  background: white;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 12px;
+  background: $color-neutral-white;
+  border: 1px solid $color-neutral-200;
+  border-radius: $size-150;
   transition: all 0.2s ease;
 
   &:focus-within {
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.08);
+    border-color: $color-primary-500;
+    box-shadow: 0 0 0 3px rgba($color-primary-500, 0.08);
   }
 
   .promptTextarea {
     width: 100%;
     padding: $size-200 $size-300 $size-500 $size-300;
     border: none;
-    border-radius: 12px;
+    border-radius: $size-150;
     font-size: 0.9375rem;
     font-family: inherit;
     resize: none;
@@ -225,7 +272,7 @@
     min-height: 60px;
     max-height: 300px;
     background-color: transparent;
-    color: #212529;
+    color: $color-neutral-800;
     line-height: 1.6;
     transition: all 0.2s ease;
     box-sizing: border-box;
@@ -235,129 +282,22 @@
     }
 
     &::placeholder {
-      color: #9ca3af;
+      color: $color-neutral-400;
     }
   }
 
-  .promptControls {
-    position: absolute;
-    bottom: $size-75;
-    right: $size-100;
+  .promptActions {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: $size-100;
-    pointer-events: none;
-
-    .templateDropdown {
-      pointer-events: auto;
-
-      .templateSelect {
-        appearance: none;
-        background: rgba(108, 117, 125, 0.1);
-        color: #6c757d;
-        border: 1px solid rgba(108, 117, 125, 0.2);
-        border-radius: 18px;
-        padding: $size-50 $size-150 $size-50 $size-150;
-        font-size: 0.8125rem;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        height: 28px;
-        background-image: url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 12 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 4L6 8L10 4' stroke='%236c757d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: right $size-75 center;
-        background-size: 10px;
-        padding-right: $size-300;
-        white-space: nowrap;
-
-        &:hover {
-          background-color: rgba(108, 117, 125, 0.15);
-          border-color: rgba(108, 117, 125, 0.3);
-        }
-
-        &:focus {
-          outline: none;
-          border-color: #667eea;
-          background-color: rgba(102, 126, 234, 0.1);
-          color: #667eea;
-        }
-
-        option {
-          background: white;
-          color: #212529;
-        }
-      }
-    }
-
-    .generateArrowButton {
-      pointer-events: auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 32px;
-      height: 32px;
-      background: #667eea;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      flex-shrink: 0;
-
-      &:hover:not(:disabled) {
-        background: #5568d3;
-        transform: scale(1.05);
-      }
-
-      &:active:not(:disabled) {
-        transform: scale(0.95);
-      }
-
-      &:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-        transform: none;
-      }
-
-      svg {
-        width: 20px;
-        height: 20px;
-      }
-
-      .loadingSpinner {
-        width: 18px;
-        height: 18px;
-        border: 2px solid rgba(255, 255, 255, 0.3);
-        border-top-color: white;
-        border-radius: 50%;
-        animation: spin 0.8s linear infinite;
-      }
-    }
+    gap: $size-150;
+    padding: 0 $size-200 $size-200 $size-200;
   }
 
-  // Mobile: stack textarea and controls vertically
   @media (max-width: 768px) {
     .promptTextarea {
       padding-bottom: $size-200;
       min-height: 80px;
-    }
-
-    .promptControls {
-      position: relative;
-      bottom: auto;
-      right: auto;
-      justify-content: flex-end;
-      padding: 0 $size-150 $size-150 $size-150;
-      pointer-events: auto;
-
-      .templateDropdown {
-        flex: 1;
-
-        .templateSelect {
-          width: 100%;
-        }
-      }
     }
   }
 }
@@ -370,305 +310,13 @@
 
 .reportsTableSection {
   width: 100%;
-}
-
-.reportCard {
-  background: transparent;
-  border-radius: 0;
-  border: none;
-  box-shadow: none;
-  overflow: visible;
-}
-
-.reportHeader {
-  background: transparent;
-  padding: $size-400 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: $size-300;
-  flex-wrap: wrap;
-  margin-bottom: $size-400;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .reportHeaderLeft {
-    display: flex;
-    align-items: center;
-    gap: $size-200;
-    flex-shrink: 0;
-
-    h3 {
-      margin: 0;
-      font-size: 1.75rem;
-      font-weight: 700;
-      color: #212529;
-      letter-spacing: -0.01em;
-    }
-
-    .statusIndicator {
-      .statusLoading {
-        color: #ffc107;
-        background: rgba(255, 193, 7, 0.1);
-        padding: $size-25 $size-75;
-        border-radius: 15px;
-        font-size: 0.875rem;
-        font-weight: 500;
-      }
-
-      .statusReady {
-        color: #28a745;
-        background: rgba(40, 167, 69, 0.1);
-        padding: $size-25 $size-75;
-        border-radius: 15px;
-        font-size: 0.875rem;
-        font-weight: 500;
-      }
-
-      .statusIdle {
-        color: #6c757d;
-        background: rgba(108, 117, 125, 0.1);
-        padding: $size-25 $size-75;
-        border-radius: 15px;
-        font-size: 0.875rem;
-        font-weight: 500;
-      }
-    }
-  }
-
-  .reportHeaderControls {
-    display: flex;
-    align-items: center;
-    gap: $size-150;
-    flex: 1;
-    min-width: 0;
-
-    @media (max-width: 768px) {
-      flex-direction: column;
-      width: 100%;
-    }
-
-    .promptInputWrapper {
-      flex: 1;
-      min-width: 0;
-
-      .promptTextarea {
-        width: 100%;
-        padding: $size-150 $size-200;
-        border: 1px solid rgba(0, 0, 0, 0.08);
-        border-radius: 12px;
-        font-size: 0.9375rem;
-        font-family: inherit;
-        resize: none;
-        overflow-y: auto;
-        height: auto;
-        min-height: 60px;
-        max-height: 200px;
-        background-color: transparent;
-        color: #212529;
-        line-height: 1.6;
-        transition: all 0.2s ease;
-
-        &:focus {
-          outline: none;
-          border-color: #667eea;
-          box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.08);
-          background-color: rgba(102, 126, 234, 0.02);
-        }
-
-        &::placeholder {
-          color: #9ca3af;
-        }
-      }
-    }
-
-    .presetSelectWrapper {
-      flex-shrink: 0;
-      min-width: 200px;
-
-      @media (max-width: 768px) {
-        width: 100%;
-        min-width: 0;
-      }
-
-      // Hide the floating label since we're using placeholder
-      :global {
-        label[class*='FloatingText'],
-        label[id*='-label'] {
-          display: none !important;
-        }
-
-        // Ensure select text is black and has light background
-        select {
-          color: #212529 !important;
-          background-color: #f8f9fa !important;
-
-          &:focus {
-            background-color: white !important;
-          }
-
-          option {
-            color: #212529 !important;
-            background-color: white !important;
-          }
-        }
-
-        // Style the select wrapper to match our design
-        [class*='FieldWrapper'] {
-          margin-bottom: 0;
-        }
-      }
-    }
-
-    .generateButton {
-      display: flex;
-      align-items: center;
-      gap: $size-75;
-      padding: $size-125 $size-250;
-      background: #212529;
-      color: white;
-      border: none;
-      border-radius: 12px;
-      font-size: 0.9375rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-      flex-shrink: 0;
-
-      &:hover:not(:disabled) {
-        background: #000000;
-        transform: translateY(-2px);
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-      }
-
-      &:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-        transform: none;
-      }
-
-      svg {
-        width: 16px;
-        height: 16px;
-        flex-shrink: 0;
-      }
-
-      @media (max-width: 768px) {
-        width: 100%;
-        justify-content: center;
-      }
-    }
-  }
-}
-
-.reportContent {
-  padding: $size-400 0;
-  min-height: 400px;
-}
-
-.loadingState {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 300px;
-  gap: $size-200;
-
-  .loadingAnimation {
-    display: flex;
-    gap: $size-50;
-
-    .loadingDot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: #667eea;
-      animation: bounce 1.4s ease-in-out infinite both;
-
-      &:nth-child(1) {
-        animation-delay: -0.32s;
-      }
-      &:nth-child(2) {
-        animation-delay: -0.16s;
-      }
-      &:nth-child(3) {
-        animation-delay: 0s;
-      }
-    }
-  }
-
-  p {
-    color: #6c757d;
-    font-size: 1rem;
-    margin: 0;
-  }
-}
-
-@keyframes bounce {
-  0%,
-  80%,
-  100% {
-    transform: scale(0);
-  }
-  40% {
-    transform: scale(1);
-  }
-}
-
-.reportDisplay {
-  background: transparent;
-  border-radius: 0;
-  padding: 0;
-  border: none;
-  max-height: 500px;
-  overflow-y: auto;
-
-  .reportActions {
-    display: flex;
-    align-items: center;
-    gap: $size-150;
-    margin-bottom: $size-300;
-    padding-bottom: $size-200;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-  }
-}
-
-.emptyState {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 300px;
-  text-align: center;
-
-  .emptyIcon {
-    font-size: 4rem;
-    margin-bottom: $size-200;
-    opacity: 0.7;
-  }
-
-  h4 {
-    margin: 0 0 $size-100 0;
-    color: #212529;
-    font-size: 1.25rem;
-  }
-
-  p {
-    color: #6c757d;
-    margin: 0;
-    font-size: 1rem;
-  }
+  background: $color-neutral-white;
+  border: 1px solid $color-neutral-200;
+  border-radius: $size-200;
+  padding: $size-400;
 }
 
 @media (max-width: 768px) {
-  .page {
-    padding: $size-100 $size-150;
-  }
-
   .floatingHeader {
     margin-bottom: $size-300;
 
@@ -679,10 +327,5 @@
 
   .mainTitle {
     font-size: 1.75rem !important;
-  }
-
-  .topRow,
-  .bottomRow {
-    padding-top: $size-300;
   }
 }

@@ -1,7 +1,8 @@
-import { useEffect } from 'react'
+import { useModal } from '@/hooks'
+import { formatDateTime } from '@/utils'
+import { Button, Text } from '@workpace/design-system'
 import { createPortal } from 'react-dom'
 import ReactMarkdown from 'react-markdown'
-import { Text, Button } from '@workpace/design-system'
 import styles from './ReportModal.module.scss'
 
 interface ReportModalProps {
@@ -17,38 +18,7 @@ interface ReportModalProps {
 }
 
 export const ReportModal = ({ isOpen, onClose, report }: ReportModalProps) => {
-  // Prevent body scroll when modal is open
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
-    }
-    return () => {
-      document.body.style.overflow = ''
-    }
-  }, [isOpen])
-
-  // Close on escape key
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) {
-        onClose()
-      }
-    }
-    window.addEventListener('keydown', handleEscape)
-    return () => window.removeEventListener('keydown', handleEscape)
-  }, [isOpen, onClose])
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    })
-  }
+  useModal({ isOpen, onClose })
 
   if (!isOpen || !report) return null
 
@@ -60,7 +30,7 @@ export const ReportModal = ({ isOpen, onClose, report }: ReportModalProps) => {
             <Text variant="headline-md-emphasis">{report.title}</Text>
             <div className={styles.metadata}>
               <Text variant="body-sm" color="neutral-600">
-                Created: {formatDate(report.created_at)}
+                Created: {formatDateTime(report.created_at)}
               </Text>
               {report.prompt_used && (
                 <Text variant="body-sm" color="neutral-600">

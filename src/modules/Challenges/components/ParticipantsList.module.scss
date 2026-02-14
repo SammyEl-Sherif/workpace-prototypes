@@ -1,0 +1,26 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.participantsLabel {
+  margin-bottom: $size-100;
+}
+
+.participantsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $size-100;
+  align-items: center;
+}
+
+.participant {
+  padding: $size-75 $size-150;
+  background: $color-neutral-50;
+  border-radius: $size-100;
+  border: 1px solid $color-neutral-200;
+}
+
+.moreBadge {
+  padding: $size-75 $size-150;
+  background: $color-neutral-100;
+  border-radius: $size-100;
+  border: 1px solid $color-neutral-300;
+}

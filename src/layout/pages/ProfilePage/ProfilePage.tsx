@@ -10,6 +10,7 @@ import styles from './ProfilePage.module.scss'
 interface ProfileData {
   name: string
   email: string
+  phone?: string
   given_name?: string
   family_name?: string
 }
@@ -22,6 +23,7 @@ export const ProfilePage = () => {
   const [profileData, setProfileData] = useState<ProfileData>({
     name: user?.name || '',
     email: user?.email || '',
+    phone: '',
     given_name: '',
     family_name: '',
   })
@@ -35,6 +37,7 @@ export const ProfilePage = () => {
           setProfileData({
             name: data.name || '',
             email: data.email || '',
+            phone: data.phone || '',
             given_name: data.given_name || '',
             family_name: data.family_name || '',
           })
@@ -65,6 +68,16 @@ export const ProfilePage = () => {
         throw new Error(errorData.error || 'Failed to update profile')
       }
 
+      // Update local state with the response data
+      const updatedData = await response.json()
+      setProfileData({
+        name: updatedData.name || '',
+        email: updatedData.email || '',
+        phone: updatedData.phone || '',
+        given_name: updatedData.given_name || '',
+        family_name: updatedData.family_name || '',
+      })
+
       setIsEditing(false)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to update profile')
@@ -73,14 +86,23 @@ export const ProfilePage = () => {
     }
   }
 
-  const handleCancel = () => {
-    // Reset to original values
-    setProfileData({
-      name: user?.name || '',
-      email: user?.email || '',
-      given_name: '',
-      family_name: '',
-    })
+  const handleCancel = async () => {
+    // Reset to original values by refetching
+    try {
+      const response = await fetch('/api/profile')
+      if (response.ok) {
+        const data = await response.json()
+        setProfileData({
+          name: data.name || '',
+          email: data.email || '',
+          phone: data.phone || '',
+          given_name: data.given_name || '',
+          family_name: data.family_name || '',
+        })
+      }
+    } catch (err) {
+      console.error('Error fetching profile:', err)
+    }
     setIsEditing(false)
     setError(null)
   }
@@ -111,6 +133,14 @@ export const ProfilePage = () => {
               onChange={(e) => setProfileData({ ...profileData, email: e.target.value })}
               disabled={!isEditing}
               required
+            />
+
+            <InputField
+              label="Phone Number"
+              type="tel"
+              value={profileData.phone || ''}
+              onChange={(e) => setProfileData({ ...profileData, phone: e.target.value })}
+              disabled={!isEditing}
             />
 
             <InputField

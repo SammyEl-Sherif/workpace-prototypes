@@ -1,23 +1,44 @@
 @use '@workpace/design-system/dist/design-tokens' as *;
 
-.page {
-  min-height: calc(90vh - 120px);
-  display: flex;
-  flex-direction: column;
-  padding: $size-50 2rem;
+.titleSection {
+  .title {
+    font-size: clamp(2rem, 5vw, 2.5rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    color: $color-neutral-900;
+    margin: 0 0 $size-150 0;
+  }
+
+  .subtitle {
+    color: $color-neutral-500;
+    font-size: $font-body-lg-font-size;
+    line-height: $font-body-lg-paragraph-line-height;
+    font-weight: $font-weight-regular;
+    margin: 0;
+    max-width: 640px;
+  }
+
+  .phoneLink {
+    color: $color-primary-600;
+    text-decoration: none;
+    font-weight: $font-weight-medium;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: $color-primary-700;
+      text-decoration: underline;
+    }
+
+    &:active {
+      color: $color-primary-800;
+    }
+  }
 }
 
-.breadcrumbsWrapper {
-  max-width: 800px;
-  width: 100%;
-  margin: $size-200 auto $size-400;
-}
-
-.container {
-  text-align: center;
-  max-width: 800px;
-  width: 100%;
-  margin: auto;
+.chiefOfStaffSection {
+  margin-bottom: $size-400;
+  text-align: left;
 }
 
 // ── SMS Send Section ──────────────────────────────────
@@ -58,4 +79,72 @@
 .smsButton {
   align-self: flex-end;
   margin-top: $size-100;
+}
+
+// ── Inbound Messages Section ──────────────────────────────────
+
+.messagesSection {
+  max-width: 800px;
+  width: 100%;
+  margin: $size-600 auto 0;
+  text-align: left;
+}
+
+.messagesHeading {
+  margin-bottom: $size-300;
+  text-align: center;
+}
+
+.messagesLoading,
+.messagesEmpty {
+  text-align: center;
+  color: $color-neutral-500;
+  padding: $size-400;
+}
+
+.messagesList {
+  display: flex;
+  flex-direction: column;
+  gap: $size-200;
+}
+
+.messageCard {
+  width: 100%;
+}
+
+.messageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  gap: $size-200;
+}
+
+.messageSender {
+  margin-bottom: $size-50;
+}
+
+.messageMeta {
+  color: $color-neutral-600;
+  display: flex;
+  align-items: center;
+  gap: $size-50;
+}
+
+.messagePhone,
+.messageEmail {
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+.messageTime {
+  color: $color-neutral-500;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.messageBody {
+  color: $color-neutral-800;
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }

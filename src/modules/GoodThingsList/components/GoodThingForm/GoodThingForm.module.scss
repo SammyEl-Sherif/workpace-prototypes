@@ -7,7 +7,7 @@
   padding: $size-300;
   background: white;
   border-radius: 12px;
-  border: 1px solid rgba(102, 126, 234, 0.2);
+  border: 1px solid $color-primary-200;
 }
 
 .formHeader {
@@ -16,9 +16,9 @@
 
 .error {
   padding: $size-150;
-  background: rgba(220, 38, 38, 0.1);
+  background: rgba($color-error-500, 0.1);
   border-radius: 8px;
-  border: 1px solid rgba(220, 38, 38, 0.3);
+  border: 1px solid rgba($color-error-500, 0.3);
 }
 
 .textareaContainer {
@@ -35,6 +35,7 @@
 .textarea {
   width: 100%;
   padding: $size-150;
+  border: 1px solid $color-neutral-200;
   border-radius: 8px;
   font-family: inherit;
   font-size: 1rem;
@@ -47,12 +48,12 @@
 
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    border-color: $color-primary-500;
+    box-shadow: 0 0 0 3px rgba($color-primary-500, 0.1);
   }
 
   &::placeholder {
-    color: #6c757d;
-    opacity: 0.7;
+    color: $color-neutral-400;
   }
 }
 
@@ -67,9 +68,9 @@
   flex-direction: column;
   gap: $size-150;
   padding: $size-200;
-  background: rgba(102, 126, 234, 0.05);
+  background: rgba($color-primary-500, 0.05);
   border-radius: 8px;
-  border: 1px solid rgba(102, 126, 234, 0.2);
+  border: 1px solid $color-primary-200;
 }
 
 .newGoalActions {
@@ -113,7 +114,7 @@
   height: 72px;
   border-radius: 8px;
   overflow: hidden;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  border: 1px solid $color-neutral-200;
   flex-shrink: 0;
 
   &:hover {
@@ -215,7 +216,7 @@
   flex-shrink: 0;
 
   &:hover {
-    background: rgba(102, 126, 234, 0.08);
+    background: rgba($color-primary-500, 0.08);
     text-decoration: underline;
   }
 }
@@ -226,7 +227,7 @@
   gap: $size-75;
   padding: $size-100 $size-150;
   background: transparent;
-  border: 1px dashed rgba(0, 0, 0, 0.2);
+  border: 1px dashed $color-neutral-300;
   border-radius: 8px;
   cursor: pointer;
   color: $color-neutral-600;
@@ -236,8 +237,8 @@
   align-self: flex-start;
 
   &:hover {
-    border-color: #667eea;
-    color: #667eea;
-    background: rgba(102, 126, 234, 0.04);
+    border-color: $color-primary-500;
+    color: $color-primary-500;
+    background: rgba($color-primary-500, 0.04);
   }
 }

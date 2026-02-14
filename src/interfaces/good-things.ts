@@ -10,6 +10,7 @@ export interface GoodThing {
   id: string
   user_id: string
   goal_id: string | null
+  challenge_id: string | null
   title: string
   description: string | null
   completion_date: string | null
@@ -28,6 +29,7 @@ export interface UpdateGoalInput {
 
 export interface CreateGoodThingInput {
   goal_id?: string | null
+  challenge_id?: string | null
   title: string
   description?: string | null
   completion_date?: string | null

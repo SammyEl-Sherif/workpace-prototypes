@@ -102,7 +102,9 @@ const FooterSection = () => {
               </a>
             </div>
             <Text as="p" variant="body-sm" className={styles.email}>
-              hello@workpace.io
+              <a href="mailto:support@workpace.io" className={styles.emailLink}>
+                support@workpace.io
+              </a>
             </Text>
           </div>
         </div>
@@ -114,12 +116,12 @@ const FooterSection = () => {
             © {new Date().getFullYear()} WorkPace Technology. All rights reserved.
           </Text>
           <div className={styles.legalLinks}>
-            <a href="#" className={styles.legalLink}>
+            <Link href={Routes.PRIVACY} className={styles.legalLink}>
               Privacy Policy
-            </a>
-            <a href="#" className={styles.legalLink}>
+            </Link>
+            <Link href={Routes.TERMS} className={styles.legalLink}>
               Terms of Service
-            </a>
+            </Link>
           </div>
         </div>
       </div>

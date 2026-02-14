@@ -27,6 +27,9 @@ interface GoodThingFormProps {
   goodThing?: GoodThing | null
   existingMedia?: GoodThingMedia[]
   defaultDate?: string
+  challengeId?: string
+  challengeGoalId?: string
+  challengeTaskDescription?: string
   onSuccess?: () => void
   onCancel?: () => void
 }
@@ -35,6 +38,9 @@ export const GoodThingForm = ({
   goodThing,
   existingMedia = [],
   defaultDate,
+  challengeId,
+  challengeGoalId,
+  challengeTaskDescription,
   onSuccess,
   onCancel,
 }: GoodThingFormProps) => {
@@ -52,9 +58,9 @@ export const GoodThingForm = ({
     'good-stuff-list/good-thing-media'
   )
 
-  const [title, setTitle] = useState(goodThing?.title || '')
+  const [title, setTitle] = useState(goodThing?.title || challengeTaskDescription || '')
   const [description, setDescription] = useState(goodThing?.description || '')
-  const [goalId, setGoalId] = useState<string>(goodThing?.goal_id || '')
+  const [goalId, setGoalId] = useState<string>(goodThing?.goal_id || challengeGoalId || '')
   const [completionDate, setCompletionDate] = useState(
     goodThing?.completion_date ? goodThing.completion_date.split('T')[0] : defaultDate || ''
   )
@@ -249,6 +255,7 @@ export const GoodThingForm = ({
         title: title.trim(),
         description: description.trim() || null,
         goal_id: goalId || null,
+        challenge_id: challengeId || null,
         completion_date: completionDate || null,
       }
 

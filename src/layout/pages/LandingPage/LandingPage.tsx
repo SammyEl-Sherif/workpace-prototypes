@@ -21,7 +21,7 @@ const LandingPage = () => {
       <StandardNavbar />
       <main>
         <HeroSection onBookConsultation={openConsultation} />
-        <ServicesSection />
+        <ServicesSection onBookConsultation={openConsultation} />
         <FeaturesSection />
         <TemplatesSection />
         <ProcessSection />
