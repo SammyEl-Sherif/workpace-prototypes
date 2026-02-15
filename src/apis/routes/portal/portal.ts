@@ -4,6 +4,7 @@ import {
   getPendingPortalUsersController,
   approvePortalUserController,
   deactivatePortalUserController,
+  getPendingSubmissionController,
   getIntakeController,
   saveIntakeDraftController,
   submitIntakeController,
@@ -22,6 +23,7 @@ import {
 
 export const getPortalUserRoute = getPortalUserController
 export const portalSignupRoute = portalSignupController
+export const getPendingSubmissionRoute = getPendingSubmissionController
 export const getPendingPortalUsersRoute = getPendingPortalUsersController
 export const approvePortalUserRoute = approvePortalUserController
 export const deactivatePortalUserRoute = deactivatePortalUserController

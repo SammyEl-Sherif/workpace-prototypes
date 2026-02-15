@@ -33,7 +33,7 @@ CREATE INDEX IF NOT EXISTS idx_intake_submissions_status ON public.intake_submis
 ALTER TABLE public.intake_submissions ENABLE ROW LEVEL SECURITY;
 
 -- RLS Policies for intake_submissions table
--- Active portal users can view their org's submission
+-- Portal users (pending or active) can view their org's submission
 DROP POLICY IF EXISTS "Portal users can view their org intake" ON public.intake_submissions;
 CREATE POLICY "Portal users can view their org intake"
   ON public.intake_submissions
@@ -43,11 +43,11 @@ CREATE POLICY "Portal users can view their org intake"
       SELECT 1 FROM public.portal_users
       WHERE portal_users.org_id = intake_submissions.org_id
       AND portal_users.user_id = auth.uid()
-      AND portal_users.status = 'active'::public.portal_user_status
+      AND portal_users.status IN ('pending_approval'::public.portal_user_status, 'active'::public.portal_user_status)
     )
   );
 
--- Active portal users can insert their org's submission
+-- Portal users (pending or active) can insert their org's submission
 DROP POLICY IF EXISTS "Portal users can create their org intake" ON public.intake_submissions;
 CREATE POLICY "Portal users can create their org intake"
   ON public.intake_submissions
@@ -57,11 +57,11 @@ CREATE POLICY "Portal users can create their org intake"
       SELECT 1 FROM public.portal_users
       WHERE portal_users.org_id = intake_submissions.org_id
       AND portal_users.user_id = auth.uid()
-      AND portal_users.status = 'active'::public.portal_user_status
+      AND portal_users.status IN ('pending_approval'::public.portal_user_status, 'active'::public.portal_user_status)
     )
   );
 
--- Active portal users can update their org's submission
+-- Portal users (pending or active) can update their org's submission
 DROP POLICY IF EXISTS "Portal users can update their org intake" ON public.intake_submissions;
 CREATE POLICY "Portal users can update their org intake"
   ON public.intake_submissions
@@ -71,7 +71,7 @@ CREATE POLICY "Portal users can update their org intake"
       SELECT 1 FROM public.portal_users
       WHERE portal_users.org_id = intake_submissions.org_id
       AND portal_users.user_id = auth.uid()
-      AND portal_users.status = 'active'::public.portal_user_status
+      AND portal_users.status IN ('pending_approval'::public.portal_user_status, 'active'::public.portal_user_status)
     )
   )
   WITH CHECK (
@@ -79,7 +79,7 @@ CREATE POLICY "Portal users can update their org intake"
       SELECT 1 FROM public.portal_users
       WHERE portal_users.org_id = intake_submissions.org_id
       AND portal_users.user_id = auth.uid()
-      AND portal_users.status = 'active'::public.portal_user_status
+      AND portal_users.status IN ('pending_approval'::public.portal_user_status, 'active'::public.portal_user_status)
     )
   );
 

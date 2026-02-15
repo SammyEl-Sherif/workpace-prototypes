@@ -1,6 +1,14 @@
 import { querySupabase } from '@/db'
+import {
+  CompanyInfoData,
+  GoalsNeedsData,
+  IntakeSubmission,
+  PortalUserWithOrgAndIntake,
+  ToolsTechData,
+} from '@/interfaces/portal'
 
 import { Organization, PortalUser, PortalUserStatus, PortalUserWithOrg } from './portal.types'
+import { IntakeService } from './intake.service'
 
 export const PortalService = {
   async getPortalUser(userId: string): Promise<PortalUser | null> {
@@ -54,8 +62,59 @@ export const PortalService = {
     return { organization, portalUser: portalUserResults[0] }
   },
 
-  async getAllPending(): Promise<PortalUserWithOrg[]> {
-    return querySupabase<PortalUserWithOrg>('portal_users/get_all_pending.sql')
+  async signupWithIntake(
+    userId: string,
+    input: {
+      org_name: string
+      company_info?: CompanyInfoData
+      tools_tech?: ToolsTechData
+      goals_needs?: GoalsNeedsData
+    }
+  ): Promise<{ organization: Organization; portalUser: PortalUser; intake: IntakeSubmission }> {
+    const orgName = input.company_info?.company_name?.trim() || input.org_name?.trim()
+    if (!orgName) {
+      throw new Error('Organization name is required')
+    }
+
+    // Check if user already has a portal account
+    const existing = await this.getPortalUser(userId)
+    if (existing) {
+      throw new Error('User already has a portal account')
+    }
+
+    // Create organization
+    const orgResults = await querySupabase<Organization>('organizations/create.sql', [
+      orgName,
+      null,
+    ])
+    if (orgResults.length === 0) {
+      throw new Error('Failed to create organization')
+    }
+    const organization = orgResults[0]
+
+    // Create portal user with admin role and pending_approval status
+    const portalUserResults = await querySupabase<PortalUser>('portal_users/create.sql', [
+      userId,
+      organization.id,
+      'admin',
+      'pending_approval',
+    ])
+    if (portalUserResults.length === 0) {
+      throw new Error('Failed to create portal user')
+    }
+
+    // Create intake submission with status 'submitted'
+    const intake = await IntakeService.submit(organization.id, userId, {
+      company_info: input.company_info,
+      tools_tech: input.tools_tech,
+      goals_needs: input.goals_needs,
+    })
+
+    return { organization, portalUser: portalUserResults[0], intake }
+  },
+
+  async getAllPending(): Promise<PortalUserWithOrgAndIntake[]> {
+    return querySupabase<PortalUserWithOrgAndIntake>('portal_users/get_all_pending_with_intake.sql')
   },
 
   async updateStatus(portalUserId: string, status: PortalUserStatus): Promise<PortalUser> {

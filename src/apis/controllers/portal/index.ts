@@ -7,6 +7,7 @@ export {
 } from './portal.controller'
 
 export {
+  getPendingSubmissionController,
   getIntakeController,
   saveIntakeDraftController,
   submitIntakeController,

@@ -45,10 +45,14 @@ export async function approveAccount(state: PipelineState): Promise<Partial<Pipe
     orgId?: string
   }
 
-  if (decision.action === 'account_created' && decision.orgId) {
-    await sendAdminSms(
-      `${state.clientName} has signed up for the portal. Please review and approve their account.`
-    )
+  const isSignupWithIntake = decision.action === 'signup_with_intake_submitted'
+  const isAccountCreated = decision.action === 'account_created'
+
+  if ((isAccountCreated || isSignupWithIntake) && decision.orgId) {
+    const smsMessage = isSignupWithIntake
+      ? `${state.clientName} has signed up and submitted their intake form. Please review and approve.`
+      : `${state.clientName} has signed up for the portal. Please review and approve their account.`
+    await sendAdminSms(smsMessage)
 
     await logAuditEvent(state.notionPageId, 'approveAccount', 'signup_received', 'system', {
       orgId: decision.orgId,

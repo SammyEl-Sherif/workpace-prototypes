@@ -1,6 +1,7 @@
 export {
   getPortalUserRoute,
   portalSignupRoute,
+  getPendingSubmissionRoute,
   getPendingPortalUsersRoute,
   approvePortalUserRoute,
   deactivatePortalUserRoute,

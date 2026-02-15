@@ -16,6 +16,36 @@ const isAdminUser = async (userId: string): Promise<boolean> => {
   return roles.some((r) => r.role === UserGroup.Admin)
 }
 
+export const getPendingSubmissionController = withSupabaseAuth(
+  async (req: NextApiRequest, res: NextApiResponse<HttpResponse<{ submission: any }>>, session) => {
+    try {
+      if (!session.user) {
+        res.status(401).json({ data: { submission: null }, status: 401 })
+        return
+      }
+
+      const portalUser = await PortalService.getPortalUser(session.user.id)
+      if (!portalUser || portalUser.status !== 'pending_approval') {
+        res.status(403).json({ data: { submission: null }, status: 403 })
+        return
+      }
+
+      const submission = await IntakeService.getByOrgId(portalUser.org_id)
+
+      res.status(200).json({
+        data: { submission },
+        status: 200,
+      })
+    } catch (error: unknown) {
+      console.error('[getPendingSubmissionController] Error:', error)
+      res.status(500).json({
+        data: { submission: null },
+        status: 500,
+      })
+    }
+  }
+)
+
 export const getIntakeController = withSupabaseAuth(
   async (req: NextApiRequest, res: NextApiResponse<HttpResponse<{ submission: any }>>, session) => {
     try {

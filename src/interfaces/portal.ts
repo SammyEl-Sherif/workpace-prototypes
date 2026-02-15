@@ -25,6 +25,15 @@ export interface PortalUserWithOrg extends PortalUser {
   org_domain: string | null
 }
 
+export interface PortalUserWithOrgAndIntake extends PortalUserWithOrg {
+  intake_id: string | null
+  company_info: CompanyInfoData | null
+  tools_tech: ToolsTechData | null
+  goals_needs: GoalsNeedsData | null
+  intake_status: IntakeSubmissionStatus | null
+  intake_submitted_at: string | null
+}
+
 export interface CreateOrganizationInput {
   name: string
   domain?: string

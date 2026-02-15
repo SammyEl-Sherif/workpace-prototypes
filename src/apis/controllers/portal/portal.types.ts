@@ -4,6 +4,7 @@ export type {
   Organization,
   PortalUser,
   PortalUserWithOrg,
+  PortalUserWithOrgAndIntake,
   CreateOrganizationInput,
   PortalSignupInput,
 } from '@/interfaces/portal'

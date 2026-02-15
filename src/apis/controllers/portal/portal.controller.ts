@@ -48,15 +48,25 @@ export const portalSignupController = withSupabaseAuth(
       }
 
       const userId = session.user.id
-      const { org_name } = req.body
+      const { org_name, company_info, tools_tech, goals_needs } = req.body
 
-      const result = await PortalService.signup(userId, { org_name })
+      // Use combined signup+intake if intake data is provided, otherwise legacy signup
+      const hasIntakeData = company_info || tools_tech || goals_needs
+      const result = hasIntakeData
+        ? await PortalService.signupWithIntake(userId, {
+            org_name,
+            company_info,
+            tools_tech,
+            goals_needs,
+          })
+        : await PortalService.signup(userId, { org_name })
 
       // Resume the LangGraph pipeline if a thread exists for this user
       try {
+        const action = hasIntakeData ? 'signup_with_intake_submitted' : 'account_created'
         await resumeThread(
           { clientEmail: session.user.email },
-          { action: 'account_created', orgId: result?.organization?.id }
+          { action, orgId: result?.organization?.id }
         )
       } catch (error) {
         console.warn('[Portal Signup] No pipeline thread for user:', session.user.email)
