@@ -17,11 +17,11 @@ interface CreatePipelineData {
 
 export async function createPipelineRecord(data: CreatePipelineData): Promise<string> {
   const properties: Record<string, unknown> = {
-    'Client Name': { title: [{ text: { content: data.clientName } }] },
+    Opportunity: { title: [{ text: { content: data.clientName } }] },
     Email: { email: data.clientEmail },
     Phone: { phone_number: data.clientPhone },
     Source: { select: { name: data.source } },
-    Status: { select: { name: 'New Lead' } },
+    Status: { status: { name: 'New Lead' } },
     'LangGraph Thread ID': { rich_text: [{ text: { content: data.threadId } }] },
     'Last Activity': { date: { start: new Date().toISOString() } },
     'Reminder Count': { number: 0 },
@@ -45,7 +45,7 @@ export async function updatePipelineStatus(pageId: string, status: string) {
   await notion.pages.update({
     page_id: pageId,
     properties: {
-      Status: { select: { name: status } } as any,
+      Status: { status: { name: status } } as any,
       'Last Activity': { date: { start: new Date().toISOString() } } as any,
     },
   })
