@@ -1,0 +1,47 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: $size-300 $size-200;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: $size-200;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $size-200;
+}
+
+.meetingLink {
+  display: flex;
+  flex-direction: column;
+  gap: $size-50;
+  padding: $size-150;
+  background: $color-neutral-50;
+  border-radius: 8px;
+}
+
+.result {
+  margin-top: $size-300;
+  padding: $size-200;
+  background: $color-success-50;
+  border: 1px solid $color-success-200;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: $size-100;
+}
+
+.error {
+  margin-top: $size-300;
+  padding: $size-200;
+  background: $color-error-50;
+  border: 1px solid $color-error-200;
+  border-radius: 8px;
+}

@@ -31,6 +31,11 @@ const AdminPage = () => {
       description: 'Manage portal user access requests and approvals',
       href: Routes.ADMIN_PORTAL,
     },
+    {
+      title: 'Pipeline',
+      description: 'Trigger and test the LangGraph client pipeline',
+      href: Routes.ADMIN_PIPELINE,
+    },
   ]
 
   return (
