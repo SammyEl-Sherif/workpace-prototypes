@@ -1,9 +1,10 @@
-import { Client } from '@notionhq/client'
+import { createNotionClient } from '@/server/utils/createHttpClient/createNotionClient/createNotionClient'
 
-const notion = new Client({ auth: process.env.NOTION_API_KEY })
-
+const ADMIN_USER_ID = process.env.ADMIN_USER_ID ?? ''
 const PIPELINE_DB_ID = process.env.NOTION_PIPELINE_DB_ID ?? ''
 const PROJECTS_DB_ID = process.env.NOTION_PROJECTS_DB_ID ?? ''
+
+const getNotionClient = () => createNotionClient(ADMIN_USER_ID)
 
 interface CreatePipelineData {
   clientName: string
@@ -30,6 +31,7 @@ export async function createPipelineRecord(data: CreatePipelineData): Promise<st
     properties['Meeting Date'] = { date: { start: data.meetingDatetime } }
   }
 
+  const notion = await getNotionClient()
   const page = await notion.pages.create({
     parent: { database_id: PIPELINE_DB_ID },
     properties: properties as any,
@@ -39,6 +41,7 @@ export async function createPipelineRecord(data: CreatePipelineData): Promise<st
 }
 
 export async function updatePipelineStatus(pageId: string, status: string) {
+  const notion = await getNotionClient()
   await notion.pages.update({
     page_id: pageId,
     properties: {
@@ -49,6 +52,7 @@ export async function updatePipelineStatus(pageId: string, status: string) {
 }
 
 export async function updatePipelineFields(pageId: string, fields: Record<string, unknown>) {
+  const notion = await getNotionClient()
   await notion.pages.update({
     page_id: pageId,
     properties: fields as any,
@@ -63,6 +67,7 @@ interface CreateProjectData {
 }
 
 export async function createProjectRecord(data: CreateProjectData): Promise<string> {
+  const notion = await getNotionClient()
   const page = await notion.pages.create({
     parent: { database_id: PROJECTS_DB_ID },
     properties: {
