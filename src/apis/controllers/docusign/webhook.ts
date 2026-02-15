@@ -2,6 +2,7 @@ import crypto from 'crypto'
 import { NextApiRequest } from 'next'
 
 import { ContractsService } from '@/apis/controllers/portal/contracts.service'
+import { resumeThread } from '@/langgraph/utils/thread-lookup'
 
 export const verifyDocuSignWebhook = (req: NextApiRequest, rawBody: string): boolean => {
   const secret = process.env.DOCUSIGN_WEBHOOK_SECRET
@@ -37,6 +38,13 @@ export const handleEnvelopeStatusChange = async (payload: any): Promise<void> =>
 
     if (updated) {
       console.log(`[DocuSign Webhook] Contract ${updated.id} marked as signed`)
+
+      // Resume the LangGraph pipeline if a thread exists for this envelope
+      try {
+        await resumeThread({ envelopeId }, { action: 'signed' })
+      } catch (error) {
+        console.warn('[DocuSign Webhook] No pipeline thread for envelope:', envelopeId)
+      }
     } else {
       console.warn(`[DocuSign Webhook] No contract found for envelope ${envelopeId}`)
     }

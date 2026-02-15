@@ -20,6 +20,9 @@
   },
   "dependencies": {
     "@fontsource/roboto": "^5.1.1",
+    "@langchain/core": "^1.1.24",
+    "@langchain/langgraph": "^1.1.4",
+    "@langchain/langgraph-checkpoint-postgres": "^1.0.0",
     "@next-auth/supabase-adapter": "^0.2.1",
     "@notionhq/client": "^2.2.15",
     "@supabase/supabase-js": "^2.93.3",

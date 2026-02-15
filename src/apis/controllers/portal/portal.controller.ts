@@ -5,6 +5,8 @@ import { withSupabaseAuth } from '@/server/utils'
 import { UserGroup } from '@/interfaces/user'
 import { querySupabase } from '@/db'
 
+import { resumeThread } from '@/langgraph/utils/thread-lookup'
+
 import { PortalService } from './portal.service'
 
 export const getPortalUserController = withSupabaseAuth(
@@ -49,6 +51,16 @@ export const portalSignupController = withSupabaseAuth(
       const { org_name } = req.body
 
       const result = await PortalService.signup(userId, { org_name })
+
+      // Resume the LangGraph pipeline if a thread exists for this user
+      try {
+        await resumeThread(
+          { clientEmail: session.user.email },
+          { action: 'account_created', orgId: result?.organization?.id }
+        )
+      } catch (error) {
+        console.warn('[Portal Signup] No pipeline thread for user:', session.user.email)
+      }
 
       res.status(201).json({
         data: { result },

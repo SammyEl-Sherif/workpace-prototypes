@@ -5,6 +5,8 @@ import { withSupabaseAuth } from '@/server/utils'
 import { UserGroup } from '@/interfaces/user'
 import { querySupabase } from '@/db'
 
+import { resumeThread } from '@/langgraph/utils/thread-lookup'
+
 import { PortalService } from './portal.service'
 import { IntakeService } from './intake.service'
 import { ContractsService } from './contracts.service'
@@ -101,6 +103,13 @@ export const submitIntakeController = withSupabaseAuth(
         tools_tech,
         goals_needs,
       })
+
+      // Resume the LangGraph pipeline if a thread exists for this org
+      try {
+        await resumeThread({ orgId: portalUser.org_id }, { action: 'intake_submitted' })
+      } catch (error) {
+        console.warn('[Intake Submit] No pipeline thread for org:', portalUser.org_id)
+      }
 
       res.status(200).json({
         data: { submission },

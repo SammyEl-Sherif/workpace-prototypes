@@ -67,5 +67,7 @@ schema_paths = [
   "./schemas/change_requests.sql",
   "./schemas/docusign_connections.sql",
   "./schemas/contracts.sql",
+  "./schemas/pipeline_threads.sql",
+  "./schemas/pipeline_audit_log.sql",
 ]
 
