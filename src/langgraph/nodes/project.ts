@@ -34,7 +34,7 @@ export async function handleSigned(state: PipelineState): Promise<Partial<Pipeli
   })
 
   // Update pipeline record
-  await updatePipelineStatus(state.notionPageId, 'Active Client')
+  await updatePipelineStatus(state.notionPageId, 'Won')
   await updatePipelineFields(state.notionPageId, {
     Project: { relation: [{ id: projectPageId }] } as any,
   })

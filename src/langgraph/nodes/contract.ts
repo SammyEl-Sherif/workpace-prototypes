@@ -21,7 +21,7 @@ export async function generateContract(state: PipelineState): Promise<Partial<Pi
     signer_name: state.clientName,
   })
 
-  await updatePipelineStatus(state.notionPageId, 'Contract Draft')
+  await updatePipelineStatus(state.notionPageId, 'Proposal Drafting')
 
   await logAuditEvent(state.notionPageId, 'generateContract', 'contract_created', 'system', {
     contractId: contract.id,
@@ -70,7 +70,7 @@ export async function sendContract(state: PipelineState): Promise<Partial<Pipeli
     await updateThread(state.notionPageId, { envelopeId })
   }
 
-  await updatePipelineStatus(state.notionPageId, 'Awaiting Signature')
+  await updatePipelineStatus(state.notionPageId, 'Contract Sent')
   await updatePipelineFields(state.notionPageId, {
     'Contract Envelope ID': {
       rich_text: [{ text: { content: envelopeId || '' } }],

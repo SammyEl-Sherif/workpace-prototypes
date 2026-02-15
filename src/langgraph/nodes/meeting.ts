@@ -21,7 +21,7 @@ export async function meetingPrep(state: PipelineState): Promise<Partial<Pipelin
     }. We look forward to speaking with you!`
   )
 
-  await updatePipelineStatus(state.notionPageId, 'Intro Meeting')
+  await updatePipelineStatus(state.notionPageId, 'Discovery Scheduled')
 
   await logAuditEvent(state.notionPageId, 'meetingPrep', 'reminder_sent', 'system', {
     clientEmail: state.clientEmail,

@@ -21,7 +21,7 @@ export async function sendPortalInvite(state: PipelineState): Promise<Partial<Pi
     `Hi ${state.clientName}, we're excited to work with you! Please sign up for your client portal to begin the onboarding process: ${portalLink}`
   )
 
-  await updatePipelineStatus(state.notionPageId, 'Portal Invite Sent')
+  await updatePipelineStatus(state.notionPageId, 'Discovery Completed')
   await updatePipelineFields(state.notionPageId, {
     'Portal Link': { url: portalLink } as any,
   })
@@ -61,7 +61,7 @@ export async function approveAccount(state: PipelineState): Promise<Partial<Pipe
 
     await logAuditEvent(state.notionPageId, 'approveAccount', 'account_approved', 'admin')
 
-    await updatePipelineStatus(state.notionPageId, 'Intake Pending')
+    await updatePipelineStatus(state.notionPageId, 'Inbound Request Logged')
 
     return {
       status: 'account_created',

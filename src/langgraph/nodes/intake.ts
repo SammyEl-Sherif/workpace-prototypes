@@ -25,7 +25,7 @@ export async function sendIntakeNotification(
     `Hi ${state.clientName}, your client portal account is now active. Please complete the intake form at ${intakeUrl} so we can begin planning your project.`
   )
 
-  await updatePipelineStatus(state.notionPageId, 'Intake Pending')
+  await updatePipelineStatus(state.notionPageId, 'Inbound Request Logged')
 
   await logAuditEvent(state.notionPageId, 'sendIntakeNotification', 'intake_notification_sent')
 
@@ -78,7 +78,7 @@ export async function assessNeeds(state: PipelineState): Promise<Partial<Pipelin
 
   const finalScope = scopeApproval.revisedScope || scopeDraft
 
-  await updatePipelineStatus(state.notionPageId, 'Needs Assessment')
+  await updatePipelineStatus(state.notionPageId, 'Qualified (Ready for Proposal)')
 
   await logAuditEvent(state.notionPageId, 'assessNeeds', 'scope_approved', 'admin')
 
