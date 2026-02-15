@@ -1,7 +1,7 @@
 @use '@workpace/design-system/dist/design-tokens' as *;
 
 .container {
-  max-width: 720px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: $size-300 $size-200;
 }
@@ -44,4 +44,78 @@
   background: $color-error-50;
   border: 1px solid $color-error-200;
   border-radius: 8px;
+}
+
+.threadList {
+  margin-top: $size-400;
+  display: flex;
+  flex-direction: column;
+  gap: $size-200;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.cardHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: $size-150;
+}
+
+.cardMeta {
+  color: $color-neutral-500;
+}
+
+.expandButton {
+  background: none;
+  border: 1px solid $color-neutral-200;
+  border-radius: 6px;
+  padding: $size-50 $size-125;
+  cursor: pointer;
+  font-size: 13px;
+  color: $color-neutral-600;
+
+  &:hover {
+    background: $color-neutral-50;
+  }
+}
+
+.expandedContent {
+  margin-top: $size-200;
+  padding: $size-200;
+  background: $color-neutral-50;
+  border-radius: 8px;
+}
+
+.dataGrid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: $size-75 $size-200;
+  font-size: 14px;
+
+  dt {
+    font-weight: 600;
+    color: $color-neutral-700;
+  }
+
+  dd {
+    margin: 0;
+    color: $color-neutral-600;
+  }
+}
+
+.approveForm {
+  margin-top: $size-200;
+  padding-top: $size-200;
+  border-top: 1px solid $color-neutral-200;
+}
+
+.approveRow {
+  display: flex;
+  gap: $size-150;
+  align-items: flex-end;
 }

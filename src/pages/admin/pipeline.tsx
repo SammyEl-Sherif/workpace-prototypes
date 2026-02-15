@@ -1,11 +1,21 @@
-import { FormEvent, useState } from 'react'
+import { FormEvent, useCallback, useState } from 'react'
 import { GetServerSideProps } from 'next'
 
-import { Button, Card, CardContent, InputField, Select, Text } from '@workpace/design-system'
+import {
+  Badge,
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  InputField,
+  Select,
+  Text,
+} from '@workpace/design-system'
 
 import { DocumentTitle } from '@/layout/DocumentTitle'
 import { PageHeader } from '@/layout/PageHeader'
-import { useManualFetch } from '@/hooks'
+import { useFetch, useManualFetch } from '@/hooks'
 import { withPageRequestWrapper } from '@/server/utils'
 
 import styles from './pipeline.module.scss'
@@ -21,6 +31,44 @@ interface PipelineResponse {
   status: number
 }
 
+interface Thread {
+  thread_id: string
+  client_email?: string
+  client_name?: string
+  status: string
+  created_at: string
+}
+
+interface ThreadsResponse {
+  data: { threads: Thread[] }
+}
+
+interface ThreadStatus {
+  data: {
+    state: Record<string, unknown>
+    next: string[]
+    auditLog?: unknown[]
+  }
+}
+
+const statusBadgeVariant = (status: string) => {
+  switch (status) {
+    case 'completed':
+      return 'success'
+    case 'active':
+    case 'running':
+      return 'info'
+    case 'waiting':
+    case 'pending':
+      return 'warning'
+    case 'error':
+    case 'failed':
+      return 'error'
+    default:
+      return 'default'
+  }
+}
+
 const AdminPipelinePage = () => {
   const [clientName, setClientName] = useState('')
   const [clientEmail, setClientEmail] = useState('')
@@ -31,7 +79,22 @@ const AdminPipelinePage = () => {
   const [threadId, setThreadId] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
 
+  const [expandedThreads, setExpandedThreads] = useState<Set<string>>(new Set())
+  const [threadStates, setThreadStates] = useState<Map<string, ThreadStatus['data']>>(new Map())
+  const [actions, setActions] = useState<Record<string, string>>({})
+  const [approvingThreads, setApprovingThreads] = useState<Set<string>>(new Set())
+
   const startPipeline = useManualFetch<PipelineResponse>('', {})
+  const fetchStatus = useManualFetch<ThreadStatus>('', {})
+  const approveThread = useManualFetch<unknown>('', {})
+
+  const [threadsResponse, isLoadingThreads, , , refetchThreads] = useFetch<ThreadsResponse, null>(
+    'pipeline/threads',
+    { method: 'get' },
+    null
+  )
+
+  const threads = threadsResponse?.data?.threads ?? []
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
@@ -55,10 +118,65 @@ const AdminPipelinePage = () => {
       setError(err?.message || 'Failed to start pipeline')
     } else {
       setThreadId(data.data.threadId)
+      refetchThreads()
     }
 
     setIsSubmitting(false)
   }
+
+  const toggleExpand = useCallback(
+    async (tid: string) => {
+      setExpandedThreads((prev) => {
+        const next = new Set(prev)
+        if (next.has(tid)) {
+          next.delete(tid)
+        } else {
+          next.add(tid)
+        }
+        return next
+      })
+
+      if (!threadStates.has(tid)) {
+        const [data] = await fetchStatus({
+          url: `pipeline/status/${tid}`,
+          method: 'get',
+        })
+        if (data?.data) {
+          setThreadStates((prev) => new Map(prev).set(tid, data.data))
+        }
+      }
+    },
+    [threadStates, fetchStatus]
+  )
+
+  const handleApprove = useCallback(
+    async (tid: string) => {
+      const action = actions[tid]?.trim()
+      if (!action) return
+
+      setApprovingThreads((prev) => new Set(prev).add(tid))
+
+      await approveThread({
+        url: `pipeline/approve/${tid}`,
+        method: 'post',
+        data: { action },
+      })
+
+      setActions((prev) => ({ ...prev, [tid]: '' }))
+      setThreadStates((prev) => {
+        const next = new Map(prev)
+        next.delete(tid)
+        return next
+      })
+      setApprovingThreads((prev) => {
+        const next = new Set(prev)
+        next.delete(tid)
+        return next
+      })
+      refetchThreads()
+    },
+    [actions, approveThread, refetchThreads]
+  )
 
   return (
     <>
@@ -137,9 +255,6 @@ const AdminPipelinePage = () => {
               Pipeline started successfully
             </Text>
             <Text variant="body-sm">Thread ID: {threadId}</Text>
-            <Text variant="body-sm">
-              Use POST /api/pipeline/approve with this threadId to advance the pipeline.
-            </Text>
           </div>
         )}
 
@@ -148,6 +263,99 @@ const AdminPipelinePage = () => {
             <Text variant="body-md">{error}</Text>
           </div>
         )}
+
+        <div className={styles.threadList}>
+          <Text variant="headline-sm">Active Threads</Text>
+
+          {isLoadingThreads && <Text variant="body-sm">Loading threads...</Text>}
+
+          {!isLoadingThreads && threads.length === 0 && (
+            <Text variant="body-sm">No active threads</Text>
+          )}
+
+          {threads.map((thread) => {
+            const isExpanded = expandedThreads.has(thread.thread_id)
+            const state = threadStates.get(thread.thread_id)
+            const isApproving = approvingThreads.has(thread.thread_id)
+
+            return (
+              <Card key={thread.thread_id}>
+                <CardHeader>
+                  <CardTitle>
+                    <div className={styles.cardHeader}>
+                      <div className={styles.cardHeaderLeft}>
+                        <Text variant="body-md" emphasis>
+                          {thread.client_email || thread.thread_id}
+                        </Text>
+                        <Badge variant={statusBadgeVariant(thread.status)}>{thread.status}</Badge>
+                        <Text variant="body-sm" className={styles.cardMeta}>
+                          {new Date(thread.created_at).toLocaleDateString()}
+                        </Text>
+                      </div>
+                      <button
+                        className={styles.expandButton}
+                        onClick={() => toggleExpand(thread.thread_id)}
+                      >
+                        {isExpanded ? 'Collapse' : 'Expand'}
+                      </button>
+                    </div>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {isExpanded && state && (
+                    <div className={styles.expandedContent}>
+                      <dl className={styles.dataGrid}>
+                        {state.state.clientName != null && (
+                          <>
+                            <dt>Client Name</dt>
+                            <dd>{String(state.state.clientName)}</dd>
+                          </>
+                        )}
+                        {state.state.status != null && (
+                          <>
+                            <dt>Status</dt>
+                            <dd>{String(state.state.status)}</dd>
+                          </>
+                        )}
+                        {state.state.lastActivity != null && (
+                          <>
+                            <dt>Last Activity</dt>
+                            <dd>{String(state.state.lastActivity)}</dd>
+                          </>
+                        )}
+                        <dt>Next Nodes</dt>
+                        <dd>{state.next.length > 0 ? state.next.join(', ') : 'None'}</dd>
+                      </dl>
+                    </div>
+                  )}
+                  {isExpanded && !state && (
+                    <div className={styles.expandedContent}>
+                      <Text variant="body-sm">Loading state...</Text>
+                    </div>
+                  )}
+                  <div className={styles.approveForm}>
+                    <div className={styles.approveRow}>
+                      <InputField
+                        label="Action"
+                        value={actions[thread.thread_id] || ''}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          setActions((prev) => ({ ...prev, [thread.thread_id]: e.target.value }))
+                        }
+                        placeholder="e.g. approve, reject, skip"
+                      />
+                      <Button
+                        disabled={isApproving || !actions[thread.thread_id]?.trim()}
+                        onClick={() => handleApprove(thread.thread_id)}
+                      >
+                        {isApproving ? 'Approving...' : 'Approve'}
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            )
+          })}
+        </div>
       </div>
     </>
   )
