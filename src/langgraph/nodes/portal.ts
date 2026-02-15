@@ -2,7 +2,7 @@ import { interrupt } from '@langchain/langgraph'
 
 import { PipelineState } from '../state'
 import { updatePipelineStatus, updatePipelineFields } from '../integrations/notion-pipeline'
-import { sendClientSms, sendClientEmail, sendAdminSms } from '../integrations/pingram'
+import { sendClientSms, sendClientEmail, sendAdminSms } from '../integrations/notifications'
 import { logAuditEvent } from '../utils/audit'
 
 const PORTAL_BASE_URL = process.env.NEXTAUTH_URL ?? 'http://localhost:3000'

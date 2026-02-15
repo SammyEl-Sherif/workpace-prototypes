@@ -11,7 +11,7 @@ import {
   sendAdminEmail,
   sendClientSms,
   sendClientEmail,
-} from '../integrations/pingram'
+} from '../integrations/notifications'
 import { logAuditEvent } from '../utils/audit'
 import { updateThread } from '../utils/thread-lookup'
 

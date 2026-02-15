@@ -2,7 +2,7 @@ import { interrupt } from '@langchain/langgraph'
 
 import { PipelineState } from '../state'
 import { updatePipelineStatus } from '../integrations/notion-pipeline'
-import { sendClientSms, sendClientEmail, sendAdminSms } from '../integrations/pingram'
+import { sendClientSms, sendClientEmail, sendAdminSms } from '../integrations/notifications'
 import { logAuditEvent } from '../utils/audit'
 
 export async function meetingPrep(state: PipelineState): Promise<Partial<PipelineState>> {

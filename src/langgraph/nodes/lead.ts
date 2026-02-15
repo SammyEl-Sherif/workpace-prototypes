@@ -1,6 +1,6 @@
 import { PipelineState } from '../state'
 import { createPipelineRecord, updatePipelineStatus } from '../integrations/notion-pipeline'
-import { sendAdminSms } from '../integrations/pingram'
+import { sendAdminSms } from '../integrations/notifications'
 import { logAuditEvent } from '../utils/audit'
 import { createThread, updateThread } from '../utils/thread-lookup'
 

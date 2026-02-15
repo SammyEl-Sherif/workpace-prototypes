@@ -1,5 +1,5 @@
 import { PipelineState } from '../state'
-import { sendClientSms, sendClientEmail, sendAdminSms } from '../integrations/pingram'
+import { sendClientSms, sendClientEmail, sendAdminSms } from '../integrations/notifications'
 import { logAuditEvent } from '../utils/audit'
 import { TIMEOUT_CONFIG } from '../utils/reminders'
 

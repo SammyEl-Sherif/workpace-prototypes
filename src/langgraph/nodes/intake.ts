@@ -2,7 +2,7 @@ import { interrupt } from '@langchain/langgraph'
 
 import { PipelineState } from '../state'
 import { updatePipelineStatus } from '../integrations/notion-pipeline'
-import { sendClientSms, sendClientEmail, sendAdminSms } from '../integrations/pingram'
+import { sendClientSms, sendClientEmail, sendAdminSms } from '../integrations/notifications'
 import { logAuditEvent } from '../utils/audit'
 import { IntakeService } from '@/apis/controllers/portal/intake.service'
 import { draftScopeOfWork } from '../integrations/openai'
