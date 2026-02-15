@@ -76,6 +76,10 @@ export interface IntakeSubmission {
   updated_at: string
 }
 
+export interface IntakeSubmissionWithOrg extends IntakeSubmission {
+  org_name: string
+}
+
 export interface SaveIntakeInput {
   company_info?: CompanyInfoData
   tools_tech?: ToolsTechData
@@ -120,4 +124,39 @@ export interface CreateChangeRequestInput {
   description: string
   category: ChangeRequestCategory
   priority: ChangeRequestPriority
+}
+
+// Contracts
+
+export type ContractStatus = 'draft' | 'sent' | 'signed'
+
+export type ContractSigningMethod = 'redirect' | 'email'
+
+export interface Contract {
+  id: string
+  org_id: string
+  title: string
+  version: number
+  status: ContractStatus
+  signing_method: ContractSigningMethod
+  envelope_id: string | null
+  template_id: string | null
+  document_url: string | null
+  signer_email: string
+  signer_name: string
+  sent_at: string | null
+  signed_at: string | null
+  voided_at: string | null
+  created_by: string
+  created_at: string
+  updated_at: string
+}
+
+export interface CreateContractInput {
+  title: string
+  signing_method: ContractSigningMethod
+  template_id?: string
+  document_url?: string
+  signer_email: string
+  signer_name: string
 }

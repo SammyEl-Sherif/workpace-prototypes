@@ -19,6 +19,7 @@ export enum Routes {
   PORTAL_SETTINGS = '/portal/settings',
   PORTAL_SIGNUP = '/portal/signup',
   ADMIN_PORTAL = '/admin/portal',
+  ADMIN_INTAKES = '/admin/intakes',
   PRIVACY = '/privacy',
   TERMS = '/terms',
 }

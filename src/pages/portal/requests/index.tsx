@@ -77,8 +77,12 @@ const PortalRequestsPage = () => {
           <Card>
             <CardContent>
               <div className={styles.emptyState}>
-                <Text variant="headline-sm">No requests yet</Text>
-                <Text variant="body-md">Submit your first change request to get started.</Text>
+                <Text as="p" variant="headline-sm">
+                  No requests yet
+                </Text>
+                <Text as="p" variant="body-md">
+                  Submit your first change request to get started.
+                </Text>
               </div>
             </CardContent>
           </Card>

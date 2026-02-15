@@ -65,5 +65,7 @@ schema_paths = [
   "./schemas/portal_users.sql",
   "./schemas/intake_submissions.sql",
   "./schemas/change_requests.sql",
+  "./schemas/docusign_connections.sql",
+  "./schemas/contracts.sql",
 ]
 

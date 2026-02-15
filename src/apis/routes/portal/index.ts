@@ -10,4 +10,12 @@ export {
   getChangeRequestsRoute,
   getChangeRequestRoute,
   createChangeRequestRoute,
+  getContractsRoute,
+  getContractRoute,
+  createContractRoute,
+  sendContractRoute,
+  getSigningUrlRoute,
+  getAllIntakesRoute,
+  reviewIntakeRoute,
+  sendContractForIntakeRoute,
 } from './portal'

@@ -196,8 +196,10 @@ const PortalIntakePage = () => {
             <CardContent>
               <div className={styles.successCard}>
                 <div className={styles.successIcon}>&#10003;</div>
-                <Text variant="headline-sm">Intake Submitted</Text>
-                <Text variant="body-md">
+                <Text as="p" variant="headline-sm">
+                  Intake Submitted
+                </Text>
+                <Text as="p" variant="body-md">
                   Your intake form has been submitted successfully. Our team will review it and
                   follow up with you shortly.
                 </Text>

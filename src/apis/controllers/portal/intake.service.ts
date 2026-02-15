@@ -1,7 +1,18 @@
 import { querySupabase } from '@/db'
-import { IntakeSubmission, SaveIntakeInput } from '@/interfaces/portal'
+import { IntakeSubmission, IntakeSubmissionWithOrg, SaveIntakeInput } from '@/interfaces/portal'
 
 export const IntakeService = {
+  async getAllWithOrg(): Promise<IntakeSubmissionWithOrg[]> {
+    return querySupabase<IntakeSubmissionWithOrg>('intake_submissions/get_all_with_org.sql', [])
+  },
+
+  async markReviewed(id: string): Promise<IntakeSubmission | null> {
+    const results = await querySupabase<IntakeSubmission>('intake_submissions/mark_reviewed.sql', [
+      id,
+    ])
+    return results.length > 0 ? results[0] : null
+  },
+
   async getByOrgId(orgId: string): Promise<IntakeSubmission | null> {
     const results = await querySupabase<IntakeSubmission>('intake_submissions/get_by_org_id.sql', [
       orgId,

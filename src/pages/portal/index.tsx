@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle, Text } from '@workpace/design
 
 import { usePortalContext } from '@/contexts/PortalContextProvider'
 import { useFetch } from '@/hooks'
-import { ChangeRequest, IntakeSubmission } from '@/interfaces/portal'
+import { ChangeRequest, Contract, IntakeSubmission } from '@/interfaces/portal'
 import { Routes } from '@/interfaces/routes'
 import { DocumentTitle } from '@/layout/DocumentTitle'
 import { PortalPageLayout } from '@/layout/PortalPageLayout'
@@ -57,16 +57,22 @@ const PortalHomePage = () => {
     null
   )
 
+  const [contractsResponse] = useFetch<{ data: { contracts: Contract[] } }, null>(
+    'portal/contracts',
+    { method: 'get' },
+    null
+  )
+
   const intake = intakeResponse?.data?.submission ?? null
   const requests = requestsResponse?.data?.requests ?? []
+  const contracts = contractsResponse?.data?.contracts ?? []
   const recentRequests = requests.slice(0, 3)
 
   // Onboarding checklist state
   const accountCreated = !!portalUser
   const accountApproved = isApproved
   const intakeSubmitted = intake?.status === 'submitted' || intake?.status === 'reviewed'
-  // Contract signed is a placeholder for future implementation
-  const contractSigned = false
+  const contractSigned = contracts.some((c) => c.status === 'signed')
 
   const checklistItems = [
     { label: 'Account created', done: accountCreated },
