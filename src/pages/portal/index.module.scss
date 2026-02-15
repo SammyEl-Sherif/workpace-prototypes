@@ -1,0 +1,197 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $size-200;
+}
+
+@media #{$mq-sm-only} {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.nextStepsCard {
+  padding: $size-200;
+  background: $color-primary-50;
+  border: 1px solid $color-primary-200;
+  border-radius: 8px;
+  margin-bottom: $size-300;
+}
+
+.nextStepsTitle {
+  font-size: $font-body-md-font-size;
+  font-weight: $font-weight-bold;
+  color: $color-primary-800;
+  margin: 0 0 $size-50 0;
+}
+
+.nextStepsText {
+  font-size: $font-body-md-font-size;
+  color: $color-primary-700;
+  margin: 0;
+}
+
+.progressSection {
+  margin-bottom: $size-200;
+}
+
+.progressBarContainer {
+  width: 100%;
+  height: 8px;
+  background: $color-neutral-200;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: $size-200;
+}
+
+.progressBarFill {
+  height: 100%;
+  background: $color-primary-500;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.progressLabel {
+  font-size: $font-body-sm-font-size;
+  color: $color-neutral-500;
+  margin-bottom: $size-75;
+}
+
+.checklist {
+  display: flex;
+  flex-direction: column;
+  gap: $size-100;
+}
+
+.checklistItem {
+  display: flex;
+  align-items: center;
+  gap: $size-100;
+  padding: $size-100 $size-125;
+  border-radius: 6px;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background: $color-neutral-50;
+  }
+}
+
+.checkIcon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 0.75rem;
+}
+
+.checkIconDone {
+  background: $color-success-500;
+  color: white;
+}
+
+.checkIconPending {
+  border: 2px solid $color-neutral-300;
+  background: white;
+}
+
+.checklistLabel {
+  font-size: $font-body-md-font-size;
+  color: $color-neutral-800;
+}
+
+.checklistLabelDone {
+  color: $color-neutral-500;
+  text-decoration: line-through;
+}
+
+.activityList {
+  display: flex;
+  flex-direction: column;
+  gap: $size-75;
+}
+
+.activityItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $size-100 $size-125;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background: $color-neutral-50;
+  }
+}
+
+.activityTitle {
+  font-size: $font-body-md-font-size;
+  color: $color-neutral-800;
+  font-weight: $font-weight-medium;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+}
+
+.activityDate {
+  font-size: $font-body-sm-font-size;
+  color: $color-neutral-500;
+  flex-shrink: 0;
+  margin-left: $size-100;
+}
+
+.badge {
+  display: inline-flex;
+  padding: $size-25 $size-75;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: $font-weight-medium;
+  text-transform: capitalize;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-left: $size-75;
+}
+
+.badgeSubmitted {
+  background: $color-info-100;
+  color: $color-info-700;
+}
+
+.badgeUnderReview {
+  background: $color-warning-100;
+  color: $color-warning-700;
+}
+
+.badgeApproved {
+  background: $color-success-100;
+  color: $color-success-700;
+}
+
+.badgeInProgress {
+  background: $color-primary-100;
+  color: $color-primary-700;
+}
+
+.badgeCompleted {
+  background: $color-success-100;
+  color: $color-success-700;
+}
+
+.badgeRejected {
+  background: $color-error-100;
+  color: $color-error-700;
+}
+
+.emptyActivity {
+  text-align: center;
+  padding: $size-200;
+  color: $color-neutral-500;
+  font-size: $font-body-md-font-size;
+}

@@ -38,7 +38,15 @@ export const PortalLayout = ({ children }: PortalLayoutProps) => {
             <Link
               key={item.href}
               href={item.href}
-              className={`${styles.navItem} ${router.pathname === item.href ? styles.active : ''}`}
+              className={`${styles.navItem} ${
+                item.href === Routes.PORTAL
+                  ? router.pathname === item.href
+                    ? styles.active
+                    : ''
+                  : router.pathname.startsWith(item.href)
+                  ? styles.active
+                  : ''
+              }`}
             >
               {item.label}
             </Link>

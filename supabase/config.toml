@@ -63,5 +63,7 @@ schema_paths = [
   "./schemas/feature_flags.sql",
   "./schemas/organizations.sql",
   "./schemas/portal_users.sql",
+  "./schemas/intake_submissions.sql",
+  "./schemas/change_requests.sql",
 ]
 
