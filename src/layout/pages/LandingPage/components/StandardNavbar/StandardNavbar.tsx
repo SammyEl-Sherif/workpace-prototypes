@@ -18,7 +18,11 @@ import styles from './StandardNavbar.module.scss'
 // Type assertion workaround for Button component type issue
 const ButtonComponent = Button as any
 
-const StandardNavbar = () => {
+interface StandardNavbarProps {
+  transparent?: boolean
+}
+
+const StandardNavbar = ({ transparent = false }: StandardNavbarProps) => {
   const { data, status } = useSession()
   const { user: supabaseUser, isAuthenticated: isSupabaseAuthenticated } = useSupabaseSession()
   const { user, signOut } = useUser()
@@ -75,7 +79,12 @@ const StandardNavbar = () => {
 
   return (
     <>
-      <nav className={cn(styles.navbar, { [styles.scrolled]: isScrolled })}>
+      <nav
+        className={cn(styles.navbar, {
+          [styles.scrolled]: isScrolled,
+          [styles.transparent]: transparent && !isScrolled,
+        })}
+      >
         <div className={styles.container}>
           <div className={styles.brand}>
             <Link href="/" className={styles.brandLink}>

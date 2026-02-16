@@ -18,7 +18,7 @@ const LandingPage = () => {
 
   return (
     <div>
-      <StandardNavbar />
+      <StandardNavbar transparent />
       <main>
         <HeroSection onBookConsultation={openConsultation} />
         <ServicesSection onBookConsultation={openConsultation} />

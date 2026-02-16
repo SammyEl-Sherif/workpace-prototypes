@@ -19,6 +19,32 @@
   backdrop-filter: blur(12px);
 }
 
+.transparent {
+  background: transparent;
+  border-bottom: none;
+  box-shadow: none;
+
+  .brand .brandLink {
+    color: $color-neutral-white;
+  }
+
+  :global(img).logo {
+    filter: brightness(0) invert(1);
+  }
+
+  .navLink {
+    color: rgba($color-neutral-white, 0.85);
+
+    &:hover {
+      color: $color-neutral-white;
+    }
+  }
+
+  .hamburgerButton {
+    color: $color-neutral-white;
+  }
+}
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
