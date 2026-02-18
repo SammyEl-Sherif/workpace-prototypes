@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next'
 
+import { AppPageLayout } from '@/layout'
 import { DocumentTitle } from '@/layout/DocumentTitle'
-import { PageHeader } from '@/layout/PageHeader'
 import { FeatureFlags } from '@/modules/FeatureFlags'
 import { withPageRequestWrapper } from '@/server/utils/withPageRequestWrapper'
 
@@ -13,11 +13,13 @@ const FeatureFlagsPage = () => {
   return (
     <>
       <DocumentTitle title="Feature Flags" />
-      <PageHeader
+      <AppPageLayout
+        breadcrumbs={[{ label: 'Admin', href: '/admin' }, { label: 'Feature Flags' }]}
         title="Feature Flags"
         subtitle="Manage boolean feature flags to control feature visibility across the application. Toggle flags on and off without deploying."
-      />
-      <FeatureFlags />
+      >
+        <FeatureFlags />
+      </AppPageLayout>
     </>
   )
 }

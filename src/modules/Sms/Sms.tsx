@@ -12,7 +12,7 @@ export const Sms = () => {
 
   return (
     <AppPageLayout
-      breadcrumbs={[{ label: 'Apps', href: '/apps' }, { label: 'Chief of Staff' }]}
+      breadcrumbs={[{ label: 'Integrations', href: '/integrations' }, { label: 'Chief of Staff' }]}
       title="Chief of Staff"
       titleContent={
         <div className={styles.titleSection}>

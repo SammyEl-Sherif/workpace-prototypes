@@ -1,0 +1,93 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Integrations Page — Banner (matches Templates page banner)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.banner {
+  margin-bottom: $size-400;
+  padding: $size-250 $size-300;
+  border-radius: $size-150;
+  background: linear-gradient(135deg, #0052cc 0%, #0a2e6e 55%, #0a0a0a 100%);
+  color: $color-neutral-white;
+}
+
+.bannerContent {
+  display: flex;
+  align-items: center;
+  gap: $size-300;
+}
+
+.bannerLogos {
+  display: flex;
+  align-items: center;
+  gap: $size-100;
+  flex-shrink: 0;
+}
+
+.bannerLogo {
+  width: 36px;
+  height: 36px;
+  border-radius: $size-75;
+  background: rgba(255, 255, 255, 20%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: $font-weight-bold;
+  font-size: $font-body-md-font-size;
+}
+
+.bannerConnector {
+  font-size: $font-body-lg-font-size;
+  opacity: 0.6;
+}
+
+.bannerText {
+  display: flex;
+  flex-direction: column;
+  gap: $size-25;
+}
+
+.bannerTitle {
+  color: $color-neutral-white;
+  font-weight: $font-weight-medium;
+  margin: 0;
+}
+
+.bannerSubtitle {
+  color: rgba(255, 255, 255, 75%);
+  margin: 0;
+}
+
+.bannerLink {
+  margin-left: auto;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.bannerButton {
+  white-space: nowrap;
+  border-color: rgba(80, 160, 255, 40%) !important;
+  color: $color-neutral-white !important;
+  background: rgba(0, 82, 204, 35%) !important;
+
+  &:hover {
+    background: rgba(0, 82, 204, 55%) !important;
+    border-color: rgba(80, 160, 255, 60%) !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Responsive
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@media #{$mq-sm-only} {
+  .bannerContent {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .bannerButton {
+    margin-left: 0;
+  }
+}

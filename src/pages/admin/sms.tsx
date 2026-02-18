@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next'
 
+import { AppPageLayout } from '@/layout'
 import { DocumentTitle } from '@/layout/DocumentTitle'
-import { PageHeader } from '@/layout/PageHeader'
 import { AdminSms } from '@/modules/AdminSms'
 import { withPageRequestWrapper } from '@/server/utils'
 
@@ -13,11 +13,13 @@ const AdminSmsPage = () => {
   return (
     <>
       <DocumentTitle title="Admin SMS" />
-      <PageHeader
+      <AppPageLayout
+        breadcrumbs={[{ label: 'Admin', href: '/admin' }, { label: 'SMS' }]}
         title="SMS Management"
         subtitle="View inbound messages and send SMS notifications"
-      />
-      <AdminSms />
+      >
+        <AdminSms />
+      </AppPageLayout>
     </>
   )
 }

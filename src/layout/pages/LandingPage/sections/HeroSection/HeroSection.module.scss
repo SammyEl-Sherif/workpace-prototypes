@@ -34,8 +34,9 @@
 .rotatingWrapper {
   display: block;
   overflow: hidden;
-  height: 2.4em;
+  height: 1.2em;
   position: relative;
+  white-space: nowrap;
 }
 
 .rotatingText {
@@ -70,11 +71,59 @@
   }
 }
 
-.cta {
+.cards {
   display: flex;
   gap: 1rem;
-  flex-wrap: wrap;
   justify-content: center;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $size-200;
+  padding: $size-150 $size-300;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: $size-100;
+  background: rgba(255, 255, 255, 0.05);
+  color: $color-neutral-white;
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease;
+  min-width: 240px;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+}
+
+.cardText {
+  display: flex;
+  flex-direction: column;
+  gap: $size-100;
+  text-align: left;
+}
+
+.cardTitle {
+  font-size: $font-body-md-font-size;
+  font-weight: $font-weight-medium;
+}
+
+.cardDesc {
+  font-size: $font-body-sm-font-size;
+  opacity: 0.55;
+  font-weight: $font-weight-regular;
+}
+
+.cardArrow {
+  font-size: $font-body-md-font-size;
+  opacity: 0.6;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+
+  .card:hover & {
+    opacity: 1;
+    transform: translateX(2px);
+  }
 }
 
 @media (max-width: 639px) {
@@ -82,7 +131,7 @@
     padding: 0 1.25rem;
   }
 
-  .cta {
+  .cards {
     flex-direction: column;
     width: 100%;
   }

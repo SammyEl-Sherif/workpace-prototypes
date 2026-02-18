@@ -1,30 +1,22 @@
 import { useEffect, useState } from 'react'
 
-import { Button } from '@workpace/design-system'
 import Link from 'next/link'
 
 import { Routes } from '@/interfaces/routes'
 
 import styles from './HeroSection.module.scss'
 
-const ButtonComponent = Button as any
-
 const rotatingPhrases = [
   'automate your reports',
   'streamline onboarding',
-  'schedule without the back-and-forth',
-  "organize your team's knowledge",
-  'turn emails into action items',
-  'sync data across your tools',
-  'eliminate repetitive data entry',
+  'organize your knowledge',
+  'turn emails into actions',
+  'sync data across tools',
+  'eliminate repetitive work',
   'generate invoices instantly',
 ]
 
-interface HeroSectionProps {
-  onBookConsultation: () => void
-}
-
-const HeroSection = ({ onBookConsultation }: HeroSectionProps) => {
+const HeroSection = () => {
   const [phraseIndex, setPhraseIndex] = useState(0)
   const [isAnimating, setIsAnimating] = useState(false)
 
@@ -54,15 +46,28 @@ const HeroSection = ({ onBookConsultation }: HeroSectionProps) => {
           </span>
         </h1>
 
-        <div className={styles.cta}>
-          <Link href={Routes.TEMPLATES} style={{ textDecoration: 'none' }}>
-            <ButtonComponent as="span" variant="brand-secondary">
-              Explore Templates →
-            </ButtonComponent>
+        <div className={styles.cards}>
+          <Link href={Routes.WORKSPACES} className={styles.card}>
+            <div className={styles.cardText}>
+              <span className={styles.cardTitle}>Workspaces</span>
+              <span className={styles.cardDesc}>Tailored spaces for your team</span>
+            </div>
+            <span className={styles.cardArrow}>→</span>
           </Link>
-          <ButtonComponent variant="default-secondary" onClick={onBookConsultation}>
-            Book a Consultation
-          </ButtonComponent>
+          <Link href={Routes.APPS} className={styles.card}>
+            <div className={styles.cardText}>
+              <span className={styles.cardTitle}>Integrations</span>
+              <span className={styles.cardDesc}>Connect your favorite tools</span>
+            </div>
+            <span className={styles.cardArrow}>→</span>
+          </Link>
+          <Link href={Routes.TEMPLATES} className={styles.card}>
+            <div className={styles.cardText}>
+              <span className={styles.cardTitle}>Templates</span>
+              <span className={styles.cardDesc}>Pre-built workflows ready to use</span>
+            </div>
+            <span className={styles.cardArrow}>→</span>
+          </Link>
         </div>
       </div>
     </section>

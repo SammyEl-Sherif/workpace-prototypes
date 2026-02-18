@@ -4,38 +4,6 @@
    Templates Page — Easlo-inspired layout
    ═══════════════════════════════════════════════════════════════════════════ */
 
-.page {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: $size-600 2rem $size-900;
-}
-
-/* ── Hero Section ── */
-
-.hero {
-  text-align: left;
-  margin-bottom: $size-400;
-}
-
-.title {
-  font-size: clamp(2.25rem, 5vw, 3rem);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-  color: $color-neutral-900;
-  margin: 0 0 $size-150 0;
-}
-
-.subtitle {
-  color: $color-neutral-500;
-  font-size: $font-body-lg-font-size;
-  line-height: $font-body-lg-paragraph-line-height;
-  font-weight: $font-weight-regular;
-  margin: 0;
-  max-width: 540px;
-}
-
 /* ── Search Bar ── */
 
 .searchWrapper {
@@ -45,6 +13,81 @@
 
 .searchInput {
   width: 100%;
+}
+
+/* ── Integration Banner ── */
+
+.integrationBanner {
+  margin-bottom: $size-400;
+  padding: $size-250 $size-300;
+  border-radius: $size-150;
+  background: linear-gradient(135deg, #0052cc 0%, #0a2e6e 55%, #0a0a0a 100%);
+  color: $color-neutral-white;
+}
+
+.bannerContent {
+  display: flex;
+  align-items: center;
+  gap: $size-300;
+}
+
+.bannerLogos {
+  display: flex;
+  align-items: center;
+  gap: $size-100;
+  flex-shrink: 0;
+}
+
+.bannerLogo {
+  width: 36px;
+  height: 36px;
+  border-radius: $size-75;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: $font-weight-bold;
+  font-size: $font-body-md-font-size;
+}
+
+.bannerConnector {
+  font-size: $font-body-lg-font-size;
+  opacity: 0.6;
+}
+
+.bannerText {
+  display: flex;
+  flex-direction: column;
+  gap: $size-25;
+}
+
+.bannerTitle {
+  color: $color-neutral-white;
+  font-weight: $font-weight-medium;
+  margin: 0;
+}
+
+.bannerSubtitle {
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0;
+}
+
+.bannerCta {
+  margin-left: auto;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.bannerButton {
+  white-space: nowrap;
+  border-color: rgba(80, 160, 255, 0.4) !important;
+  color: $color-neutral-white !important;
+  background: rgba(0, 82, 204, 0.35) !important;
+
+  &:hover {
+    background: rgba(0, 82, 204, 0.55) !important;
+    border-color: rgba(80, 160, 255, 0.6) !important;
+  }
 }
 
 /* ── Category Filters ── */
@@ -223,10 +266,6 @@ button.filterInactive {
    ═══════════════════════════════════════════════════════════════════════════ */
 
 @media #{$mq-sm-only} {
-  .page {
-    padding: $size-400 1rem $size-600;
-  }
-
   .grid {
     grid-template-columns: 1fr;
     gap: $size-300;
@@ -234,6 +273,15 @@ button.filterInactive {
 
   .filters {
     gap: $size-75;
+  }
+
+  .bannerContent {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .bannerCta {
+    margin-left: 0;
   }
 }
 

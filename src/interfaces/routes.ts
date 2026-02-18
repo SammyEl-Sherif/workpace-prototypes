@@ -1,6 +1,6 @@
 export enum Routes {
   HOME = '/',
-  APPS = '/apps',
+  APPS = '/integrations',
   GOOD_STUFF_LIST = 'apps/good-stuff-list',
   SMS = 'apps/sms',
   SIGNIN = '/signin',
@@ -8,6 +8,7 @@ export enum Routes {
   PROFILE = '/profile',
   FRIENDS = '/friends',
   TEMPLATES = '/templates',
+  WORKSPACES = '/workspaces',
   ADMIN = '/admin',
   ADMIN_FEATURES = '/admin/features',
   ADMIN_SMS = '/admin/sms',

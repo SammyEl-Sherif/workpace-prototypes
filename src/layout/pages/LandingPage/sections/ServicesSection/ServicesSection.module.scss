@@ -1,167 +1,175 @@
 @use '@workpace/design-system/dist/design-tokens' as *;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   Services Section — 4 service cards (polished UX)
+   Services Section — Full-height 3-column layout
    ═══════════════════════════════════════════════════════════════════════════ */
 
 .section {
-  padding: 6rem 0;
-  background: $color-neutral-50;
-}
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 2rem;
-}
-
-.header {
-  text-align: center;
-  max-width: 700px;
-  margin: 0 auto 3.5rem;
-}
-
-.title {
-  color: $color-neutral-900;
-  margin: 0 0 $size-200;
-}
-
-.subtitle {
-  color: $color-neutral-600;
-  margin: 0;
+  min-height: calc(100vh - 72px);
+  display: flex;
+  position: relative;
+  background: #000000;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: $size-300;
+  grid-template-columns: repeat(3, 1fr);
+  width: 100%;
+  min-height: calc(100vh - 72px);
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Column dividers ── */
+
+.divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  z-index: 2;
+  pointer-events: none;
+
+  &:first-of-type {
+    left: calc(100% / 3);
+  }
+
+  &:last-of-type {
+    left: calc(200% / 3);
+  }
 }
 
 /* ── Card Styles ── */
 
 .card {
-  background: $color-neutral-white;
-  border: 1px solid $color-neutral-200;
-  border-radius: $size-200;
-  padding: $size-300;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  transition: box-shadow 0.35s ease, transform 0.35s ease, border-color 0.35s ease;
   position: relative;
-  overflow: hidden;
-
-  &.clickable {
-    cursor: pointer;
-    user-select: none;
-
-    > * {
-      pointer-events: none;
-    }
-  }
-
-  /* subtle top accent line */
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: $color-primary-500;
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.35s ease;
-  }
-
-  &:hover {
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
-    transform: translateY(-6px);
-    border-color: $color-primary-200;
-
-    &::before {
-      transform: scaleX(1);
-    }
-  }
-}
-
-.cardHeader {
   display: flex;
   flex-direction: column;
-  gap: $size-150;
-  padding: 0;
+  justify-content: center;
+  align-items: center;
+  padding: $size-500 $size-400;
+  cursor: pointer;
+  user-select: none;
+  background: transparent;
+  overflow: hidden;
+  transition: box-shadow 0.7s ease-in-out;
+
+  /* Default B&W glow on all cards (inset only) */
+  box-shadow:
+    inset 0 0 120px 40px rgba(255, 255, 255, 0.06),
+    inset 0 0 60px 20px rgba(255, 255, 255, 0.045),
+    inset 0 0 200px 60px rgba(255, 255, 255, 0.025);
+
+  /* Blue glow on hover (inset only, stronger) */
+  &:hover {
+    box-shadow:
+      inset 0 0 120px 40px rgba(59, 130, 246, 0.3),
+      inset 0 0 60px 20px rgba(59, 130, 246, 0.22),
+      inset 0 0 200px 60px rgba(59, 130, 246, 0.12);
+  }
+
+  > * {
+    position: relative;
+    z-index: 1;
+    pointer-events: none;
+  }
 }
 
-.iconWrapper {
-  width: $size-600;
-  height: $size-600;
-  border-radius: $size-150;
-  background: $color-primary-50;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: $size-50;
-  transition: background 0.3s ease;
+/* ── Background Video ── */
+
+.cardVideo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.2;
+  z-index: 0;
+  pointer-events: none;
+  transition: opacity 0.7s ease;
 
   .card:hover & {
-    background: $color-primary-100;
+    opacity: 0.35;
   }
 }
 
-.icon {
-  font-size: 1.5rem;
-  line-height: 1;
+/* ── Number ── */
+
+.number {
+  position: absolute;
+  top: $size-400;
+  left: $size-400;
+  font-size: 1.25rem;
+  font-weight: $font-weight-bold;
+  color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 0.05em;
+  font-variant-numeric: tabular-nums;
+  z-index: 1;
+  transition: color 0.45s ease;
+
+  .card:hover & {
+    color: $color-primary-400;
+  }
+}
+
+/* ── Card Content ── */
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: $size-250;
+  max-width: 360px;
 }
 
 .cardTitle {
-  color: $color-neutral-900;
+  color: $color-neutral-white;
   font-weight: $font-weight-bold;
-  font-size: $font-headline-sm-font-size;
+  font-size: clamp(2rem, 3vw, 2.75rem);
   margin: 0;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
 }
 
 .cardDescription {
-  color: $color-neutral-600;
+  color: rgba(255, 255, 255, 0.6);
   margin: 0;
-  line-height: $font-body-sm-paragraph-line-height;
-}
-
-/* ── Divider between header and features ── */
-
-.cardDivider {
-  margin: $size-200 0;
-  border: none;
-  border-top: 1px solid $color-neutral-100;
+  font-size: clamp(1rem, 1.25vw, 1.25rem);
+  line-height: 1.6;
 }
 
 /* ── Feature List ── */
 
-.cardContent {
-  padding: 0;
-  flex: 1;
-}
-
 .featureList {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: $size-100 0 0;
   display: flex;
   flex-direction: column;
-  gap: $size-100;
+  gap: $size-150;
 }
 
 .featureItem {
   display: flex;
   align-items: center;
-  gap: $size-100;
+  gap: $size-125;
+  font-size: clamp(0.9rem, 1.1vw, 1.1rem);
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .featureDot {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
-  background: $color-primary-500;
+  background: rgba(255, 255, 255, 0.25);
   flex-shrink: 0;
+  transition: background 0.5s ease;
+
+  .card:hover & {
+    background: $color-primary-400;
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -171,7 +179,10 @@
 .reveal {
   opacity: 0;
   transform: translateY(30px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  transition:
+    opacity 0.6s ease-out,
+    transform 0.6s ease-out,
+    outline-color 0.45s ease;
 
   &.visible {
     opacity: 1;
@@ -185,30 +196,40 @@
 
 @media (max-width: 1023px) {
   .grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: $size-200;
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .card {
+    min-height: 50vh;
+  }
+
+  .divider {
+    top: auto;
+    bottom: auto;
+    left: 0 !important;
+    right: 0;
+    width: auto;
+    height: 1px;
+
+    &:first-of-type {
+      top: calc(100% / 3);
+    }
+
+    &:last-of-type {
+      top: calc(200% / 3);
+    }
   }
 }
 
 @media (max-width: 639px) {
-  .section {
-    padding: 4rem 0;
-  }
-
-  .container {
-    padding: 0 1.25rem;
-  }
-
-  .grid {
-    grid-template-columns: 1fr;
-    gap: $size-200;
-  }
-
-  .header {
-    margin-bottom: 2.5rem;
-  }
-
   .card {
-    padding: $size-250;
+    padding: $size-400 $size-250;
+    min-height: 60vh;
+  }
+
+  .number {
+    top: $size-250;
+    left: $size-250;
   }
 }

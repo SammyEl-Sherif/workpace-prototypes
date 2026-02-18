@@ -13,8 +13,8 @@ import {
   Text,
 } from '@workpace/design-system'
 
+import { AppPageLayout } from '@/layout'
 import { DocumentTitle } from '@/layout/DocumentTitle'
-import { PageHeader } from '@/layout/PageHeader'
 import { useFetch, useManualFetch } from '@/hooks'
 import { withPageRequestWrapper } from '@/server/utils'
 
@@ -181,182 +181,188 @@ const AdminPipelinePage = () => {
   return (
     <>
       <DocumentTitle title="Admin Pipeline" />
-      <PageHeader
+      <AppPageLayout
+        breadcrumbs={[{ label: 'Admin', href: '/admin' }, { label: 'Pipeline' }]}
         title="Pipeline Testing"
         subtitle="Trigger the LangGraph client pipeline manually"
-      />
-      <div className={styles.container}>
-        <Card>
-          <CardContent>
-            <form className={styles.form} onSubmit={handleSubmit}>
-              <InputField
-                label="Client Name"
-                value={clientName}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setClientName(e.target.value)}
-                required
-              />
-              <div className={styles.formRow}>
+      >
+        <div className={styles.container}>
+          <Card>
+            <CardContent>
+              <form className={styles.form} onSubmit={handleSubmit}>
                 <InputField
-                  label="Client Email"
-                  type="email"
-                  value={clientEmail}
+                  label="Client Name"
+                  value={clientName}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setClientEmail(e.target.value)
+                    setClientName(e.target.value)
                   }
                   required
                 />
-                <InputField
-                  label="Client Phone"
-                  type="tel"
-                  value={clientPhone}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setClientPhone(e.target.value)
-                  }
-                  required
-                />
-              </div>
-              <div className={styles.formRow}>
-                <Select
-                  label="Source"
-                  value={source}
-                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSource(e.target.value)}
-                  placeholder="Select a source"
-                >
-                  <option value="Manual">Manual</option>
-                  <option value="Referral">Referral</option>
-                  <option value="Website">Website</option>
-                  <option value="Notion Calendar">Notion Calendar</option>
-                </Select>
-                <InputField
-                  label="Meeting Date/Time"
-                  type="datetime-local"
-                  value={meetingDatetime}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setMeetingDatetime(e.target.value)
-                  }
-                />
-              </div>
-              <div className={styles.meetingLink}>
-                <Text variant="body-sm" emphasis>
-                  Meeting Link
-                </Text>
-                <Text variant="body-sm">{MEETING_LINK}</Text>
-              </div>
-              <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? 'Starting Pipeline...' : 'Start Pipeline'}
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
+                <div className={styles.formRow}>
+                  <InputField
+                    label="Client Email"
+                    type="email"
+                    value={clientEmail}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      setClientEmail(e.target.value)
+                    }
+                    required
+                  />
+                  <InputField
+                    label="Client Phone"
+                    type="tel"
+                    value={clientPhone}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      setClientPhone(e.target.value)
+                    }
+                    required
+                  />
+                </div>
+                <div className={styles.formRow}>
+                  <Select
+                    label="Source"
+                    value={source}
+                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                      setSource(e.target.value)
+                    }
+                    placeholder="Select a source"
+                  >
+                    <option value="Manual">Manual</option>
+                    <option value="Referral">Referral</option>
+                    <option value="Website">Website</option>
+                    <option value="Notion Calendar">Notion Calendar</option>
+                  </Select>
+                  <InputField
+                    label="Meeting Date/Time"
+                    type="datetime-local"
+                    value={meetingDatetime}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      setMeetingDatetime(e.target.value)
+                    }
+                  />
+                </div>
+                <div className={styles.meetingLink}>
+                  <Text variant="body-sm" emphasis>
+                    Meeting Link
+                  </Text>
+                  <Text variant="body-sm">{MEETING_LINK}</Text>
+                </div>
+                <Button type="submit" disabled={isSubmitting}>
+                  {isSubmitting ? 'Starting Pipeline...' : 'Start Pipeline'}
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
 
-        {threadId && (
-          <div className={styles.result}>
-            <Text variant="body-md" emphasis>
-              Pipeline started successfully
-            </Text>
-            <Text variant="body-sm">Thread ID: {threadId}</Text>
-          </div>
-        )}
-
-        {error && (
-          <div className={styles.error}>
-            <Text variant="body-md">{error}</Text>
-          </div>
-        )}
-
-        <div className={styles.threadList}>
-          <Text variant="headline-sm">Active Threads</Text>
-
-          {isLoadingThreads && <Text variant="body-sm">Loading threads...</Text>}
-
-          {!isLoadingThreads && threads.length === 0 && (
-            <Text variant="body-sm">No active threads</Text>
+          {threadId && (
+            <div className={styles.result}>
+              <Text variant="body-md" emphasis>
+                Pipeline started successfully
+              </Text>
+              <Text variant="body-sm">Thread ID: {threadId}</Text>
+            </div>
           )}
 
-          {threads.map((thread) => {
-            const isExpanded = expandedThreads.has(thread.thread_id)
-            const state = threadStates.get(thread.thread_id)
-            const isApproving = approvingThreads.has(thread.thread_id)
+          {error && (
+            <div className={styles.error}>
+              <Text variant="body-md">{error}</Text>
+            </div>
+          )}
 
-            return (
-              <Card key={thread.thread_id}>
-                <CardHeader>
-                  <CardTitle>
-                    <div className={styles.cardHeader}>
-                      <div className={styles.cardHeaderLeft}>
-                        <Text variant="body-md" emphasis>
-                          {thread.client_email || thread.thread_id}
-                        </Text>
-                        <Badge variant={statusBadgeVariant(thread.status)}>{thread.status}</Badge>
-                        <Text variant="body-sm" className={styles.cardMeta}>
-                          {new Date(thread.created_at).toLocaleDateString()}
-                        </Text>
+          <div className={styles.threadList}>
+            <Text variant="headline-sm">Active Threads</Text>
+
+            {isLoadingThreads && <Text variant="body-sm">Loading threads...</Text>}
+
+            {!isLoadingThreads && threads.length === 0 && (
+              <Text variant="body-sm">No active threads</Text>
+            )}
+
+            {threads.map((thread) => {
+              const isExpanded = expandedThreads.has(thread.thread_id)
+              const state = threadStates.get(thread.thread_id)
+              const isApproving = approvingThreads.has(thread.thread_id)
+
+              return (
+                <Card key={thread.thread_id}>
+                  <CardHeader>
+                    <CardTitle>
+                      <div className={styles.cardHeader}>
+                        <div className={styles.cardHeaderLeft}>
+                          <Text variant="body-md" emphasis>
+                            {thread.client_email || thread.thread_id}
+                          </Text>
+                          <Badge variant={statusBadgeVariant(thread.status)}>{thread.status}</Badge>
+                          <Text variant="body-sm" className={styles.cardMeta}>
+                            {new Date(thread.created_at).toLocaleDateString()}
+                          </Text>
+                        </div>
+                        <button
+                          className={styles.expandButton}
+                          onClick={() => toggleExpand(thread.thread_id)}
+                        >
+                          {isExpanded ? 'Collapse' : 'Expand'}
+                        </button>
                       </div>
-                      <button
-                        className={styles.expandButton}
-                        onClick={() => toggleExpand(thread.thread_id)}
-                      >
-                        {isExpanded ? 'Collapse' : 'Expand'}
-                      </button>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    {isExpanded && state && (
+                      <div className={styles.expandedContent}>
+                        <dl className={styles.dataGrid}>
+                          {state.state.clientName != null && (
+                            <>
+                              <dt>Client Name</dt>
+                              <dd>{String(state.state.clientName)}</dd>
+                            </>
+                          )}
+                          {state.state.status != null && (
+                            <>
+                              <dt>Status</dt>
+                              <dd>{String(state.state.status)}</dd>
+                            </>
+                          )}
+                          {state.state.lastActivity != null && (
+                            <>
+                              <dt>Last Activity</dt>
+                              <dd>{String(state.state.lastActivity)}</dd>
+                            </>
+                          )}
+                          <dt>Next Nodes</dt>
+                          <dd>{state.next.length > 0 ? state.next.join(', ') : 'None'}</dd>
+                        </dl>
+                      </div>
+                    )}
+                    {isExpanded && !state && (
+                      <div className={styles.expandedContent}>
+                        <Text variant="body-sm">Loading state...</Text>
+                      </div>
+                    )}
+                    <div className={styles.approveForm}>
+                      <div className={styles.approveRow}>
+                        <InputField
+                          label="Action"
+                          value={actions[thread.thread_id] || ''}
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            setActions((prev) => ({ ...prev, [thread.thread_id]: e.target.value }))
+                          }
+                          placeholder="e.g. approve, reject, skip"
+                        />
+                        <Button
+                          disabled={isApproving || !actions[thread.thread_id]?.trim()}
+                          onClick={() => handleApprove(thread.thread_id)}
+                        >
+                          {isApproving ? 'Approving...' : 'Approve'}
+                        </Button>
+                      </div>
                     </div>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  {isExpanded && state && (
-                    <div className={styles.expandedContent}>
-                      <dl className={styles.dataGrid}>
-                        {state.state.clientName != null && (
-                          <>
-                            <dt>Client Name</dt>
-                            <dd>{String(state.state.clientName)}</dd>
-                          </>
-                        )}
-                        {state.state.status != null && (
-                          <>
-                            <dt>Status</dt>
-                            <dd>{String(state.state.status)}</dd>
-                          </>
-                        )}
-                        {state.state.lastActivity != null && (
-                          <>
-                            <dt>Last Activity</dt>
-                            <dd>{String(state.state.lastActivity)}</dd>
-                          </>
-                        )}
-                        <dt>Next Nodes</dt>
-                        <dd>{state.next.length > 0 ? state.next.join(', ') : 'None'}</dd>
-                      </dl>
-                    </div>
-                  )}
-                  {isExpanded && !state && (
-                    <div className={styles.expandedContent}>
-                      <Text variant="body-sm">Loading state...</Text>
-                    </div>
-                  )}
-                  <div className={styles.approveForm}>
-                    <div className={styles.approveRow}>
-                      <InputField
-                        label="Action"
-                        value={actions[thread.thread_id] || ''}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          setActions((prev) => ({ ...prev, [thread.thread_id]: e.target.value }))
-                        }
-                        placeholder="e.g. approve, reject, skip"
-                      />
-                      <Button
-                        disabled={isApproving || !actions[thread.thread_id]?.trim()}
-                        onClick={() => handleApprove(thread.thread_id)}
-                      >
-                        {isApproving ? 'Approving...' : 'Approve'}
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            )
-          })}
+                  </CardContent>
+                </Card>
+              )
+            })}
+          </div>
         </div>
-      </div>
+      </AppPageLayout>
     </>
   )
 }

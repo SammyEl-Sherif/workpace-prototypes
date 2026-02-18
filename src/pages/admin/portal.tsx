@@ -13,8 +13,8 @@ import {
 
 import { useFetch, useManualFetch } from '@/hooks'
 import { PortalUserWithOrgAndIntake } from '@/interfaces/portal'
+import { AppPageLayout } from '@/layout'
 import { DocumentTitle } from '@/layout/DocumentTitle'
-import { PageHeader } from '@/layout/PageHeader'
 import { withPageRequestWrapper } from '@/server/utils'
 
 import styles from './admin.module.scss'
@@ -157,39 +157,41 @@ const AdminPortalPage = () => {
   return (
     <>
       <DocumentTitle title="Admin - Portal Users" />
-      <PageHeader
+      <AppPageLayout
+        breadcrumbs={[{ label: 'Admin', href: '/admin' }, { label: 'Portal Users' }]}
         title="Portal Users"
         subtitle="Manage portal user access requests and approvals"
-      />
-      <div className={styles.container}>
-        {isLoading && <Text variant="body-md">Loading...</Text>}
-        {!isLoading && pendingUsers.length === 0 && (
-          <Text variant="body-md">No pending portal users.</Text>
-        )}
-        {pendingUsers.map((user) => (
-          <Card key={user.id}>
-            <CardHeader>
-              <CardTitle>{user.org_name}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Text variant="body-sm">User ID: {user.user_id}</Text>
-              <Text variant="body-sm">
-                Signed up: {new Date(user.created_at).toLocaleDateString()}
-              </Text>
-              <Badge variant="warning">{user.status}</Badge>
-              <IntakeDetails user={user} />
-              <div style={{ marginTop: 12, display: 'flex', gap: 8 }}>
-                <Button variant="brand-primary" onClick={() => handleApprove(user.id)}>
-                  Approve
-                </Button>
-                <Button variant="default-secondary" onClick={() => handleDeactivate(user.id)}>
-                  Deactivate
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      >
+        <div className={styles.container}>
+          {isLoading && <Text variant="body-md">Loading...</Text>}
+          {!isLoading && pendingUsers.length === 0 && (
+            <Text variant="body-md">No pending portal users.</Text>
+          )}
+          {pendingUsers.map((user) => (
+            <Card key={user.id}>
+              <CardHeader>
+                <CardTitle>{user.org_name}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Text variant="body-sm">User ID: {user.user_id}</Text>
+                <Text variant="body-sm">
+                  Signed up: {new Date(user.created_at).toLocaleDateString()}
+                </Text>
+                <Badge variant="warning">{user.status}</Badge>
+                <IntakeDetails user={user} />
+                <div style={{ marginTop: 12, display: 'flex', gap: 8 }}>
+                  <Button variant="brand-primary" onClick={() => handleApprove(user.id)}>
+                    Approve
+                  </Button>
+                  <Button variant="default-secondary" onClick={() => handleDeactivate(user.id)}>
+                    Deactivate
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </AppPageLayout>
     </>
   )
 }

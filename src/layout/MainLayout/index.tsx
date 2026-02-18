@@ -28,7 +28,9 @@ export default function MainLayout({ children }: LayoutProps) {
     pathname !== '/about' &&
     pathname !== '/privacy' &&
     pathname !== '/terms' &&
-    !pathname.startsWith('/templates')
+    !pathname.startsWith('/templates') &&
+    !pathname.startsWith('/workspaces') &&
+    !pathname.startsWith('/integrations')
 
   // SubNavbar appears on individual app pages (e.g. /apps/sms)
   const hasSubNavbar = useMemo(() => APPS.some((p) => pathname === p.path), [pathname])

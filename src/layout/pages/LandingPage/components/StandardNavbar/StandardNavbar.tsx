@@ -20,9 +20,13 @@ const ButtonComponent = Button as any
 
 interface StandardNavbarProps {
   transparent?: boolean
+  alwaysTransparent?: boolean
 }
 
-const StandardNavbar = ({ transparent = false }: StandardNavbarProps) => {
+const StandardNavbar = ({
+  transparent = false,
+  alwaysTransparent = false,
+}: StandardNavbarProps) => {
   const { data, status } = useSession()
   const { user: supabaseUser, isAuthenticated: isSupabaseAuthenticated } = useSupabaseSession()
   const { user, signOut } = useUser()
@@ -81,8 +85,8 @@ const StandardNavbar = ({ transparent = false }: StandardNavbarProps) => {
     <>
       <nav
         className={cn(styles.navbar, {
-          [styles.scrolled]: isScrolled,
-          [styles.transparent]: transparent && !isScrolled,
+          [styles.scrolled]: isScrolled && !alwaysTransparent,
+          [styles.transparent]: alwaysTransparent || (transparent && !isScrolled),
         })}
       >
         <div className={styles.container}>
@@ -94,8 +98,11 @@ const StandardNavbar = ({ transparent = false }: StandardNavbarProps) => {
           </div>
 
           <div className={styles.navLinks}>
+            <Link href={Routes.WORKSPACES} className={styles.navLink}>
+              Workspaces
+            </Link>
             <Link href={Routes.APPS} className={styles.navLink}>
-              Apps
+              Integrations
             </Link>
             <Link href={Routes.TEMPLATES} className={styles.navLink}>
               Templates
@@ -166,8 +173,15 @@ const StandardNavbar = ({ transparent = false }: StandardNavbarProps) => {
 
         <div className={styles.mobileMenuContent}>
           <div className={styles.mobileNavLinks}>
+            <Link
+              href={Routes.WORKSPACES}
+              className={styles.mobileNavLink}
+              onClick={closeMobileNav}
+            >
+              Workspaces
+            </Link>
             <Link href={Routes.APPS} className={styles.mobileNavLink} onClick={closeMobileNav}>
-              Apps
+              Integrations
             </Link>
             <Link href={Routes.TEMPLATES} className={styles.mobileNavLink} onClick={closeMobileNav}>
               Templates

@@ -1,4 +1,3 @@
-import { Text } from '@workpace/design-system'
 import cn from 'classnames'
 import { useRouter } from 'next/router'
 
@@ -8,147 +7,109 @@ import { useScrollReveal } from '../../hooks'
 
 import styles from './ServicesSection.module.scss'
 
-type ServiceAction = 'navigate' | 'consultation' | null
-
 interface Service {
-  icon: string
+  number: string
   title: string
   description: string
   features: string[]
-  action: ServiceAction
-  path?: string
+  path: string
+  video?: string
 }
 
 const services: Service[] = [
   {
-    icon: '📋',
-    title: 'Notion Templates',
+    number: '01',
+    title: 'Workspaces',
+    description:
+      'Custom-built digital workspaces tailored to your team. We design, build, and onboard your company with comprehensive resources and ongoing support.',
+    features: ['Custom workspace design', 'Team onboarding', 'Ongoing support'],
+    path: Routes.WORKSPACES,
+    video:
+      '/Sammy_El-Sherif_A_pristine_perfectly_organized_office_desk_ph_1330b058-dc40-4cde-948e-81a3eb0e525d_0.mp4',
+  },
+  {
+    number: '02',
+    title: 'Integrations',
+    description:
+      'Connect your favorite tools and automate workflows. Our suite of integrations brings Notion, Slack, and more together in one place.',
+    features: ['Notion integration', 'Slack & email sync', 'Workflow automation'],
+    path: Routes.APPS,
+    video:
+      '/Sammy_El-Sherif_Realistic_top-down_photograph_of_a_sleek_blac_406233d8-163a-4a65-9026-9b32dc56dbb2_0.mp4',
+  },
+  {
+    number: '03',
+    title: 'Templates',
     description:
       'Access our library of free and premium templates. Upgrade to Pro for $10/mo and unlock unlimited access to all templates.',
     features: ['Free templates available', 'Pro plan: $10/mo', 'All-inclusive access'],
-    action: 'navigate',
     path: Routes.TEMPLATES,
-  },
-  {
-    icon: '👥',
-    title: 'Notion Consulting',
-    description:
-      "We'll create and onboard your company to Notion with comprehensive resources and recurring knowledge transfer sessions.",
-    features: ['Custom workspace design', 'Team onboarding', 'Ongoing support'],
-    action: null, // Not built yet
-  },
-  {
-    icon: '💻',
-    title: 'Software Products',
-    description:
-      'Access our suite of web applications with account creation, Notion integrations, and powerful productivity tools.',
-    features: ['Web-based tools', 'Notion integration', 'User accounts'],
-    action: 'navigate',
-    path: Routes.APPS,
-  },
-  {
-    icon: '✨',
-    title: 'Software Consulting',
-    description:
-      'Full-stack engineering expertise to build MVPs, solve complex problems, and create any technical architecture you need.',
-    features: ['MVP development', 'Custom solutions', 'Full-stack expertise'],
-    action: 'consultation',
+    video:
+      '/Sammy_El-Sherif_Create_me_a_visual_of_a_bunch_of_falling_noti_9bb20dcc-0c00-4d97-95c4-e0c3f79ada37_0.mp4',
   },
 ]
 
-interface ServicesSectionProps {
-  onBookConsultation: () => void
-}
-
-const ServicesSection = ({ onBookConsultation }: ServicesSectionProps) => {
+const ServicesSection = () => {
   const { ref, isVisible } = useScrollReveal()
   const router = useRouter()
 
   const handleCardClick = (e: React.MouseEvent, service: Service) => {
-    if (service.action === null) return
-
     e.preventDefault()
     e.stopPropagation()
 
-    if (service.action === 'navigate' && service.path) {
-      router.push(service.path).catch((err) => {
-        console.error('Navigation error:', err)
-        // Fallback to window.location if router.push fails
-        window.location.href = service.path!
-      })
-    } else if (service.action === 'consultation') {
-      onBookConsultation()
-    }
+    router.push(service.path).catch((err) => {
+      console.error('Navigation error:', err)
+      window.location.href = service.path
+    })
   }
 
   return (
-    <section id="services" className={styles.section}>
-      <div className={styles.container} ref={ref}>
-        <div className={cn(styles.header, styles.reveal, { [styles.visible]: isVisible })}>
-          <Text as="h2" variant="headline-lg" className={styles.title}>
-            Our Services
-          </Text>
-          <Text as="p" variant="body-lg-paragraph" className={styles.subtitle}>
-            From templates to custom software, we provide everything you need to transform your
-            digital workspace.
-          </Text>
-        </div>
+    <section id="services" className={styles.section} ref={ref}>
+      <span className={styles.divider} />
+      <span className={styles.divider} />
+      <div className={styles.grid}>
+        {services.map((service, index) => (
+          <div
+            key={service.title}
+            className={cn(styles.card, styles.reveal, { [styles.visible]: isVisible })}
+            style={{ transitionDelay: `${150 + index * 100}ms` }}
+            onClick={(e) => handleCardClick(e, service)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                e.stopPropagation()
+                router.push(service.path)
+              }
+            }}
+          >
+            {service.video && (
+              <video
+                className={styles.cardVideo}
+                src={service.video}
+                autoPlay
+                loop
+                muted
+                playsInline
+              />
+            )}
+            <span className={styles.number}>{service.number}</span>
 
-        <div className={styles.grid}>
-          {services.map((service, index) => (
-            <div
-              key={service.title}
-              className={cn(
-                styles.card,
-                styles.reveal,
-                { [styles.visible]: isVisible },
-                { [styles.clickable]: service.action !== null }
-              )}
-              style={{ transitionDelay: `${150 + index * 100}ms` }}
-              onClick={(e) => handleCardClick(e, service)}
-              role={service.action !== null ? 'button' : undefined}
-              tabIndex={service.action !== null ? 0 : undefined}
-              onKeyDown={(e) => {
-                if (service.action !== null && (e.key === 'Enter' || e.key === ' ')) {
-                  e.preventDefault()
-                  e.stopPropagation()
-                  if (service.action === 'navigate' && service.path) {
-                    router.push(service.path)
-                  } else if (service.action === 'consultation') {
-                    onBookConsultation()
-                  }
-                }
-              }}
-            >
-              <div className={styles.cardHeader}>
-                <div className={styles.iconWrapper}>
-                  <span className={styles.icon}>{service.icon}</span>
-                </div>
-                <Text as="h3" variant="headline-sm" className={styles.cardTitle}>
-                  {service.title}
-                </Text>
-                <Text as="p" variant="body-sm-paragraph" className={styles.cardDescription}>
-                  {service.description}
-                </Text>
-              </div>
-
-              <hr className={styles.cardDivider} />
-
-              <div className={styles.cardContent}>
-                <ul className={styles.featureList}>
-                  {service.features.map((feature) => (
-                    <li key={feature} className={styles.featureItem}>
-                      <span className={styles.featureDot} />
-                      <Text as="span" variant="body-sm">
-                        {feature}
-                      </Text>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            <div className={styles.cardContent}>
+              <h3 className={styles.cardTitle}>{service.title}</h3>
+              <p className={styles.cardDescription}>{service.description}</p>
+              <ul className={styles.featureList}>
+                {service.features.map((feature) => (
+                  <li key={feature} className={styles.featureItem}>
+                    <span className={styles.featureDot} />
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
     </section>
   )
