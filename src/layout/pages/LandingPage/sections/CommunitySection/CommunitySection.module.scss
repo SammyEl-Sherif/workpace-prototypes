@@ -7,8 +7,41 @@
 .section {
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   position: relative;
+  background: $color-neutral-black;
+  padding: calc($size-900 * 2);
+}
+
+.sectionTitle {
+  color: $color-neutral-white;
+  text-align: center;
+  margin: 0;
+  padding: $size-400 $size-900 0;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: $font-weight-bold;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.sectionSubtitle {
+  color: rgba(255, 255, 255, 0.55);
+  text-align: center;
+  margin: 0;
+  padding: $size-100 $size-900 $size-400;
+  font-size: clamp(1rem, 1.25vw, 1.25rem);
+  line-height: 1.6;
+  max-width: 800px;
+}
+
+.inner {
+  position: relative;
+  width: 100%;
+  min-height: calc(70vh - $size-900 * 2);
+  display: flex;
+  align-items: center;
+  border-radius: $size-200;
   overflow: hidden;
 }
 
@@ -40,7 +73,7 @@
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
-  padding: 6rem 2rem;
+  padding: 3rem 2rem;
 }
 
 /* ── Two-Column Layout ── */
@@ -52,24 +85,22 @@
   align-items: center;
 }
 
+/* ── City Name ── */
+
+.cityName {
+  color: $color-neutral-white;
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  font-weight: $font-weight-bold;
+  letter-spacing: -0.01em;
+}
+
 /* ── Left Column ── */
 
 .leftColumn {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: $size-300;
-}
-
-.title {
-  color: $color-neutral-white;
-  margin: 0;
-}
-
-.subtitle {
-  color: rgba(255, 255, 255, 0.7);
-  margin: 0;
-  line-height: 1.6;
+  gap: $size-100;
 }
 
 /* ── Pillar List (bullet-style) ── */
@@ -278,6 +309,11 @@
 @media (max-width: 1023px) {
   .section {
     min-height: auto;
+    padding: $size-500;
+  }
+
+  .inner {
+    min-height: auto;
   }
 
   .columns {
@@ -295,6 +331,10 @@
 }
 
 @media (max-width: 639px) {
+  .section {
+    padding: $size-300;
+  }
+
   .container {
     padding: 4rem 1.25rem;
   }

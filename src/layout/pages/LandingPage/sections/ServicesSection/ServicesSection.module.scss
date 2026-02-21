@@ -7,37 +7,49 @@
 .section {
   min-height: calc(100vh - 72px);
   display: flex;
+  flex-direction: column;
   position: relative;
-  background: #000000;
+  background-color: #000;
+  background-image: linear-gradient(rgba(16, 80, 160, 0.25) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(16, 80, 160, 0.25) 1px, transparent 1px);
+  background-size: 40px 40px;
+  box-shadow: 0 -80px 60px -40px rgba(16, 80, 160, 0.25), 0 80px 60px -40px rgba(16, 80, 160, 0.25);
+  position: relative;
+  z-index: 1;
+}
+
+.sectionTitle {
+  color: $color-neutral-white;
+  text-align: center;
+  margin: 0;
+  padding: $size-400 $size-900 0;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: $font-weight-bold;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.sectionSubtitle {
+  color: rgba(255, 255, 255, 0.55);
+  text-align: center;
+  margin: 0;
+  padding: $size-100 $size-900 0;
+  font-size: clamp(1rem, 1.25vw, 1.25rem);
+  line-height: 1.6;
+  max-width: 800px;
+  align-self: center;
 }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  gap: $size-500;
   width: 100%;
-  min-height: calc(100vh - 72px);
+  min-height: calc(75vh - 54px);
   position: relative;
   z-index: 1;
-}
-
-/* ── Column dividers ── */
-
-.divider {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: rgba(255, 255, 255, 0.08);
-  z-index: 2;
-  pointer-events: none;
-
-  &:first-of-type {
-    left: calc(100% / 3);
-  }
-
-  &:last-of-type {
-    left: calc(200% / 3);
-  }
+  padding: $size-400 $size-900 $size-500;
+  margin-bottom: $size-900;
 }
 
 /* ── Card Styles ── */
@@ -48,25 +60,27 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: $size-500 $size-400;
+  padding: $size-300 $size-400;
   cursor: pointer;
   user-select: none;
-  background: transparent;
+  background: rgba(255, 255, 255, 0.1);
+  border: 3px solid rgba(255, 255, 255, 0.18);
+  border-radius: $size-200;
   overflow: hidden;
-  transition: box-shadow 0.7s ease-in-out;
+  transition: box-shadow 0.4s ease, border-color 0.4s ease;
 
-  /* Default B&W glow on all cards (inset only) */
-  box-shadow:
-    inset 0 0 120px 40px rgba(255, 255, 255, 0.06),
-    inset 0 0 60px 20px rgba(255, 255, 255, 0.045),
-    inset 0 0 200px 60px rgba(255, 255, 255, 0.025);
-
-  /* Blue glow on hover (inset only, stronger) */
   &:hover {
-    box-shadow:
-      inset 0 0 120px 40px rgba(59, 130, 246, 0.3),
-      inset 0 0 60px 20px rgba(59, 130, 246, 0.22),
-      inset 0 0 200px 60px rgba(59, 130, 246, 0.12);
+    border-color: rgba(59, 130, 246, 0.5);
+    box-shadow: 0 24px 60px rgba(59, 130, 246, 0.3), 0 8px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 0;
+    pointer-events: none;
   }
 
   > * {
@@ -84,14 +98,9 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.2;
+  opacity: 1;
   z-index: 0;
   pointer-events: none;
-  transition: opacity 0.7s ease;
-
-  .card:hover & {
-    opacity: 0.35;
-  }
 }
 
 /* ── Number ── */
@@ -102,7 +111,7 @@
   left: $size-400;
   font-size: 1.25rem;
   font-weight: $font-weight-bold;
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.6);
   letter-spacing: 0.05em;
   font-variant-numeric: tabular-nums;
   z-index: 1;
@@ -134,7 +143,7 @@
 }
 
 .cardDescription {
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.85);
   margin: 0;
   font-size: clamp(1rem, 1.25vw, 1.25rem);
   line-height: 1.6;
@@ -156,14 +165,14 @@
   align-items: center;
   gap: $size-125;
   font-size: clamp(0.9rem, 1.1vw, 1.1rem);
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .featureDot {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.6);
   flex-shrink: 0;
   transition: background 0.5s ease;
 
@@ -179,10 +188,7 @@
 .reveal {
   opacity: 0;
   transform: translateY(30px);
-  transition:
-    opacity 0.6s ease-out,
-    transform 0.6s ease-out,
-    outline-color 0.45s ease;
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out, outline-color 0.45s ease;
 
   &.visible {
     opacity: 1;
@@ -202,23 +208,6 @@
 
   .card {
     min-height: 50vh;
-  }
-
-  .divider {
-    top: auto;
-    bottom: auto;
-    left: 0 !important;
-    right: 0;
-    width: auto;
-    height: 1px;
-
-    &:first-of-type {
-      top: calc(100% / 3);
-    }
-
-    &:last-of-type {
-      top: calc(200% / 3);
-    }
   }
 }
 

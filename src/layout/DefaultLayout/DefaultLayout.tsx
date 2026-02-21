@@ -1,5 +1,7 @@
 import { ReactNode } from 'react'
 
+import cn from 'classnames'
+
 import styles from './DefaultLayout.module.scss'
 
 interface DefaultLayoutProps {
@@ -8,6 +10,7 @@ interface DefaultLayoutProps {
   headerAction?: ReactNode
   children: ReactNode
   contentClassName?: string
+  dark?: boolean
 }
 
 export const DefaultLayout = ({
@@ -16,9 +19,10 @@ export const DefaultLayout = ({
   headerAction,
   children,
   contentClassName,
+  dark = false,
 }: DefaultLayoutProps) => {
   return (
-    <div className={styles.page}>
+    <div className={cn(styles.page, { [styles.dark]: dark })}>
       {title && (
         <div className={styles.header}>
           <div className={styles.headerTop}>

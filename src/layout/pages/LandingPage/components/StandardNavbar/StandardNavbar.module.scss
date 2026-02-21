@@ -46,7 +46,8 @@
     color: $color-neutral-white;
   }
 
-  .authSection :global(button) {
+  .authSection > :global(button),
+  .authSection > :global(div) > :global(button:first-child) {
     background: rgba(255, 255, 255, 0.1) !important;
     border-color: rgba(255, 255, 255, 0.2) !important;
     color: $color-neutral-white !important;

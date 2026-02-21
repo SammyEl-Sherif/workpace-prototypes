@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 
 import Link from 'next/link'
@@ -8,12 +9,10 @@ import styles from './HeroSection.module.scss'
 
 const rotatingPhrases = [
   'automate your reports',
-  'streamline onboarding',
   'organize your knowledge',
   'turn emails into actions',
   'sync data across tools',
   'eliminate repetitive work',
-  'generate invoices instantly',
 ]
 
 const HeroSection = () => {
@@ -35,7 +34,12 @@ const HeroSection = () => {
   return (
     <section className={styles.hero}>
       <div className={styles.content}>
-        <h1 className={styles.title}>
+        <motion.h1
+          className={styles.title}
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
+        >
           WorkPace helps you
           <span className={styles.rotatingWrapper}>
             <span
@@ -44,9 +48,14 @@ const HeroSection = () => {
               {rotatingPhrases[phraseIndex]}
             </span>
           </span>
-        </h1>
+        </motion.h1>
 
-        <div className={styles.cards}>
+        <motion.div
+          className={styles.cards}
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
+        >
           <Link href={Routes.WORKSPACES} className={styles.card}>
             <div className={styles.cardText}>
               <span className={styles.cardTitle}>Workspaces</span>
@@ -68,7 +77,7 @@ const HeroSection = () => {
             </div>
             <span className={styles.cardArrow}>→</span>
           </Link>
-        </div>
+        </motion.div>
       </div>
     </section>
   )

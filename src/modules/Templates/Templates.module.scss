@@ -1,7 +1,7 @@
 @use '@workpace/design-system/dist/design-tokens' as *;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   Templates Page — Easlo-inspired layout
+   Templates Page — Dark Mode
    ═══════════════════════════════════════════════════════════════════════════ */
 
 /* ── Search Bar ── */
@@ -21,7 +21,9 @@
   margin-bottom: $size-400;
   padding: $size-250 $size-300;
   border-radius: $size-150;
-  background: linear-gradient(135deg, #0052cc 0%, #0a2e6e 55%, #0a0a0a 100%);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(16px);
   color: $color-neutral-white;
 }
 
@@ -42,7 +44,7 @@
   width: 36px;
   height: 36px;
   border-radius: $size-75;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -68,7 +70,7 @@
 }
 
 .bannerSubtitle {
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 60%);
   margin: 0;
 }
 
@@ -80,13 +82,14 @@
 
 .bannerButton {
   white-space: nowrap;
-  border-color: rgba(80, 160, 255, 0.4) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
   color: $color-neutral-white !important;
-  background: rgba(0, 82, 204, 0.35) !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+  backdrop-filter: blur(16px) !important;
 
   &:hover {
-    background: rgba(0, 82, 204, 0.55) !important;
-    border-color: rgba(80, 160, 255, 0.6) !important;
+    background: rgba(255, 255, 255, 0.12) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
   }
 }
 
@@ -100,8 +103,7 @@
   margin-bottom: $size-200;
 }
 
-/* ── Filter Badge Color Overrides (brand-secondary blue) ── */
-/* Need !important to override design-system .badge.default specificity */
+/* ── Filter Badge Color Overrides (dark mode) ── */
 
 button.filterActive {
   background: $color-accent-500 !important;
@@ -119,16 +121,16 @@ button.filterActive {
 }
 
 button.filterInactive {
-  background: $color-neutral-white !important;
-  color: $color-neutral-600 !important;
-  border-color: $color-neutral-200 !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
   border-radius: 100px;
   cursor: pointer;
 
   &:hover {
-    background: $color-neutral-50 !important;
-    color: $color-accent-600 !important;
-    border-color: $color-accent-500 !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: $color-neutral-white !important;
+    border-color: rgba(255, 255, 255, 0.25) !important;
   }
 }
 
@@ -156,16 +158,18 @@ button.filterInactive {
   flex-direction: column;
   border-radius: $size-150;
   overflow: hidden;
-  background: $color-neutral-white;
-  border: 1px solid $color-neutral-200;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(16px);
+  transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
   cursor: pointer;
   text-decoration: none;
   color: inherit;
 
   &:hover {
     transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.25);
   }
 }
 
@@ -174,7 +178,7 @@ button.filterInactive {
   width: 100%;
   aspect-ratio: 1 / 1;
   overflow: hidden;
-  background: $color-neutral-100;
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .cardImage {
@@ -194,8 +198,8 @@ button.filterInactive {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, $color-neutral-100, $color-neutral-200);
-  color: $color-neutral-400;
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.4);
   font-size: $font-body-sm-font-size;
   font-weight: $font-weight-medium;
 }
@@ -217,7 +221,7 @@ button.filterInactive {
 .cardTitle {
   font-size: $font-body-md-font-size;
   font-weight: $font-weight-medium;
-  color: $color-neutral-900;
+  color: $color-neutral-white;
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -228,12 +232,12 @@ button.filterInactive {
 .cardPrice {
   font-size: $font-body-md-font-size;
   font-weight: $font-weight-medium;
-  color: $color-neutral-500;
+  color: rgba(255, 255, 255, 0.5);
   white-space: nowrap;
 }
 
 .cardPriceFree {
-  color: $color-neutral-900;
+  color: $color-neutral-white;
 }
 
 /* ── Loading State ── */
@@ -253,12 +257,12 @@ button.filterInactive {
 }
 
 .emptyTitle {
-  color: $color-neutral-500;
+  color: rgba(255, 255, 255, 0.5);
   margin-bottom: $size-100;
 }
 
 .emptySubtitle {
-  color: $color-neutral-400;
+  color: rgba(255, 255, 255, 0.4);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════

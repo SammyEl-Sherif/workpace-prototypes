@@ -1,18 +1,15 @@
 @use '@workpace/design-system/dist/design-tokens' as *;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   Workspaces Page — CTA Banner + Marketing Content
+   Workspaces Page — Dark Mode
    ═══════════════════════════════════════════════════════════════════════════ */
 
 /* ── CTA Banner ── */
 
 .ctaBanner {
-  background:
-    linear-gradient(rgba(0, 0, 0, 25%), rgba(0, 0, 0, 25%)),
-    radial-gradient(ellipse 75% 45% at 50% 45%, #0066ff8c 0%, transparent 55%),
-    radial-gradient(ellipse 55% 38% at 85% 20%, #00c6ff5c 0%, transparent 48%),
-    radial-gradient(ellipse 48% 55% at 15% 80%, #5b21b65c 0%, transparent 48%),
-    linear-gradient(170deg, #000 0%, #000 15%, #0c3d7a 38%, #1050a0 50%, #0c3d7a 62%, #000 85%, #000 100%);
+  background: rgba(255, 255, 255, 5%);
+  border: 1px solid rgba(255, 255, 255, 12%);
+  backdrop-filter: blur(16px);
   border-radius: $size-200;
   padding: $size-600 $size-400;
   text-align: center;
@@ -28,13 +25,13 @@
 }
 
 .ctaSubtitle {
-  color: rgba(255, 255, 255, 75%);
+  color: rgba(255, 255, 255, 60%);
   margin: 0;
   max-width: 640px;
 }
 
 .ctaDisclaimer {
-  color: rgba(255, 255, 255, 50%);
+  color: rgba(255, 255, 255, 40%);
   margin: $size-50 0 0;
 }
 
@@ -62,12 +59,12 @@
 }
 
 .sectionTitle {
-  color: $color-neutral-900;
+  color: $color-neutral-white;
   margin: 0;
 }
 
 .sectionDescription {
-  color: $color-neutral-600;
+  color: rgba(255, 255, 255, 60%);
   margin: 0;
   max-width: 720px;
 }
@@ -81,22 +78,29 @@
 }
 
 .valueCard {
-  background: $color-neutral-50;
-  border: 1px solid $color-neutral-100;
+  background: rgba(255, 255, 255, 5%);
+  border: 1px solid rgba(255, 255, 255, 12%);
+  backdrop-filter: blur(16px);
   border-radius: $size-150;
   padding: $size-300;
   display: flex;
   flex-direction: column;
   gap: $size-100;
+  transition: background 0.2s ease, border-color 0.2s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 8%);
+    border-color: rgba(255, 255, 255, 25%);
+  }
 }
 
 .valueTitle {
-  color: $color-neutral-900;
+  color: $color-neutral-white;
   margin: 0;
 }
 
 .valueDescription {
-  color: $color-neutral-600;
+  color: rgba(255, 255, 255, 60%);
   margin: 0;
 }
 

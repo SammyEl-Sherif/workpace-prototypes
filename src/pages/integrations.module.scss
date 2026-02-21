@@ -1,14 +1,15 @@
 @use '@workpace/design-system/dist/design-tokens' as *;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   Integrations Page — Banner (matches Templates page banner)
+   Integrations Page — Dark Mode
    ═══════════════════════════════════════════════════════════════════════════ */
 
 .banner {
   margin-bottom: $size-400;
   padding: $size-250 $size-300;
   border-radius: $size-150;
-  background: linear-gradient(135deg, #0052cc 0%, #0a2e6e 55%, #0a0a0a 100%);
+  background: linear-gradient(to left, $color-primary-500, #000);
+  border: 1px solid rgba(255, 255, 255, 12%);
   color: $color-neutral-white;
 }
 
@@ -29,7 +30,7 @@
   width: 36px;
   height: 36px;
   border-radius: $size-75;
-  background: rgba(255, 255, 255, 20%);
+  background: $color-primary-500;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -55,7 +56,7 @@
 }
 
 .bannerSubtitle {
-  color: rgba(255, 255, 255, 75%);
+  color: rgba(255, 255, 255, 60%);
   margin: 0;
 }
 
@@ -67,13 +68,14 @@
 
 .bannerButton {
   white-space: nowrap;
-  border-color: rgba(80, 160, 255, 40%) !important;
+  border-color: rgba(255, 255, 255, 15%) !important;
   color: $color-neutral-white !important;
-  background: rgba(0, 82, 204, 35%) !important;
+  background: rgba(255, 255, 255, 6%) !important;
+  backdrop-filter: blur(16px) !important;
 
   &:hover {
-    background: rgba(0, 82, 204, 55%) !important;
-    border-color: rgba(80, 160, 255, 60%) !important;
+    background: rgba(255, 255, 255, 12%) !important;
+    border-color: rgba(255, 255, 255, 30%) !important;
   }
 }
 

@@ -2,11 +2,10 @@ import { useState } from 'react'
 
 import { Badge, Button, Text } from '@workpace/design-system'
 import cn from 'classnames'
+import { motion } from 'framer-motion'
 import Link from 'next/link'
 
 import { Routes } from '@/interfaces/routes'
-
-import { useScrollReveal } from '../../hooks'
 
 import styles from './TemplatesSection.module.scss'
 
@@ -46,7 +45,6 @@ const pricingPlans = [
 ]
 
 const TemplatesSection = () => {
-  const { ref, isVisible } = useScrollReveal()
   const [isCheckoutLoading, setIsCheckoutLoading] = useState(false)
 
   const handleUpgradeToPro = async () => {
@@ -78,29 +76,41 @@ const TemplatesSection = () => {
   }
 
   return (
-    <section id="templates" className={styles.section} ref={ref}>
+    <section id="templates" className={styles.section}>
       <div className={styles.container}>
-        <div className={cn(styles.header, styles.reveal, { [styles.visible]: isVisible })}>
-          <Text as="h2" variant="headline-lg" className={styles.title}>
-            Notion Templates
-          </Text>
-          <Text as="p" variant="body-lg-paragraph" className={styles.subtitle}>
-            Choose the plan that fits your needs. All templates are designed to boost productivity
-            and streamline your workflow.
-          </Text>
+        <div className={styles.header}>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+          >
+            <Text as="h2" variant="headline-lg" className={styles.title}>
+              Notion Templates
+            </Text>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }}
+          >
+            <Text as="p" variant="body-lg-paragraph" className={styles.subtitle}>
+              Choose the plan that fits your needs. All templates are designed to boost productivity
+              and streamline your workflow.
+            </Text>
+          </motion.div>
         </div>
 
         <div className={styles.grid}>
           {pricingPlans.map((plan, index) => (
-            <div
+            <motion.div
               key={plan.name}
-              className={cn(
-                styles.card,
-                styles.reveal,
-                { [styles.visible]: isVisible },
-                { [styles.popularCard]: plan.popular }
-              )}
-              style={{ transitionDelay: `${200 + index * 150}ms` }}
+              className={cn(styles.card, { [styles.popularCard]: plan.popular })}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 + index * 0.15 }}
             >
               {plan.popular && (
                 <div className={styles.popularBadge}>
@@ -160,7 +170,7 @@ const TemplatesSection = () => {
                   </Link>
                 )}
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

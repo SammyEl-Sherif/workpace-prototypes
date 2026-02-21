@@ -19,6 +19,7 @@ const WorkspacesPage = () => {
     <>
       <DocumentTitle title="Custom Workspaces" />
       <DefaultLayout
+        dark
         title="Custom Workspaces"
         subtitle="Notion consulting and custom workspace builds tailored to your team"
         headerAction={

@@ -35,8 +35,15 @@ export default function MainLayout({ children }: LayoutProps) {
   // SubNavbar appears on individual app pages (e.g. /apps/sms)
   const hasSubNavbar = useMemo(() => APPS.some((p) => pathname === p.path), [pathname])
 
+  // Dark-mode pages get transparent navbar and dark background
+  const isGridPage = pathname.startsWith('/integrations')
+  const isDarkPage =
+    isGridPage || pathname.startsWith('/workspaces') || pathname.startsWith('/templates')
+
   const contentClass = cn(styles.pageContent, {
     [styles.withSubNavbar]: hasSubNavbar,
+    [styles.gridPage]: isGridPage,
+    [styles.darkPage]: isDarkPage && !isGridPage,
   })
 
   const content = (
@@ -48,7 +55,7 @@ export default function MainLayout({ children }: LayoutProps) {
 
   return (
     <div className={styles.pageLayout}>
-      <StandardNavbar />
+      <StandardNavbar alwaysTransparent={isDarkPage} />
       <SubNavbar />
       {shouldShowOverlay ? <AuthOverlay>{content}</AuthOverlay> : content}
     </div>

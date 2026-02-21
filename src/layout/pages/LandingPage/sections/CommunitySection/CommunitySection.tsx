@@ -1,4 +1,5 @@
 import cn from 'classnames'
+import { AnimatePresence, motion } from 'framer-motion'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { Text } from '@workpace/design-system'
@@ -126,127 +127,161 @@ const CommunitySection = () => {
 
   return (
     <section id="community" className={styles.section} ref={ref}>
-      <div
-        className={cn(styles.bgLayer, { [styles.bgVisible]: frontVisible })}
-        style={{ backgroundImage: `url(${bgFront})` }}
-      />
-      <div
-        className={cn(styles.bgLayer, { [styles.bgVisible]: !frontVisible })}
-        style={{ backgroundImage: `url(${bgBack})` }}
-      />
-      <div className={styles.overlay} />
+      <motion.h2
+        className={styles.sectionTitle}
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.5 }}
+        transition={{ duration: 0.6, ease: 'easeOut' }}
+      >
+        Join the WorkPace Community
+      </motion.h2>
+      <motion.p
+        className={styles.sectionSubtitle}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.5 }}
+        transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }}
+      >
+        A space for motivated people to come together, share knowledge, and chase their goals with a
+        group of like-minded individuals.
+      </motion.p>
+      <motion.div
+        className={styles.inner}
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.7, ease: 'easeOut', delay: 0.2 }}
+      >
+        <div
+          className={cn(styles.bgLayer, { [styles.bgVisible]: frontVisible })}
+          style={{ backgroundImage: `url(${bgFront})` }}
+        />
+        <div
+          className={cn(styles.bgLayer, { [styles.bgVisible]: !frontVisible })}
+          style={{ backgroundImage: `url(${bgBack})` }}
+        />
+        <div className={styles.overlay} />
 
-      <div className={styles.container}>
-        <div className={styles.columns}>
-          <div className={cn(styles.leftColumn, styles.reveal, { [styles.visible]: isVisible })}>
-            <Text variant="headline-lg" as="h2" className={styles.title}>
-              Join the WorkPace Community
-            </Text>
-            <Text variant="body-lg" as="p" className={styles.subtitle}>
-              A space for motivated people to come together, share knowledge, and chase their goals
-              with a group of like-minded individuals.
-            </Text>
+        <div className={styles.container}>
+          <div className={styles.columns}>
+            <div className={cn(styles.leftColumn, styles.reveal, { [styles.visible]: isVisible })}>
+              <AnimatePresence mode="wait">
+                {activeMember?.location && (
+                  <motion.span
+                    key={activeMember.location}
+                    className={styles.cityName}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    📍 {activeMember.location}
+                  </motion.span>
+                )}
+              </AnimatePresence>
 
-            <ul className={styles.pillarList}>
-              {pillars.map((pillar) => (
-                <li key={pillar.title} className={styles.pillarItem}>
-                  <span className={styles.pillarIcon}>{pillar.icon}</span>
-                  <div>
-                    <Text variant="body-md-emphasis" as="span" className={styles.pillarTitle}>
-                      {pillar.title}
+              <ul className={styles.pillarList}>
+                {pillars.map((pillar) => (
+                  <li key={pillar.title} className={styles.pillarItem}>
+                    <span className={styles.pillarIcon}>{pillar.icon}</span>
+                    <div>
+                      <Text variant="body-md-emphasis" as="span" className={styles.pillarTitle}>
+                        {pillar.title}
+                      </Text>
+                      <Text variant="body-sm" as="span" className={styles.pillarDescription}>
+                        {pillar.description}
+                      </Text>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+
+              <div className={styles.cta}>
+                <a
+                  href="https://www.notion.so/team/join"
+                  className={cn(styles.ctaButton, styles.ctaPrimary)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Join Notion Teamspace
+                </a>
+                <a
+                  href="https://slack.com"
+                  className={cn(styles.ctaButton, styles.ctaSecondary)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Join Slack
+                </a>
+              </div>
+            </div>
+
+            <div
+              className={cn(styles.rightColumn, styles.reveal, { [styles.visible]: isVisible })}
+              style={{ transitionDelay: '200ms' }}
+            >
+              {activeMember && (
+                <div className={cn(styles.memberCard, { [styles.memberFading]: isFading })}>
+                  {activeMember.coverImage && (
+                    <div className={styles.memberImageWrapper}>
+                      <img
+                        src={activeMember.coverImage}
+                        alt={activeMember.name}
+                        className={styles.memberImage}
+                      />
+                    </div>
+                  )}
+                  <div className={styles.memberInfo}>
+                    <Text variant="body-md-emphasis" as="h4" className={styles.memberName}>
+                      {activeMember.name}
                     </Text>
-                    <Text variant="body-sm" as="span" className={styles.pillarDescription}>
-                      {pillar.description}
-                    </Text>
+                    {activeMember.jobTitle && (
+                      <Text variant="body-sm" as="p" className={styles.memberJobTitle}>
+                        {activeMember.jobTitle}
+                      </Text>
+                    )}
+                    {activeMember.location && (
+                      <span className={styles.memberLocation}>📍 {activeMember.location}</span>
+                    )}
+                    {activeMember.joined && (
+                      <span className={styles.memberJoined}>
+                        Member since {formatJoinedDate(activeMember.joined)}
+                      </span>
+                    )}
+                    {activeMember.linkedIn && (
+                      <a
+                        href={activeMember.linkedIn}
+                        className={styles.memberLinkedIn}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        LinkedIn
+                      </a>
+                    )}
                   </div>
-                </li>
-              ))}
-            </ul>
+                </div>
+              )}
 
-            <div className={styles.cta}>
-              <a
-                href="https://www.notion.so/team/join"
-                className={cn(styles.ctaButton, styles.ctaPrimary)}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Join Notion Teamspace
-              </a>
-              <a
-                href="https://slack.com"
-                className={cn(styles.ctaButton, styles.ctaSecondary)}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Join Slack
-              </a>
+              {members.length > 1 && (
+                <div className={styles.memberDots}>
+                  {members.map((_, i) => (
+                    <button
+                      key={members[i].id}
+                      className={cn(styles.dot, { [styles.dotActive]: i === activeIndex })}
+                      onClick={() => {
+                        if (i === activeIndex) return
+                        transitionTo(i)
+                      }}
+                      aria-label={`Show member ${i + 1}`}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
           </div>
-
-          <div
-            className={cn(styles.rightColumn, styles.reveal, { [styles.visible]: isVisible })}
-            style={{ transitionDelay: '200ms' }}
-          >
-            {activeMember && (
-              <div className={cn(styles.memberCard, { [styles.memberFading]: isFading })}>
-                {activeMember.coverImage && (
-                  <div className={styles.memberImageWrapper}>
-                    <img
-                      src={activeMember.coverImage}
-                      alt={activeMember.name}
-                      className={styles.memberImage}
-                    />
-                  </div>
-                )}
-                <div className={styles.memberInfo}>
-                  <Text variant="body-md-emphasis" as="h4" className={styles.memberName}>
-                    {activeMember.name}
-                  </Text>
-                  {activeMember.jobTitle && (
-                    <Text variant="body-sm" as="p" className={styles.memberJobTitle}>
-                      {activeMember.jobTitle}
-                    </Text>
-                  )}
-                  {activeMember.location && (
-                    <span className={styles.memberLocation}>📍 {activeMember.location}</span>
-                  )}
-                  {activeMember.joined && (
-                    <span className={styles.memberJoined}>
-                      Member since {formatJoinedDate(activeMember.joined)}
-                    </span>
-                  )}
-                  {activeMember.linkedIn && (
-                    <a
-                      href={activeMember.linkedIn}
-                      className={styles.memberLinkedIn}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      LinkedIn
-                    </a>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {members.length > 1 && (
-              <div className={styles.memberDots}>
-                {members.map((_, i) => (
-                  <button
-                    key={members[i].id}
-                    className={cn(styles.dot, { [styles.dotActive]: i === activeIndex })}
-                    onClick={() => {
-                      if (i === activeIndex) return
-                      transitionTo(i)
-                    }}
-                    aria-label={`Show member ${i + 1}`}
-                  />
-                ))}
-              </div>
-            )}
-          </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   )
 }

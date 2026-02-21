@@ -1,9 +1,8 @@
 import cn from 'classnames'
+import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 
 import { Routes } from '@/interfaces/routes'
-
-import { useScrollReveal } from '../../hooks'
 
 import styles from './ServicesSection.module.scss'
 
@@ -50,7 +49,6 @@ const services: Service[] = [
 ]
 
 const ServicesSection = () => {
-  const { ref, isVisible } = useScrollReveal()
   const router = useRouter()
 
   const handleCardClick = (e: React.MouseEvent, service: Service) => {
@@ -64,15 +62,36 @@ const ServicesSection = () => {
   }
 
   return (
-    <section id="services" className={styles.section} ref={ref}>
-      <span className={styles.divider} />
-      <span className={styles.divider} />
+    <section id="services" className={styles.section}>
+      <motion.h2
+        className={styles.sectionTitle}
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.5 }}
+        transition={{ duration: 0.6, ease: 'easeOut' }}
+      >
+        Leverage AI to Get Ahead
+      </motion.h2>
+      <motion.p
+        className={styles.sectionSubtitle}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.5 }}
+        transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }}
+      >
+        All of our products and services were built to bring a change of pace to your online
+        workspace.
+      </motion.p>
       <div className={styles.grid}>
         {services.map((service, index) => (
-          <div
+          <motion.div
             key={service.title}
-            className={cn(styles.card, styles.reveal, { [styles.visible]: isVisible })}
-            style={{ transitionDelay: `${150 + index * 100}ms` }}
+            className={cn(styles.card)}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            whileHover={{ y: -3, scale: 1.005 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.6, ease: 'easeOut', delay: 0.15 + index * 0.1 }}
             onClick={(e) => handleCardClick(e, service)}
             role="button"
             tabIndex={0}
@@ -108,7 +127,7 @@ const ServicesSection = () => {
                 ))}
               </ul>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
     </section>

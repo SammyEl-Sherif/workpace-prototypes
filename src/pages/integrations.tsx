@@ -30,6 +30,7 @@ const IntegrationsPage = () => {
     <>
       <DocumentTitle title="Integrations" />
       <DefaultLayout
+        dark
         title="Integrations"
         subtitle="Products designed to bring a change of pace to your online workspace."
         headerAction={

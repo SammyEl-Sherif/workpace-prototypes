@@ -19,6 +19,7 @@ const TemplatesPage = () => {
     <>
       <DocumentTitle title="Notion Templates — WorkPace" />
       <DefaultLayout
+        dark
         title="Notion Templates"
         subtitle="Notion templates to change the pace of how you organize work and life."
         headerAction={
