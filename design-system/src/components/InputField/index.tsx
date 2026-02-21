@@ -14,10 +14,11 @@ export interface Props extends React.ComponentPropsWithoutRef<'input'>, MarginPr
   icon?: React.ReactNode;
   errorText?: React.ReactNode;
   helperText?: React.ReactNode;
+  dark?: boolean;
 }
 
 const InputField = forwardRef<HTMLInputElement, Props>(function InputField(
-  { label, icon, errorText, helperText, ...rest },
+  { label, icon, errorText, helperText, dark, ...rest },
   ref,
 ) {
   const id = useWdgsId();
@@ -47,6 +48,7 @@ const InputField = forwardRef<HTMLInputElement, Props>(function InputField(
         isFieldFocused={isFocused}
         disabled={rest.disabled}
         icon={icon}
+        dark={dark}
       >
         <input
           type="text"
@@ -67,6 +69,7 @@ const InputField = forwardRef<HTMLInputElement, Props>(function InputField(
           disabled={rest.disabled}
           hasIcon={Boolean(icon)}
           isOptional={!rest.required}
+          dark={dark}
         >
           {label}
         </FloatingText>

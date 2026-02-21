@@ -160,7 +160,7 @@ export const ChiefOfStaffDatabaseSelector = () => {
         <Text as="h3" variant="headline-sm">
           Chief of Staff - Morning Outlook
         </Text>
-        <Text variant="body-sm" color="neutral-600" marginTop={100}>
+        <Text variant="body-sm" color="neutral-400" marginTop={100}>
           Select Notion databases to include in your morning task summary when you text
           &quot;outlook&quot;
         </Text>
@@ -168,7 +168,7 @@ export const ChiefOfStaffDatabaseSelector = () => {
 
       {error && (
         <div className={styles.error}>
-          <Text variant="body-sm" color="error-600">
+          <Text variant="body-sm" color="error-400">
             {error}
           </Text>
         </div>
@@ -176,7 +176,7 @@ export const ChiefOfStaffDatabaseSelector = () => {
 
       {!connectionStatus?.connection ? (
         <div className={styles.connectSection}>
-          <Text variant="body-md" marginBottom={200}>
+          <Text variant="body-md" color="neutral-300" marginBottom={200}>
             Connect your Notion account to select databases for your morning outlook.
           </Text>
           <Button variant="brand-secondary" onClick={handleConnect} disabled={isLoading}>
@@ -188,7 +188,7 @@ export const ChiefOfStaffDatabaseSelector = () => {
           <div className={styles.connectionInfo}>
             <div className={styles.connectionStatus}>
               <span className={styles.statusDot} data-status="connected"></span>
-              <Text variant="body-sm" color="neutral-600">
+              <Text variant="body-sm" color="neutral-400">
                 Connected to Notion
               </Text>
               <button className={styles.disconnectLink} onClick={handleDisconnect}>
@@ -205,6 +205,7 @@ export const ChiefOfStaffDatabaseSelector = () => {
                 <div className={styles.addSection}>
                   <Select
                     label="Add Database"
+                    dark
                     value={selectedDatabaseId}
                     onChange={(e) => {
                       const value = e.target.value
@@ -247,7 +248,7 @@ export const ChiefOfStaffDatabaseSelector = () => {
                   </div>
                 </div>
               ) : (
-                <Text variant="body-sm" color="neutral-600">
+                <Text variant="body-sm" color="neutral-400">
                   No databases selected. Add databases above to receive task summaries via SMS.
                 </Text>
               )}

@@ -2,21 +2,26 @@
 
 .selector {
   padding: $size-300;
-  background: $color-neutral-white;
+  background: rgba(255, 255, 255, 0.06);
   border-radius: $size-100;
-  border: 1px solid $color-neutral-200;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(16px);
 }
 
 .header {
   margin-bottom: $size-300;
+
+  h3 {
+    color: $color-neutral-white;
+  }
 }
 
 .error {
   padding: $size-150;
   margin-bottom: $size-200;
-  background: $color-error-50;
+  background: rgba($color-error-500, 0.15);
   border-radius: $size-75;
-  border: 1px solid $color-error-200;
+  border: 1px solid rgba($color-error-500, 0.3);
 }
 
 .connectSection {
@@ -48,11 +53,12 @@
   flex-shrink: 0;
 
   &[data-status='connected'] {
-    background: $color-success-500;
+    background: $color-success-400;
+    box-shadow: 0 0 8px rgba($color-success-400, 0.5);
   }
 
   &[data-status='disconnected'] {
-    background: $color-neutral-400;
+    background: rgba(255, 255, 255, 0.3);
   }
 }
 
@@ -60,14 +66,14 @@
   margin-left: auto;
   background: none;
   border: none;
-  color: $color-primary-600;
+  color: $color-primary-400;
   cursor: pointer;
   text-decoration: underline;
   font-size: $font-body-sm-font-size;
   padding: 0;
 
   &:hover {
-    color: $color-primary-700;
+    color: $color-primary-300;
   }
 }
 
@@ -91,7 +97,13 @@
   align-items: center;
   justify-content: space-between;
   padding: $size-150;
-  background: $color-neutral-50;
+  background: rgba(255, 255, 255, 0.05);
   border-radius: $size-75;
-  border: 1px solid $color-neutral-200;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba($color-neutral-white, 0.85);
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.18);
+  }
 }

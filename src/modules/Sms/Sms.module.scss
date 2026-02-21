@@ -6,12 +6,12 @@
     font-weight: 800;
     letter-spacing: -0.03em;
     line-height: 1.1;
-    color: $color-neutral-900;
+    color: $color-neutral-white;
     margin: 0 0 $size-150 0;
   }
 
   .subtitle {
-    color: $color-neutral-500;
+    color: rgba($color-neutral-white, 0.6);
     font-size: $font-body-lg-font-size;
     line-height: $font-body-lg-paragraph-line-height;
     font-weight: $font-weight-regular;
@@ -20,18 +20,18 @@
   }
 
   .phoneLink {
-    color: $color-primary-600;
+    color: $color-primary-400;
     text-decoration: none;
     font-weight: $font-weight-medium;
     transition: color 0.2s ease;
 
     &:hover {
-      color: $color-primary-700;
+      color: $color-primary-300;
       text-decoration: underline;
     }
 
     &:active {
-      color: $color-primary-800;
+      color: $color-primary-200;
     }
   }
 }
@@ -47,9 +47,10 @@
   max-width: 480px;
   margin: 0 auto;
   padding: $size-400;
-  border: 1px solid $color-neutral-200;
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: $size-100;
-  background-color: $color-neutral-white;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(16px);
   text-align: left;
 }
 
@@ -69,11 +70,11 @@
 }
 
 .smsError {
-  color: $color-error-500;
+  color: $color-error-400;
 }
 
 .smsSuccess {
-  color: $color-success-600;
+  color: $color-success-400;
 }
 
 .smsButton {
@@ -98,7 +99,7 @@
 .messagesLoading,
 .messagesEmpty {
   text-align: center;
-  color: $color-neutral-500;
+  color: rgba(255, 255, 255, 0.5);
   padding: $size-400;
 }
 
@@ -125,7 +126,7 @@
 }
 
 .messageMeta {
-  color: $color-neutral-600;
+  color: rgba(255, 255, 255, 0.5);
   display: flex;
   align-items: center;
   gap: $size-50;
@@ -138,13 +139,13 @@
 }
 
 .messageTime {
-  color: $color-neutral-500;
+  color: rgba(255, 255, 255, 0.4);
   white-space: nowrap;
   flex-shrink: 0;
 }
 
 .messageBody {
-  color: $color-neutral-800;
+  color: rgba(255, 255, 255, 0.85);
   white-space: pre-wrap;
   word-wrap: break-word;
 }

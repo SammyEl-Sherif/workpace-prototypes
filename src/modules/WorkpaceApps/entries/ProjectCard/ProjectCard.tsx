@@ -27,6 +27,8 @@ export const ProjectCard = ({ app, index }: { app: App; index: number }) => {
   const { user } = useUser()
   const { path, name, description, icon, stage, tech, permittedRoles } = app
 
+  if (stage === AppStage.Hidden) return null
+
   const disableRbac = process.env.NEXT_PUBLIC_DISABLE_RBAC === 'true'
 
   const hasAccess =

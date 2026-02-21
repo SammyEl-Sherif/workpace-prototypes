@@ -16,11 +16,12 @@ interface Props extends Omit<React.ComponentPropsWithoutRef<'select'>, 'color'>,
   placeholder?: string;
   errorText?: string;
   helperText?: string;
+  dark?: boolean;
   children: React.ReactNode;
 }
 
 const Select = forwardRef<HTMLSelectElement, Props>(function Select(
-  { label, placeholder, errorText, helperText, children, ...rest },
+  { label, placeholder, errorText, helperText, dark, children, ...rest },
   ref,
 ) {
   const id = useWdsId();
@@ -47,7 +48,7 @@ const Select = forwardRef<HTMLSelectElement, Props>(function Select(
 
   return (
     <Box {...containerStyleProps}>
-      <FieldWrapper hasError={hasError} isFieldFocused={isFocused} disabled={rest.disabled}>
+      <FieldWrapper hasError={hasError} isFieldFocused={isFocused} disabled={rest.disabled} dark={dark}>
         <Text
           as="select"
           {...selectProps}
@@ -58,7 +59,7 @@ const Select = forwardRef<HTMLSelectElement, Props>(function Select(
           aria-labelledby={`${id}-label`}
           aria-invalid={hasError}
           variant={'body-md'}
-          color={rest.disabled ? 'neutral-600' : 'neutral-black'}
+          color={rest.disabled ? 'neutral-600' : dark ? 'neutral-white' : 'neutral-black'}
           paddingY={125}
           paddingLeft={200}
           className={styles.select}
@@ -77,6 +78,7 @@ const Select = forwardRef<HTMLSelectElement, Props>(function Select(
           disabled={rest.disabled}
           isOptional={!rest.required}
           stayAfloat={true}
+          dark={dark}
         >
           {label}
         </FloatingText>

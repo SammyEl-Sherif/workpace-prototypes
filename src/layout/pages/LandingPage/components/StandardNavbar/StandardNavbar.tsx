@@ -10,7 +10,7 @@ import { useRouter } from 'next/router'
 import { useSupabaseSession, useUser } from '@/hooks'
 import { Routes } from '@/interfaces/routes'
 import { UserGroup } from '@/interfaces/user'
-import Logo from '@/public/favicon.ico'
+import Logo from '@/public/icon_sight.png'
 
 import { ProfileDropdown } from '@/components/ProfileDropdown'
 import styles from './StandardNavbar.module.scss'
