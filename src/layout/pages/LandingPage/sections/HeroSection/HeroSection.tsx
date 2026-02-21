@@ -1,108 +1,84 @@
+import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 
-import { Button } from '@workpace/design-system'
-import Image from 'next/image'
 import Link from 'next/link'
 
 import { Routes } from '@/interfaces/routes'
 
 import styles from './HeroSection.module.scss'
 
-const ButtonComponent = Button as any
-
-const subtitles = [
-  'Change Your Pace',
-  'A Change of Pace',
-  'A change of pace in your online workspace',
+const rotatingPhrases = [
+  'automate your reports',
+  'organize your knowledge',
+  'turn emails into actions',
+  'sync data across tools',
+  'eliminate repetitive work',
 ]
 
-const STATS = [
-  { value: '500+', label: 'Templates Created' },
-  { value: '100+', label: 'Companies Served' },
-  { value: '98%', label: 'Client Satisfaction' },
-]
-
-interface HeroSectionProps {
-  onBookConsultation: () => void
-}
-
-const HeroSection = ({ onBookConsultation }: HeroSectionProps) => {
-  const [subtitle, setSubtitle] = useState(subtitles[0])
-  const [isLoaded, setIsLoaded] = useState(false)
+const HeroSection = () => {
+  const [phraseIndex, setPhraseIndex] = useState(0)
+  const [isAnimating, setIsAnimating] = useState(false)
 
   useEffect(() => {
-    setSubtitle(subtitles[Math.floor(Math.random() * subtitles.length)])
-    // Trigger entrance animation after mount
-    requestAnimationFrame(() => setIsLoaded(true))
+    const interval = setInterval(() => {
+      setIsAnimating(true)
+      setTimeout(() => {
+        setPhraseIndex((prev) => (prev + 1) % rotatingPhrases.length)
+        setIsAnimating(false)
+      }, 400)
+    }, 3000)
+
+    return () => clearInterval(interval)
   }, [])
 
   return (
     <section className={styles.hero}>
-      <div className={styles.container}>
-        <div className={styles.grid}>
-          {/* Text content */}
-          <div className={styles.content}>
-            <div className={styles.textGroup}>
-              <h1 className={`${styles.title} ${isLoaded ? styles.animateIn : ''}`}>
-                Change the Pace of Your Workspace
-              </h1>
-              <p
-                className={`${styles.subtitle} ${isLoaded ? styles.animateIn : ''}`}
-                style={{ animationDelay: '100ms' }}
-              >
-                WorkPace transforms how your team collaborates. From Notion workspaces to custom
-                software solutions, we build the tools that power your success.
-              </p>
-            </div>
-
-            <div
-              className={`${styles.cta} ${isLoaded ? styles.animateIn : ''}`}
-              style={{ animationDelay: '200ms' }}
+      <div className={styles.content}>
+        <motion.h1
+          className={styles.title}
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
+        >
+          WorkPace helps you
+          <span className={styles.rotatingWrapper}>
+            <span
+              className={`${styles.rotatingText} ${isAnimating ? styles.slideOut : styles.slideIn}`}
             >
-              <Link href={Routes.TEMPLATES} style={{ textDecoration: 'none' }}>
-                <ButtonComponent as="span" variant="brand-secondary">
-                  Explore Templates →
-                </ButtonComponent>
-              </Link>
-              <ButtonComponent variant="default-secondary" onClick={onBookConsultation}>
-                Book a Consultation
-              </ButtonComponent>
-            </div>
+              {rotatingPhrases[phraseIndex]}
+            </span>
+          </span>
+        </motion.h1>
 
-            <div
-              className={`${styles.stats} ${isLoaded ? styles.animateIn : ''}`}
-              style={{ animationDelay: '350ms' }}
-            >
-              {STATS.map((stat) => (
-                <div key={stat.label} className={styles.stat}>
-                  <div className={styles.statValue}>{stat.value}</div>
-                  <div className={styles.statLabel}>{stat.label}</div>
-                </div>
-              ))}
+        <motion.div
+          className={styles.cards}
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
+        >
+          <Link href={Routes.WORKSPACES} className={styles.card}>
+            <div className={styles.cardText}>
+              <span className={styles.cardTitle}>Workspaces</span>
+              <span className={styles.cardDesc}>Tailored spaces for your team</span>
             </div>
-          </div>
-
-          {/* Hero image */}
-          <div
-            className={`${styles.imageWrapper} ${isLoaded ? styles.animateInRight : ''}`}
-            style={{ animationDelay: '200ms' }}
-          >
-            <div className={styles.imageContainer}>
-              <Image
-                src="https://images.unsplash.com/photo-1742440710226-450e3b85c100?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjB3b3Jrc3BhY2UlMjBjb2xsYWJvcmF0aW9ufGVufDF8fHx8MTc3MDY0MTMzMXww&ixlib=rb-4.1.0&q=80&w=1080"
-                alt="Modern workspace collaboration"
-                width={1080}
-                height={1080}
-                className={styles.heroImage}
-                priority
-              />
+            <span className={styles.cardArrow}>→</span>
+          </Link>
+          <Link href={Routes.APPS} className={styles.card}>
+            <div className={styles.cardText}>
+              <span className={styles.cardTitle}>Integrations</span>
+              <span className={styles.cardDesc}>Connect your favorite tools</span>
             </div>
-          </div>
-        </div>
+            <span className={styles.cardArrow}>→</span>
+          </Link>
+          <Link href={Routes.TEMPLATES} className={styles.card}>
+            <div className={styles.cardText}>
+              <span className={styles.cardTitle}>Templates</span>
+              <span className={styles.cardDesc}>Pre-built workflows ready to use</span>
+            </div>
+            <span className={styles.cardArrow}>→</span>
+          </Link>
+        </motion.div>
       </div>
-
-      {/* Decorative background elements */}
-      <div className={styles.bgDecoration} aria-hidden="true" />
     </section>
   )
 }

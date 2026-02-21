@@ -1,0 +1,1 @@
+export { PortalGuard } from './PortalGuard'

@@ -1,40 +1,8 @@
 @use '@workpace/design-system/dist/design-tokens' as *;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   Templates Page — Easlo-inspired layout
+   Templates Page — Dark Mode
    ═══════════════════════════════════════════════════════════════════════════ */
-
-.page {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: $size-600 2rem $size-900;
-}
-
-/* ── Hero Section ── */
-
-.hero {
-  text-align: left;
-  margin-bottom: $size-400;
-}
-
-.title {
-  font-size: clamp(2.25rem, 5vw, 3rem);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-  color: $color-neutral-900;
-  margin: 0 0 $size-150 0;
-}
-
-.subtitle {
-  color: $color-neutral-500;
-  font-size: $font-body-lg-font-size;
-  line-height: $font-body-lg-paragraph-line-height;
-  font-weight: $font-weight-regular;
-  margin: 0;
-  max-width: 540px;
-}
 
 /* ── Search Bar ── */
 
@@ -47,6 +15,83 @@
   width: 100%;
 }
 
+/* ── Integration Banner ── */
+
+.integrationBanner {
+  margin-bottom: $size-400;
+  padding: $size-250 $size-300;
+  border-radius: $size-150;
+  background: linear-gradient(to right, $color-primary-500 0%, #1c1c1c 60%);
+  border: none;
+  color: $color-neutral-white;
+}
+
+.bannerContent {
+  display: flex;
+  align-items: center;
+  gap: $size-300;
+}
+
+.bannerLogos {
+  display: flex;
+  align-items: center;
+  gap: $size-100;
+  flex-shrink: 0;
+}
+
+.bannerLogo {
+  width: 36px;
+  height: 36px;
+  border-radius: $size-75;
+  background: $color-neutral-white;
+  color: $color-neutral-900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: $font-weight-bold;
+  font-size: $font-body-md-font-size;
+}
+
+.bannerConnector {
+  font-size: $font-body-lg-font-size;
+  opacity: 0.6;
+}
+
+.bannerText {
+  display: flex;
+  flex-direction: column;
+  gap: $size-25;
+}
+
+.bannerTitle {
+  color: $color-neutral-white;
+  font-weight: $font-weight-medium;
+  margin: 0;
+}
+
+.bannerSubtitle {
+  color: rgba(255, 255, 255, 60%);
+  margin: 0;
+}
+
+.bannerCta {
+  margin-left: auto;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.bannerButton {
+  white-space: nowrap;
+  background: $color-neutral-white !important;
+  border-color: $color-neutral-white !important;
+  color: $color-neutral-900 !important;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.85) !important;
+    border-color: rgba(255, 255, 255, 0.85) !important;
+  }
+}
+
 /* ── Category Filters ── */
 
 .filters {
@@ -57,35 +102,30 @@
   margin-bottom: $size-200;
 }
 
-/* ── Filter Badge Color Overrides (brand-secondary blue) ── */
-/* Need !important to override design-system .badge.default specificity */
+/* ── Filter Badge Color Overrides (dark mode) ── */
 
 button.filterActive {
-  background: $color-accent-500 !important;
-  color: $color-neutral-white !important;
-  border-color: $color-accent-500 !important;
+  background: $color-neutral-white !important;
+  color: $color-neutral-900 !important;
+  border-color: $color-neutral-white !important;
   border-radius: 100px;
   cursor: pointer;
-  box-shadow: 0 1px 2px rgba(0, 82, 204, 0.15);
 
   &:hover {
-    background: $color-accent-600 !important;
-    border-color: $color-accent-600 !important;
-    box-shadow: 0 2px 4px rgba(0, 82, 204, 0.25);
+    background: rgba(255, 255, 255, 0.85) !important;
+    border-color: rgba(255, 255, 255, 0.85) !important;
   }
 }
 
 button.filterInactive {
-  background: $color-neutral-white !important;
-  color: $color-neutral-600 !important;
-  border-color: $color-neutral-200 !important;
+  background: #000 !important;
+  color: $color-neutral-white !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
   border-radius: 100px;
   cursor: pointer;
 
   &:hover {
-    background: $color-neutral-50 !important;
-    color: $color-accent-600 !important;
-    border-color: $color-accent-500 !important;
+    border-color: rgba(255, 255, 255, 0.4) !important;
   }
 }
 
@@ -113,31 +153,32 @@ button.filterInactive {
   flex-direction: column;
   border-radius: $size-150;
   overflow: hidden;
-  background: $color-neutral-white;
-  border: 1px solid $color-neutral-200;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(16px);
+  transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
   cursor: pointer;
   text-decoration: none;
   color: inherit;
 
   &:hover {
     transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.14);
+    border-color: rgba(255, 255, 255, 0.3);
   }
 }
 
 .cardImageWrapper {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1;
   overflow: hidden;
-  background: $color-neutral-100;
+  background: $color-neutral-white;
 }
 
 .cardImage {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+  display: block;
   transition: transform 0.35s ease;
 
   .card:hover & {
@@ -151,8 +192,8 @@ button.filterInactive {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, $color-neutral-100, $color-neutral-200);
-  color: $color-neutral-400;
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.4);
   font-size: $font-body-sm-font-size;
   font-weight: $font-weight-medium;
 }
@@ -164,17 +205,35 @@ button.filterInactive {
 }
 
 .cardBody {
-  padding: $size-200;
+  padding: $size-200 $size-200 $size-250;
+  display: flex;
+  flex-direction: column;
+  gap: $size-75;
+}
+
+.cardHeader {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: $size-100;
 }
 
+.cardDescription {
+  font-size: $font-body-sm-font-size;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .cardTitle {
-  font-size: $font-body-md-font-size;
+  font-size: $font-body-lg-font-size;
   font-weight: $font-weight-medium;
-  color: $color-neutral-900;
+  color: $color-neutral-white;
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -185,12 +244,12 @@ button.filterInactive {
 .cardPrice {
   font-size: $font-body-md-font-size;
   font-weight: $font-weight-medium;
-  color: $color-neutral-500;
+  color: rgba(255, 255, 255, 0.5);
   white-space: nowrap;
 }
 
 .cardPriceFree {
-  color: $color-neutral-900;
+  color: $color-neutral-white;
 }
 
 /* ── Loading State ── */
@@ -210,12 +269,12 @@ button.filterInactive {
 }
 
 .emptyTitle {
-  color: $color-neutral-500;
+  color: rgba(255, 255, 255, 0.5);
   margin-bottom: $size-100;
 }
 
 .emptySubtitle {
-  color: $color-neutral-400;
+  color: rgba(255, 255, 255, 0.4);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -223,10 +282,6 @@ button.filterInactive {
    ═══════════════════════════════════════════════════════════════════════════ */
 
 @media #{$mq-sm-only} {
-  .page {
-    padding: $size-400 1rem $size-600;
-  }
-
   .grid {
     grid-template-columns: 1fr;
     gap: $size-300;
@@ -234,6 +289,15 @@ button.filterInactive {
 
   .filters {
     gap: $size-75;
+  }
+
+  .bannerContent {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .bannerCta {
+    margin-left: 0;
   }
 }
 

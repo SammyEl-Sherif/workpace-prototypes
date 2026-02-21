@@ -199,7 +199,7 @@ export const GoodThingsListPage = ({
 
   return (
     <AppPageLayout
-      breadcrumbs={[{ label: 'Apps', href: '/apps' }, { label: 'Good Stuff List' }]}
+      breadcrumbs={[{ label: 'Integrations', href: '/integrations' }, { label: 'Good Stuff List' }]}
       titleContent={
         <motion.div
           initial={{ opacity: 0, y: -20 }}

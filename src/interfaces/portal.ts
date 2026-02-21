@@ -1,0 +1,171 @@
+export type PortalUserRole = 'admin' | 'member'
+
+export type PortalUserStatus = 'pending_approval' | 'active' | 'deactivated'
+
+export interface Organization {
+  id: string
+  name: string
+  domain: string | null
+  created_at: string
+  updated_at: string
+}
+
+export interface PortalUser {
+  id: string
+  user_id: string
+  org_id: string
+  role: PortalUserRole
+  status: PortalUserStatus
+  created_at: string
+  updated_at: string
+}
+
+export interface PortalUserWithOrg extends PortalUser {
+  org_name: string
+  org_domain: string | null
+}
+
+export interface PortalUserWithOrgAndIntake extends PortalUserWithOrg {
+  intake_id: string | null
+  company_info: CompanyInfoData | null
+  tools_tech: ToolsTechData | null
+  goals_needs: GoalsNeedsData | null
+  intake_status: IntakeSubmissionStatus | null
+  intake_submitted_at: string | null
+}
+
+export interface CreateOrganizationInput {
+  name: string
+  domain?: string
+}
+
+export interface PortalSignupInput {
+  org_name: string
+}
+
+// Intake Submissions
+
+export interface CompanyInfoData {
+  company_name?: string
+  industry?: string
+  company_size?: string
+  website?: string
+  primary_contact_name?: string
+  primary_contact_email?: string
+  primary_contact_phone?: string
+}
+
+export interface ToolsTechData {
+  current_tools?: string[]
+  preferred_platforms?: string[]
+  integrations_needed?: string[]
+  tech_notes?: string
+}
+
+export interface GoalsNeedsData {
+  primary_goals?: string[]
+  pain_points?: string[]
+  timeline?: string
+  budget_range?: string
+  additional_notes?: string
+}
+
+export type IntakeSubmissionStatus = 'draft' | 'submitted' | 'reviewed'
+
+export interface IntakeSubmission {
+  id: string
+  org_id: string
+  submitted_by: string
+  status: IntakeSubmissionStatus
+  company_info: CompanyInfoData
+  tools_tech: ToolsTechData
+  goals_needs: GoalsNeedsData
+  submitted_at: string | null
+  created_at: string
+  updated_at: string
+}
+
+export interface IntakeSubmissionWithOrg extends IntakeSubmission {
+  org_name: string
+}
+
+export interface SaveIntakeInput {
+  company_info?: CompanyInfoData
+  tools_tech?: ToolsTechData
+  goals_needs?: GoalsNeedsData
+}
+
+// Change Requests
+
+export type ChangeRequestCategory =
+  | 'bug_fix'
+  | 'feature_request'
+  | 'improvement'
+  | 'documentation'
+  | 'other'
+
+export type ChangeRequestPriority = 'low' | 'medium' | 'high' | 'urgent'
+
+export type ChangeRequestStatus =
+  | 'submitted'
+  | 'under_review'
+  | 'approved'
+  | 'in_progress'
+  | 'completed'
+  | 'rejected'
+
+export interface ChangeRequest {
+  id: string
+  org_id: string
+  submitted_by: string
+  title: string
+  description: string
+  category: ChangeRequestCategory
+  priority: ChangeRequestPriority
+  status: ChangeRequestStatus
+  admin_notes: string | null
+  created_at: string
+  updated_at: string
+}
+
+export interface CreateChangeRequestInput {
+  title: string
+  description: string
+  category: ChangeRequestCategory
+  priority: ChangeRequestPriority
+}
+
+// Contracts
+
+export type ContractStatus = 'draft' | 'sent' | 'signed'
+
+export type ContractSigningMethod = 'redirect' | 'email'
+
+export interface Contract {
+  id: string
+  org_id: string
+  title: string
+  version: number
+  status: ContractStatus
+  signing_method: ContractSigningMethod
+  envelope_id: string | null
+  template_id: string | null
+  document_url: string | null
+  signer_email: string
+  signer_name: string
+  sent_at: string | null
+  signed_at: string | null
+  voided_at: string | null
+  created_by: string
+  created_at: string
+  updated_at: string
+}
+
+export interface CreateContractInput {
+  title: string
+  signing_method: ContractSigningMethod
+  template_id?: string
+  document_url?: string
+  signer_email: string
+  signer_name: string
+}

@@ -57,9 +57,18 @@ schema_paths = [
   "./schemas/inbound_messages.sql",
   "./schemas/notion_connections.sql",
   "./schemas/chief_of_staff_databases.sql",
+  "./schemas/roledex_databases.sql",
   "./schemas/notion_templates.sql",
   "./schemas/saved_reports.sql",
   "./schemas/user_roles.sql",
   "./schemas/feature_flags.sql",
+  "./schemas/organizations.sql",
+  "./schemas/portal_users.sql",
+  "./schemas/intake_submissions.sql",
+  "./schemas/change_requests.sql",
+  "./schemas/docusign_connections.sql",
+  "./schemas/contracts.sql",
+  "./schemas/pipeline_threads.sql",
+  "./schemas/pipeline_audit_log.sql",
 ]
 

@@ -1,0 +1,126 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.section {
+  background: radial-gradient(
+      ellipse 60% 50% at 80% 50%,
+      rgba(59, 130, 246, 0.06) 0%,
+      transparent 70%
+    ),
+    $color-neutral-black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc($size-900 * 2) $size-400;
+}
+
+.container {
+  max-width: 1000px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: $size-700;
+  align-items: center;
+}
+
+.textColumn {
+  display: flex;
+  flex-direction: column;
+  gap: $size-200;
+}
+
+.eyebrow {
+  font-size: clamp(0.75rem, 1vw, 0.875rem);
+  font-weight: $font-weight-medium;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: $color-primary-400;
+}
+
+.heading {
+  color: $color-neutral-white;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: $font-weight-bold;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.divider {
+  width: 60px;
+  height: 2px;
+  background: rgba(59, 130, 246, 0.3);
+  border: none;
+  margin: 0;
+}
+
+.body {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: clamp(1rem, 1.15vw, 1.125rem);
+  line-height: 1.75;
+  margin: 0;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: $size-100;
+  padding: $size-150 $size-400;
+  border-radius: $size-100;
+  background: $color-primary-500;
+  color: $color-neutral-white;
+  font-weight: $font-weight-medium;
+  font-size: 1rem;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+  margin-top: $size-100;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(59, 130, 246, 0.45);
+  }
+}
+
+.imageColumn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.imageFrame {
+  padding: 20px;
+  background: $color-neutral-white;
+  border-radius: $size-200;
+  box-shadow: 0 0 60px rgba(59, 130, 246, 0.1), inset 0 -25px 35px -10px rgba(0, 0, 0, 0.5);
+}
+
+.image {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: $size-150;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .container {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .textColumn {
+    align-items: center;
+  }
+
+  .imageColumn {
+    order: -1;
+  }
+
+  .image {
+    width: 240px;
+    height: 240px;
+  }
+}

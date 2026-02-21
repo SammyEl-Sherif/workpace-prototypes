@@ -1,0 +1,31 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.quote {
+  height: 75vh;
+  background: $color-neutral-black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 2rem;
+  box-shadow: 0 -20px 40px rgba(0, 0, 0, 0.6);
+  position: relative;
+  z-index: 1;
+}
+
+.text {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-style: italic;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  color: $color-neutral-white;
+  text-align: center;
+  max-width: 720px;
+  line-height: 1.6;
+}
+
+.attribution {
+  display: block;
+  margin-top: $size-300;
+  font-size: clamp(0.875rem, 1.5vw, 1.125rem);
+  font-style: normal;
+  opacity: 0.6;
+}

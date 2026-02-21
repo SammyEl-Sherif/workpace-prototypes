@@ -12,12 +12,12 @@ export const Sms = () => {
 
   return (
     <AppPageLayout
-      breadcrumbs={[{ label: 'Apps', href: '/apps' }, { label: 'Chief of Staff' }]}
+      breadcrumbs={[{ label: 'Integrations', href: '/integrations' }, { label: 'Chief of Staff' }]}
       title="Chief of Staff"
       titleContent={
         <div className={styles.titleSection}>
           <h1 className={styles.title}>Chief of Staff</h1>
-          <Text as="p" variant="body-lg" color="neutral-600" className={styles.subtitle}>
+          <Text as="p" variant="body-lg" className={styles.subtitle}>
             Text &quot;outlook&quot; to{' '}
             <a href={smsLink} className={styles.phoneLink}>
               {displayPhoneNumber}

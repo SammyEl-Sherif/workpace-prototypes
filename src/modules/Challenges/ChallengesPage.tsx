@@ -47,7 +47,7 @@ export const ChallengesPage = ({ initialChallenges = [] }: ChallengesPageProps) 
   return (
     <AppPageLayout
       breadcrumbs={[
-        { label: 'Apps', href: '/apps' },
+        { label: 'Integrations', href: '/integrations' },
         { label: 'Good Stuff List', href: '/apps/good-stuff-list' },
         { label: 'Challenges' },
       ]}

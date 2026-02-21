@@ -15,6 +15,27 @@
 
 .breadcrumbsWrapper {
   margin-bottom: $size-200;
+
+  // Override breadcrumb colors for dark background
+  a {
+    color: rgba($color-neutral-white, 0.5);
+
+    &:hover {
+      color: $color-primary-400;
+    }
+  }
+
+  span {
+    color: rgba($color-neutral-white, 0.6);
+  }
+
+  [aria-current='page'] {
+    color: rgba($color-neutral-white, 0.85);
+  }
+
+  [aria-hidden='true'] {
+    color: rgba($color-neutral-white, 0.3);
+  }
 }
 
 .titleSection {
@@ -26,12 +47,12 @@
   font-weight: 800;
   letter-spacing: -0.03em;
   line-height: 1.1;
-  color: $color-neutral-900;
+  color: $color-neutral-white;
   margin: 0 0 $size-150 0;
 }
 
 .subtitle {
-  color: $color-neutral-500;
+  color: rgba($color-neutral-white, 0.6);
   font-size: $font-body-lg-font-size;
   line-height: $font-body-lg-paragraph-line-height;
   font-weight: $font-weight-regular;

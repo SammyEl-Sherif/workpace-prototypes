@@ -3,8 +3,8 @@ import { GetServerSideProps } from 'next'
 import { Card, CardContent, CardHeader, CardTitle, Text } from '@workpace/design-system'
 import Link from 'next/link'
 
+import { AppPageLayout } from '@/layout'
 import { DocumentTitle } from '@/layout/DocumentTitle'
-import { PageHeader } from '@/layout/PageHeader'
 import { Routes } from '@/interfaces/routes'
 import { withPageRequestWrapper } from '@/server/utils'
 
@@ -26,28 +26,39 @@ const AdminPage = () => {
       description: 'View inbound messages and send SMS notifications',
       href: Routes.ADMIN_SMS,
     },
+    {
+      title: 'Portal Users',
+      description: 'Manage portal user access requests and approvals',
+      href: Routes.ADMIN_PORTAL,
+    },
+    {
+      title: 'Pipeline',
+      description: 'Trigger and test the LangGraph client pipeline',
+      href: Routes.ADMIN_PIPELINE,
+    },
   ]
 
   return (
     <>
       <DocumentTitle title="Admin" />
-      <PageHeader title="Admin" subtitle="Administrative tools and settings" />
-      <div className={styles.container}>
-        <div className={styles.grid}>
-          {adminPages.map((page) => (
-            <Link key={page.href} href={page.href} className={styles.cardLink}>
-              <Card>
-                <CardHeader>
-                  <CardTitle>{page.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <Text variant="body-md">{page.description}</Text>
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
+      <AppPageLayout title="Admin" subtitle="Administrative tools and settings">
+        <div className={styles.container}>
+          <div className={styles.grid}>
+            {adminPages.map((page) => (
+              <Link key={page.href} href={page.href} className={styles.cardLink}>
+                <Card>
+                  <CardHeader>
+                    <CardTitle>{page.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <Text variant="body-md">{page.description}</Text>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
+          </div>
         </div>
-      </div>
+      </AppPageLayout>
     </>
   )
 }

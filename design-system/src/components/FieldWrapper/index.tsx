@@ -11,6 +11,7 @@ interface Props extends Omit<React.ComponentPropsWithoutRef<'div'>, 'color'> {
   multiline?: boolean;
   children: React.ReactNode;
   icon?: React.ReactNode;
+  dark?: boolean;
 }
 
 const FieldWrapper = ({
@@ -20,6 +21,7 @@ const FieldWrapper = ({
   multiline = false,
   children,
   icon,
+  dark,
   ...rest
 }: Props) => {
   const fielldClassName = clsx(styles.field, rest.className, {
@@ -28,7 +30,7 @@ const FieldWrapper = ({
     [styles['has-icon']]: Boolean(icon),
     [styles.multi]: multiline,
   });
-  const colors = getStateColors({ hasError, disabled, isFieldFocused });
+  const colors = getStateColors({ hasError, disabled, isFieldFocused, dark });
   return (
     <Box
       {...rest}

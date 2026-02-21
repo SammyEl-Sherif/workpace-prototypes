@@ -19,6 +19,46 @@
   backdrop-filter: blur(12px);
 }
 
+.transparent {
+  background: rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 1px 24px rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+
+  .brand .brandLink {
+    color: $color-neutral-white;
+  }
+
+  :global(img).logo {
+    filter: brightness(0) invert(1);
+  }
+
+  .navLink {
+    color: rgba($color-neutral-white, 0.85);
+
+    &:hover {
+      color: $color-neutral-white;
+    }
+  }
+
+  .hamburgerButton {
+    color: $color-neutral-white;
+  }
+
+  .authSection > :global(button),
+  .authSection > :global(div) > :global(button:first-child) {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    color: $color-neutral-white !important;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.18) !important;
+      border-color: rgba(255, 255, 255, 0.35) !important;
+    }
+  }
+}
+
 .container {
   max-width: 1200px;
   margin: 0 auto;

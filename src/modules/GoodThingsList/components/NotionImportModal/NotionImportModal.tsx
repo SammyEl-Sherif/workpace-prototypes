@@ -266,9 +266,14 @@ export const NotionImportModal = ({ isOpen, onClose, onImport }: NotionImportMod
                     <Text variant="body-sm" color="neutral-600">
                       Connected to Notion
                     </Text>
-                    <button className={styles.disconnectLink} onClick={handleDisconnect}>
-                      Disconnect
-                    </button>
+                    <div className={styles.connectionActions}>
+                      <button className={styles.actionLink} onClick={handleConnect}>
+                        <span className={styles.actionIcon}>&#x21bb;</span> Update
+                      </button>
+                      <button className={styles.actionLinkDanger} onClick={handleDisconnect}>
+                        <span className={styles.actionIcon}>&#x2715;</span> Disconnect
+                      </button>
+                    </div>
                   </div>
                 ) : (
                   <div className={styles.connectionStatus}>

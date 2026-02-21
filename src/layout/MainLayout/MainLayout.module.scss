@@ -20,6 +20,31 @@
   padding-top: 120px;
 }
 
+.darkPage {
+  background: radial-gradient(ellipse 75% 45% at 50% 45%, #0066ff8c 0%, transparent 55%),
+    radial-gradient(ellipse 55% 38% at 85% 20%, #00c6ff5c 0%, transparent 48%),
+    radial-gradient(ellipse 48% 55% at 15% 80%, #5b21b65c 0%, transparent 48%),
+    linear-gradient(
+      170deg,
+      #000 0%,
+      #000 15%,
+      #0c3d7a 38%,
+      #1050a0 50%,
+      #0c3d7a 62%,
+      #000 85%,
+      #000 100%
+    );
+  min-height: 100vh;
+}
+
+.gridPage {
+  background-color: #000;
+  background-image: linear-gradient(rgba(16, 80, 160, 0.35) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(16, 80, 160, 0.35) 1px, transparent 1px);
+  background-size: 40px 40px;
+  min-height: 100vh;
+}
+
 @media #{$mq-sm-only} {
   .pageContent {
     // Mobile StandardNavbar is slightly taller

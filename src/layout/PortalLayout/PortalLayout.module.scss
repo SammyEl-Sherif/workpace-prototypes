@@ -1,0 +1,87 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 260px;
+  min-width: 260px;
+  background-color: $color-neutral-900;
+  color: $color-neutral-50;
+  display: flex;
+  flex-direction: column;
+  padding: $size-300 0;
+}
+
+.sidebarHeader {
+  padding: 0 $size-300;
+  margin-bottom: $size-400;
+}
+
+.logo {
+  color: $color-neutral-50;
+  margin: 0;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: $size-50;
+  padding: 0 $size-150;
+}
+
+.navItem {
+  display: block;
+  padding: $size-100 $size-150;
+  border-radius: 6px;
+  color: $color-neutral-300;
+  text-decoration: none;
+  font-size: $font-body-md-font-size;
+  font-weight: $font-weight-medium;
+  transition: background-color 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    background-color: $color-neutral-800;
+    color: $color-neutral-50;
+  }
+}
+
+.active {
+  background-color: $color-neutral-800;
+  color: $color-neutral-50;
+}
+
+.main {
+  flex: 1;
+  background-color: $color-neutral-50;
+  overflow-y: auto;
+}
+
+@media #{$mq-sm-only} {
+  .layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    min-width: 100%;
+    padding: $size-200 0;
+  }
+
+  .sidebarHeader {
+    margin-bottom: $size-200;
+  }
+
+  .nav {
+    flex-direction: row;
+    overflow-x: auto;
+    gap: $size-50;
+    padding: 0 $size-150;
+  }
+
+  .navItem {
+    white-space: nowrap;
+  }
+}

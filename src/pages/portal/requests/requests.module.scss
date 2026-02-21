@@ -1,0 +1,223 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $size-200;
+}
+
+.requestList {
+  display: flex;
+  flex-direction: column;
+  gap: $size-100;
+}
+
+.requestItem {
+  display: flex;
+  align-items: center;
+  gap: $size-200;
+  padding: $size-200;
+  border: 1px solid $color-neutral-200;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+
+  &:hover {
+    border-color: $color-primary-300;
+    background-color: $color-neutral-50;
+  }
+}
+
+.requestInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.requestTitle {
+  font-size: $font-body-md-font-size;
+  font-weight: $font-weight-bold;
+  color: $color-neutral-900;
+  margin: 0 0 $size-25 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.requestMeta {
+  display: flex;
+  gap: $size-100;
+  align-items: center;
+  font-size: $font-body-sm-font-size;
+  color: $color-neutral-500;
+}
+
+.badges {
+  display: flex;
+  gap: $size-50;
+  flex-shrink: 0;
+}
+
+.badge {
+  display: inline-flex;
+  padding: $size-25 $size-75;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: $font-weight-medium;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.badgeStatus {
+  &.submitted {
+    background: $color-info-100;
+    color: $color-info-700;
+  }
+  &.underReview {
+    background: $color-warning-100;
+    color: $color-warning-700;
+  }
+  &.approved {
+    background: $color-success-100;
+    color: $color-success-700;
+  }
+  &.inProgress {
+    background: $color-primary-100;
+    color: $color-primary-700;
+  }
+  &.completed {
+    background: $color-success-100;
+    color: $color-success-700;
+  }
+  &.rejected {
+    background: $color-error-100;
+    color: $color-error-700;
+  }
+}
+
+.badgePriority {
+  &.low {
+    background: $color-neutral-100;
+    color: $color-neutral-600;
+  }
+  &.medium {
+    background: $color-info-100;
+    color: $color-info-700;
+  }
+  &.high {
+    background: $color-warning-100;
+    color: $color-warning-700;
+  }
+  &.urgent {
+    background: $color-error-100;
+    color: $color-error-700;
+  }
+}
+
+.emptyState {
+  text-align: center;
+  padding: $size-500 $size-200;
+}
+
+// Detail page styles
+.detailHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: $size-200;
+}
+
+.detailTitle {
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
+  font-weight: $font-weight-bold;
+  color: $color-neutral-900;
+  margin: 0;
+}
+
+.detailSection {
+  margin-bottom: $size-300;
+}
+
+.detailLabel {
+  font-size: $font-body-sm-font-size;
+  font-weight: $font-weight-medium;
+  color: $color-neutral-500;
+  margin-bottom: $size-50;
+}
+
+.detailValue {
+  font-size: $font-body-md-font-size;
+  color: $color-neutral-900;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.detailMeta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: $size-200;
+  padding: $size-200;
+  background: $color-neutral-50;
+  border-radius: 8px;
+  margin-bottom: $size-300;
+}
+
+.adminNotes {
+  padding: $size-200;
+  background: $color-info-50;
+  border: 1px solid $color-info-200;
+  border-radius: 8px;
+}
+
+// Form styles
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: $size-200;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: $size-50;
+}
+
+.label {
+  font-size: $font-body-sm-font-size;
+  font-weight: $font-weight-medium;
+  color: $color-neutral-700;
+}
+
+.input {
+  padding: $size-100 $size-125;
+  border: 1px solid $color-neutral-300;
+  border-radius: 6px;
+  font-size: $font-body-md-font-size;
+  color: $color-neutral-900;
+  background: white;
+  transition: border-color 0.15s ease;
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary-500;
+    box-shadow: 0 0 0 3px rgba($color-primary-500, 0.1);
+  }
+}
+
+.textarea {
+  @extend .input;
+  min-height: 120px;
+  resize: vertical;
+}
+
+.select {
+  @extend .input;
+  cursor: pointer;
+}
+
+.formActions {
+  display: flex;
+  gap: $size-100;
+  justify-content: flex-end;
+  margin-top: $size-100;
+}

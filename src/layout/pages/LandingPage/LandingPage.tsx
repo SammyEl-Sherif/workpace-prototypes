@@ -1,30 +1,41 @@
 import { useState } from 'react'
 
-import { ConsultationModal } from './components/ConsultationModal'
+import { useFeatureFlagsContext } from '@/contexts/FeatureFlagsContextProvider'
+
+import { ConsultationModal } from '@/components/ConsultationModal'
 import { StandardNavbar } from './components/StandardNavbar'
+import { AgentTakeoverSection } from './sections/AgentTakeoverSection'
+// import { CommunitySection } from './sections/CommunitySection'
+import { MetricsSection } from './sections/MetricsSection'
 import { CTASection } from './sections/CTASection'
-import { FeaturesSection } from './sections/FeaturesSection'
 import { FooterSection } from './sections/FooterSection'
+import { FounderSection } from './sections/FounderSection'
 import { HeroSection } from './sections/HeroSection'
-import { ProcessSection } from './sections/ProcessSection'
+import { QuoteSection } from './sections/QuoteSection'
+import { ResourcesSection } from './sections/ResourcesSection'
 import { ServicesSection } from './sections/ServicesSection'
 import { TemplatesSection } from './sections/TemplatesSection'
 
 const LandingPage = () => {
+  const { isEnabled } = useFeatureFlagsContext()
   const [isConsultationOpen, setIsConsultationOpen] = useState(false)
-
+  const paymentsEnabled = isEnabled('enable-payments')
   const openConsultation = () => setIsConsultationOpen(true)
   const closeConsultation = () => setIsConsultationOpen(false)
 
   return (
     <div>
-      <StandardNavbar />
+      <StandardNavbar alwaysTransparent />
       <main>
-        <HeroSection onBookConsultation={openConsultation} />
-        <ServicesSection onBookConsultation={openConsultation} />
-        <FeaturesSection />
-        <TemplatesSection />
-        <ProcessSection />
+        <HeroSection />
+        <QuoteSection />
+        <FounderSection />
+        <AgentTakeoverSection />
+        <ServicesSection />
+        {/* <CommunitySection /> */}
+        <MetricsSection />
+        <ResourcesSection />
+        {paymentsEnabled && <TemplatesSection />}
         <CTASection onBookConsultation={openConsultation} />
       </main>
       <FooterSection />

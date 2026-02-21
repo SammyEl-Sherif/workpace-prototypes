@@ -5,7 +5,7 @@
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: $size-600 2rem $size-800;
+  padding: $size-600 0 $size-800;
 }
 
 // ─── Header ──────────────────────────────────────────────────────────
@@ -18,14 +18,14 @@
   font-weight: 800;
   letter-spacing: -0.03em;
   line-height: 1.1;
-  color: $color-neutral-900;
+  color: $color-neutral-white;
   margin: 0 0 $size-150 0;
 }
 
 .subtitle {
   font-size: $font-body-lg-font-size;
   line-height: $font-body-lg-paragraph-line-height;
-  color: $color-neutral-500;
+  color: rgba(255, 255, 255, 0.6);
   margin: 0;
   max-width: 560px;
 }
@@ -53,14 +53,14 @@
 .empty {
   text-align: center;
   padding: $size-800 $size-300;
-  color: $color-neutral-400;
+  color: rgba(255, 255, 255, 0.4);
   font-size: $font-body-lg-font-size;
 }
 
 // ─── Responsive ──────────────────────────────────────────────────────
 @media #{$mq-sm-only} {
   .page {
-    padding: $size-400 1rem $size-600;
+    padding: $size-400 0 $size-600;
   }
 
   .header {
