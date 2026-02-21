@@ -1,0 +1,50 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.card {
+  padding: $size-300;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: $size-100;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(16px);
+}
+
+.header {
+  margin-bottom: $size-300;
+
+  h3 {
+    color: $color-neutral-white;
+  }
+}
+
+.form {
+  display: flex;
+  gap: $size-200;
+  align-items: flex-end;
+}
+
+.inputWrapper {
+  flex: 1;
+}
+
+.result {
+  margin-top: $size-200;
+  padding: $size-150;
+  border-radius: $size-75;
+}
+
+.success {
+  background: rgba($color-success-500, 0.15);
+  border: 1px solid rgba($color-success-500, 0.3);
+  color: $color-success-400;
+}
+
+.error {
+  background: rgba($color-error-500, 0.15);
+  border: 1px solid rgba($color-error-500, 0.3);
+  color: $color-error-400;
+}
+
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}

@@ -3,6 +3,7 @@ export enum Routes {
   APPS = '/integrations',
   GOOD_STUFF_LIST = 'apps/good-stuff-list',
   SMS = 'apps/sms',
+  ROLEDEX = 'apps/roledex',
   SIGNIN = '/signin',
   ABOUT = '/about',
   PROFILE = '/profile',

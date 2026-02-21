@@ -32,4 +32,12 @@
   &:disabled {
     color: $color-neutral-600;
   }
+
+  &.dark {
+    color: $color-neutral-white;
+
+    &:disabled {
+      color: $color-neutral-400;
+    }
+  }
 }

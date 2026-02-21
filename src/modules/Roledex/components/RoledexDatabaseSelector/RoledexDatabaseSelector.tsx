@@ -2,39 +2,44 @@ import { useManualFetch } from '@/hooks'
 import { NotionDatabase } from '@/interfaces/notion'
 import { HttpResponse } from '@/server/types'
 import { Button, Loading, Select, Text } from '@workpace/design-system'
-import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import styles from './ChiefOfStaffDatabaseSelector.module.scss'
+import styles from './RoledexDatabaseSelector.module.scss'
 
-interface ChiefOfStaffDatabase {
+interface RoledexDatabase {
   id: string
   database_id: string
   database_title: string | null
   created_at: string
 }
 
-export const ChiefOfStaffDatabaseSelector = () => {
-  const router = useRouter()
+interface RoledexDatabaseSelectorProps {
+  onDatabaseChange?: (hasDatabase: boolean) => void
+}
+
+export const RoledexDatabaseSelector = ({ onDatabaseChange }: RoledexDatabaseSelectorProps) => {
   const [connectionStatus, setConnectionStatus] = useState<{ connection: any | null } | null>(null)
   const [databases, setDatabases] = useState<NotionDatabase[]>([])
-  const [selectedDatabases, setSelectedDatabases] = useState<ChiefOfStaffDatabase[]>([])
+  const [selectedDatabases, setSelectedDatabases] = useState<RoledexDatabase[]>([])
   const [selectedDatabaseId, setSelectedDatabaseId] = useState<string>('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   const checkConnection = useManualFetch<{ connection: any | null }>('notion/oauth/status')
   const getDatabases = useManualFetch<{ databases: NotionDatabase[] }>('notion/database/list')
-  const getSelectedDatabases = useManualFetch<HttpResponse<ChiefOfStaffDatabase[]>>(
-    'chief-of-staff/databases'
+  const getSelectedDatabases = useManualFetch<HttpResponse<RoledexDatabase[]>>(
+    'roledex/databases'
   )
-  const addDatabase = useManualFetch<HttpResponse<ChiefOfStaffDatabase>>('chief-of-staff/databases')
-  const removeDatabase = useManualFetch<HttpResponse<void>>('chief-of-staff/databases')
+  const addDatabase = useManualFetch<HttpResponse<RoledexDatabase>>('roledex/databases')
+  const removeDatabase = useManualFetch<HttpResponse<void>>('roledex/databases')
 
-  // Check connection status and load selected databases on mount
   useEffect(() => {
     checkConnectionStatus()
     loadSelectedDatabases()
   }, [])
+
+  useEffect(() => {
+    onDatabaseChange?.(selectedDatabases.length > 0)
+  }, [selectedDatabases])
 
   const checkConnectionStatus = async () => {
     try {
@@ -80,7 +85,6 @@ export const ChiefOfStaffDatabaseSelector = () => {
         setSelectedDatabases([])
       }
     } catch (err: any) {
-      // It's okay if this fails - user might not have any selected yet
       setSelectedDatabases([])
     } finally {
       setIsLoading(false)
@@ -88,7 +92,7 @@ export const ChiefOfStaffDatabaseSelector = () => {
   }
 
   const handleConnect = () => {
-    window.location.href = '/api/notion/oauth/authorize?redirect=/apps/sms'
+    window.location.href = '/api/notion/oauth/authorize?redirect=/apps/roledex'
   }
 
   const handleAddDatabase = async (databaseId: string) => {
@@ -108,7 +112,6 @@ export const ChiefOfStaffDatabaseSelector = () => {
       if (error) {
         setError(error.message || 'Failed to add database')
       } else if (response?.data) {
-        // Successfully added, reload the list and reset select
         await loadSelectedDatabases()
         setSelectedDatabaseId('')
       }
@@ -149,7 +152,6 @@ export const ChiefOfStaffDatabaseSelector = () => {
     }
   }
 
-  // Get available databases (not already selected)
   const availableDatabases = databases.filter(
     (db) => !selectedDatabases.some((selected) => selected.database_id === db.id)
   )
@@ -158,11 +160,10 @@ export const ChiefOfStaffDatabaseSelector = () => {
     <div className={styles.selector}>
       <div className={styles.header}>
         <Text as="h3" variant="headline-sm">
-          Chief of Staff - Morning Outlook
+          Contacts Database
         </Text>
         <Text variant="body-sm" color="neutral-400" marginTop={100}>
-          Select Notion databases to include in your morning task summary when you text
-          &quot;outlook&quot;
+          Select a Notion database to use as your contact directory
         </Text>
       </div>
 
@@ -177,7 +178,7 @@ export const ChiefOfStaffDatabaseSelector = () => {
       {!connectionStatus?.connection ? (
         <div className={styles.connectSection}>
           <Text variant="body-md" color="neutral-300" marginBottom={200}>
-            Connect your Notion account to select databases for your morning outlook.
+            Connect your Notion account to select a contacts database.
           </Text>
           <Button variant="brand-secondary" onClick={handleConnect} disabled={isLoading}>
             {isLoading ? 'Connecting...' : 'Connect to Notion'}
@@ -254,7 +255,7 @@ export const ChiefOfStaffDatabaseSelector = () => {
                 </div>
               ) : (
                 <Text variant="body-sm" color="neutral-400">
-                  No databases selected. Add databases above to receive task summaries via SMS.
+                  No databases selected. Add a contacts database above to get started.
                 </Text>
               )}
             </>

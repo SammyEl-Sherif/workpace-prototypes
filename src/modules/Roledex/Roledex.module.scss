@@ -1,0 +1,26 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.titleSection {
+  .title {
+    font-size: clamp(2rem, 5vw, 2.5rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    color: $color-neutral-white;
+    margin: 0 0 $size-150 0;
+  }
+
+  .subtitle {
+    color: rgba($color-neutral-white, 0.6);
+    font-size: $font-body-lg-font-size;
+    line-height: $font-body-lg-paragraph-line-height;
+    font-weight: $font-weight-regular;
+    margin: 0;
+    max-width: 640px;
+  }
+}
+
+.section {
+  margin-bottom: $size-400;
+  text-align: left;
+}

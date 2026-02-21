@@ -52,7 +52,7 @@ const InputField = forwardRef<HTMLInputElement, Props>(function InputField(
       >
         <input
           type="text"
-          className={styles.input}
+          className={`${styles.input}${dark ? ` ${styles.dark}` : ''}`}
           placeholder=" "
           {...inputProps}
           id={id}

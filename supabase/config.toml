@@ -57,6 +57,7 @@ schema_paths = [
   "./schemas/inbound_messages.sql",
   "./schemas/notion_connections.sql",
   "./schemas/chief_of_staff_databases.sql",
+  "./schemas/roledex_databases.sql",
   "./schemas/notion_templates.sql",
   "./schemas/saved_reports.sql",
   "./schemas/user_roles.sql",

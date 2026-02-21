@@ -53,6 +53,16 @@ export const APPS: App[] = [
     stage: AppStage.WIP,
     tech: 'Notion API, SMS, React, TypeScript',
   },
+  {
+    name: `📇 Roledex`,
+    path: `/${Routes.ROLEDEX}`,
+    description:
+      'Manage your Notion contacts with natural language. Use prompts to add or update contact details automatically.',
+    icon: '📇',
+    permittedRoles: [UserGroup.Admin],
+    stage: AppStage.WIP,
+    tech: 'Notion API, OpenAI API, React, TypeScript',
+  },
 ]
 
 /**
@@ -75,5 +85,13 @@ export const AppMeta = {
     permittedRoles: [UserGroup.Admin],
     stage: AppStage.WIP,
     tech: 'Notion API, SMS, React, TypeScript',
+  },
+  [Routes.ROLEDEX]: {
+    description:
+      'Manage your Notion contacts with natural language. Use prompts to add or update contact details automatically.',
+    icon: '📇',
+    permittedRoles: [UserGroup.Admin],
+    stage: AppStage.WIP,
+    tech: 'Notion API, OpenAI API, React, TypeScript',
   },
 }

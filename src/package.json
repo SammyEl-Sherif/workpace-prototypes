@@ -28,7 +28,7 @@
     "@slack/web-api": "^7.14.1",
     "@supabase/supabase-js": "^2.93.3",
     "@tanstack/react-table": "^8.21.3",
-    "@workpace/design-system": "^1.0.13",
+    "@workpace/design-system": "^1.0.14",
     "axios": "^1.7.2",
     "chart.js": "^4.5.1",
     "classnames": "^2.5.1",
