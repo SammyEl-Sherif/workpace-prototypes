@@ -8,8 +8,8 @@
   margin-bottom: $size-400;
   padding: $size-250 $size-300;
   border-radius: $size-150;
-  background: linear-gradient(to left, $color-primary-500, #000);
-  border: 1px solid rgba(255, 255, 255, 12%);
+  background: linear-gradient(to right, $color-primary-500 0%, #1c1c1c 60%);
+  border: none;
   color: $color-neutral-white;
 }
 
@@ -30,7 +30,8 @@
   width: 36px;
   height: 36px;
   border-radius: $size-75;
-  background: $color-primary-500;
+  background: $color-neutral-white;
+  color: $color-neutral-900;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -68,14 +69,13 @@
 
 .bannerButton {
   white-space: nowrap;
-  border-color: rgba(255, 255, 255, 15%) !important;
-  color: $color-neutral-white !important;
-  background: rgba(255, 255, 255, 6%) !important;
-  backdrop-filter: blur(16px) !important;
+  background: $color-neutral-white !important;
+  border-color: $color-neutral-white !important;
+  color: $color-neutral-900 !important;
 
   &:hover {
-    background: rgba(255, 255, 255, 12%) !important;
-    border-color: rgba(255, 255, 255, 30%) !important;
+    background: rgba(255, 255, 255, 85%) !important;
+    border-color: rgba(255, 255, 255, 85%) !important;
   }
 }
 

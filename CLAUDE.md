@@ -136,6 +136,10 @@ Import design tokens: `@use '@workpace/design-system/dist/design-tokens' as *;`
 - New schema files **must** be added to `schema_paths` in `supabase/config.toml`
 - Verify dependency ordering: referenced tables must sort before referencing tables
 
+### Copy / Text
+
+- **Never** use em dashes (`—` or `&mdash;`). Use commas, periods, or reword the sentence instead.
+
 ### Layouts
 
 - **Never** use spacer divs for navbar offset — always `padding-top`

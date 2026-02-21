@@ -42,8 +42,8 @@ const AgentTakeoverSection = () => {
             viewport={{ once: true, amount: 0.5 }}
             transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
           >
-            AI agents are here &mdash; whether you&apos;re ready or not. We&apos;ve entered a new
-            wave of technology, and those who leverage it fastest will pull ahead.
+            AI agents are here, whether you&apos;re ready or not. We&apos;ve entered a new wave of
+            technology, and those who leverage it fastest will pull ahead.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -64,11 +64,9 @@ const AgentTakeoverSection = () => {
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.7, ease: 'easeOut', delay: 0.1 }}
         >
-          <img
-            src="/Sammy_El-Sherif_Make_a_picture_of_Neo_from_the_matrix_using_a_91264236-df1c-4907-a106-5533b8c5c515_1.png"
-            alt="AI Agent Takeover"
-            className={styles.image}
-          />
+          <div className={styles.imageFrame}>
+            <img src="/IMG_7442.png" alt="AI Agent Takeover" className={styles.image} />
+          </div>
         </motion.div>
       </div>
     </section>

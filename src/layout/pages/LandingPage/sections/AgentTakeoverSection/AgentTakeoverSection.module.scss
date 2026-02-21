@@ -89,13 +89,19 @@
   justify-content: center;
 }
 
+.imageFrame {
+  padding: 20px;
+  background: $color-neutral-white;
+  border-radius: $size-200;
+  box-shadow: 0 0 60px rgba(59, 130, 246, 0.1), inset 0 -25px 35px -10px rgba(0, 0, 0, 0.5);
+}
+
 .image {
   width: 300px;
   height: 300px;
   object-fit: cover;
-  border-radius: $size-200;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 0 60px rgba(59, 130, 246, 0.1);
+  border-radius: $size-150;
+  display: block;
 }
 
 @media (max-width: 768px) {

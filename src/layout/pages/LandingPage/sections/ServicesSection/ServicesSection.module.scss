@@ -22,8 +22,8 @@
   color: $color-neutral-white;
   text-align: center;
   margin: 0;
-  padding: $size-400 $size-900 0;
-  font-size: clamp(2.5rem, 5vw, 4rem);
+  padding: $size-900 $size-900 0;
+  font-size: clamp(2rem, 4vw, 3rem);
   font-weight: $font-weight-bold;
   line-height: 1.15;
   letter-spacing: -0.02em;
@@ -212,6 +212,21 @@
 }
 
 @media (max-width: 639px) {
+  .sectionTitle {
+    padding-left: $size-400;
+    padding-right: $size-400;
+  }
+
+  .sectionSubtitle {
+    padding-left: $size-400;
+    padding-right: $size-400;
+  }
+
+  .grid {
+    padding-left: $size-400;
+    padding-right: $size-400;
+  }
+
   .card {
     padding: $size-400 $size-250;
     min-height: 60vh;

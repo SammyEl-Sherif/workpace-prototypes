@@ -61,8 +61,7 @@ const FounderSection = () => {
               transition={{ duration: 0.6, ease: 'easeOut', delay: 0.3 }}
             >
               I&apos;ve been obsessed with using Notion as a tool for achieving my own goals for the
-              last 6 years &mdash; it&apos;s what helped me learn computer science... before there
-              was AI!
+              last 6 years, and it&apos;s what helped me learn how to code.
             </motion.p>
             <motion.p
               className={styles.paragraph}

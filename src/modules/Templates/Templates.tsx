@@ -212,9 +212,10 @@ export const Templates = () => {
                   <Image
                     src={template.image_url}
                     alt={template.title}
-                    fill
+                    width={600}
+                    height={375}
                     className={styles.cardImage}
-                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
                 ) : (
                   <div className={styles.cardImagePlaceholder}>{template.title[0]}</div>
@@ -228,12 +229,17 @@ export const Templates = () => {
 
               {/* Body */}
               <div className={styles.cardBody}>
-                <p className={styles.cardTitle}>{template.title}</p>
-                <span
-                  className={template.price_cents === 0 ? styles.cardPriceFree : styles.cardPrice}
-                >
-                  {formatPrice(template.price_cents)}
-                </span>
+                <div className={styles.cardHeader}>
+                  <p className={styles.cardTitle}>{template.title}</p>
+                  <span
+                    className={template.price_cents === 0 ? styles.cardPriceFree : styles.cardPrice}
+                  >
+                    {formatPrice(template.price_cents)}
+                  </span>
+                </div>
+                {template.description && (
+                  <p className={styles.cardDescription}>{template.description}</p>
+                )}
               </div>
             </Link>
           ))}

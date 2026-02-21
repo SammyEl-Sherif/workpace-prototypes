@@ -24,7 +24,7 @@
 
 .heading {
   color: $color-neutral-white;
-  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-size: clamp(2rem, 4vw, 3rem);
   font-weight: $font-weight-bold;
   line-height: 1.15;
   letter-spacing: -0.02em;
@@ -52,14 +52,14 @@
 }
 
 .card {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: $size-200;
   padding: $size-500;
   display: flex;
   flex-direction: column;
   gap: $size-200;
-  backdrop-filter: blur(16px);
+  backdrop-filter: blur(6px);
   transition: border-color 0.35s cubic-bezier(0.22, 1, 0.36, 1),
     background 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 

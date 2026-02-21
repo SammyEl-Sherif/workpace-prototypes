@@ -21,7 +21,7 @@ export const QuoteSection = () => {
           viewport={{ once: true, amount: 0.5 }}
           transition={{ duration: 0.5, ease: 'easeOut', delay: 0.3 }}
         >
-          &mdash; James Clear
+          - James Clear
         </motion.span>
       </motion.blockquote>
     </section>

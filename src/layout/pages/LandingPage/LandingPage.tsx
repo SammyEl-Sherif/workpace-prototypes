@@ -5,7 +5,8 @@ import { useFeatureFlagsContext } from '@/contexts/FeatureFlagsContextProvider'
 import { ConsultationModal } from '@/components/ConsultationModal'
 import { StandardNavbar } from './components/StandardNavbar'
 import { AgentTakeoverSection } from './sections/AgentTakeoverSection'
-import { CommunitySection } from './sections/CommunitySection'
+// import { CommunitySection } from './sections/CommunitySection'
+import { MetricsSection } from './sections/MetricsSection'
 import { CTASection } from './sections/CTASection'
 import { FooterSection } from './sections/FooterSection'
 import { FounderSection } from './sections/FounderSection'
@@ -19,8 +20,6 @@ const LandingPage = () => {
   const { isEnabled } = useFeatureFlagsContext()
   const [isConsultationOpen, setIsConsultationOpen] = useState(false)
   const paymentsEnabled = isEnabled('enable-payments')
-  const communityEnabled = isEnabled('enable-community')
-
   const openConsultation = () => setIsConsultationOpen(true)
   const closeConsultation = () => setIsConsultationOpen(false)
 
@@ -33,7 +32,8 @@ const LandingPage = () => {
         <FounderSection />
         <AgentTakeoverSection />
         <ServicesSection />
-        {communityEnabled && <CommunitySection />}
+        {/* <CommunitySection /> */}
+        <MetricsSection />
         <ResourcesSection />
         {paymentsEnabled && <TemplatesSection />}
         <CTASection onBookConsultation={openConsultation} />

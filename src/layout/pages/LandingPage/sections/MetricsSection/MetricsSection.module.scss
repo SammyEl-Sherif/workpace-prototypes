@@ -1,0 +1,91 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.section {
+  padding: 160px $size-900;
+  background-color: #000;
+  background-image: radial-gradient(ellipse 90% 60% at 50% 100%, #0066ff2a 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 75% 90%, #00c6ff1a 0%, transparent 55%),
+    radial-gradient(ellipse 45% 40% at 25% 85%, #5b21b61a 0%, transparent 55%);
+}
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.title {
+  color: $color-neutral-white;
+  text-align: center;
+  margin: 0 0 $size-400;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: $font-weight-bold;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $size-150;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.tile {
+  background: rgba(200, 220, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 12px;
+  padding: $size-300 $size-200;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 160px;
+  transition: border-color 0.8s ease, box-shadow 0.8s ease, background 0.8s ease;
+
+  &.active {
+    border-color: rgba(0, 102, 255, 0.5);
+    box-shadow: 0 0 20px rgba(0, 102, 255, 0.2), 0 0 40px rgba(0, 102, 255, 0.1),
+      inset 0 0 20px rgba(0, 102, 255, 0.05);
+    background: rgba(0, 102, 255, 0.08);
+  }
+}
+
+.tileWide {
+  grid-column: span 2;
+
+  @media (max-width: 768px) {
+    grid-column: span 1;
+  }
+}
+
+.tileFull {
+  grid-column: span 3;
+  min-height: 110px;
+
+  @media (max-width: 768px) {
+    grid-column: span 1;
+  }
+}
+
+.value {
+  font-size: 3rem;
+  font-weight: 700;
+  color: $color-primary-400;
+  line-height: 1;
+  margin-bottom: $size-75;
+
+  @media (max-width: 768px) {
+    font-size: 2.25rem;
+  }
+}
+
+.label {
+  font-size: 0.95rem;
+  color: $color-neutral-300;
+  font-weight: 500;
+}

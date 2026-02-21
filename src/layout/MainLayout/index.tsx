@@ -36,7 +36,7 @@ export default function MainLayout({ children }: LayoutProps) {
   const hasSubNavbar = useMemo(() => APPS.some((p) => pathname === p.path), [pathname])
 
   // Dark-mode pages get transparent navbar and dark background
-  const isGridPage = pathname.startsWith('/integrations')
+  const isGridPage = pathname.startsWith('/integrations') || pathname.startsWith('/templates')
   const isDarkPage =
     isGridPage || pathname.startsWith('/workspaces') || pathname.startsWith('/templates')
 
