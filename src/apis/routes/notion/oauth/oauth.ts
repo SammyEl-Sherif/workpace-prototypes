@@ -39,7 +39,12 @@ export const getNotionOAuthUrlRoute = async (
     }
 
     const redirect = getSafeRedirect(req.query.redirect as string)
-    res.setHeader('Set-Cookie', `${REDIRECT_COOKIE}=${encodeURIComponent(redirect)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=600`)
+    res.setHeader(
+      'Set-Cookie',
+      `${REDIRECT_COOKIE}=${encodeURIComponent(
+        redirect
+      )}; Path=/; HttpOnly; SameSite=Lax; Max-Age=600`
+    )
 
     const oauthUrl = getNotionOAuthUrl()
     res.redirect(oauthUrl)

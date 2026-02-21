@@ -124,8 +124,7 @@ export const processContactPromptRoute = requireApiAuth(
         const blocks = await notion.blocks.children.list({ block_id: pageId })
         const hasDetailsHeading = blocks.results.some(
           (block: any) =>
-            block.type === 'heading_2' &&
-            block.heading_2?.rich_text?.[0]?.plain_text === 'Details'
+            block.type === 'heading_2' && block.heading_2?.rich_text?.[0]?.plain_text === 'Details'
         )
 
         const newBlocks: any[] = []

@@ -26,9 +26,7 @@ export const RoledexDatabaseSelector = ({ onDatabaseChange }: RoledexDatabaseSel
 
   const checkConnection = useManualFetch<{ connection: any | null }>('notion/oauth/status')
   const getDatabases = useManualFetch<{ databases: NotionDatabase[] }>('notion/database/list')
-  const getSelectedDatabases = useManualFetch<HttpResponse<RoledexDatabase[]>>(
-    'roledex/databases'
-  )
+  const getSelectedDatabases = useManualFetch<HttpResponse<RoledexDatabase[]>>('roledex/databases')
   const addDatabase = useManualFetch<HttpResponse<RoledexDatabase>>('roledex/databases')
   const removeDatabase = useManualFetch<HttpResponse<void>>('roledex/databases')
 
