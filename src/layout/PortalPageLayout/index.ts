@@ -1,0 +1,1 @@
+export { PortalPageLayout } from './PortalPageLayout'

@@ -59,9 +59,9 @@
   width: 100%;
   padding: $size-150 $size-200;
   text-align: left;
-  background: none;
-  border: none;
-  color: $color-neutral-900;
+  background: none !important;
+  border: none !important;
+  color: $color-neutral-900 !important;
   font-size: $font-body-md-font-size;
   font-weight: $font-weight-regular;
   cursor: pointer;
@@ -69,11 +69,11 @@
   font-family: inherit;
 
   &:hover {
-    background-color: $color-neutral-100;
+    background-color: $color-neutral-100 !important;
   }
 
   &:active {
-    background-color: $color-neutral-200;
+    background-color: $color-neutral-200 !important;
   }
 
   &:first-child {

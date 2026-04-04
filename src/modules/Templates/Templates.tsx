@@ -1,9 +1,10 @@
-import { Badge, Loading, Text } from '@workpace/design-system'
+import { Badge, Button, Loading, Text } from '@workpace/design-system'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { NotionTemplate, TemplateCategory } from '@/apis/controllers/templates'
+import { Routes } from '@/interfaces/routes'
 
 import styles from './Templates.module.scss'
 import { slugify } from './utils'
@@ -99,16 +100,31 @@ export const Templates = () => {
   }, [templates, search, activeCategory, pricingFilter])
 
   return (
-    <div className={styles.page}>
-      {/* ── Hero ── */}
-      <section className={styles.hero}>
-        <h1 className={styles.title}>Notion Templates</h1>
-        <p className={styles.subtitle}>
-          Notion templates to change the pace of how you organize work and life.
-        </p>
-      </section>
-
-      {/* ── Search ── */}
+    <div>
+      {/* ── Integration Banner ── */}
+      <div className={styles.integrationBanner}>
+        <div className={styles.bannerContent}>
+          <div className={styles.bannerLogos}>
+            <span className={styles.bannerLogo}>W</span>
+            <span className={styles.bannerConnector}>+</span>
+            <span className={styles.bannerLogo}>N</span>
+          </div>
+          <div className={styles.bannerText}>
+            <Text as="p" variant="body-md" className={styles.bannerTitle}>
+              Powered by the WorkPace + Notion integration
+            </Text>
+            <Text as="p" variant="body-sm-paragraph" className={styles.bannerSubtitle}>
+              Every template syncs directly into your Notion workspace — duplicate, customize, and
+              start building in seconds.
+            </Text>
+          </div>
+          <Link href={Routes.APPS} className={styles.bannerCta}>
+            <Button as="span" variant="default-secondary" className={styles.bannerButton}>
+              View Integrations
+            </Button>
+          </Link>
+        </div>
+      </div>
 
       {/* ── Category Filters ── */}
       <div className={styles.filters}>
@@ -196,9 +212,10 @@ export const Templates = () => {
                   <Image
                     src={template.image_url}
                     alt={template.title}
-                    fill
+                    width={600}
+                    height={375}
                     className={styles.cardImage}
-                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
                 ) : (
                   <div className={styles.cardImagePlaceholder}>{template.title[0]}</div>
@@ -212,12 +229,17 @@ export const Templates = () => {
 
               {/* Body */}
               <div className={styles.cardBody}>
-                <p className={styles.cardTitle}>{template.title}</p>
-                <span
-                  className={template.price_cents === 0 ? styles.cardPriceFree : styles.cardPrice}
-                >
-                  {formatPrice(template.price_cents)}
-                </span>
+                <div className={styles.cardHeader}>
+                  <p className={styles.cardTitle}>{template.title}</p>
+                  <span
+                    className={template.price_cents === 0 ? styles.cardPriceFree : styles.cardPrice}
+                  >
+                    {formatPrice(template.price_cents)}
+                  </span>
+                </div>
+                {template.description && (
+                  <p className={styles.cardDescription}>{template.description}</p>
+                )}
               </div>
             </Link>
           ))}

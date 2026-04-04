@@ -1,231 +1,146 @@
 @use '@workpace/design-system/dist/design-tokens' as *;
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   Hero Section — split layout with text + image
-   ═══════════════════════════════════════════════════════════════════════════ */
-
 .hero {
-  position: relative;
-  overflow: hidden;
-  background: linear-gradient(180deg, $color-primary-50 0%, $color-neutral-white 100%);
-  padding: 7rem 0 5rem;
-}
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
+  min-height: 100vh;
+  background: radial-gradient(ellipse 75% 45% at 50% 45%, #0066ff8c 0%, transparent 55%),
+    radial-gradient(ellipse 55% 38% at 85% 20%, #00c6ff5c 0%, transparent 48%),
+    radial-gradient(ellipse 48% 55% at 15% 80%, #5b21b65c 0%, transparent 48%),
+    linear-gradient(
+      170deg,
+      #000000 0%,
+      #000000 15%,
+      #0c3d7a 38%,
+      #1050a0 50%,
+      #0c3d7a 62%,
+      #000000 85%,
+      #000000 100%
+    );
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 0 2rem;
 }
-
-.grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  align-items: center;
-}
-
-/* ── Text Content ── */
 
 .content {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 2rem;
-}
-
-.textGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  align-items: center;
+  text-align: center;
+  gap: 2.5rem;
+  max-width: 900px;
 }
 
 .title {
-  font-size: $font-headline-display-font-size;
-  line-height: $font-headline-display-line-height;
+  font-size: clamp(2.25rem, 6vw, 4.5rem);
   font-weight: $font-weight-bold;
-  color: $color-neutral-900;
+  color: $color-neutral-white;
   margin: 0;
+  line-height: 1.15;
   letter-spacing: -0.02em;
+}
+
+.rotatingWrapper {
+  display: block;
+  overflow: hidden;
+  height: 1.2em;
+  position: relative;
+  white-space: nowrap;
+}
+
+.rotatingText {
+  display: block;
+  background: linear-gradient(135deg, #d4d4d8, #ffffff, #a1a1aa, #e4e4e7, #ffffff);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 6s ease-in-out infinite;
+  will-change: transform, opacity;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.slideIn {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.slideOut {
+  transform: translateY(-100%);
   opacity: 0;
 }
 
-.subtitle {
-  font-size: $font-body-lg-font-size;
-  line-height: $font-body-lg-paragraph-line-height;
-  color: $color-neutral-600;
-  margin: 0;
-  max-width: 600px;
-  opacity: 0;
+@keyframes shimmer {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
 }
 
-.cta {
+.cards {
   display: flex;
   gap: 1rem;
-  flex-wrap: wrap;
-  opacity: 0;
+  justify-content: center;
 }
 
-/* ── Stats ── */
-
-.stats {
+.card {
   display: flex;
-  gap: 2.5rem;
-  padding-top: $size-200;
-  opacity: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: $size-200;
+  padding: $size-150 $size-300;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: $size-100;
+  background: rgba(255, 255, 255, 0.05);
+  color: $color-neutral-white;
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease;
+  min-width: 240px;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
 }
 
-.stat {
+.cardText {
   display: flex;
   flex-direction: column;
-  gap: $size-25;
+  gap: $size-100;
+  text-align: left;
 }
 
-.statValue {
-  font-size: $font-headline-md-font-size;
-  font-weight: $font-weight-bold;
-  color: $color-neutral-900;
+.cardTitle {
+  font-size: $font-body-md-font-size;
+  font-weight: $font-weight-medium;
 }
 
-.statLabel {
+.cardDesc {
   font-size: $font-body-sm-font-size;
-  color: $color-neutral-600;
+  opacity: 0.55;
+  font-weight: $font-weight-regular;
 }
 
-/* ── Hero Image ── */
+.cardArrow {
+  font-size: $font-body-md-font-size;
+  opacity: 0.6;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 
-.imageWrapper {
-  position: relative;
-  opacity: 0;
-}
-
-.imageContainer {
-  aspect-ratio: 1;
-  border-radius: 1rem;
-  overflow: hidden;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05);
-}
-
-.heroImage {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-/* ── Background decoration ── */
-
-.bgDecoration {
-  position: absolute;
-  top: -20%;
-  right: -10%;
-  width: 60%;
-  height: 140%;
-  background: radial-gradient(ellipse at center, rgba($color-primary-200, 0.3) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 0;
-}
-
-.container {
-  position: relative;
-  z-index: 1;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   Entrance Animations
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(24px);
-  }
-  to {
+  .card:hover & {
     opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeInRight {
-  from {
-    opacity: 0;
-    transform: translateX(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-.animateIn {
-  animation: fadeInUp 0.7s ease-out forwards;
-}
-
-.animateInRight {
-  animation: fadeInRight 0.8s ease-out forwards;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   Responsive
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-@media #{$mq-md-up} {
-  .title {
-    font-size: clamp(2.5rem, 5vw, $font-headline-display-font-size);
-  }
-}
-
-@media (max-width: 1023px) {
-  .grid {
-    grid-template-columns: 1fr;
-    gap: 3rem;
-  }
-
-  .hero {
-    padding: 5rem 0 3rem;
-  }
-
-  .title {
-    font-size: 2.5rem;
-  }
-
-  .stats {
-    gap: 2rem;
-  }
-
-  .imageContainer {
-    max-width: 500px;
-    margin: 0 auto;
+    transform: translateX(2px);
   }
 }
 
 @media (max-width: 639px) {
   .hero {
-    padding: calc(4rem + 77px) 0 2.5rem; // Add navbar height (77px on mobile) to top padding
-  }
-
-  .container {
     padding: 0 1.25rem;
   }
 
-  .title {
-    font-size: 2rem;
-    line-height: 1.15;
-  }
-
-  .subtitle {
-    font-size: $font-body-md-font-size;
-  }
-
-  .cta {
+  .cards {
     flex-direction: column;
-  }
-
-  .stats {
-    flex-wrap: wrap;
-    gap: 1.5rem;
-  }
-
-  .statValue {
-    font-size: $font-headline-sm-font-size;
+    width: 100%;
   }
 }

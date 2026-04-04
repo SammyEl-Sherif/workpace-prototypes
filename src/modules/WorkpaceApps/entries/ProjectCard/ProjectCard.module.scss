@@ -13,20 +13,21 @@
   position: relative;
   height: 100%;
   min-height: 340px;
-  background: $color-neutral-white;
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 16px;
-  border: 1px solid $color-neutral-200;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(16px);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-  transition: box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+  box-shadow: none;
+  transition: background 0.35s cubic-bezier(0.22, 1, 0.36, 1),
     border-color 0.35s cubic-bezier(0.22, 1, 0.36, 1);
   cursor: pointer;
 
   &:hover {
-    border-color: $color-neutral-300;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+    background: rgba(255, 255, 255, 0.14);
+    border-color: rgba(255, 255, 255, 0.3);
 
     .glowEffect {
       opacity: 0.06;
@@ -52,8 +53,8 @@
   opacity: 0.7;
 
   &:hover {
-    border-color: $color-neutral-200;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.12);
 
     .accentStrip {
       height: 4px;
@@ -99,18 +100,18 @@
   text-transform: uppercase;
 
   &[data-stage='WIP'] {
-    background: $color-warning-50;
-    color: $color-warning-700;
+    background: rgba($color-warning-500, 0.15);
+    color: $color-warning-300;
   }
 
   &[data-stage='MVP'] {
-    background: $color-primary-50;
-    color: $color-primary-700;
+    background: rgba($color-primary-500, 0.15);
+    color: $color-primary-300;
   }
 
   &[data-stage='Standalone'] {
-    background: $color-success-50;
-    color: $color-success-700;
+    background: rgba($color-success-500, 0.15);
+    color: $color-success-300;
   }
 }
 
@@ -119,7 +120,7 @@
   font-size: $font-headline-sm-font-size;
   font-weight: $font-weight-bold;
   line-height: $font-headline-sm-line-height;
-  color: $color-neutral-900;
+  color: $color-neutral-white;
   margin: 0 0 $size-100 0;
   letter-spacing: -0.01em;
 }
@@ -128,7 +129,7 @@
 .cardDescription {
   font-size: $font-body-md-font-size;
   line-height: $font-body-md-paragraph-line-height;
-  color: $color-neutral-500;
+  color: rgba(255, 255, 255, 0.6);
   margin: 0;
   flex: 1;
 
@@ -150,18 +151,18 @@
 .techTag {
   font-size: $font-body-xs-font-size;
   font-weight: $font-weight-regular;
-  color: $color-neutral-500;
-  background: $color-neutral-50;
+  color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.06);
   padding: $size-25 $size-100;
   border-radius: 6px;
-  border: 1px solid $color-neutral-100;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 // ─── Footer: CTA ─────────────────────────────────────────────────────
 .cardFooter {
   margin-top: $size-250;
   padding-top: $size-200;
-  border-top: 1px solid $color-neutral-100;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .cta {
@@ -170,7 +171,7 @@
   gap: $size-100;
   font-size: $font-body-md-font-size;
   font-weight: $font-weight-medium;
-  color: $color-primary-600;
+  color: $color-primary-300;
   transition: gap 0.25s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -184,7 +185,7 @@
   gap: $size-100;
   font-size: $font-body-sm-font-size;
   font-weight: $font-weight-medium;
-  color: $color-neutral-400;
+  color: rgba(255, 255, 255, 0.4);
 }
 
 // ─── Glow Effect ─────────────────────────────────────────────────────

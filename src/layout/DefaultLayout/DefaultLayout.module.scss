@@ -1,0 +1,74 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.page {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $size-600 2rem $size-900;
+}
+
+.header {
+  margin-bottom: $size-400;
+}
+
+.headerTop {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: $size-300;
+}
+
+.headerText {
+  text-align: left;
+}
+
+.headerAction {
+  flex-shrink: 0;
+}
+
+.title {
+  font-size: clamp(2.25rem, 5vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: $color-neutral-900;
+  margin: 0 0 $size-150 0;
+}
+
+.subtitle {
+  color: $color-neutral-500;
+  font-size: $font-body-lg-font-size;
+  line-height: $font-body-lg-paragraph-line-height;
+  font-weight: $font-weight-regular;
+  margin: 0;
+  max-width: 540px;
+}
+
+/* ── Dark Mode ── */
+
+.dark {
+  .title {
+    color: $color-neutral-white;
+  }
+
+  .subtitle {
+    color: rgba(255, 255, 255, 60%);
+  }
+
+  .headerAction :global(button) {
+    background: #00b860 !important;
+    border-color: #00b860 !important;
+    color: $color-neutral-white !important;
+
+    &:hover {
+      background: #009e50 !important;
+      border-color: #009e50 !important;
+    }
+  }
+}
+
+@media #{$mq-sm-only} {
+  .page {
+    padding: $size-400 1rem $size-600;
+  }
+}

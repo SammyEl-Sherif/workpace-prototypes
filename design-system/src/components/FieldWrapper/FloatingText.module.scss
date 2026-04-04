@@ -21,6 +21,11 @@ $scaled-padding: calc(($scale-reverse * $size-50) - $size-50);
   background-repeat: no-repeat;
   background-image: linear-gradient(180deg, $color-neutral-white 0, $color-neutral-white);
   background-image: linear-gradient(0deg, $color-neutral-white 0, $color-neutral-white);
+
+  &.dark {
+    background-image: linear-gradient(180deg, $color-neutral-900 0, $color-neutral-900);
+    background-image: linear-gradient(0deg, $color-neutral-900 0, $color-neutral-900);
+  }
 }
 
 .single-line {

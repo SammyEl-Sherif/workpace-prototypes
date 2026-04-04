@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next'
 
+import { DefaultLayout } from '@/layout'
 import { DocumentTitle } from '@/layout/DocumentTitle'
-import { PageHeader } from '@/layout/PageHeader'
 import { About } from '@/modules/About'
 import { withPageRequestWrapper } from '@/server/utils'
 
@@ -13,11 +13,12 @@ const AboutPage = () => {
   return (
     <>
       <DocumentTitle title="About" />
-      <PageHeader
+      <DefaultLayout
         title="About"
         subtitle="Explore the design system, system architecture, and the developer behind WorkPace"
-      />
-      <About />
+      >
+        <About />
+      </DefaultLayout>
     </>
   )
 }

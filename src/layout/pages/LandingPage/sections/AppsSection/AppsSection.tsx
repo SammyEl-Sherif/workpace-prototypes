@@ -109,7 +109,7 @@ const AppsSection = ({ apps }: AppsSectionProps) => {
         </div>
 
         <div className={styles.viewAll}>
-          <Link href="/apps" className={styles.viewAllButton}>
+          <Link href="/integrations" className={styles.viewAllButton}>
             View All Apps
           </Link>
         </div>

@@ -8,6 +8,19 @@ import {
   deleteNotionConnection,
 } from '@/apis/controllers/notion/oauth/oauth'
 
+const DEFAULT_REDIRECT = '/apps/good-stuff-list'
+const REDIRECT_COOKIE = 'notion_oauth_redirect'
+
+// Validates that the redirect path is a safe internal path
+const getSafeRedirect = (redirect: string | undefined | null): string => {
+  if (!redirect || typeof redirect !== 'string') return DEFAULT_REDIRECT
+  // Only allow relative paths starting with /
+  if (!redirect.startsWith('/')) return DEFAULT_REDIRECT
+  // Block protocol-relative URLs
+  if (redirect.startsWith('//')) return DEFAULT_REDIRECT
+  return redirect
+}
+
 export const getNotionOAuthUrlRoute = async (
   req: NextApiRequest,
   res: NextApiResponse
@@ -21,15 +34,23 @@ export const getNotionOAuthUrlRoute = async (
   try {
     const session = await getSupabaseSession(req)
     if (!session?.user) {
-      res.redirect(`/apps/good-stuff-list?error=unauthorized`)
+      res.redirect(`${DEFAULT_REDIRECT}?error=unauthorized`)
       return
     }
+
+    const redirect = getSafeRedirect(req.query.redirect as string)
+    res.setHeader(
+      'Set-Cookie',
+      `${REDIRECT_COOKIE}=${encodeURIComponent(
+        redirect
+      )}; Path=/; HttpOnly; SameSite=Lax; Max-Age=600`
+    )
 
     const oauthUrl = getNotionOAuthUrl()
     res.redirect(oauthUrl)
   } catch (error: any) {
     res.redirect(
-      `/apps/good-stuff-list?error=oauth_error&message=${encodeURIComponent(error.message)}`
+      `${DEFAULT_REDIRECT}?error=oauth_error&message=${encodeURIComponent(error.message)}`
     )
   }
 }
@@ -44,24 +65,35 @@ export const notionOAuthCallbackRoute = async (
     return
   }
 
+  // Read redirect from cookie, then clear it
+  const cookies = req.headers.cookie || ''
+  const redirectMatch = cookies.match(new RegExp(`${REDIRECT_COOKIE}=([^;]+)`))
+  const redirectPath = redirectMatch
+    ? getSafeRedirect(decodeURIComponent(redirectMatch[1]))
+    : DEFAULT_REDIRECT
+  const clearCookie = `${REDIRECT_COOKIE}=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0`
+
   try {
     const session = await getSupabaseSession(req)
     if (!session?.user) {
-      res.redirect(`/apps/good-stuff-list?error=unauthorized`)
+      res.setHeader('Set-Cookie', clearCookie)
+      res.redirect(`${redirectPath}?error=unauthorized`)
       return
     }
 
     const { code, error: oauthError } = req.query
 
     if (oauthError) {
+      res.setHeader('Set-Cookie', clearCookie)
       res.redirect(
-        `/apps/good-stuff-list?error=oauth_error&message=${encodeURIComponent(String(oauthError))}`
+        `${redirectPath}?error=oauth_error&message=${encodeURIComponent(String(oauthError))}`
       )
       return
     }
 
     if (!code || typeof code !== 'string') {
-      res.redirect(`/apps/good-stuff-list?error=missing_code`)
+      res.setHeader('Set-Cookie', clearCookie)
+      res.redirect(`${redirectPath}?error=missing_code`)
       return
     }
 
@@ -73,7 +105,8 @@ export const notionOAuthCallbackRoute = async (
         hasToken: !!tokenData.access_token,
         codeLength: code.length,
       })
-      res.redirect(`/apps/good-stuff-list?error=token_exchange_failed`)
+      res.setHeader('Set-Cookie', clearCookie)
+      res.redirect(`${redirectPath}?error=token_exchange_failed`)
       return
     }
 
@@ -87,14 +120,17 @@ export const notionOAuthCallbackRoute = async (
     )
 
     if (saveStatus !== 200 && saveStatus !== 201) {
-      res.redirect(`/apps/good-stuff-list?error=save_failed`)
+      res.setHeader('Set-Cookie', clearCookie)
+      res.redirect(`${redirectPath}?error=save_failed`)
       return
     }
 
-    res.redirect(`/apps/good-stuff-list?notion_connected=true`)
+    res.setHeader('Set-Cookie', clearCookie)
+    res.redirect(`${redirectPath}?notion_connected=true`)
   } catch (error: any) {
+    res.setHeader('Set-Cookie', clearCookie)
     res.redirect(
-      `/apps/good-stuff-list?error=callback_error&message=${encodeURIComponent(error.message)}`
+      `${redirectPath}?error=callback_error&message=${encodeURIComponent(error.message)}`
     )
   }
 }

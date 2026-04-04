@@ -13,6 +13,7 @@ interface Props {
   multiline?: boolean;
   stayAfloat?: boolean;
   floatAlign?: 'left' | 'center';
+  dark?: boolean;
   children: React.ReactNode;
 }
 
@@ -27,6 +28,7 @@ const FloatingText = ({
   children,
   isOptional = false,
   htmlFor,
+  dark,
 }: Props) => {
   const floatingClasses = clsx(
     styles['floating-text'],
@@ -34,6 +36,7 @@ const FloatingText = ({
     {
       [styles['stay-afloat']]: stayAfloat,
       [styles.error]: hasError,
+      [styles.dark]: dark,
     },
   );
 
@@ -42,7 +45,7 @@ const FloatingText = ({
     [styles['has-icon']]: hasIcon,
   });
 
-  const colors = getStateColors({ hasError, disabled, isFieldFocused });
+  const colors = getStateColors({ hasError, disabled, isFieldFocused, dark });
 
   return (
     <>

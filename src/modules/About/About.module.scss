@@ -11,9 +11,7 @@
 .tabBar {
   display: flex;
   width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: $size-300 2rem $size-100;
+  padding: $size-300 0 $size-100;
   gap: $size-200;
 }
 
@@ -56,9 +54,7 @@
 /* ── About Developer Section ── */
 .developerSection {
   width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: $size-600 2rem 0;
+  padding: $size-600 0 0;
 }
 
 .developerHeader {
@@ -166,7 +162,7 @@
 /* ── Responsive ── */
 @media (max-width: 768px) {
   .tabBar {
-    padding: $size-200 1rem $size-100;
+    padding: $size-200 0 $size-100;
     gap: $size-150;
   }
 
@@ -176,6 +172,6 @@
   }
 
   .developerSection {
-    padding: $size-400 1rem 0;
+    padding: $size-400 0 0;
   }
 }

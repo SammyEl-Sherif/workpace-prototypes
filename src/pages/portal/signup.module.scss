@@ -1,0 +1,187 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.progressBar {
+  display: flex;
+  gap: $size-50;
+  margin-bottom: $size-400;
+}
+
+.progressStep {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background-color: $color-neutral-200;
+  transition: background-color 0.2s ease;
+
+  &.active {
+    background-color: $color-primary-600;
+  }
+
+  &.completed {
+    background-color: $color-primary-400;
+  }
+}
+
+.stepIndicator {
+  display: flex;
+  align-items: center;
+  gap: $size-100;
+  margin-bottom: $size-200;
+  color: $color-neutral-500;
+  font-size: $font-body-sm-font-size;
+}
+
+.formSection {
+  display: flex;
+  flex-direction: column;
+  gap: $size-200;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: $size-50;
+}
+
+.label {
+  font-size: $font-body-sm-font-size;
+  font-weight: $font-weight-medium;
+  color: $color-neutral-700;
+}
+
+.required {
+  color: $color-error-500;
+}
+
+.input {
+  padding: $size-100 $size-125;
+  border: 1px solid $color-neutral-300;
+  border-radius: 6px;
+  font-size: $font-body-md-font-size;
+  color: $color-neutral-900;
+  background: white;
+  transition: border-color 0.15s ease;
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary-500;
+    box-shadow: 0 0 0 3px rgba($color-primary-500, 0.1);
+  }
+}
+
+.textarea {
+  @extend .input;
+  min-height: 100px;
+  resize: vertical;
+}
+
+.select {
+  @extend .input;
+  cursor: pointer;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: $size-300;
+  padding-top: $size-200;
+  border-top: 1px solid $color-neutral-200;
+}
+
+.actionsRight {
+  display: flex;
+  gap: $size-100;
+}
+
+.reviewSection {
+  display: flex;
+  flex-direction: column;
+  gap: $size-300;
+}
+
+.reviewGroup {
+  padding: $size-200;
+  background: $color-neutral-50;
+  border-radius: 8px;
+}
+
+.reviewGroupTitle {
+  font-size: $font-body-md-font-size;
+  font-weight: $font-weight-bold;
+  color: $color-neutral-800;
+  margin: 0 0 $size-100 0;
+}
+
+.reviewItem {
+  display: flex;
+  flex-direction: column;
+  gap: $size-25;
+  margin-bottom: $size-75;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.reviewLabel {
+  font-size: $font-body-sm-font-size;
+  color: $color-neutral-500;
+  font-weight: $font-weight-medium;
+}
+
+.reviewValue {
+  font-size: $font-body-md-font-size;
+  color: $color-neutral-900;
+}
+
+.successCard {
+  text-align: center;
+  padding: $size-400 $size-200;
+}
+
+.successIcon {
+  font-size: 3rem;
+  margin-bottom: $size-200;
+}
+
+.tagList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $size-50;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: $size-50;
+  padding: $size-25 $size-100;
+  background: $color-primary-100;
+  color: $color-primary-700;
+  border-radius: 4px;
+  font-size: $font-body-sm-font-size;
+}
+
+.tagRemove {
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: $color-primary-500;
+  font-size: $font-body-md-font-size;
+  padding: 0;
+  line-height: 1;
+
+  &:hover {
+    color: $color-primary-700;
+  }
+}
+
+.tagInput {
+  display: flex;
+  gap: $size-75;
+}
+
+.tagInputField {
+  @extend .input;
+  flex: 1;
+}

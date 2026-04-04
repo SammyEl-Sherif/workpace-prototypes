@@ -10,7 +10,7 @@ import { useRouter } from 'next/router'
 import { useSupabaseSession, useUser } from '@/hooks'
 import { Routes } from '@/interfaces/routes'
 import { UserGroup } from '@/interfaces/user'
-import Logo from '@/public/favicon.ico'
+import Logo from '@/public/icon_sight.png'
 
 import { ProfileDropdown } from '@/components/ProfileDropdown'
 import styles from './StandardNavbar.module.scss'
@@ -18,7 +18,15 @@ import styles from './StandardNavbar.module.scss'
 // Type assertion workaround for Button component type issue
 const ButtonComponent = Button as any
 
-const StandardNavbar = () => {
+interface StandardNavbarProps {
+  transparent?: boolean
+  alwaysTransparent?: boolean
+}
+
+const StandardNavbar = ({
+  transparent = false,
+  alwaysTransparent = false,
+}: StandardNavbarProps) => {
   const { data, status } = useSession()
   const { user: supabaseUser, isAuthenticated: isSupabaseAuthenticated } = useSupabaseSession()
   const { user, signOut } = useUser()
@@ -75,7 +83,12 @@ const StandardNavbar = () => {
 
   return (
     <>
-      <nav className={cn(styles.navbar, { [styles.scrolled]: isScrolled })}>
+      <nav
+        className={cn(styles.navbar, {
+          [styles.scrolled]: isScrolled && !alwaysTransparent,
+          [styles.transparent]: alwaysTransparent || (transparent && !isScrolled),
+        })}
+      >
         <div className={styles.container}>
           <div className={styles.brand}>
             <Link href="/" className={styles.brandLink}>
@@ -85,8 +98,11 @@ const StandardNavbar = () => {
           </div>
 
           <div className={styles.navLinks}>
+            <Link href={Routes.WORKSPACES} className={styles.navLink}>
+              Workspaces
+            </Link>
             <Link href={Routes.APPS} className={styles.navLink}>
-              Apps
+              Integrations
             </Link>
             <Link href={Routes.TEMPLATES} className={styles.navLink}>
               Templates
@@ -157,8 +173,15 @@ const StandardNavbar = () => {
 
         <div className={styles.mobileMenuContent}>
           <div className={styles.mobileNavLinks}>
+            <Link
+              href={Routes.WORKSPACES}
+              className={styles.mobileNavLink}
+              onClick={closeMobileNav}
+            >
+              Workspaces
+            </Link>
             <Link href={Routes.APPS} className={styles.mobileNavLink} onClick={closeMobileNav}>
-              Apps
+              Integrations
             </Link>
             <Link href={Routes.TEMPLATES} className={styles.mobileNavLink} onClick={closeMobileNav}>
               Templates

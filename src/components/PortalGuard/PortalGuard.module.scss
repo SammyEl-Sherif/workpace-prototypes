@@ -1,0 +1,89 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: $size-400;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $size-200;
+  text-align: center;
+  max-width: 400px;
+}
+
+.contentWide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $size-200;
+  text-align: center;
+  max-width: 640px;
+  width: 100%;
+}
+
+.icon {
+  font-size: 48px;
+  line-height: 1;
+  margin-bottom: $size-100;
+}
+
+.title {
+  color: $color-neutral-900;
+  margin: 0;
+}
+
+.message {
+  color: $color-neutral-500;
+  margin: 0;
+  margin-bottom: $size-100;
+}
+
+.summarySection {
+  display: flex;
+  flex-direction: column;
+  gap: $size-200;
+  width: 100%;
+  text-align: left;
+  margin-top: $size-200;
+}
+
+.summaryGroup {
+  padding: $size-200;
+  background: $color-neutral-50;
+  border-radius: 8px;
+}
+
+.summaryGroupTitle {
+  font-size: $font-body-md-font-size;
+  font-weight: $font-weight-bold;
+  color: $color-neutral-800;
+  margin: 0 0 $size-100 0;
+}
+
+.summaryItem {
+  display: flex;
+  flex-direction: column;
+  gap: $size-25;
+  margin-bottom: $size-75;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.summaryLabel {
+  font-size: $font-body-sm-font-size;
+  color: $color-neutral-500;
+  font-weight: $font-weight-medium;
+}
+
+.summaryValue {
+  font-size: $font-body-md-font-size;
+  color: $color-neutral-900;
+}
