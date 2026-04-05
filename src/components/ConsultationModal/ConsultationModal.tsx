@@ -1,4 +1,4 @@
-t import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { Button, InputField, Select, Text } from '@workpace/design-system'
 import cn from 'classnames'
@@ -261,6 +261,7 @@ const ConsultationModal = ({ isOpen, onClose }: ConsultationModalProps) => {
                       updateField('name', e.target.value)
                     }
                     required
+                    dark
                   />
                   <InputField
                     label="Email Address"
@@ -270,6 +271,7 @@ const ConsultationModal = ({ isOpen, onClose }: ConsultationModalProps) => {
                       updateField('email', e.target.value)
                     }
                     required
+                    dark
                   />
                   <InputField
                     label="Company / Organization"
@@ -277,6 +279,7 @@ const ConsultationModal = ({ isOpen, onClose }: ConsultationModalProps) => {
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       updateField('company', e.target.value)
                     }
+                    dark
                   />
                 </div>
               )}
@@ -291,6 +294,7 @@ const ConsultationModal = ({ isOpen, onClose }: ConsultationModalProps) => {
                     }
                     placeholder="Select a service"
                     required
+                    dark
                   >
                     <option value="notion-templates">Notion Templates</option>
                     <option value="notion-consulting">Notion Consulting</option>
@@ -305,6 +309,7 @@ const ConsultationModal = ({ isOpen, onClose }: ConsultationModalProps) => {
                       updateField('budget', e.target.value)
                     }
                     placeholder="Select a range"
+                    dark
                   >
                     <option value="under-1k">Under $1,000</option>
                     <option value="1k-5k">$1,000 – $5,000</option>
@@ -320,6 +325,7 @@ const ConsultationModal = ({ isOpen, onClose }: ConsultationModalProps) => {
                       updateField('timeline', e.target.value)
                     }
                     placeholder="Select a timeline"
+                    dark
                   >
                     <option value="asap">ASAP</option>
                     <option value="1-2-weeks">1–2 weeks</option>

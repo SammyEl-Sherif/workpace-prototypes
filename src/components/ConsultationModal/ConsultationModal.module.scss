@@ -172,30 +172,8 @@
   gap: $size-200;
   animation: fadeInStep 0.3s ease-out;
 
-  // Dark mode overrides for design system InputField and Select
+  // Select dropdown options need manual dark styling
   :global {
-    label {
-      color: rgba(255, 255, 255, 0.6) !important;
-    }
-
-    input,
-    select {
-      background: rgba(255, 255, 255, 0.06) !important;
-      border-color: rgba(255, 255, 255, 0.15) !important;
-      color: $color-neutral-white !important;
-      -webkit-text-fill-color: $color-neutral-white !important;
-
-      &::placeholder {
-        color: rgba(255, 255, 255, 0.25) !important;
-        -webkit-text-fill-color: rgba(255, 255, 255, 0.25) !important;
-      }
-
-      &:focus {
-        border-color: $color-accent-500 !important;
-        box-shadow: 0 0 0 2px rgba($color-accent-500, 0.25) !important;
-      }
-    }
-
     select option {
       background: #1a1a1a;
       color: $color-neutral-white;
