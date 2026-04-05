@@ -1,7 +1,7 @@
 @use '@workpace/design-system/dist/design-tokens' as *;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   Consultation Booking Modal
+   Consultation Booking Modal — Dark Mode
    ═══════════════════════════════════════════════════════════════════════════ */
 
 /* ── Overlay ── */
@@ -10,8 +10,8 @@
   position: fixed;
   inset: 0;
   z-index: 2000;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -27,9 +27,11 @@
 
 .modal {
   position: relative;
-  background: $color-neutral-white;
+  background: rgba(20, 20, 20, 0.95);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: $size-200;
-  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.16), 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
   width: 100%;
   max-width: 560px;
   max-height: 90vh;
@@ -52,8 +54,8 @@
   height: $size-400;
   border-radius: 50%;
   border: none;
-  background: $color-neutral-50;
-  color: $color-neutral-600;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.6);
   font-size: $font-body-md-font-size;
   cursor: pointer;
   display: flex;
@@ -62,8 +64,8 @@
   transition: background 0.2s ease, color 0.2s ease;
 
   &:hover {
-    background: $color-neutral-100;
-    color: $color-neutral-900;
+    background: rgba(255, 255, 255, 0.15);
+    color: $color-neutral-white;
   }
 }
 
@@ -74,12 +76,12 @@
 }
 
 .modalTitle {
-  color: $color-neutral-900;
+  color: $color-neutral-white;
   margin: 0 0 $size-75;
 }
 
 .modalSubtitle {
-  color: $color-neutral-600;
+  color: rgba(255, 255, 255, 0.5);
   margin: 0;
 }
 
@@ -104,9 +106,9 @@
   height: $size-400;
   min-width: $size-400;
   border-radius: 50%;
-  border: 2px solid $color-neutral-200;
-  background: $color-neutral-white;
-  color: $color-neutral-400;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.3);
   font-size: $font-body-sm-font-size;
   font-weight: $font-weight-medium;
   display: flex;
@@ -116,8 +118,8 @@
   z-index: 1;
 
   &.active {
-    border-color: $color-primary-600;
-    background: $color-primary-600;
+    border-color: $color-accent-500;
+    background: $color-accent-500;
     color: $color-neutral-white;
   }
 
@@ -133,23 +135,23 @@
   top: calc(100% + #{$size-50});
   left: 0;
   white-space: nowrap;
-  color: $color-neutral-400;
+  color: rgba(255, 255, 255, 0.3);
   transition: color 0.3s ease;
 
   &.active {
-    color: $color-primary-600;
+    color: $color-accent-400;
     font-weight: $font-weight-medium;
   }
 
   &.completed {
-    color: $color-success-600;
+    color: $color-success-400;
   }
 }
 
 .stepLine {
   flex: 1;
   height: 2px;
-  background: $color-neutral-200;
+  background: rgba(255, 255, 255, 0.1);
   margin: 0 $size-100;
   transition: background 0.3s ease;
 
@@ -169,6 +171,36 @@
   flex-direction: column;
   gap: $size-200;
   animation: fadeInStep 0.3s ease-out;
+
+  // Dark mode overrides for design system InputField and Select
+  :global {
+    label {
+      color: rgba(255, 255, 255, 0.6) !important;
+    }
+
+    input,
+    select {
+      background: rgba(255, 255, 255, 0.06) !important;
+      border-color: rgba(255, 255, 255, 0.15) !important;
+      color: $color-neutral-white !important;
+      -webkit-text-fill-color: $color-neutral-white !important;
+
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.25) !important;
+        -webkit-text-fill-color: rgba(255, 255, 255, 0.25) !important;
+      }
+
+      &:focus {
+        border-color: $color-accent-500 !important;
+        box-shadow: 0 0 0 2px rgba($color-accent-500, 0.25) !important;
+      }
+    }
+
+    select option {
+      background: #1a1a1a;
+      color: $color-neutral-white;
+    }
+  }
 }
 
 /* ── Textarea ── */
@@ -184,46 +216,46 @@
 }
 
 .textareaLabelText {
-  color: $color-neutral-700;
+  color: rgba(255, 255, 255, 0.6);
   font-weight: $font-weight-medium;
 }
 
 .textarea {
   width: 100%;
-  border: 1.5px solid $color-neutral-200;
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
   border-radius: $size-100;
   padding: $size-150;
   font-family: $font-family;
   font-size: $font-body-md-font-size;
   line-height: $font-body-md-paragraph-line-height;
-  color: $color-neutral-900;
-  background: $color-neutral-white;
+  color: $color-neutral-white;
+  background: rgba(255, 255, 255, 0.06);
   resize: vertical;
   min-height: 100px;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 
   &::placeholder {
-    color: $color-neutral-400;
+    color: rgba(255, 255, 255, 0.25);
   }
 
   &:focus {
     outline: none;
-    border-color: $color-primary-500;
-    box-shadow: 0 0 0 3px rgba($color-primary-500, 0.15);
+    border-color: $color-accent-500;
+    box-shadow: 0 0 0 3px rgba($color-accent-500, 0.15);
   }
 }
 
 /* ── Summary ── */
 
 .summary {
-  background: $color-neutral-50;
-  border: 1px solid $color-neutral-100;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: $size-150;
   padding: $size-200;
 }
 
 .summaryTitle {
-  color: $color-neutral-900;
+  color: $color-neutral-white;
   margin: 0 0 $size-150;
 }
 
@@ -231,6 +263,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: $size-150;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .summaryItem {
@@ -240,7 +273,7 @@
 }
 
 .summaryLabel {
-  color: $color-neutral-500;
+  color: rgba(255, 255, 255, 0.4);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -253,7 +286,7 @@
   align-items: center;
   margin-top: $size-300;
   padding-top: $size-300;
-  border-top: 1px solid $color-neutral-100;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 /* ── Success State ── */
@@ -271,8 +304,8 @@
   width: $size-800;
   height: $size-800;
   border-radius: 50%;
-  background: $color-success-50;
-  color: $color-success-600;
+  background: rgba($color-success-500, 0.15);
+  color: $color-success-400;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -281,12 +314,12 @@
 }
 
 .successTitle {
-  color: $color-neutral-900;
+  color: $color-neutral-white;
   margin: 0;
 }
 
 .successDescription {
-  color: $color-neutral-600;
+  color: rgba(255, 255, 255, 0.6);
   margin: 0;
   max-width: 400px;
 }
@@ -314,13 +347,13 @@
     content: '';
     flex: 1;
     height: 1px;
-    background: $color-neutral-200;
+    background: rgba(255, 255, 255, 0.1);
   }
 }
 
 .bookingDividerText {
   font-size: $font-body-xs-font-size;
-  color: $color-neutral-500;
+  color: rgba(255, 255, 255, 0.4);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   white-space: nowrap;
@@ -328,7 +361,7 @@
 }
 
 .bookingDescription {
-  color: $color-neutral-600;
+  color: rgba(255, 255, 255, 0.5);
   margin: 0;
   text-align: center;
 }
@@ -341,29 +374,29 @@
 /* ── Inline Booking Link (in header subtitle) ── */
 
 .inlineBookingLink {
-  color: $color-primary-600;
+  color: $color-accent-400;
   text-decoration: underline;
-  text-decoration-color: rgba($color-primary-600, 0.3);
+  text-decoration-color: rgba($color-accent-400, 0.3);
   text-underline-offset: 2px;
   transition: color 0.2s ease, text-decoration-color 0.2s ease;
 
   &:hover {
-    color: $color-primary-700;
-    text-decoration-color: $color-primary-700;
+    color: $color-accent-300;
+    text-decoration-color: $color-accent-300;
   }
 }
 
 /* ── Error Banner ── */
 
 .errorBanner {
-  background: $color-error-50;
-  border: 1px solid $color-error-200;
+  background: rgba($color-error-500, 0.15);
+  border: 1px solid rgba($color-error-500, 0.3);
   border-radius: $size-100;
   padding: $size-150;
 }
 
 .errorText {
-  color: $color-error-700;
+  color: $color-error-300;
   margin: 0;
 }
 
@@ -372,21 +405,13 @@
    ═══════════════════════════════════════════════════════════════════════════ */
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
+  from { opacity: 1; }
+  to { opacity: 0; }
 }
 
 @keyframes slideIn {
@@ -429,13 +454,22 @@
 @media (max-width: 639px) {
   .overlay {
     padding: $size-100;
-    align-items: flex-end;
+    padding-top: 82px; // below navbar
+    align-items: stretch;
   }
 
   .modal {
     padding: $size-300;
-    max-height: 85vh;
-    border-radius: $size-200 $size-200 0 0;
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: $size-150;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .formBody {
+    flex: 1;
+    min-height: 0;
   }
 
   .summaryGrid {

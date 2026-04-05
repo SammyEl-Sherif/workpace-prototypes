@@ -103,6 +103,16 @@ export const ProfileDropdown = ({ className }: ProfileDropdownProps) => {
             </button>
           )}
           <div className={styles.divider} />
+          <a
+            href="https://calendar.notion.so/meet/sammyel-sherif/workpace"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.menuItem}
+            onClick={() => setIsOpen(false)}
+          >
+            Book a Consultation
+          </a>
+          <div className={styles.divider} />
           <button onClick={handleSignOut} className={styles.menuItem}>
             Sign Out
           </button>

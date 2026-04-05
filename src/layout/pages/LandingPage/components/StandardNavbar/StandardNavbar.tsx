@@ -168,6 +168,16 @@ const StandardNavbar = ({
             <Link href={Routes.TEMPLATES} className={styles.mobileNavLink} onClick={closeMobileNav}>
               Templates
             </Link>
+            <div className={styles.mobileDivider} />
+            <a
+              href="https://calendar.notion.so/meet/sammyel-sherif/workpace"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.mobileNavLink}
+              onClick={closeMobileNav}
+            >
+              Book a Consultation
+            </a>
             {isAuthenticated && (
               <>
                 {isAdmin && (

@@ -37,3 +37,11 @@
 .error-focused {
   box-shadow: inset 0 0 0 1px $color-error-600;
 }
+
+.dark.focused {
+  box-shadow: inset 0 0 0 1px $color-accent-500;
+}
+
+.dark.error-focused {
+  box-shadow: inset 0 0 0 1px $color-error-400;
+}

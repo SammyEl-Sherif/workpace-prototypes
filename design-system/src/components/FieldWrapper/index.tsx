@@ -29,6 +29,7 @@ const FieldWrapper = ({
     [styles['error-focused']]: isFieldFocused && hasError,
     [styles['has-icon']]: Boolean(icon),
     [styles.multi]: multiline,
+    [styles.dark]: dark,
   });
   const colors = getStateColors({ hasError, disabled, isFieldFocused, dark });
   return (
