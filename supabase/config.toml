@@ -45,6 +45,7 @@ file_size_limit = "50MiB"
 # feature_flags RLS policies reference public.user_roles.
 schema_paths = [
   "./schemas/_functions.sql",
+  "./schemas/agents.sql",
   "./schemas/apps.sql",
   "./schemas/consultation_requests.sql",
   "./schemas/events.sql",

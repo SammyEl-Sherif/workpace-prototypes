@@ -28,11 +28,11 @@ const services: Service[] = [
   },
   {
     number: '02',
-    title: 'Integrations',
+    title: 'Agents',
     description:
-      'Connect your favorite tools and automate workflows. Our suite of integrations brings Notion, Slack, and more together in one place.',
-    features: ['Notion integration', 'Slack & email sync', 'Workflow automation'],
-    path: Routes.APPS,
+      'AI-powered agents that handle the repetitive stuff so you can focus on the work that matters most to you.',
+    features: ['Task automation', 'Smart workflows', 'AI-powered actions'],
+    path: Routes.AGENTS,
     video:
       '/Sammy_El-Sherif_Realistic_top-down_photograph_of_a_sleek_blac_406233d8-163a-4a65-9026-9b32dc56dbb2_0.mp4',
   },

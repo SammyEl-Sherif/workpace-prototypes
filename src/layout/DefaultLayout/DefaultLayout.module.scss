@@ -56,13 +56,13 @@
   }
 
   .headerAction :global(button) {
-    background: #00b860 !important;
-    border-color: #00b860 !important;
+    background: $color-accent-500 !important;
+    border-color: $color-accent-500 !important;
     color: $color-neutral-white !important;
 
     &:hover {
-      background: #009e50 !important;
-      border-color: #009e50 !important;
+      background: $color-accent-600 !important;
+      border-color: $color-accent-600 !important;
     }
   }
 }
@@ -70,5 +70,11 @@
 @media #{$mq-sm-only} {
   .page {
     padding: $size-400 1rem $size-600;
+  }
+
+  .headerTop {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $size-200;
   }
 }

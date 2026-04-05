@@ -63,10 +63,10 @@ const HeroSection = () => {
             </div>
             <span className={styles.cardArrow}>→</span>
           </Link>
-          <Link href={Routes.APPS} className={styles.card}>
+          <Link href={Routes.AGENTS} className={styles.card}>
             <div className={styles.cardText}>
-              <span className={styles.cardTitle}>Integrations</span>
-              <span className={styles.cardDesc}>Connect your favorite tools</span>
+              <span className={styles.cardTitle}>Agents</span>
+              <span className={styles.cardDesc}>AI that handles the busy work</span>
             </div>
             <span className={styles.cardArrow}>→</span>
           </Link>

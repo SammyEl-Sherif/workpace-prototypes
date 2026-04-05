@@ -11,7 +11,7 @@ export const getServerSideProps: GetServerSideProps = withPageRequestWrapper(asy
 const HomePage = () => {
   return (
     <>
-      <DocumentTitle title="WorkPace - A change of pace in your online workspace" />
+      <DocumentTitle title="WorkPace - A change of pace" />
       <LandingPage />
     </>
   )

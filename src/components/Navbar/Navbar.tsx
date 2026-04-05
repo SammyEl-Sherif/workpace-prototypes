@@ -7,9 +7,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { useSupabaseSession, useUser } from '@/hooks'
-import { App } from '@/interfaces/apps'
 import { Routes } from '@/interfaces/routes'
-import { useAppsContext } from '@/modules'
 import Logo from '@/public/favicon.ico'
 import { getAppName } from '@/utils'
 
@@ -27,8 +25,6 @@ export const Navbar = () => {
   const { user: supabaseUser, isAuthenticated: isSupabaseAuthenticated } = useSupabaseSession()
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false)
-
-  const { apps } = useAppsContext()
 
   // Check if user is authenticated via either NextAuth or Supabase
   const isAuthenticated = status === 'authenticated' || isSupabaseAuthenticated
@@ -71,34 +67,15 @@ export const Navbar = () => {
         <div className={styles.mobileLinkStackWrapper}>
           <div className={styles.mobileLinkStack}>
             <div className={styles.headingAndLinks}>
-              <div className={cn(styles.linksHeading, { [styles.hide]: isCollapsed })}>Apps</div>
-              <div className={styles.links}>
-                {apps &&
-                  apps.map(({ path, name }: App) => {
-                    return (
-                      <Link className={styles.links} href={path} key={path}>
-                        {name}
-                      </Link>
-                    )
-                  })}
+              <div className={cn(styles.linksHeading, { [styles.hide]: isCollapsed })}>
+                Navigate
               </div>
-            </div>
-            <div className={styles.headingAndLinks}>
-              <div className={styles.linksHeading}>Info</div>
               <div className={styles.links}>
-                <Link href={Routes.ABOUT} className={styles.links}>
-                  ℹ️ About
+                <Link className={styles.links} href={Routes.AGENTS}>
+                  Agents
                 </Link>
-              </div>
-            </div>
-            <div className={styles.headingAndLinks}>
-              <div className={styles.linksHeading}>Learn More</div>
-              <div className={styles.links}>
-                <Link href={Routes.ABOUT} className={styles.links}>
-                  👋 About Us
-                </Link>
-                <Link href={Routes.PROFILE} className={styles.links}>
-                  👤 My Profile
+                <Link className={styles.links} href={Routes.TEMPLATES}>
+                  Templates
                 </Link>
               </div>
             </div>
@@ -180,35 +157,30 @@ export const Navbar = () => {
           )}
         </div>
         <div className={cn(styles.linkStack)}>
-          {/* Apps Section */}
+          {/* Navigation Section */}
           <div className={styles.section}>
-            <div className={cn(styles.linksHeading, { [styles.hide]: isCollapsed })}>Apps</div>
-            {!isCollapsed &&
-              apps &&
-              apps.length > 0 &&
-              apps.map(({ path, name }: App) => {
-                return (
-                  <Link className={styles.links} href={path} key={path}>
-                    {name}
-                  </Link>
-                )
-              })}
-            {!isCollapsed && (!apps || apps.length === 0) && (
-              <div className={styles.emptyState}>No apps available</div>
+            <div className={cn(styles.linksHeading, { [styles.hide]: isCollapsed })}>Navigate</div>
+            {!isCollapsed && (
+              <>
+                <Link className={styles.links} href={Routes.AGENTS}>
+                  Agents
+                </Link>
+                <Link className={styles.links} href={Routes.TEMPLATES}>
+                  Templates
+                </Link>
+              </>
             )}
             {isCollapsed && (
               <div className={styles.iconLinkStack}>
                 <Link className={styles.iconLinks} href={Routes.HOME} title="Home">
                   🏠
                 </Link>
-                {apps &&
-                  apps.map(({ path, name, icon }: App) => {
-                    return (
-                      <Link className={styles.links} href={path} title={name} key={path}>
-                        {icon}
-                      </Link>
-                    )
-                  })}
+                <Link className={styles.links} href={Routes.AGENTS} title="Agents">
+                  🤖
+                </Link>
+                <Link className={styles.links} href={Routes.TEMPLATES} title="Templates">
+                  📄
+                </Link>
               </div>
             )}
           </div>
@@ -217,16 +189,6 @@ export const Navbar = () => {
           <div className={styles.section}>
             <div className={cn(styles.divider, { [styles.hide]: isCollapsed })} />
             <div className={cn(styles.linksHeading, { [styles.hide]: isCollapsed })}>Info</div>
-            {!isCollapsed && (
-              <Link className={styles.links} href={Routes.ABOUT}>
-                ℹ️ About
-              </Link>
-            )}
-            {isCollapsed && (
-              <Link className={styles.links} href={Routes.ABOUT} title="About">
-                ℹ️
-              </Link>
-            )}
           </div>
         </div>
         <div className={styles.bottomSection}>
@@ -260,7 +222,6 @@ export const Navbar = () => {
         </div>
         {isCollapsed && (
           <div
-            /* href={Routes.PROFILE} */
             className={styles.profile}
             title={Array.isArray(user?.roles) ? user.roles.join(', ') : user?.roles}
           >

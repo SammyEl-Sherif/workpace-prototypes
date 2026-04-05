@@ -25,12 +25,12 @@ export default function MainLayout({ children }: LayoutProps) {
     status === 'unauthenticated' &&
     pathname !== '/' &&
     pathname !== '/signin' &&
-    pathname !== '/about' &&
     pathname !== '/privacy' &&
     pathname !== '/terms' &&
     !pathname.startsWith('/templates') &&
     !pathname.startsWith('/workspaces') &&
-    !pathname.startsWith('/integrations')
+    !pathname.startsWith('/integrations') &&
+    !pathname.startsWith('/agents')
 
   // SubNavbar appears on individual app pages (e.g. /apps/sms)
   const hasSubNavbar = useMemo(() => APPS.some((p) => pathname === p.path), [pathname])
@@ -39,6 +39,9 @@ export default function MainLayout({ children }: LayoutProps) {
   const isGridPage =
     pathname.startsWith('/integrations') ||
     pathname.startsWith('/templates') ||
+    pathname.startsWith('/agents') ||
+    pathname.startsWith('/workspaces') ||
+    pathname.startsWith('/account') ||
     pathname.startsWith('/apps/')
   const isDarkPage =
     isGridPage || pathname.startsWith('/workspaces') || pathname.startsWith('/templates')

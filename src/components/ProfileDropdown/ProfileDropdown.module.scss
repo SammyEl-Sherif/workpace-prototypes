@@ -7,6 +7,14 @@
 
 .profileButton {
   position: relative;
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  color: $color-neutral-white !important;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.18) !important;
+    border-color: rgba(255, 255, 255, 0.35) !important;
+  }
 }
 
 .buttonContent {
@@ -33,10 +41,12 @@
   position: absolute;
   top: calc(100% + $size-50);
   right: 0;
-  background: $color-neutral-white;
-  border: 1px solid $color-neutral-200;
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: $size-100;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
   min-width: 160px;
   z-index: 1000;
   overflow: hidden;
@@ -61,19 +71,20 @@
   text-align: left;
   background: none !important;
   border: none !important;
-  color: $color-neutral-900 !important;
+  color: rgba(255, 255, 255, 0.85) !important;
   font-size: $font-body-md-font-size;
   font-weight: $font-weight-regular;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
   font-family: inherit;
 
   &:hover {
-    background-color: $color-neutral-100 !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: $color-neutral-white !important;
   }
 
   &:active {
-    background-color: $color-neutral-200 !important;
+    background-color: rgba(255, 255, 255, 0.15) !important;
   }
 
   &:first-child {
@@ -89,6 +100,6 @@
 
 .divider {
   height: 1px;
-  background-color: $color-neutral-200;
+  background-color: rgba(255, 255, 255, 0.12);
   margin: $size-50 0;
 }

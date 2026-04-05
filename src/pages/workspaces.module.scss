@@ -4,52 +4,13 @@
    Workspaces Page — Dark Mode
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* ── CTA Banner ── */
-
-.ctaBanner {
-  background: rgba(255, 255, 255, 5%);
-  border: 1px solid rgba(255, 255, 255, 12%);
-  backdrop-filter: blur(16px);
-  border-radius: $size-200;
-  padding: $size-600 $size-400;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: $size-200;
-}
-
-.ctaTitle {
-  color: $color-neutral-white;
-  margin: 0;
-}
-
-.ctaSubtitle {
-  color: rgba(255, 255, 255, 60%);
-  margin: 0;
-  max-width: 640px;
-}
-
-.ctaDisclaimer {
-  color: rgba(255, 255, 255, 40%);
-  margin: $size-50 0 0;
-}
-
-/* ── Content ── */
-
-.content {
-  padding: $size-600 0;
-  display: flex;
-  flex-direction: column;
-  gap: $size-700;
-}
-
 /* ── Sections ── */
 
 .section {
   display: flex;
   flex-direction: column;
   gap: $size-400;
+  margin-top: $size-600;
 }
 
 .sectionHeader {
@@ -61,6 +22,9 @@
 .sectionTitle {
   color: $color-neutral-white;
   margin: 0;
+  font-size: clamp(1.5rem, 3.5vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
 }
 
 .sectionDescription {
@@ -69,15 +33,84 @@
   max-width: 720px;
 }
 
-/* ── Value Grid ── */
+/* ── Link Cards (Agents + Templates) ── */
 
-.valueGrid {
+.linkGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $size-300;
+}
+
+.linkCard {
+  display: flex;
+  align-items: center;
+  gap: $size-250;
+  background: rgba(255, 255, 255, 5%);
+  border: 1px solid rgba(255, 255, 255, 12%);
+  backdrop-filter: blur(16px);
+  border-radius: $size-150;
+  padding: $size-300;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.25s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 10%);
+    border-color: rgba(255, 255, 255, 30%);
+    transform: translateY(-2px);
+  }
+}
+
+.linkCardIcon {
+  font-size: 2rem;
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 8%);
+  border-radius: $size-100;
+}
+
+.linkCardContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: $size-50;
+}
+
+.linkCardTitle {
+  color: $color-neutral-white;
+  margin: 0;
+}
+
+.linkCardDescription {
+  color: rgba(255, 255, 255, 50%);
+  margin: 0;
+}
+
+.linkCardArrow {
+  font-size: $font-body-lg-font-size;
+  color: rgba(255, 255, 255, 40%);
+  flex-shrink: 0;
+  transition: color 0.2s ease, transform 0.2s ease;
+
+  .linkCard:hover & {
+    color: $color-neutral-white;
+    transform: translateX(4px);
+  }
+}
+
+/* ── Process Steps ── */
+
+.processGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: $size-300;
 }
 
-.valueCard {
+.processCard {
   background: rgba(255, 255, 255, 5%);
   border: 1px solid rgba(255, 255, 255, 12%);
   backdrop-filter: blur(16px);
@@ -94,13 +127,111 @@
   }
 }
 
-.valueTitle {
+.processNumber {
+  font-size: $font-body-sm-font-size;
+  font-weight: $font-weight-bold;
+  color: $color-accent-400;
+  letter-spacing: 0.05em;
+}
+
+.processTitle {
   color: $color-neutral-white;
   margin: 0;
 }
 
-.valueDescription {
+.processDescription {
   color: rgba(255, 255, 255, 60%);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ── CTA Banner ── */
+
+.ctaBanner {
+  background: rgba(255, 255, 255, 5%);
+  border: 1px solid rgba(255, 255, 255, 12%);
+  backdrop-filter: blur(16px);
+  border-radius: $size-200;
+  padding: $size-500 $size-400;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $size-150;
+}
+
+.ctaTitle {
+  color: $color-neutral-white;
+  margin: 0;
+}
+
+.ctaSubtitle {
+  color: rgba(255, 255, 255, 60%);
+  margin: 0;
+  max-width: 480px;
+}
+
+/* ── Testimonials ── */
+
+.testimonialGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $size-300;
+}
+
+.testimonialCard {
+  background: rgba(255, 255, 255, 5%);
+  border: 1px solid rgba(255, 255, 255, 12%);
+  backdrop-filter: blur(16px);
+  border-radius: $size-150;
+  padding: $size-300;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: $size-300;
+  transition: background 0.2s ease, border-color 0.2s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 8%);
+    border-color: rgba(255, 255, 255, 25%);
+  }
+}
+
+.testimonialQuote {
+  color: rgba(255, 255, 255, 80%);
+  font-size: $font-body-md-font-size;
+  line-height: 1.65;
+  margin: 0;
+  font-style: italic;
+}
+
+.testimonialAuthor {
+  display: flex;
+  align-items: center;
+  gap: $size-150;
+}
+
+.testimonialAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: $color-accent-500;
+  color: $color-neutral-white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $font-body-sm-font-size;
+  font-weight: $font-weight-bold;
+  flex-shrink: 0;
+}
+
+.testimonialName {
+  color: $color-neutral-white;
+  margin: 0;
+}
+
+.testimonialRole {
+  color: rgba(255, 255, 255, 50%);
   margin: 0;
 }
 
@@ -109,18 +240,23 @@
    ═══════════════════════════════════════════════════════════════════════════ */
 
 @media (max-width: 1023px) {
-  .valueGrid {
+  .processGrid,
+  .testimonialGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .linkGrid {
     grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 639px) {
-  .ctaBanner {
-    padding: $size-400 $size-250;
+  .section {
+    margin-top: $size-400;
+    gap: $size-300;
   }
 
-  .content {
-    padding: $size-400 0;
-    gap: $size-500;
+  .ctaBanner {
+    padding: $size-400 $size-250;
   }
 }

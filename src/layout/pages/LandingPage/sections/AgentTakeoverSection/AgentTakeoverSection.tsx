@@ -17,7 +17,7 @@ const AgentTakeoverSection = () => {
             viewport={{ once: true, amount: 0.5 }}
             transition={{ duration: 0.5, ease: 'easeOut' }}
           >
-            The Future of Work
+            A Smarter Way to Work
           </motion.span>
           <motion.h2
             className={styles.heading}
@@ -26,7 +26,7 @@ const AgentTakeoverSection = () => {
             viewport={{ once: true, amount: 0.5 }}
             transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }}
           >
-            The Agent Takeover Is Here
+            Offload the Busy Work
           </motion.h2>
           <motion.hr
             className={styles.divider}
@@ -42,8 +42,8 @@ const AgentTakeoverSection = () => {
             viewport={{ once: true, amount: 0.5 }}
             transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
           >
-            AI agents are here, whether you&apos;re ready or not. We&apos;ve entered a new wave of
-            technology, and those who leverage it fastest will pull ahead.
+            Spend less time on mundane tasks and more time on the work that matters most to you. AI
+            agents take care of the repetitive stuff so you can focus on what you do best.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -51,8 +51,8 @@ const AgentTakeoverSection = () => {
             viewport={{ once: true, amount: 0.5 }}
             transition={{ duration: 0.6, ease: 'easeOut', delay: 0.3 }}
           >
-            <Link href={Routes.APPS} className={styles.cta}>
-              See Our AI Services →
+            <Link href={Routes.AGENTS} className={styles.cta}>
+              See Our Agents →
             </Link>
           </motion.div>
         </div>
@@ -65,7 +65,7 @@ const AgentTakeoverSection = () => {
           transition={{ duration: 0.7, ease: 'easeOut', delay: 0.1 }}
         >
           <div className={styles.imageFrame}>
-            <img src="/IMG_7442.png" alt="AI Agent Takeover" className={styles.image} />
+            <img src="/IMG_7442.png" alt="AI agents working for you" className={styles.image} />
           </div>
         </motion.div>
       </div>

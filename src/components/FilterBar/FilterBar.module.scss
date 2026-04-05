@@ -1,0 +1,42 @@
+@use '@workpace/design-system/dist/design-tokens' as *;
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $size-100;
+  justify-content: flex-start;
+  margin-bottom: $size-200;
+}
+
+/* ── Filter Badge Color Overrides (dark mode) ── */
+
+button.filterActive {
+  background: $color-neutral-white !important;
+  color: $color-neutral-900 !important;
+  border-color: $color-neutral-white !important;
+  border-radius: 100px;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.85) !important;
+    border-color: rgba(255, 255, 255, 0.85) !important;
+  }
+}
+
+button.filterInactive {
+  background: #000 !important;
+  color: $color-neutral-white !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  border-radius: 100px;
+  cursor: pointer;
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.4) !important;
+  }
+}
+
+@media #{$mq-sm-only} {
+  .filters {
+    gap: $size-75;
+  }
+}

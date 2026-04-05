@@ -46,8 +46,8 @@ const CTASection = ({ onBookConsultation }: CTASectionProps) => {
             viewport={{ once: true, amount: 0.5 }}
             transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
           >
-            <ButtonComponent variant="default-primary" onClick={onBookConsultation}>
-              Schedule a Consultation →
+            <ButtonComponent variant="brand-secondary" onClick={onBookConsultation}>
+              Schedule a Consultation
             </ButtonComponent>
             <Link href={Routes.TEMPLATES} className={styles.browseLink}>
               <ButtonComponent as="span" variant="default-secondary" className={styles.outlineBtn}>

@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
-import { NotionTemplate, TemplateCategory } from '@/apis/controllers/templates'
+import { Agent, AgentCategory } from '@/apis/controllers/agents'
 import { CardGrid, CardItem } from '@/components/CardGrid'
 import { FilterBar } from '@/components/FilterBar'
 import { PageBanner } from '@/components/PageBanner'
 import { Routes } from '@/interfaces/routes'
 
-import styles from './Templates.module.scss'
+import styles from './Agents.module.scss'
 import { slugify } from './utils'
 
 /* ── Types ── */
@@ -15,14 +15,14 @@ type PricingFilter = 'all' | 'free' | 'paid'
 
 /* ── Constants ── */
 
-const CATEGORY_OPTIONS: { label: string; value: TemplateCategory }[] = [
+const CATEGORY_OPTIONS: { label: string; value: AgentCategory }[] = [
   { label: 'Productivity', value: 'Productivity' },
-  { label: 'Work', value: 'Work' },
-  { label: 'Education', value: 'Education' },
-  { label: 'Health & Fitness', value: 'Health & Fitness' },
+  { label: 'Communication', value: 'Communication' },
+  { label: 'Data & Analytics', value: 'Data & Analytics' },
+  { label: 'Content', value: 'Content' },
+  { label: 'Operations', value: 'Operations' },
   { label: 'Finance', value: 'Finance' },
-  { label: 'Travel', value: 'Travel' },
-  { label: 'Seasonal', value: 'Seasonal' },
+  { label: 'Custom', value: 'Custom' },
 ]
 
 const PRICING_OPTIONS: { label: string; value: PricingFilter }[] = [
@@ -33,71 +33,71 @@ const PRICING_OPTIONS: { label: string; value: PricingFilter }[] = [
 
 /* ── Component ── */
 
-export const Templates = () => {
-  const [templates, setTemplates] = useState<NotionTemplate[]>([])
+export const Agents = () => {
+  const [agents, setAgents] = useState<Agent[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   const [search, setSearch] = useState('')
-  const [activeCategory, setActiveCategory] = useState<TemplateCategory | null>(null)
+  const [activeCategory, setActiveCategory] = useState<AgentCategory | null>(null)
   const [pricingFilter, setPricingFilter] = useState<PricingFilter>('all')
 
-  const fetchTemplates = useCallback(async () => {
+  const fetchAgents = useCallback(async () => {
     try {
       setIsLoading(true)
       setError(null)
-      const res = await fetch('/api/templates')
+      const res = await fetch('/api/agents')
       if (!res.ok) {
-        throw new Error(`Failed to fetch templates (${res.status})`)
+        throw new Error(`Failed to fetch agents (${res.status})`)
       }
-      const data: NotionTemplate[] = await res.json()
-      setTemplates(data)
+      const data: Agent[] = await res.json()
+      setAgents(data)
     } catch (err) {
-      console.error('[Templates] Fetch error:', err)
-      setError(err instanceof Error ? err.message : 'Failed to load templates')
+      console.error('[Agents] Fetch error:', err)
+      setError(err instanceof Error ? err.message : 'Failed to load agents')
     } finally {
       setIsLoading(false)
     }
   }, [])
 
   useEffect(() => {
-    fetchTemplates()
-  }, [fetchTemplates])
+    fetchAgents()
+  }, [fetchAgents])
 
   const filtered = useMemo(() => {
-    let results = templates
+    let results = agents
 
     if (activeCategory) {
-      results = results.filter((t) => t.category === activeCategory)
+      results = results.filter((a) => a.category === activeCategory)
     }
 
     if (pricingFilter !== 'all') {
-      results = results.filter((t) => t.pricing_type === pricingFilter)
+      results = results.filter((a) => a.pricing_type === pricingFilter)
     }
 
     if (search.trim()) {
       const q = search.toLowerCase()
       results = results.filter(
-        (t) =>
-          t.title.toLowerCase().includes(q) ||
-          t.description?.toLowerCase().includes(q) ||
-          t.category.toLowerCase().includes(q)
+        (a) =>
+          a.title.toLowerCase().includes(q) ||
+          a.description?.toLowerCase().includes(q) ||
+          a.category.toLowerCase().includes(q)
       )
     }
 
     return results
-  }, [templates, search, activeCategory, pricingFilter])
+  }, [agents, search, activeCategory, pricingFilter])
 
   const cardItems: CardItem[] = useMemo(
     () =>
-      filtered.map((t) => ({
-        id: t.id,
-        title: t.title,
-        description: t.description,
-        image_url: t.image_url,
-        pricing_type: t.pricing_type,
-        price_cents: t.price_cents,
-        href: `/templates/${slugify(t.title)}`,
+      filtered.map((a) => ({
+        id: a.id,
+        title: a.title,
+        description: a.description,
+        image_url: a.image_url,
+        pricing_type: a.pricing_type,
+        price_cents: a.price_cents,
+        href: `/agents/${slugify(a.title)}`,
       })),
     [filtered]
   )
@@ -108,8 +108,8 @@ export const Templates = () => {
         logos={{ left: 'W', right: 'N' }}
         title="Powered by the WorkPace + Notion integration"
         subtitle="Supercharge your workspace with agents and templates. Duplicate, customize, and start building in seconds."
-        ctaLabel="View Agents"
-        ctaHref={Routes.AGENTS}
+        ctaLabel="Browse Templates"
+        ctaHref={Routes.TEMPLATES}
       />
 
       <FilterBar
@@ -132,7 +132,7 @@ export const Templates = () => {
         items={cardItems}
         isLoading={isLoading}
         error={error}
-        emptyLabel="No templates found"
+        emptyLabel="No agents found"
       />
     </div>
   )

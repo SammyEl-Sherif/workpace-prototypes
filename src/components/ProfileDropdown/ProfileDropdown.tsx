@@ -92,10 +92,7 @@ export const ProfileDropdown = ({ className }: ProfileDropdownProps) => {
       {isOpen && (
         <div className={styles.dropdownMenu}>
           <button onClick={handleProfileClick} className={styles.menuItem}>
-            Profile
-          </button>
-          <button onClick={handleFriendsClick} className={styles.menuItem}>
-            Friends
+            My Account
           </button>
           <button onClick={handlePortalClick} className={styles.menuItem}>
             Client Portal

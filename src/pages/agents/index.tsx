@@ -5,11 +5,11 @@ import { Button } from '@workpace/design-system'
 import { ConsultationModal } from '@/components/ConsultationModal'
 import { DefaultLayout } from '@/layout'
 import { DocumentTitle } from '@/layout/DocumentTitle'
-import { Templates } from '@/modules/Templates'
+import { Agents } from '@/modules/Agents'
 
 const ButtonComponent = Button as any
 
-const TemplatesPage = () => {
+const AgentsPage = () => {
   const [isConsultationOpen, setIsConsultationOpen] = useState(false)
 
   const openConsultation = () => setIsConsultationOpen(true)
@@ -17,18 +17,18 @@ const TemplatesPage = () => {
 
   return (
     <>
-      <DocumentTitle title="Notion Templates — WorkPace" />
+      <DocumentTitle title="AI Agents — WorkPace" />
       <DefaultLayout
         dark
-        title="Notion Templates"
-        subtitle="Notion templates to change the pace of how you organize work and life."
+        title="AI Agents"
+        subtitle="AI agents that handle the busy work so you can focus on what matters."
         headerAction={
           <ButtonComponent variant="brand-secondary" onClick={openConsultation}>
             Schedule a Consultation
           </ButtonComponent>
         }
       >
-        <Templates />
+        <Agents />
       </DefaultLayout>
 
       <ConsultationModal isOpen={isConsultationOpen} onClose={closeConsultation} />
@@ -36,4 +36,4 @@ const TemplatesPage = () => {
   )
 }
 
-export default TemplatesPage
+export default AgentsPage

@@ -38,17 +38,17 @@ const FooterSection = () => {
                 </Link>
               </li>
               <li>
-                <Link href={Routes.ABOUT} className={styles.link}>
+                <Link href={Routes.HOME} className={styles.link}>
                   Notion Consulting
                 </Link>
               </li>
               <li>
-                <Link href={Routes.APPS} className={styles.link}>
-                  Software Products
+                <Link href={Routes.AGENTS} className={styles.link}>
+                  AI Agents
                 </Link>
               </li>
               <li>
-                <Link href={Routes.ABOUT} className={styles.link}>
+                <Link href={Routes.HOME} className={styles.link}>
                   Software Consulting
                 </Link>
               </li>
@@ -61,7 +61,7 @@ const FooterSection = () => {
             </Text>
             <ul className={styles.linkList}>
               <li>
-                <Link href={Routes.ABOUT} className={styles.link}>
+                <Link href={Routes.HOME} className={styles.link}>
                   About
                 </Link>
               </li>

@@ -1,103 +1,143 @@
 @use '@workpace/design-system/dist/design-tokens' as *;
 
-.wrapper {
-  position: relative;
-  min-height: calc(100vh - 72px);
-  margin: -72px -2rem 0 -2rem; // Offset MainLayout padding
-  padding: 72px 2rem 0 2rem; // Restore padding for content
-}
-
 .container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: calc(100vh - 72px);
-  padding: $size-300;
-  background: linear-gradient(
-    135deg,
-    $color-neutral-900 0%,
-    $color-accent-800 50%,
-    $color-neutral-900 100%
-  );
+  gap: $size-100;
 }
 
-.card {
+/* ── Editable Fields ── */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: $size-25;
+  padding: $size-100 0;
+  cursor: text;
+}
+
+.fieldLabel {
+  font-size: $font-body-sm-font-size;
+  font-weight: $font-weight-medium;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.fieldValue {
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
+  font-weight: $font-weight-medium;
+  color: $color-neutral-white;
+  cursor: default;
+}
+
+.fieldPlaceholder {
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
+  font-weight: $font-weight-medium;
+  color: rgba(255, 255, 255, 0.2);
+  cursor: default;
+}
+
+.fieldInput,
+.fieldInputEmpty {
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
+  font-weight: $font-weight-medium;
+  font-family: inherit;
+  color: $color-neutral-white;
+  background: none;
+  border: none;
+  outline: none;
+  padding: 0;
   width: 100%;
-  max-width: 800px;
-  padding: $size-500;
-  background: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  cursor: text;
+
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.2);
+  }
 }
 
-.header {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
-  margin-bottom: $size-400;
-  gap: $size-50;
+.fieldInputEmpty {
+  color: rgba(255, 255, 255, 0.2);
 }
 
-.title {
-  margin: 0;
-  color: $color-neutral-900;
-  font-weight: $font-weight-bold;
+.fieldRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $size-300;
 }
 
-.profileForm {
-  display: flex;
-  flex-direction: column;
-  gap: $size-250;
-}
+/* ── Actions ── */
 
 .actions {
   display: flex;
+  align-items: center;
   gap: $size-200;
-  margin-top: $size-300;
+  margin-top: $size-200;
 }
 
-.submitButton {
-  flex: 1;
+.cancelButton {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: $font-body-md-font-size;
+  font-family: inherit;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: $color-neutral-white;
+  }
 }
+
+.saveButton {
+  min-width: 80px;
+}
+
+/* ── Error ── */
 
 .errorMessage {
   padding: $size-150;
-  background: $color-error-100;
-  border-radius: 6px;
-  color: $color-error-700;
-  border: 1px solid $color-error-200;
-  margin-top: $size-100;
+  background: rgba($color-error-500, 0.15);
+  border-radius: $size-75;
+  color: $color-error-300;
+  border: 1px solid rgba($color-error-500, 0.3);
+  font-size: $font-body-md-font-size;
 }
 
-.role {
-  color: $color-neutral-white;
-  background-color: $color-neutral-900;
-  border-radius: $size-100;
-  padding: $size-100 $size-200;
-  font-size: $font-body-sm-font-size;
-  font-weight: $font-weight-medium;
-}
-
-.roleHeading {
-  font-size: $font-headline-sm-font-size;
-  font-weight: bold;
-  margin-bottom: $size-200;
-}
+/* ── Roles ── */
 
 .roles {
   display: flex;
-  flex-flow: column nowrap;
-  gap: $size-200;
-  margin-top: $size-400;
-  padding-top: $size-400;
-  border-top: 1px solid $color-neutral-200;
+  flex-direction: column;
+  gap: $size-100;
+  margin-top: $size-300;
+  padding-top: $size-300;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .rolesList {
   display: flex;
   flex-flow: row wrap;
   gap: $size-100;
-  align-items: center;
+}
+
+.role {
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 100px;
+  padding: $size-25 $size-150;
+  font-size: $font-body-sm-font-size;
+  font-weight: $font-weight-medium;
+}
+
+/* ── Responsive ── */
+
+@media #{$mq-sm-only} {
+  .fieldRow {
+    grid-template-columns: 1fr;
+    gap: $size-100;
+  }
 }

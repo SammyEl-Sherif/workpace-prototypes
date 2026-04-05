@@ -34,7 +34,7 @@ const IntegrationsPage = () => {
         title="Integrations"
         subtitle="Products designed to bring a change of pace to your online workspace."
         headerAction={
-          <ButtonComponent variant="default-primary" onClick={openConsultation}>
+          <ButtonComponent variant="brand-secondary" onClick={openConsultation}>
             Schedule a Consultation
           </ButtonComponent>
         }
